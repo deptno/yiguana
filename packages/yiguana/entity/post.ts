@@ -1,22 +1,29 @@
-import {v4} from 'uuid'
-import {DynamoDbDocument, ERange} from '../engine/db/dynamodb'
+import {Author} from './author'
 
-const range = ERange.Post
 export function create(post: PostInput): Post {
-  const id = v4()
+  const {title, author, content, category} = post
+  const {id: authorId, ...authorProps} = author
+  // todo content 를 s3 에 올리고 그 주소를 받아온다.
+  const s3 = 's3://'
   return {
-    ...post,
-    id,
-    range
+    s3,
+    title,
+    authorId,
+    category,
+    author: authorProps
   }
 }
 
-export type PostId = string
-export type Post = DynamoDbDocument<PostInput & {
-  id: PostId
-}>
+export type Post = {
+  title: string
+  s3: string
+  authorId: Author['id']
+  author: Pick<Author, 'name'|'thumbnail'>
+  category: string
+}
 type PostInput = {
   title: string
   content: string
-  author: string
+  category: string
+  author: Author
 }

@@ -11,14 +11,14 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/deptno/serverless-board.git"
+    "url": "git+https://github.com/deptno/yiguana.git"
   },
   "author": "Bonggyun Lee <deptno@gmail.com>",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/deptno/serverless-board/issues"
+    "url": "https://github.com/deptno/yiguana/issues"
   },
-  "homepage": "https://github.com/deptno/serverless-board#readme",
+  "homepage": "https://github.com/deptno/yiguana#readme",
   "dependencies": {
     "@types/node": "^10.14.8"
   },

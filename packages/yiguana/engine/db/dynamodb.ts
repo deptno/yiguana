@@ -1,40 +1,44 @@
-import {Post} from '../../entity/post'
 import {DocumentClient} from 'aws-sdk/clients/dynamodb'
 import {Engine} from '../engine'
-import {paginationQuerySafe, put} from '../../../dynamodb/common'
+import {put} from '../../../dynamodb/common'
 import {dynamodbDoc} from '../../../dynamodb/document'
+import {v4} from 'uuid'
+import {curryList} from './list'
+import {DynamoDbDocument, EType} from './table-index'
+import {Post} from '../../entity/post'
 
 export function create(params: CreateInput): Engine {
-  const {client, tableName} = params
+  const {client, tableName, boardName} = params
   return {
-    list(nextToken?: string) {
-      return paginationQuerySafe<Post>(
-        client,
-        {
-          TableName: tableName,
-        },
-        nextToken
-      )
-    },
-    async addPost(post) {
+    list: curryList(params),
+    async addPost(post: Post) {
       const item = dynamodbDoc(post)
-      return put(client, {
+      const _type = EType.Post
+      const id = v4()
+      const board = boardName
+      const order = [boardName, '중식', new Date().toISOString()].join('#')
+      const range = 'post'
+
+      let params1 = {
         TableName: tableName,
-        Item: item
-      })
+        Item: {
+          ...item,
+          _type,
+          range,
+          board,
+          order,
+          id
+        }
+      }
+      const response = await put<DynamoDbDocument<Post>>(client, params1)
+      console.log({params1, response})
+      return
     }
   }
 }
-export enum ERange {
-  Board = 'board',
-  Post  = 'post',
-  Reply = 'reply',
-}
-export type DynamoDbDocument<T> = T & {
-  id: string
-  range: ERange
-}
-type CreateInput = {
+
+export type CreateInput = {
   tableName: string
+  boardName: string
   client: DocumentClient
 }

@@ -3,6 +3,7 @@ import {Omit} from 'ramda'
 import {Post} from './post'
 import {EEngine, Engine} from '../engine/engine'
 import * as DynamoDbEngine from '../engine/db/dynamodb'
+import {ListInput} from '../engine/db/list'
 
 export function create(params: CreateInput): Board {
   const {client, ...inherit} = params
@@ -10,6 +11,7 @@ export function create(params: CreateInput): Board {
     type: EEngine.DynamoDb,
     engine: DynamoDbEngine.create({
       tableName: params.tableName,
+      boardName: params.name,
       client
     })
   }
@@ -18,22 +20,22 @@ export function create(params: CreateInput): Board {
     database,
   }
 }
-export async function list(params: ListInput) {
-  return params.board.database.engine.list()
+export async function list(params: ListParams) {
+  const {board, ...input} = params
+  return board.database.engine.list(input)
 }
 export function add(params: AddInput) {
   return params.board.database.engine.addPost(params.post)
 }
 
-export type BoardId = string
 type CreateInput = {
   name: string
   tableName: string
   client: DocumentClient
 }
-type ListInput = {
+type ListParams = {
   board: Board
-}
+} & ListInput
 type Board = Omit<CreateInput, 'client'> & {
   database: {
     type: EEngine
