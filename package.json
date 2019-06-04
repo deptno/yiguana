@@ -1,0 +1,43 @@
+{
+  "name": "yigana",
+  "version": "0.1.0",
+  "description": "",
+  "main": "index.js",
+  "directories": {
+    "yiguana": "packages/yiguana"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/deptno/serverless-board.git"
+  },
+  "author": "Bonggyun Lee <deptno@gmail.com>",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/deptno/serverless-board/issues"
+  },
+  "homepage": "https://github.com/deptno/serverless-board#readme",
+  "dependencies": {
+    "@types/node": "^10.14.8"
+  },
+  "devDependencies": {
+    "@types/aws-sdk": "^2.7.0",
+    "@types/jest": "^24.0.13",
+    "@types/ramda": "^0.26.9",
+    "aws-sdk": "^2.466.0",
+    "jest": "^24.8.0",
+    "ramda": "^0.26.1",
+    "ts-jest": "^24.0.2",
+    "typescript": "^3.5.1"
+  },
+  "jest": {
+    "preset": "ts-jest",
+    "testEnvironment": "node",
+    "globals": {
+      "TZ": "utc",
+      "YIGUANA_ENCRYPTION_KEY": "dummy-encryption-key-24-length"
+    }
+  }
+}
