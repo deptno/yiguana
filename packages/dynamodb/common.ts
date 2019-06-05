@@ -33,11 +33,10 @@ export async function update<T>(ddbClient: DocumentClient, params: DocumentClien
     const response = await ddbClient
       .update(params)
       .promise()
-
-    return response.$response.data
+    return response
   } catch (e) {
+    console.error('update', e.code, params)
     if (!putError.includes(e.code)) {
-      console.error('update', e.code, params)
       console.error(e)
     }
     return null

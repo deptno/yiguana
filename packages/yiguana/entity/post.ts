@@ -10,6 +10,8 @@ export function create(post: PostInput): Post {
     title,
     authorId,
     category,
+    views: 0,
+    likes: 0,
     author: authorProps
   }
 }
@@ -20,6 +22,8 @@ export type Post = {
   authorId: Author['id']
   author: Pick<Author, 'name'|'thumbnail'>
   category: string
+  views: number
+  likes: number
 }
 type PostInput = {
   title: string

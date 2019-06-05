@@ -4,6 +4,7 @@ import {Post} from './post'
 import {EEngine, Engine} from '../engine/engine'
 import * as DynamoDbEngine from '../engine/db/dynamodb'
 import {ListInput} from '../engine/db/list'
+import {DdbCategoryDocument} from '../engine/db/table-index'
 
 export function create(params: CreateInput): Board {
   const {client, ...inherit} = params
@@ -27,7 +28,22 @@ export async function list(params: ListParams) {
 export function add(params: AddInput) {
   return params.board.database.engine.addPost(params.post)
 }
+export function remove(params: RemoveInput) {
+  return params.board.database.engine.removePost(params.id)
+}
+export function view(params: ViewInput) {
+  return params.board.database.engine.viewPost(params.post)
+}
+export function like(params: ViewInput) {
+  return params.board.database.engine.likePost(params.post)
+}
 
+export type Board = Omit<CreateInput, 'client'> & {
+  database: {
+    type: EEngine
+    engine: Engine
+  }
+}
 type CreateInput = {
   name: string
   tableName: string
@@ -36,14 +52,17 @@ type CreateInput = {
 type ListParams = {
   board: Board
 } & ListInput
-type Board = Omit<CreateInput, 'client'> & {
-  database: {
-    type: EEngine
-    engine: Engine
-  }
-}
+
 type AddInput = {
   board: Board
   post: Post
+}
+type RemoveInput = {
+  board: Board
+  id: string
+}
+type ViewInput = {
+  board: Board
+  post: DdbCategoryDocument<Post>
 }
 

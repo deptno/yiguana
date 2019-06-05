@@ -13,4 +13,5 @@ export type CategoryIndex = {
   category: string
   order: string
 } & TableIndex
-export type DynamoDbDocument<T> = T & TableIndex
+export type DdbDocument<T> = T & TableIndex
+export type DdbCategoryDocument<T> = T & CategoryIndex

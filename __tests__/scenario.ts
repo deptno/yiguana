@@ -1,77 +1,46 @@
-import * as Board from '../packages/yiguana/entity/board'
-import * as Post from '../packages/yiguana/entity/post'
-import {DocumentClient} from 'aws-sdk/clients/dynamodb'
-import {config, SharedIniFileCredentials} from 'aws-sdk'
+import {DdbCategoryDocument} from '../packages/yiguana/engine/db/table-index'
+import {createBoard} from './behavior/create-board'
+import {list0, list} from './behavior/list-board'
+import {createPost} from './behavior/create-post'
+import {addPostToBoard} from './behavior/add-post-to-board'
+import {removePost} from './behavior/remove-post'
+import {Board} from '../packages/yiguana/entity/board'
+import {Post} from '../packages/yiguana/entity/post'
+import {viewPost} from './behavior/view-post'
+import {likePost} from './behavior/like-post'
+import {toUiPost} from './transform/post'
 
-const region = 'ap-northeast-2'
-const credentials = new SharedIniFileCredentials({profile: 'googit'})
-config.credentials = credentials
-
-const ddbClient = new DocumentClient({region})
-const tableName = 'dev-yiguana'
-
-let board
-let post
+const shared: TestGlobal = {} as TestGlobal
+export type TestGlobal = {
+  board: Board
+  post: Post
+  docPost: DdbCategoryDocument<Post>
+}
 
 describe('list', function () {
-  it('create board', () => {
-    board = Board.create({
-      name  : '먹방',
-      client: ddbClient,
-      tableName
-    })
-    console.log(board)
-  })
-  it('list items', async done => {
-    try {
-      const page1 = await Board.list({
-        board,
-      })
-      console.table(page1.items)
-    } catch (e) {
-      console.error({e})
-    } finally {
-      done()
-    }
-  })
+  it('create board shared.board = ', createBoard(shared, 'ent'))
+  it('list 0 items', list0(shared))
+})
 
-})
 describe('post', function () {
-  it('create board', () => {
-    board = Board.create({
-      name  : '먹방',
-      client: ddbClient,
-      tableName
-    })
-    console.log(board)
-  })
-  it('create post', async function (done) {
-    post = Post.create({
-      title   : '글 제목',
-      content : `글 내용`,
-      category: '먹방',
-      author  : {
-        id       : 'userId',
-        name     : 'username',
-        thumbnail: 'https://yt3.ggpht.com/a/AGF-l79onoRiL-_eGcsLNc92BmCJKd5FtGJrsSo0mw=s240-mo-c-c0xffffffff-rj-k-no'
-      }
-    })
-    done()
-  })
-  it('add post to board', async function (done) {
-    await Board.add({board, post})
-    done()
-  })
-  it('list items', async done => {
-    try {
-      const page1 = await Board.list({
-        board,
-      })
-      console.table(page1.items)
-    } catch (e) {
-      console.error({e})
-    } finally {
-      done()
-    }
-  })
+  it('create board', createBoard(shared, 'ent'))
+  it('create post', createPost(shared))
+  it('add post to board', addPostToBoard(shared))
+  it('list 1 items with log', list(shared, posts => {
+    expect(posts).toHaveLength(1)
+  }))
+  it('view post', viewPost(shared))
+  it('view post', viewPost(shared))
+  it('view post', viewPost(shared))
+  it('view post', viewPost(shared))
+  it('view post', viewPost(shared))
+  it('view post', likePost(shared))
+  it('list 1 items with log', list(shared, (posts) => {
+    expect(posts[0].views).toEqual(5)
+    expect(posts[0].likes).toEqual(1)
+    console.table(posts.map(toUiPost))
+  }))
+  it('remove post from board', removePost(shared))
+  it('list 0 items', list0(shared))
 })
+
