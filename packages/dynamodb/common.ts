@@ -162,11 +162,11 @@ export async function paginationQuerySafe<T>(ddbClient: DocumentClient, params: 
       .query(params)
       .promise()
 
-    console.log(JSON.stringify({
-      rcu      : response.ConsumedCapacity.CapacityUnits,
-      condition: params.KeyConditionExpression,
-      values   : params.ExpressionAttributeValues,
-    }))
+//    console.log(JSON.stringify({
+//      rcu      : response.ConsumedCapacity.CapacityUnits,
+//      condition: params.KeyConditionExpression,
+//      values   : params.ExpressionAttributeValues,
+//    }))
 
     return {
       items      : response.Items as T[],

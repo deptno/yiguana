@@ -1,4 +1,4 @@
-import {TestGlobal} from '../scenario'
+import {TestGlobal} from '../global'
 import * as Board from '../../packages/yiguana/entity/board'
 
 export function addPostToBoard<T extends TestGlobal>(shared: T) {

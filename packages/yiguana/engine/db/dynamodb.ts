@@ -46,7 +46,7 @@ export function create(params: CreateInput): Engine {
         }
       })
       const wcu = response.ConsumedCapacity.CapacityUnits
-      console.log({wcu})
+//      console.log({wcu})
       return true
     },
     async viewPost(post: DdbCategoryDocument<Post>) {
@@ -68,7 +68,7 @@ export function create(params: CreateInput): Engine {
         }
       })
       const wcu = response.ConsumedCapacity.CapacityUnits
-      console.log({wcu})
+//      console.log({wcu})
       return response.Attributes as DdbCategoryDocument<Post>
     },
     async likePost(post: DdbCategoryDocument<Post>) {
@@ -90,7 +90,7 @@ export function create(params: CreateInput): Engine {
         }
       })
       const wcu = response.ConsumedCapacity.CapacityUnits
-      console.log({wcu})
+//      console.log({wcu})
       return response.Attributes as DdbCategoryDocument<Post>
     }
   }

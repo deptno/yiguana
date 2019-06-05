@@ -5,8 +5,7 @@ import {CreateInput} from '../dynamodb'
 export function curryList(curryParams: CreateInput) {
   const {tableName, boardName, client} = curryParams
   return (params: ListInput = {}) => {
-    const {nextToken, order} = params
-    const category = ''
+    const {nextToken, category = '', order} = params
 //    const [index, hash, range] = _getIndex(order)
     return paginationQuerySafe<Post>(
       client,
@@ -39,5 +38,6 @@ export enum EOrder {
 export type ListInput = {
   nextToken?: string
   order?: EOrder
+  category?: string
 }
 
