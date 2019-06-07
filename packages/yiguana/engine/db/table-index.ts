@@ -5,13 +5,18 @@ export enum EType {
 }
 
 export type TableIndex = {
-  id: string
-  range: string
+  id: string // hash
+  range: string // range
   _type: EType
 }
 export type CategoryIndex = {
-  category: string
-  order: string
+  category: string // hash
+  order: string // range
 } & TableIndex
-export type DdbDocument<T> = T & TableIndex
+export type AuthorIndex = {
+  authorId: string // hash
+  order: string // range
+} & TableIndex
+type DdbDocument<T> = T & TableIndex
 export type DdbCategoryDocument<T> = T & CategoryIndex
+export type DdbAuthorDocument<T> = T & AuthorIndex

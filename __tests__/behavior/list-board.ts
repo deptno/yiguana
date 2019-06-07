@@ -1,7 +1,6 @@
 import {TestGlobal} from '../global'
 import * as Board from '../../packages/yiguana/entity/board'
-import {DdbCategoryDocument} from '../../packages/yiguana/engine/db/table-index'
-import {Post} from '../../packages/yiguana/entity/post'
+import {PostDocument} from '../../packages/yiguana/engine/db/document'
 
 export function list0<T extends TestGlobal>(shared: T) {
   return async (done) => {
@@ -17,7 +16,7 @@ export function list0<T extends TestGlobal>(shared: T) {
   }
 }
 
-export function list<T extends TestGlobal>(shared: T, tap?: (post: DdbCategoryDocument<Post>[]) => void) {
+export function list<T extends TestGlobal>(shared: T, tap?: (post: PostDocument[]) => void) {
   return async (done) => {
     try {
       const page1 = await Board.list({board: shared.board})
@@ -33,7 +32,7 @@ export function list<T extends TestGlobal>(shared: T, tap?: (post: DdbCategoryDo
   }
 }
 
-export function categoryList<T extends TestGlobal>(shared: T, category: string, tap?: (post: DdbCategoryDocument<Post>[]) => void) {
+export function categoryList<T extends TestGlobal>(shared: T, category: string, tap?: (post: PostDocument[]) => void) {
   return async (done) => {
     try {
       const page1 = await Board.list({board: shared.board, category})

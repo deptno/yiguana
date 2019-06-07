@@ -65,4 +65,10 @@ resource "aws_dynamodb_table" "yiguana" {
 //    range_key = "latestCommentedAt"
 //    projection_type = "ALL"
 //  }
+  stream_enabled = true
+  stream_view_type = "NEW_IMAGE"
+
+  point_in_time_recovery {
+    enabled = true
+  }
 }

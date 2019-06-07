@@ -4,7 +4,7 @@ import {Post} from './post'
 import {EEngine, Engine} from '../engine/engine'
 import * as DynamoDbEngine from '../engine/db/dynamodb'
 import {ListInput} from '../engine/db/list'
-import {DdbCategoryDocument} from '../engine/db/table-index'
+import {PostDocument} from '../engine/db/document'
 
 export function create(params: CreateInput): Board {
   const {client, ...inherit} = params
@@ -63,6 +63,6 @@ type RemoveInput = {
 }
 type ViewInput = {
   board: Board
-  post: DdbCategoryDocument<Post>
+  post: PostDocument
 }
 

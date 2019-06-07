@@ -12,6 +12,7 @@ export function create(post: PostInput): Post {
     category,
     views: 0,
     likes: 0,
+    comments: 0,
     author: authorProps
   }
 }
@@ -24,6 +25,7 @@ export type Post = {
   category: string
   views: number
   likes: number
+  comments: number
 }
 type PostInput = {
   title: string

@@ -1,12 +1,12 @@
 import {Post} from '../entity/post'
 import {ListInput} from './db/list'
-import {DdbCategoryDocument} from './db/table-index'
+import {PostDocument} from './db/document'
 
 export type Engine = {
-  addPost(post: Post): Promise<DdbCategoryDocument<Post>>
+  addPost(post: Post): Promise<PostDocument>
   removePost(id: string): Promise<boolean>
-  viewPost(id: DdbCategoryDocument<Post>): Promise<DdbCategoryDocument<Post>>
-  likePost(id: DdbCategoryDocument<Post>): Promise<DdbCategoryDocument<Post>>
+  viewPost(id: PostDocument): Promise<PostDocument>
+  likePost(id: PostDocument): Promise<PostDocument>
   list(params: ListInput): Promise<any>
 }
 export enum EEngine {

@@ -4,8 +4,9 @@ import {del, put, update} from '../../../dynamodb/common'
 import {dynamodbDoc} from '../../../dynamodb/document'
 import {v4} from 'uuid'
 import {curryList} from './list'
-import {DdbCategoryDocument, EType} from './table-index'
+import {EType} from './table-index'
 import {Post} from '../../entity/post'
+import {PostDocument} from './document'
 
 export function create(params: CreateInput): Engine {
   const {client, tableName, boardName} = params
@@ -34,7 +35,7 @@ export function create(params: CreateInput): Engine {
           id
         }
       }
-      return await put<DdbCategoryDocument<Post>>(client, params1)
+      return await put<PostDocument>(client, params1)
     },
     async removePost(id: string) {
       const response = await del(client, {
@@ -49,7 +50,7 @@ export function create(params: CreateInput): Engine {
 //      console.log({wcu})
       return true
     },
-    async viewPost(post: DdbCategoryDocument<Post>) {
+    async viewPost(post: PostDocument) {
       const {id, range} = post
       const response = await update(client, {
         ReturnConsumedCapacity  : 'TOTAL',
@@ -69,9 +70,9 @@ export function create(params: CreateInput): Engine {
       })
       const wcu = response.ConsumedCapacity.CapacityUnits
 //      console.log({wcu})
-      return response.Attributes as DdbCategoryDocument<Post>
+      return response.Attributes as PostDocument
     },
-    async likePost(post: DdbCategoryDocument<Post>) {
+    async likePost(post: PostDocument) {
       const {id, range} = post
       const response = await update(client, {
         ReturnConsumedCapacity  : 'TOTAL',
@@ -91,7 +92,7 @@ export function create(params: CreateInput): Engine {
       })
       const wcu = response.ConsumedCapacity.CapacityUnits
 //      console.log({wcu})
-      return response.Attributes as DdbCategoryDocument<Post>
+      return response.Attributes as PostDocument
     }
   }
 }

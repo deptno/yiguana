@@ -3,11 +3,13 @@
   "version": "1.0.0",
   "description": "aws",
   "scripts": {
+    "test.workspace": "terraform workspace select test",
     "dev.workspace": "terraform workspace select dev",
     "prd.workspace": "terraform workspace select prd",
     "plan": "terraform plan",
     "apply": "terraform apply"
   },
   "author": "Bonggyun Lee<deptno@gmail.com>",
-  "license": "ISC"
+  "license": "ISC",
+  "devDependencies": {}
 }

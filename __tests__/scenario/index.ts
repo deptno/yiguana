@@ -8,6 +8,8 @@ import {likePost} from '../behavior/like-post'
 import {toUiPost} from '../transform/post'
 import {shared} from '../global'
 
+jest.unmock('aws-sdk')
+
 describe('보드 생성', function () {
   it('create board', createBoard(shared, 'ent'))
   it('list 0 items', list0(shared))
@@ -54,15 +56,22 @@ describe('카테고리 테스트', function () {
     console.table(posts.map(toUiPost))
     expect(posts).toHaveLength(4)
   }))
-  it('remove post from board', removePosts(shared))
-  it('list 0 items', list0(shared))
+  it('delay 10 seconds', done => setTimeout(done, 10000), 15000)
+//  it('remove post from board', removePosts(shared))
+//  it('list 0 items', list0(shared))
 })
 
 describe('사람으로 검색(most likes)', function () {
-
+  // 클리앙 참조해서 GSI 구성, 이미지(author.thumbnail) 불 필요 할 수 있음(projection), 10개 기준 rcu 1 가능해보임
+  // pk: userId, rk: author#
+  // pk: userId, rk: post#[date]
 })
-describe('인기글(most likes)', function () {
+describe('인기글(most likes, views, comments)', function () {
+  // 일별 스캔이 나을 수 있음
+  // type(range) + createdAt, views, likes, comments
+  // write 가 과도하게 일어날 수 있음 project 잘고민
 
+  // 혹은 begins_with(range, [board]#) 로 처리하여 날짜로 스캔을 걸고 result 가 0일 떄 스톱하는 방식이 더 저렴할 수 있음.
 })
 describe('페이지네이션 테스트', function () {
 
