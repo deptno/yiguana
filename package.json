@@ -10,7 +10,7 @@
   "scripts": {
     "dev.sls.deploy": "sls deploy --stage dev",
     "dev.sls.deploy.stream": "sls deploy --stage dev -f stream",
-    "test": "jest"
+    "test": "jest --silent"
   },
   "repository": {
     "type": "git",
@@ -46,8 +46,13 @@
     "webpack": "^4.33.0"
   },
   "jest": {
+    "bail": true,
     "preset": "ts-jest",
     "testEnvironment": "node",
+    "testMatch": [
+      "**/?(*.)(spec|test).ts?(x)",
+      "**/__tests__/scenario/**/*.ts?(x)"
+    ],
     "globals": {
       "TZ": "utc",
       "YIGUANA_ENCRYPTION_KEY": "dummy-encryption-key-24-length"

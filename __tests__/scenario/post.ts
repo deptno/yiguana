@@ -23,11 +23,6 @@ describe('post', function () {
     done()
   })
 
-  it('list has 0 items', async done => {
-    const {items} = await yiguana.list({boardName})
-    expect(items).toHaveLength(0)
-    done()
-  })
   it('add, remove, view, like post', async done => {
     const {items: postDocs} = await yiguana.list({boardName})
 
@@ -46,10 +41,6 @@ describe('post', function () {
   })
   it('pagination', async done => {
     // todo add posts
-    const {items} = await yiguana.list({boardName, userId: 'deptno'})
-    expect(items).toHaveLength(1)
-
-    console.table(items)
     done()
   })
 })
