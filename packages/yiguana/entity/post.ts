@@ -1,6 +1,6 @@
 import {User} from './user'
 
-export function create(post: PostInput): Post {
+export function createPost(post: PostInput): Post {
   const {title, author, content, category} = post
   const {id: userId, ...authorProps} = author
   // todo content 를 s3 에 올리고 그 주소를 받아온다.
@@ -31,5 +31,5 @@ export type PostInput = {
   title: string
   content: string
   category: string
-  author: Omit<User, 'userId'>
+  author: Pick<User, 'id'|'name'|'thumbnail'>
 }

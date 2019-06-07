@@ -1,10 +1,5 @@
 import {Board} from './board'
 
-export function login(params: LoginInput) {
-  const {board, ...userInput} = params
-
-  board.database.engine.login(params)
-}
 export type User = {
   id: string
   name: string
