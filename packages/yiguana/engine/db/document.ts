@@ -1,6 +1,6 @@
-import {DdbAuthorDocument, DdbCategoryDocument} from './table-index'
+import {DdbUserDocument, DdbCategoryDocument} from './table-index'
 import {Post} from '../../entity/post'
-import {Author} from '../../entity/author'
+import {User} from '../../entity/user'
 
 export type PostDocument = DdbCategoryDocument<Post>
-export type AuthorDocument = DdbAuthorDocument<Author>
+export type UserDocument = DdbUserDocument<User>

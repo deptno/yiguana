@@ -76,3 +76,8 @@ describe('인기글(most likes, views, comments)', function () {
 describe('페이지네이션 테스트', function () {
 
 })
+describe('로그인', () => {
+  // 로그인시
+  // hash: userId, range: 'user#', userId: GSI hash, GSI range 를 정해서 profile 도 함께 업데이트
+  // user#, profile# 이 둘다 생긴다고 봐야함 profile 은 좀 더 단순한 구조로 userId 를 통해서 쿼리시 함께 받아져야함
+})

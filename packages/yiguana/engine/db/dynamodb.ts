@@ -93,6 +93,26 @@ export function create(params: CreateInput): Engine {
       const wcu = response.ConsumedCapacity.CapacityUnits
 //      console.log({wcu})
       return response.Attributes as PostDocument
+    },
+    async login(params) {
+      const {id, name, thumbnail} = params
+      const range = 'user'
+      const response = await update(client, {
+        ReturnConsumedCapacity  : 'TOTAL',
+        ReturnValues            : 'ALL_NEW',
+        TableName               : tableName,
+        Key                     : {
+          id,
+          range
+        },
+        UpdateExpression        : 'SET #v = #v + :v',
+        ExpressionAttributeNames: {
+          '#v': 'login'
+        },
+        ExpressionAttributeValues: {
+          ':v': 1
+        }
+      })
     }
   }
 }

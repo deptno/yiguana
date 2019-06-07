@@ -8,7 +8,7 @@ import {PostDocument} from '../engine/db/document'
 
 export function create(params: CreateInput): Board {
   const {client, ...inherit} = params
-  let database = {
+  const database = {
     type: EEngine.DynamoDb,
     engine: DynamoDbEngine.create({
       tableName: params.tableName,
