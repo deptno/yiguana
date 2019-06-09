@@ -6,6 +6,7 @@ import {viewPost, ViewPostInput} from './view-post'
 import {likePost, LikePostInput} from './like-post'
 import {login, LoginInput} from './login'
 import {remove, RemoveInput} from './remove'
+import {user, UserInput} from './user'
 
 export function createDynamoDbEngine(engineParams: DynamoDbApiInput) {
   return {
@@ -26,6 +27,9 @@ export function createDynamoDbEngine(engineParams: DynamoDbApiInput) {
     },
     login(params: LoginInput) {
       return login({...engineParams, ...params})
+    },
+    user(params: UserInput) {
+      return user({...engineParams, ...params})
     },
     remove(params: RemoveInput) {
       return remove({...engineParams, ...params})

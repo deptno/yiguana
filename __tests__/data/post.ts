@@ -1,4 +1,5 @@
 import {PostInput} from '../../packages/yiguana/entity/post'
+import {deptnoUserInput} from './user'
 
 export const muckbangPost: PostInput = {
   title   : 'mukbang post',
@@ -25,8 +26,22 @@ export const gamePost: PostInput = {
   content : `content`,
   category: 'game',
   author  : {
-    id       : 'deptno',
+    id       : 'userId',
     name     : 'Bonggyun Lee',
+    thumbnail: 'https://thumb'
+  }
+}
+export const deptnoGamePost: PostInput = {
+  ...gamePost,
+  author  : {
+    ...deptnoUserInput,
+    thumbnail: 'https://thumb'
+  }
+}
+export const deptnoMusicPost: PostInput = {
+  ...musicPost,
+  author  : {
+    ...deptnoUserInput,
     thumbnail: 'https://thumb'
   }
 }

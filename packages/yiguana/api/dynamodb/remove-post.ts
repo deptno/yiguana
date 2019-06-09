@@ -15,7 +15,7 @@ export async function removePost(params: DynamoDbApiInput & RemovePostInput) {
   if (response) {
     if (response.ConsumedCapacity) {
       const wcu = response.ConsumedCapacity.CapacityUnits
-      console.log({wcu})
+//      console.log({wcu})
     }
   }
   return Boolean(response)

@@ -9,7 +9,8 @@ export enum EType {
   Reply = 'reply',
 }
 export enum EIndexName {
-  BoardOrderIndex     = 'board-order-index'
+  BoardOrderIndex = 'board-order-index',
+  UserOrderIndex  = 'userId-index'
 }
 export type TableIndex = {
   id: string // hash
