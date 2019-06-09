@@ -1,7 +1,7 @@
-import {v4} from 'uuid'
+import {createIdKey} from '../api/dynamodb/key/id'
 
 export function createComment(params: CommentInput): Comment {
-  const id = v4()
+  const id = createIdKey()
   return {
     ...params,
     postId: 'a',

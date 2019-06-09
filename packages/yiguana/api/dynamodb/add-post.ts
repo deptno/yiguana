@@ -2,21 +2,22 @@ import {DynamoDbApiInput, EType, PostDocument} from './common'
 import {put} from '../../../dynamodb/common'
 import {dynamodbDoc} from '../../../dynamodb/document'
 import {Post} from '../../entity/post'
-import {v4} from 'uuid'
+import {createOrderKey} from './key/order'
+import {createIdKey} from './key/id'
+import {createRangeKey} from './key/range'
+import {extractType} from './key/type'
 
 export async function addPost(params: DynamoDbApiInput & AddPostInput) {
   const {client, tableName, boardName, post} = params
   const item = dynamodbDoc(post)
-  const _type = EType.Post
-  const id = v4()
+  const id = createIdKey()
   const board = boardName
-  const order = [
+  const order = createOrderKey({
     boardName,
-    post.category,
-    new Date().toISOString()
-  ].join('#')
-
-  const range = 'post'
+    category: post.category,
+  })
+  const range = createRangeKey(EType.Post)
+  const _type = extractType(range)
   const putParams = {
     TableName: tableName,
     Item     : {

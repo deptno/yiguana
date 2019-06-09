@@ -10,7 +10,7 @@
   "scripts": {
     "dev.sls.deploy": "sls deploy --stage dev",
     "dev.sls.deploy.stream": "sls deploy --stage dev -f stream",
-    "test": "jest --silent"
+    "test": "jest --silent --runInBand"
   },
   "repository": {
     "type": "git",

@@ -1,6 +1,6 @@
-import {DynamoDbApiInput, PostDocument} from './common'
+import {DynamoDbApiInput, EIndexName, PostDocument} from './common'
 import {paginationQuerySafe} from '../../../dynamodb/common'
-import {EIndexName} from './common'
+import {stringifyOrderKey} from './key/order'
 
 export function list(params: DynamoDbApiInput & ListInput) {
   const {tableName, boardName, client, category, nextToken} = params
@@ -16,9 +16,9 @@ export function list(params: DynamoDbApiInput & ListInput) {
       },
       ExpressionAttributeValues: {
         ':p': boardName,
-        ':r': [boardName, category].join('#')
+        ':r': stringifyOrderKey({boardName, category})
       },
-      ReturnConsumedCapacity: 'TOTAL'
+      ReturnConsumedCapacity   : 'TOTAL'
     },
     nextToken
   )
