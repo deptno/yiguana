@@ -5,6 +5,7 @@ import {DocumentClient} from 'aws-sdk/clients/dynamodb'
 export enum EType {
   Board = 'board',
   Post  = 'post',
+  User  = 'user',
   Reply = 'reply',
 }
 export enum EIndexName {

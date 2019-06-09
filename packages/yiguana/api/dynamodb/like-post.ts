@@ -20,9 +20,13 @@ export async function likePost(params: DynamoDbApiInput & LikePostInput) {
       ':v': 1
     }
   })
-  const wcu = response.ConsumedCapacity.CapacityUnits
+  if (response) {
+    if (response.ConsumedCapacity) {
+      const wcu = response.ConsumedCapacity.CapacityUnits
 //      console.log({wcu})
-  return response.Attributes as PostDocument
+    }
+    return response.Attributes as PostDocument
+  }
 }
 export type LikePostInput = {
   post: PostDocument

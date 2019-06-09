@@ -39,6 +39,7 @@ export async function update<T>(ddbClient: DocumentClient, params: DocumentClien
     if (!putError.includes(e.code)) {
       console.error(e)
     }
+    console.error(e)
     return null
   }
 }
@@ -66,8 +67,6 @@ export async function scan(ddbClient: DocumentClient, params: DocumentClient.Sca
     const response = await ddbClient
       .scan(params)
       .promise()
-    console.log('response')
-    console.log(response)
     return response.Items
   } catch (e) {
     console.error('scan')
@@ -76,7 +75,7 @@ export async function scan(ddbClient: DocumentClient, params: DocumentClient.Sca
   }
 }
 export async function scanAll<T>(ddbClient: DocumentClient, params: DocumentClient.ScanInput): Promise<T[]> {
-  const items = []
+  const items: any[] = []
   let consumedCapacity = 0
   let nextKey
 
@@ -90,10 +89,10 @@ export async function scanAll<T>(ddbClient: DocumentClient, params: DocumentClie
         })
         .promise()
       nextKey = response.LastEvaluatedKey
-      items.push(...response.Items)
+      items.push(...response.Items!)
       if (response.ConsumedCapacity) {
         // DynamoDB local doesn't honor `ConsumedCapacity`
-        consumedCapacity += response.ConsumedCapacity.CapacityUnits
+        consumedCapacity += response.ConsumedCapacity.CapacityUnits || 0
       }
     } while (nextKey)
 
@@ -119,7 +118,7 @@ export async function scanAllSegmented<T>(ddbClient: DocumentClient, segmentCoun
   return flatten<T>(nested)
 }
 export async function queryAll<T>(ddbClient: DocumentClient, params: DocumentClient.QueryInput): Promise<T[]> {
-  const items = []
+  const items: any[] = []
   let consumedCapacity = 0
   let nextKey
 
@@ -133,10 +132,10 @@ export async function queryAll<T>(ddbClient: DocumentClient, params: DocumentCli
         })
         .promise()
       nextKey = response.LastEvaluatedKey
-      items.push(...response.Items)
+      items.push(...response.Items!)
       if (response.ConsumedCapacity) {
         // DynamoDB local doesn't honor `ConsumedCapacity`
-        consumedCapacity += response.ConsumedCapacity.CapacityUnits
+        consumedCapacity += response.ConsumedCapacity.CapacityUnits || 0
       }
     } while (nextKey)
 
@@ -170,7 +169,7 @@ export async function paginationQuerySafe<T>(ddbClient: DocumentClient, params: 
 
     return {
       items      : response.Items as T[],
-      nextToken  : createToken(response.LastEvaluatedKey),
+      nextToken  : createToken(response.LastEvaluatedKey!),
       firstResult: !Boolean(params.ExclusiveStartKey)
     }
   } catch (e) {
@@ -217,7 +216,7 @@ export async function batchGetMassive<T>(ddbClient: DocumentClient, tableName: s
       }
     }))
     .map(mapRequests => _batchGetMassive(ddbClient, tableName, mapRequests))
-  const responses = await Promise.all(promises)
+  const responses: any[] = await Promise.all(promises)
   const [items, unprocessedItems, rcu] = responses.reduce((acc, [responses, mapRequests, wcu]) => {
       const items = responses[tableName]
       if (items) {
@@ -249,9 +248,11 @@ async function _batchGetMassive<T>(ddbClient: DocumentClient, tableName: string,
   })
   if (response) {
     return [
-      response.Responses,
-      response.UnprocessedKeys,
-      response.ConsumedCapacity[0].CapacityUnits || 0
+      response.Responses!,
+      response.UnprocessedKeys!,
+      response.ConsumedCapacity
+        ? response.ConsumedCapacity[0].CapacityUnits || 0
+        : 0
     ]
   }
   return [{}, {}, 0]
@@ -291,7 +292,7 @@ export async function batchWriteMassive<T>(ddbClient: DocumentClient, tableName:
     }
     acc[1] += wcu
     return acc
-  }, [[], 0])
+  }, [[] as any[], 0])
   console.log({
     try    : items.length,
     success: items.length - unprocessedItems.length,
@@ -306,13 +307,13 @@ function _packPutRequest(item: PutItemInputAttributeMap): WriteRequest {
   return {PutRequest: {Item: item}}
 }
 function _unpackPutRequest<T>(item: WriteRequest) {
-  return item.PutRequest.Item as unknown as T
+  return item.PutRequest!.Item as unknown as T
 }
 function _packDeleteRequest(key): WriteRequest {
   return {DeleteRequest: {Key: key}}
 }
 function _unpackDeleteRequest<T>(item: WriteRequest) {
-  return item.DeleteRequest.Key
+  return item.DeleteRequest!.Key
 }
 type BatchWriteMassiveType = 'put' | 'delete'
 async function _batchWriteMassive<T>(ddbClient: DocumentClient, tableName: string, mapRequests: BatchWriteItemRequestMap): Promise<[BatchWriteItemRequestMap, number]> {
@@ -322,8 +323,10 @@ async function _batchWriteMassive<T>(ddbClient: DocumentClient, tableName: strin
   })
   if (response) {
     return [
-      response.UnprocessedItems,
-      response.ConsumedCapacity[0].CapacityUnits || 0
+      response.UnprocessedItems!,
+      response.ConsumedCapacity
+        ? response.ConsumedCapacity[0].CapacityUnits || 0
+        : 0
     ]
   }
   return [{}, 0]

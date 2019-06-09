@@ -9,7 +9,7 @@ import {always, compose, omit} from 'ramda'
  * @returns {any}
  */
 export const dynamodbDoc = <T>(obj: T, ifSet: SetTransformer = defaultSetTransformer) => {
-  const omitKeys = []
+  const omitKeys: string[] = []
   const clone = {...obj}
 
   for (const key in clone) {

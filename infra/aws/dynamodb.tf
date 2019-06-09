@@ -60,7 +60,7 @@ resource "aws_dynamodb_table" "yiguana" {
   global_secondary_index { // 유저 검색
     name = "userId-index"
     hash_key = "userId"
-    range_key = "likes"
+    range_key = "order"
     projection_type = "ALL"
   }
 

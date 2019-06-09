@@ -20,9 +20,13 @@ export async function viewPost(params: DynamoDbApiInput & ViewPostInput) {
       ':v': 1
     }
   })
-  const wcu = response.ConsumedCapacity.CapacityUnits
+  if (response) {
+    if (response.ConsumedCapacity) {
+      const wcu = response.ConsumedCapacity.CapacityUnits
 //      console.log({wcu})
-  return response.Attributes as PostDocument
+    }
+    return response.Attributes as PostDocument
+  }
 }
 export type ViewPostInput = {
   post: PostDocument
