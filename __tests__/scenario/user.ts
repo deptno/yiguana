@@ -1,9 +1,10 @@
 import {createYiguana} from '../../packages/yiguana'
-import {tableName, ddbClient as client} from '../env'
+import {ddbClient as client, tableName} from '../env'
 import {deptnoUserInput} from '../data/user'
 import {UserDocument} from '../../packages/yiguana/api/dynamodb/common'
 import {createPost} from '../../packages/yiguana/entity/post'
 import {deptnoGamePost, deptnoMusicPost, gamePost, muckbangPost, musicPost} from '../data/post'
+import {createComment, EPriority} from '../../packages/yiguana/entity/comment'
 
 jest.unmock('aws-sdk')
 
@@ -37,13 +38,13 @@ describe('user scenario', function () {
     done()
   })
 
-  it('유저 글 보기', async done => {
+  it('유저 글 목록 보기', async done => {
     const {items} = await yiguana.list({boardName, category: '', userId: user!.id})
     console.table(items)
     expect(items).toHaveLength(3)
     done()
   })
-  it('유저 글 카테고리 별 보기', async done => {
+  it('유저 글 목록 카테고리 별 보기', async done => {
     {
       const {items} = await yiguana.list({boardName, category: 'game', userId: user!.id})
       console.table(items)
@@ -63,11 +64,28 @@ describe('user scenario', function () {
       expect(currentUser).toBeTruthy()
     }
   })
-  it('유저 댓글 보기', async done => {
+  it('유저 글 및 댓글 보기', async done => {
     const user = await yiguana.login({user: deptnoUserInput})
     const {items} = await yiguana.list({boardName, category: '', userId: user!.id})
     console.table(items)
     expect(items).toHaveLength(3)
+    const [post] = items
+    const postViewing = await yiguana.viewPost({post})
+    if (postViewing) {
+      if (user) {
+        const comment = createComment({
+          postId: postViewing.id,
+          userId: user.id,
+          user: {
+            id: user.id,
+            name: user.name,
+          },
+          comment: `parent post(${postViewing.id}) reply`,
+          priority: EPriority.Normal
+        })
+        // todo add
+      }
+    }
     done()
   })
 })

@@ -23,6 +23,10 @@ resource "aws_dynamodb_table" "yiguana" {
     name = "userId"
     type = "S" # [board]#[category]#2019-06-04T11:31:000z
   }
+  attribute { # GSI0 rk, post 99#2019-06-04T11:31:000z
+    name = "postId"
+    type = "S" # [board]#[category]#2019-06-04T11:31:000z
+  }
 //  attribute { # GSI1 rk, post 99, 후순위 이건 그냥 집계로 뽑는게 나을 수 도
 //    name = "likes"
 //    type = "N"
@@ -60,6 +64,12 @@ resource "aws_dynamodb_table" "yiguana" {
   global_secondary_index { // 유저 검색
     name = "userId-index"
     hash_key = "userId"
+    range_key = "order"
+    projection_type = "ALL"
+  }
+  global_secondary_index { // 유저 검색
+    name = "postId-index"
+    hash_key = "postId"
     range_key = "order"
     projection_type = "ALL"
   }
