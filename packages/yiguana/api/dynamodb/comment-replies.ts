@@ -1,19 +1,19 @@
 import {DynamoDbApiInput, EIndexName, PostDocument} from './common'
 import {paginationQuerySafe} from '../../../dynamodb/common'
 
-export function comments(params: DynamoDbApiInput & CommentsInput) {
-  const {tableName, client, postId, nextToken} = params
+export function commentReplies(params: DynamoDbApiInput & CommentRepliesInput) {
+  const {tableName, client, commentId, nextToken} = params
   return paginationQuerySafe<PostDocument>(
     client,
     {
       TableName                : tableName,
-      IndexName                : EIndexName.PostOrderIndex,
+      IndexName                : EIndexName.CommentCreatedAtIndex,
       KeyConditionExpression   : '#p = :p',
       ExpressionAttributeNames : {
-        '#p': 'postId',
+        '#p': 'commentId',
       },
       ExpressionAttributeValues: {
-        ':p': postId,
+        ':p': commentId,
       },
       ReturnConsumedCapacity   : 'TOTAL'
     },
@@ -21,7 +21,7 @@ export function comments(params: DynamoDbApiInput & CommentsInput) {
   )
 }
 
-export type CommentsInput = {
-  postId: string
+export type CommentRepliesInput = {
+  commentId: string
   nextToken?: string
 }

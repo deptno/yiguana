@@ -2,7 +2,7 @@ import {DynamoDbApiInput, EType, PostDocument} from './common'
 import {put} from '../../../dynamodb/common'
 import {dynamodbDoc} from '../../../dynamodb/document'
 import {Post} from '../../entity/post'
-import {createOrderKey} from './key/order'
+import {createPostOrderKey} from './key/order'
 import {createIdKey} from './key/id'
 import {createRangeKey} from './key/range'
 import {extractType} from './key/type'
@@ -12,7 +12,7 @@ export async function addPost(params: DynamoDbApiInput & AddPostInput) {
   const item = dynamodbDoc(post)
   const id = createIdKey()
   const board = boardName
-  const order = createOrderKey({
+  const order = createPostOrderKey({
     boardName,
     category: post.category,
   })

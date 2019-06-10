@@ -1,6 +1,6 @@
 import {EPriority} from '../../../entity/comment'
 
-export function createOrderKey(key: OrderKey) {
+export function createPostOrderKey(key: OrderKey) {
   const {boardName, category = ''} = key
   const date = new Date().toISOString()
 
@@ -29,4 +29,16 @@ export function createCommentOrderKey(key: CommentOrderKey) {
 }
 type CommentOrderKey = {
   priority: EPriority
+}
+export function createCommentReplyOrderKey(key: CommentReplyOrderKey) {
+  const {commentId} = key
+  const date = new Date().toISOString()
+
+  return [
+    commentId,
+    date
+  ].join('#')
+}
+type CommentReplyOrderKey = {
+  commentId: string
 }
