@@ -1,15 +1,17 @@
 import {CommentReplyDocument, DynamoDbApiInput, EType} from './common'
 import {put} from '../../../dynamodb/common'
 import {dynamodbDoc} from '../../../dynamodb/document'
-import {createCommentOrderKey} from './key/order'
 import {createIdKey} from './key/id'
 import {createRangeKey} from './key/range'
 import {extractType} from './key/type'
 import {CommentReply} from '../../entity/comment-reply'
 
 export async function addCommentReply(params: DynamoDbApiInput & AddCommentReplyInput) {
-  const {client, tableName, commentReply} = params
-  const {commentId, mention, postId, comment} = commentReply
+  const {client} = params
+  return await put<CommentReplyDocument>(client, addCommentReplyParams(params))
+}
+export function addCommentReplyParams(params: DynamoDbApiInput & AddCommentReplyInput) {
+  const {tableName, commentReply} = params
   const doc = dynamodbDoc(commentReply)
   const id = createIdKey()
   const range = createRangeKey(EType.CommentReply)
@@ -22,11 +24,10 @@ export async function addCommentReply(params: DynamoDbApiInput & AddCommentReply
     range,
     createdAt,
   }
-  const putParams = {
+  return {
     TableName: tableName,
     Item     : item
   }
-  return await put<CommentReplyDocument>(client, putParams)
 }
 export type AddCommentReplyInput = {
   commentReply: CommentReply

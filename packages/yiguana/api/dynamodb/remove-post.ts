@@ -4,6 +4,7 @@ import {del} from '../../../dynamodb/common'
 export async function removePost(params: DynamoDbApiInput & RemovePostInput) {
   const {client, tableName, id} = params
   const range = 'post'
+  // fixme update 삭제
   const response = await del(client, {
     ReturnConsumedCapacity: 'TOTAL',
     TableName             : tableName,
