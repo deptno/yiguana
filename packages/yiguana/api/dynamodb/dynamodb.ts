@@ -1,4 +1,4 @@
-import {list, ListInput} from './list'
+import {posts, ListInput} from './posts'
 import {DynamoDbApiInput} from './common'
 import {addPost, AddPostInput} from './add-post'
 import {removePost, RemovePostInput} from './remove-post'
@@ -18,8 +18,8 @@ import {commentReplies, CommentRepliesInput} from './comment-replies'
 export function createDynamoDbEngine(engineParams: DynamoDbApiInput) {
   return {
     // board
-    list(params: ListInput) {
-      return list({...engineParams, ...params})
+    posts(params: ListInput) {
+      return posts({...engineParams, ...params})
     },
     addPost(params: AddPostInput) {
       return addPost({...engineParams, ...params})

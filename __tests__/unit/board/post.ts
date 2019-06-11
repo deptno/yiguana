@@ -10,26 +10,26 @@ describe('board', function () {
   let yiguana: ReturnType<typeof createYiguana>
   beforeAll(async done => {
     yiguana = createYiguana({tableName, client})
-    const {items} = await yiguana.list({boardName})
+    const {items} = await yiguana.posts({boardName})
     expect(items).toHaveLength(0)
     const posts = [createPost(muckbangPost), createPost(gamePost), createPost(musicPost)]
     const postDocs = await Promise.all(posts.map(post => yiguana.addPost({boardName, post})))
     done()
   })
   afterAll(async done => {
-    const {items} = await yiguana.list({boardName})
+    const {items} = await yiguana.posts({boardName})
     console.log(`clean up ${items.length}`)
     await Promise.all(items.map(item => yiguana.removePost({id: item.id})))
     done()
   })
 
   it('add, remove, view, like post', async done => {
-    const {items: postDocs} = await yiguana.list({boardName})
+    const {items: postDocs} = await yiguana.posts({boardName})
 
     await Promise.all(postDocs.map(doc => yiguana.viewPost({post: doc})))
     await yiguana.likePost({post: postDocs[0]})
 
-    const {items} = await yiguana.list({boardName})
+    const {items} = await yiguana.posts({boardName})
     expect(items).toHaveLength(3)
 
     console.table(items)

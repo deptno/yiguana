@@ -15,7 +15,8 @@ export function comments(params: DynamoDbApiInput & CommentsInput) {
       ExpressionAttributeValues: {
         ':p': postId,
       },
-      ReturnConsumedCapacity   : 'TOTAL'
+      ScanIndexForward: false,
+      ReturnConsumedCapacity   : 'TOTAL',
     },
     nextToken
   )

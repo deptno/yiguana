@@ -2,7 +2,7 @@ import {DynamoDbApiInput, EIndexName, PostDocument} from './common'
 import {paginationQuerySafe} from '../../../dynamodb/common'
 import {stringifyOrderKey} from './key/order'
 
-export function list(params: DynamoDbApiInput & ListInput) {
+export function posts(params: DynamoDbApiInput & ListInput) {
   const {tableName, boardName, client, category, nextToken, userId} = params
   if (userId) {
     return listByUserId(params)
@@ -21,7 +21,8 @@ export function list(params: DynamoDbApiInput & ListInput) {
         ':p': boardName,
         ':r': stringifyOrderKey({boardName, category})
       },
-      ReturnConsumedCapacity   : 'TOTAL'
+      ScanIndexForward: false,
+      ReturnConsumedCapacity   : 'TOTAL',
     },
     nextToken
   )
@@ -43,6 +44,7 @@ export function listByUserId(params: DynamoDbApiInput & ListInput) {
         ':p': userId,
         ':r': stringifyOrderKey({boardName, category})
       },
+      ScanIndexForward: false,
       ReturnConsumedCapacity   : 'TOTAL'
     },
     nextToken

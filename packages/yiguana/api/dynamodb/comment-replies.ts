@@ -15,6 +15,7 @@ export function commentReplies(params: DynamoDbApiInput & CommentRepliesInput) {
       ExpressionAttributeValues: {
         ':p': commentId,
       },
+      ScanIndexForward: false,
       ReturnConsumedCapacity   : 'TOTAL'
     },
     nextToken
