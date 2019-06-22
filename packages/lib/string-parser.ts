@@ -4,8 +4,8 @@ import {extname} from 'path'
 export function getLinks(content: string): string[] {
   return content.match(re_weburl) || []
 }
-export function isImageUrl(url: string): boolean {
-  const {pathname} = parse(url)
+export function isImageUrl(uri: string): boolean {
+  const {pathname} = parse(uri)
   if (pathname) {
     const ext = extname(pathname).toLowerCase()
     return imageExtList.includes(ext)
