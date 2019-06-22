@@ -81,21 +81,21 @@ resource "aws_dynamodb_table" "yiguana" {
   }
   global_secondary_index {
     // 유저 검색
-    name = "userId-index"
+    name = "userId-order-index"
     hash_key = "userId"
     range_key = "order"
     projection_type = "ALL"
   }
   global_secondary_index {
     // 코멘트 리스트
-    name = "postId-index"
+    name = "postId-order-index"
     hash_key = "postId"
     range_key = "order"
     projection_type = "ALL"
   }
   global_secondary_index {
-    // 코멘트 리스트
-    name = "commentId-index"
+    // 코멘트 덧글 리스트
+    name = "commentId-createdAt-index"
     hash_key = "commentId"
     range_key = "createdAt"
     projection_type = "ALL"

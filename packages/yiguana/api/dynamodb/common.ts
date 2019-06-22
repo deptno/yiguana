@@ -5,7 +5,6 @@ import {DocumentClient} from 'aws-sdk/clients/dynamodb'
 import {CommentReply} from '../../entity/comment-reply'
 
 export enum EType {
-  Board = 'board',
   Post  = 'post',
   User  = 'user',
   Comment = 'comment',
@@ -13,9 +12,9 @@ export enum EType {
 }
 export enum EIndexName {
   BoardOrderIndex = 'board-order-index',
-  UserOrderIndex  = 'userId-index',
-  PostOrderIndex  = 'postId-index',
-  CommentCreatedAtIndex  = 'commentId-index'
+  UserOrderIndex  = 'userId-order-index',
+  PostOrderIndex  = 'postId-order-index',
+  CommentCreatedAtIndex  = 'commentId-createdAt-index'
 }
 export type TableIndex = {
   id: string // hash
@@ -46,7 +45,7 @@ export type DdbCategoryDocument<T> = T & CategoryIndex
 export type DdbUserDocument<T> = T & UserIndex
 export type DdbCommentDocument<T> = T & PostIndex
 export type DdbCommentReplyDocument<T> = T & CommentIndex
-export type PostDocument = DdbCategoryDocument<Post>
+export type PostDocument = DdbCategoryDocument<Omit<Post, 'content'> & {s3: string}>
 export type UserDocument = DdbUserDocument<User>
 export type CommentDocument = DdbCommentDocument<Comment>
 export type CommentReplyDocument = DdbCommentReplyDocument<CommentReply>

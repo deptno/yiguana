@@ -26,6 +26,8 @@ provider:
         - dynamodb:GetShardIterator
         - dynamodb:DescribeStream
         - dynamodb:ListStreams
+        - dynamodb:TransactGetItems
+        - dynamodb:TransactWriteItems
       Resource: "arn:aws:dynamodb:ap-northeast-2:*:*"
     - Effect: Allow
       Action:

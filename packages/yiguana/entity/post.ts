@@ -4,9 +4,8 @@ export function createPost(post: PostInput): Post {
   const {title, author, content, category} = post
   const {id: userId, ...authorProps} = author
   // todo content 를 s3 에 올리고 그 주소를 받아온다.
-  const s3 = 's3://'
   return {
-    s3,
+    content,
     title,
     userId,
     category,
@@ -19,7 +18,7 @@ export function createPost(post: PostInput): Post {
 
 export type Post = {
   title: string
-  s3: string
+  content: string
   userId: User['id']
   author: Pick<User, 'name'|'thumbnail'>
   category: string
