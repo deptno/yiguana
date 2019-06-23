@@ -8,7 +8,6 @@ import {
 } from 'aws-sdk/clients/dynamodb'
 import {flatten, splitEvery} from 'ramda'
 import {createToken, parseToken} from './token'
-import {ddbClient} from '../../__tests__/env'
 
 const putError = [
   'ValidationException',
@@ -335,7 +334,7 @@ async function _batchWriteMassive<T>(ddbClient: DocumentClient, tableName: strin
 const by25 = splitEvery(25)
 const by100 = splitEvery(100)
 
-export async function transactWrite(transactionParams: DocumentClient.TransactWriteItemList) {
+export async function transactWrite(ddbClient: DocumentClient, transactionParams: DocumentClient.TransactWriteItemList) {
   const response = await ddbClient
     .transactWrite({
       ReturnConsumedCapacity: 'TOTAL',

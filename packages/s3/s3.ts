@@ -2,7 +2,7 @@ import {S3} from 'aws-sdk'
 
 const s3 = new S3()
 
-export async function get(params: S3.Types.GetObjectRequest) {
+export async function get(params: S3.Types.GetObjectRequest): Promise<S3.Body | undefined> {
   try {
     const response = await s3
       .getObject(params)

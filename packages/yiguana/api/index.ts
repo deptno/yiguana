@@ -72,7 +72,7 @@ class Post {
     }
     const commentPost = commentPostParams({...this.ddb, post})
     const addComment = addCommentParams({...this.ddb, ...params})
-    await transactWrite([
+    await transactWrite(this.ddb.client, [
       {Put: addComment},
       {Update: commentPost},
     ])
@@ -99,13 +99,13 @@ class Comment {
       range: 'post',
     }
     const comment = {
-      id: params.commentReply.commentId,
+      id   : params.commentReply.commentId,
       range: 'comment'
     }
     const commentPost = commentPostParams({...this.ddb, post})
     const replyComment = replyCommentParams({...this.ddb, comment})
     const addCommentReply = addCommentReplyParams({...this.ddb, ...params})
-    return transactWrite([
+    return transactWrite(this.ddb.client, [
       {Put: addCommentReply},
       {Update: commentPost},
       {Update: replyComment},
@@ -146,6 +146,7 @@ class Raw {
   constructor(private ddb: DynamoDbApiInput) {
 
   }
+
   remove(params: RemoveInput) {
     return remove({...this.ddb, ...params})
   }
