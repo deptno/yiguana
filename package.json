@@ -58,8 +58,8 @@
     "testEnvironment": "node",
     "testMatch": [
       "**/?(*.)(spec|test).ts?(x)",
-      "**/__tests__/scenario/**/*.ts?(x)",
-      "**/__tests__/unit/**/*.ts?(x)"
+      "__tests__/scenario/**/*.ts?(x)",
+      "__tests__/unit/**/*.ts?(x)"
     ],
     "globals": {
       "TZ": "utc",

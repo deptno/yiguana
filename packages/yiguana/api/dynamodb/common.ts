@@ -45,7 +45,9 @@ export type DdbCategoryDocument<T> = T & CategoryIndex
 export type DdbUserDocument<T> = T & UserIndex
 export type DdbCommentDocument<T> = T & PostIndex
 export type DdbCommentReplyDocument<T> = T & CommentIndex
-export type PostDocument = DdbCategoryDocument<Omit<Post, 'content'> & {s3: string}>
+export type PostDocument = DdbCategoryDocument<Omit<Post, 'content'> & {
+  s3: string
+}>
 export type UserDocument = DdbUserDocument<User>
 export type CommentDocument = DdbCommentDocument<Comment>
 export type CommentReplyDocument = DdbCommentReplyDocument<CommentReply>
@@ -53,6 +55,7 @@ export type CommentReplyDocument = DdbCommentReplyDocument<CommentReply>
 export type DynamoDbApiInput = {
   client: DocumentClient
   tableName: string
+  bucketName: string
 }
 type DdbDocument<T> = T & TableIndex
 

@@ -1,10 +1,11 @@
 {
   "name": "yiguana",
-  "version": "0.1.2",
+  "version": "0.1.8",
   "description": "yiguana sdk",
   "main": "dist/index.js",
   "types": "dist/packages/yiguana/index.d.ts",
   "scripts": {
+    "deploy": "npm publish",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "keywords": [

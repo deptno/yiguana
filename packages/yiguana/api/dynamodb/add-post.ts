@@ -7,66 +7,57 @@ import {createPostOrderKey} from './key/order'
 import {createIdKey} from './key/id'
 import {createRangeKey} from './key/range'
 import {extractType} from './key/type'
-import {YIGUANA_BUCKET} from '../../../../env'
 import {getLinks} from '../../../lib/string-parser'
 
 export async function addPost(params: DynamoDbApiInput & AddPostInput) {
-  const {client, tableName, boardName, post} = params
-  const {content, ...ddbPost} = post
+  const {client, tableName, post} = params
+  const {content, board, ...ddbPost} = post
 
   const item = dynamodbDoc(ddbPost)
   const id = createIdKey()
-  const board = boardName
   const order = createPostOrderKey({
-    boardName,
+    boardName: board,
     category: ddbPost.category,
   })
   const range = createRangeKey(EType.Post)
   const _type = extractType(range)
 
-  await _uploadContent(content)
+  const doc = {
+    ...item,
+    _type,
+    range,
+    order,
+    id,
+    board,
+  } as PostDocument
+
+  const s3 = await _uploadContent(params.bucketName, doc, content)
+
   const putParams = {
     TableName: tableName,
     Item     : {
-      ...item,
-      _type,
-      range,
-      board,
-      order,
-      id,
-//      link,
-//      image,
+      ...doc,
+      s3
     }
   }
   return await put<PostDocument>(client, putParams)
 }
 
-async function _uploadContent(content) {
-
-}
-function _parseContent(content) {
-  const ret = {} as any
-  const [link] = getLinks(content)
-  if (link) {
-    ret.link = link
-  }
-  //todo image 처리
-  return ret
-}
-
-async function _uploadToS3(key: string, content: string) {
-  const response = await putS3({
-    Key: key,
-    Bucket: YIGUANA_BUCKET,
-    Body: content,
-    ContentType: 'plain/text'
+async function _uploadContent(bucket, post: PostDocument, content): Promise<string> {
+  const day = new Date().toISOString().slice(0, 10)
+  const key = `post/${day}/${post.id}`
+  const success = await putS3({
+    Bucket     : bucket,
+    Key        : key,
+    ContentType: 'plain/text',
+    Body       : content,
   })
-  console.log({response})
-  if (response) {
-    return response.$response.data
+  if (success) {
+    return key
   }
+  return ''
 }
+
 export type AddPostInput = {
   post: Post
-  boardName: string
 }
