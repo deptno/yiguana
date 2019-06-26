@@ -2,12 +2,13 @@ import {User} from './user'
 
 export function createPost(post: PostInput): Post {
   const {title, author, content, category, board, ip} = post
-  const {id: userId, ...authorProps} = author
+  const {id: userId, password, ...authorProps} = author
   const hasImage = regexpHasImage.test(content)
 
   return {
     content,
     title,
+    password,
     userId,
     board,
     category,
@@ -16,6 +17,7 @@ export function createPost(post: PostInput): Post {
     views: 0,
     likes: 0,
     comments: 0,
+    createdAt: new Date().toISOString(),
     author: authorProps,
   }
 }
@@ -32,7 +34,9 @@ export type Post = {
   views: number
   likes: number
   comments: number
+  createdAt: string
   hasImage?: boolean
+  password?: string
 }
 export type PostInput = {
   title: string
@@ -40,5 +44,6 @@ export type PostInput = {
   board: string
   category: string
   ip: string
-  author: Pick<User, 'id'|'name'|'thumbnail'>
+  author: Pick<User, 'id'|'name'|'thumbnail'|'password'>
+  password?: string
 }

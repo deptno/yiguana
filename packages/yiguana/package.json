@@ -1,6 +1,6 @@
 {
   "name": "yiguana",
-  "version": "0.1.8",
+  "version": "0.1.12",
   "description": "yiguana sdk",
   "main": "dist/index.js",
   "types": "dist/packages/yiguana/index.d.ts",
