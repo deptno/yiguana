@@ -33,6 +33,7 @@ export type CommentInput = {
   user: UserInput
   priority: EPriority
   ip: string
+  password?: string
 }
 export enum EPriority {
   Top          = 10,

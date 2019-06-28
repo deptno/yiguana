@@ -18,6 +18,7 @@ import {commentPost, commentPostParams} from './dynamodb/comment-post'
 import {transactWrite} from '../../dynamodb/common'
 import {replyComment, replyCommentParams} from './dynamodb/reply-comment'
 import {remove, RemoveInput} from './dynamodb/remove'
+import {GetPostInput, post} from './dynamodb/post'
 
 export class YiguanaApi {
   board = new Board(this.ddb)
@@ -34,6 +35,10 @@ export class YiguanaApi {
 
 class Board {
   constructor(private ddb: DynamoDbApiInput) {
+  }
+
+  post(params: GetPostInput) {
+    return post({...this.ddb, ...params})
   }
 
   posts(params: ListInput) {
