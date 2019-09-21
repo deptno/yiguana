@@ -1,17 +1,10 @@
-import {DynamoDbApiInput, EIndexName, PostDocument} from './common'
-import {paginationQuerySafe} from '../../../dynamodb/common'
+import {CreateApiInput, EIndexName} from './common'
 
-export function comments(params: DynamoDbApiInput & CommentsInput) {
-  const {tableName, client, postId, nextToken} = params
-  return paginationQuerySafe<PostDocument>(
-    client,
-    commentsParam(params),
-    nextToken
-  )
-}
-export function commentsParam(params: DynamoDbApiInput & CommentsInput) {
-  const {tableName, postId} = params
-  return {
+export function comments(operator: CreateApiInput, params: CommentsInput) {
+  const {tableName, dynamodb} = operator
+  const {postId, nextToken} = params
+
+  return dynamodb.query({
     TableName                : tableName,
     IndexName                : EIndexName.PostOrderIndex,
     KeyConditionExpression   : '#p = :p',
@@ -23,7 +16,7 @@ export function commentsParam(params: DynamoDbApiInput & CommentsInput) {
     },
     ScanIndexForward: false,
     ReturnConsumedCapacity   : 'TOTAL',
-  }
+  })
 }
 
 export type CommentsInput = {

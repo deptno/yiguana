@@ -23,6 +23,8 @@
   },
   "homepage": "https://github.com/deptno/yiguana#readme",
   "dependencies": {
+    "@deptno/dynamodb": "0.0.10",
+    "@deptno/s3": "0.0.4",
     "@types/node": "^10.14.8",
     "dynamodb-data-types": "^3.0.1",
     "ramda": "^0.26.1"

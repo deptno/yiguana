@@ -1,25 +1,22 @@
-import {DynamoDbApiInput, EIndexName, PostDocument} from './common'
-import {paginationQuerySafe} from '../../../dynamodb/common'
+import {CreateApiInput, EIndexName} from './common'
 
-export function commentReplies(params: DynamoDbApiInput & CommentRepliesInput) {
-  const {tableName, client, commentId, nextToken} = params
-  return paginationQuerySafe<PostDocument>(
-    client,
-    {
-      TableName                : tableName,
-      IndexName                : EIndexName.CommentCreatedAtIndex,
-      KeyConditionExpression   : '#p = :p',
-      ExpressionAttributeNames : {
-        '#p': 'commentId',
-      },
-      ExpressionAttributeValues: {
-        ':p': commentId,
-      },
-      ScanIndexForward: false,
-      ReturnConsumedCapacity   : 'TOTAL'
+export function commentReplies(operator: CreateApiInput, params: CommentRepliesInput) {
+  const {dynamodb, tableName} = operator
+  const {commentId, nextToken} = params
+
+  return dynamodb.query({
+    TableName                : tableName,
+    IndexName                : EIndexName.CommentCreatedAtIndex,
+    KeyConditionExpression   : '#p = :p',
+    ExpressionAttributeNames : {
+      '#p': 'commentId',
     },
-    nextToken
-  )
+    ExpressionAttributeValues: {
+      ':p': commentId,
+    },
+    ScanIndexForward         : false,
+    ReturnConsumedCapacity   : 'TOTAL'
+  })
 }
 
 export type CommentRepliesInput = {

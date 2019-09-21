@@ -1,27 +1,9 @@
-import {CommentDocument, DynamoDbApiInput, PostDocument} from './common'
-import {update} from '../../../dynamodb/common'
+import {CommentDocument, CreateApiInput, PostDocument} from './common'
 
-export async function replyComment(params: DynamoDbApiInput & ReplyCommentInput) {
-  const {client} = params
-  const response = await update(client, {
-    ReturnConsumedCapacity: 'TOTAL',
-    ReturnValues          : 'ALL_NEW',
-    ...replyCommentParams(params)
-  })
-  if (response) {
-    if (response.ConsumedCapacity) {
-      const wcu = response.ConsumedCapacity.CapacityUnits
-//      console.log({wcu})
-    }
-    return response.Attributes as PostDocument
-  }
-}
-export function replyCommentParams(params: DynamoDbApiInput & ReplyCommentInput) {
-  const {tableName, comment} = params
-  const {id, range} = comment
-  return {
-    ReturnConsumedCapacity   : 'TOTAL',
-    ReturnValues             : 'ALL_NEW',
+export async function replyComment(operator: CreateApiInput, params: ReplyCommentInput) {
+  const {dynamodb, tableName} = operator
+  const {id, range} = params.comment
+  const response = await dynamodb.update({
     TableName                : tableName,
     Key                      : {
       id,
@@ -33,9 +15,19 @@ export function replyCommentParams(params: DynamoDbApiInput & ReplyCommentInput)
     },
     ExpressionAttributeValues: {
       ':v': 1
+    },
+    ReturnConsumedCapacity: 'TOTAL',
+    ReturnValues          : 'ALL_NEW',
+  })
+  if (response) {
+    if (response.ConsumedCapacity) {
+      const wcu = response.ConsumedCapacity.CapacityUnits
+      console.log({wcu})
     }
+    return response.Attributes as PostDocument
   }
 }
+
 export type ReplyCommentInput = {
   comment: Pick<CommentDocument, 'id'|'range'>
 }

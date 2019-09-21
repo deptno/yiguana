@@ -1,5 +1,5 @@
-import {DynamoDbApiInput} from './dynamodb/common'
-import {ListInput, posts} from './dynamodb/posts'
+import {CreateApiInput} from './dynamodb/common'
+import {PostsInput, posts} from './dynamodb/posts'
 import {addPost, AddPostInput} from './dynamodb/add-post'
 import {removePost, RemovePostInput} from './dynamodb/remove-post'
 import {viewPost, ViewPostInput} from './dynamodb/view-post'
@@ -28,20 +28,20 @@ export class YiguanaApi {
   user = new User(this.ddb)
   raw = new Raw(this.ddb)
 
-  constructor(private ddb: DynamoDbApiInput) {
+  constructor(private ddb: CreateApiInput) {
 
   }
 }
 
 class Board {
-  constructor(private ddb: DynamoDbApiInput) {
+  constructor(private ddb: CreateApiInput) {
   }
 
   post(params: GetPostInput) {
     return post({...this.ddb, ...params})
   }
 
-  posts(params: ListInput) {
+  posts(params: PostsInput) {
     return posts({...this.ddb, ...params})
   }
 
@@ -54,7 +54,7 @@ class Board {
   }
 }
 class Post {
-  constructor(private ddb: DynamoDbApiInput) {
+  constructor(private ddb: CreateApiInput) {
 
   }
 
@@ -77,7 +77,7 @@ class Post {
     }
     const commentPost = commentPostParams({...this.ddb, post})
     const addComment = addCommentParams({...this.ddb, ...params})
-    await transactWrite(this.ddb.client, [
+    await transactWrite(this.ddb.dynamodb, [
       {Put: addComment},
       {Update: commentPost},
     ])
@@ -89,7 +89,7 @@ class Post {
   }
 }
 class Comment {
-  constructor(private ddb: DynamoDbApiInput) {
+  constructor(private ddb: CreateApiInput) {
 
   }
 
@@ -110,7 +110,7 @@ class Comment {
     const commentPost = commentPostParams({...this.ddb, post})
     const replyComment = replyCommentParams({...this.ddb, comment})
     const addCommentReply = addCommentReplyParams({...this.ddb, ...params})
-    return transactWrite(this.ddb.client, [
+    return transactWrite(this.ddb.dynamodb, [
       {Put: addCommentReply},
       {Update: commentPost},
       {Update: replyComment},
@@ -122,7 +122,7 @@ class Comment {
   }
 }
 class CommentReply {
-  constructor(private ddb: DynamoDbApiInput) {
+  constructor(private ddb: CreateApiInput) {
 
   }
 
@@ -134,7 +134,7 @@ class CommentReply {
 }
 
 class User {
-  constructor(private ddb: DynamoDbApiInput) {
+  constructor(private ddb: CreateApiInput) {
 
   }
 
@@ -148,7 +148,7 @@ class User {
 }
 
 class Raw {
-  constructor(private ddb: DynamoDbApiInput) {
+  constructor(private ddb: CreateApiInput) {
 
   }
 

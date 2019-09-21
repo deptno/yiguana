@@ -1,9 +1,9 @@
-import {DynamoDbApiInput, TableIndex, UserDocument} from './common'
-import {del} from '../../../dynamodb/common'
+import {CreateApiInput, TableIndex, UserDocument} from './common'
 
-export async function remove(params: DynamoDbApiInput & RemoveInput): Promise<UserDocument | undefined> {
-  const {client, tableName, id, range} = params
-  const response = await del(client, {
+export async function remove(operator: CreateApiInput, params: RemoveInput): Promise<UserDocument | undefined> {
+  const {dynamodb, tableName} = operator
+  const {id, range} = params
+  const response = await dynamodb.del({
     ReturnConsumedCapacity: 'TOTAL',
     ReturnValues          : 'ALL_OLD',
     TableName             : tableName,
@@ -12,9 +12,10 @@ export async function remove(params: DynamoDbApiInput & RemoveInput): Promise<Us
       range
     },
   })
+
   if (response) {
     return response.Attributes as UserDocument
   }
 }
 
-export type RemoveInput = Pick<TableIndex, 'id'|'range'>
+export type RemoveInput = Pick<TableIndex, 'id' | 'range'>

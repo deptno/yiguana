@@ -1,24 +1,24 @@
-import {DynamoDbApiInput, PostDocument} from './common'
-import {update} from '../../../dynamodb/common'
+import {CreateApiInput, PostDocument} from './common'
 import {DocumentClient} from 'aws-sdk/lib/dynamodb/document_client'
 
-export async function commentPost(params: DynamoDbApiInput & CommentPostInput) {
-  const {client} = params
-  const response = await update(client, {
+export async function commentPost(operator: CreateApiInput, params: CommentPostInput) {
+  const {dynamodb} = operator
+  const response = await dynamodb.update({
     ReturnConsumedCapacity: 'TOTAL',
     ReturnValues          : 'ALL_NEW',
-    ...commentPostParams(params)
+    ...commentPostParams(operator, params)
   })
   if (response) {
     if (response.ConsumedCapacity) {
       const wcu = response.ConsumedCapacity.CapacityUnits
-//      console.log({wcu})
+      console.log({wcu})
     }
     return response.Attributes as PostDocument
   }
 }
-export function commentPostParams(params: DynamoDbApiInput & CommentPostInput): DocumentClient.Update {
-  const {tableName, post} = params
+export function commentPostParams(operator: CreateApiInput, params: CommentPostInput): DocumentClient.Update {
+  const {tableName} = operator
+  const {post} = params
   const {id, range} = post
   return {
     TableName                : tableName,

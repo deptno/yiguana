@@ -1,19 +1,14 @@
-import {CommentDocument, DynamoDbApiInput, EType} from './common'
-import {put} from '../../../dynamodb/common'
-import {dynamodbDoc} from '../../../dynamodb/document'
+import {CommentDocument, CreateApiInput, EType} from './common'
 import {Comment} from '../../entity/comment'
 import {createIdKey} from './key/id'
 import {createRangeKey} from './key/range'
 import {extractType} from './key/type'
 import {createCommentOrderKey} from './key/order'
 
-export async function addComment(params: DynamoDbApiInput & AddCommentInput) {
-  const {client} = params
-  return await put<CommentDocument>(client, addCommentParams(params))
-}
-export function addCommentParams(params: DynamoDbApiInput & AddCommentInput) {
-  const {tableName, comment} = params
-  const doc = dynamodbDoc(comment)
+export async function addComment(operator: CreateApiInput, params: AddCommentInput) {
+  const {dynamodb, tableName} = operator
+  const {comment} = params
+  const doc = dynamodb.util.js2DdbDoc(comment)
   const id = createIdKey()
   const order = createCommentOrderKey({priority: comment.priority})
   const range = createRangeKey(EType.Comment)
@@ -25,11 +20,12 @@ export function addCommentParams(params: DynamoDbApiInput & AddCommentInput) {
     order,
     id
   }
-  return {
+  return dynamodb.put<CommentDocument>({
     TableName: tableName,
     Item     : item
-  }
+  })
 }
+
 export type AddCommentInput = {
   comment: Comment
 }

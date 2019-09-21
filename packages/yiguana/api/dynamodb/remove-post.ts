@@ -1,11 +1,11 @@
-import {DynamoDbApiInput, PostDocument} from './common'
-import {del} from '../../../dynamodb/common'
+import {CreateApiInput, PostDocument} from './common'
 
-export async function removePost(params: DynamoDbApiInput & RemovePostInput) {
-  const {client, tableName, id} = params
+export async function removePost(operator: CreateApiInput, params: RemovePostInput) {
+  const {dynamodb, tableName} = operator
+  const {id} = params
   const range = 'post'
   // fixme update 삭제
-  const response = await del(client, {
+  const response = await dynamodb.del({
     ReturnConsumedCapacity: 'TOTAL',
     TableName             : tableName,
     Key                   : {

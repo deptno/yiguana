@@ -2,30 +2,30 @@ import {CreateApiInput, EIndexName} from './common'
 import {stringifyOrderKey} from './key/order'
 import {Key} from 'readline'
 
-export function posts(operator: CreateApiInput, params: PostsInput) {
+export function postsByUserId(operator: CreateApiInput, params: PostsByUserIdInput) {
   const {tableName, dynamodb} = operator
-  const {boardName, category, exclusiveStartKey} = params
-
+  const {boardName, category, exclusiveStartKey, userId} = params
+  console.log('listByUserId', userId)
   return dynamodb.query({
     TableName                : tableName,
-    IndexName                : EIndexName.BoardOrderIndex,
+    IndexName                : EIndexName.UserOrderIndex,
     KeyConditionExpression   : '#p = :p and begins_with(#r, :r)',
     ExpressionAttributeNames : {
-      '#p': 'board',
+      '#p': 'userId',
       '#r': 'order',
     },
     ExpressionAttributeValues: {
-      ':p': boardName,
+      ':p': userId,
       ':r': stringifyOrderKey({boardName, category})
     },
-    ScanIndexForward         : false,
+    ScanIndexForward: false,
     ReturnConsumedCapacity   : 'TOTAL',
     ExclusiveStartKey        : exclusiveStartKey
   })
 }
-
-export type PostsInput = {
+export type PostsByUserIdInput = {
   boardName: string
+  userId: string
   category?: string
   exclusiveStartKey?: Key
 }

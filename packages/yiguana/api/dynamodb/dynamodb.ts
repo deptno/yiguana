@@ -1,12 +1,10 @@
-import {posts, ListInput} from './posts'
-import {DynamoDbApiInput} from './common'
+import {posts, PostsInput} from './posts'
+import {CreateApiInput} from './common'
 import {addPost, AddPostInput} from './add-post'
 import {removePost, RemovePostInput} from './remove-post'
 import {viewPost, ViewPostInput} from './view-post'
 import {likePost, LikePostInput} from './like-post'
-import {login, LoginInput} from './login'
 import {remove, RemoveInput} from './remove'
-import {user, UserInput} from './user'
 import {addComment, AddCommentInput} from './add-comment'
 import {comments, CommentsInput} from './comments'
 import {removeComment, RemoveCommentInput} from './remove-comment'
@@ -14,61 +12,28 @@ import {addCommentReply, AddCommentReplyInput} from './add-comment-reply'
 import {commentPost, CommentPostInput} from './comment-post'
 import {replyComment, ReplyCommentInput} from './reply-comment'
 import {commentReplies, CommentRepliesInput} from './comment-replies'
+import {postsByUserId, PostsByUserIdInput} from './post-by-user-id'
 
-export function createDynamoDbEngine(engineParams: DynamoDbApiInput) {
+export function createApi(operator: CreateApiInput) {
   return {
     // board
-    posts(params: ListInput) {
-      return posts({...engineParams, ...params})
-    },
-    addPost(params: AddPostInput) {
-      return addPost({...engineParams, ...params})
-    },
-    removePost(params: RemovePostInput) {
-      return removePost({...engineParams, ...params})
-    },
+    posts: posts.bind(null, operator) as (params: PostsInput) => ReturnType<typeof posts>,
+    postsByUserId: postsByUserId.bind(null, operator) as (params: PostsByUserIdInput) => ReturnType<typeof postsByUserId>,
+    addPost: addPost.bind(null, operator) as (params: AddPostInput) => ReturnType<typeof addPost>,
+    removePost: removePost.bind(null, operator) as (params: RemovePostInput) => ReturnType<typeof removePost>,
     // post
-    viewPost(params: ViewPostInput) {
-      return viewPost({...engineParams, ...params})
-    },
-    likePost(params: LikePostInput) {
-      return likePost({...engineParams, ...params})
-    },
-    commentPost(params: CommentPostInput) {
-      return commentPost({...engineParams, ...params})
-    },
+    viewPost: viewPost.bind(null, operator) as (params: ViewPostInput) => ReturnType<typeof viewPost>,
+    likePost: likePost.bind(null, operator) as (params: LikePostInput) => ReturnType<typeof likePost>,
+    commentPost: commentPost.bind(null, operator) as (params: CommentPostInput) => ReturnType<typeof commentPost>,
     // comment
-    comments(params: CommentsInput) {
-      return comments({...engineParams, ...params})
-    },
-    addComment(params: AddCommentInput) {
-      // commentPost 와 transaction
-      return addComment({...engineParams, ...params})
-    },
-    replyComment(params: ReplyCommentInput) {
-      return replyComment({...engineParams, ...params})
-    },
+    comments: comments.bind(null, operator) as (params: CommentsInput) => ReturnType<typeof comments>,
+    addComment: addComment.bind(null, operator) as (params: AddCommentInput) => ReturnType<typeof addComment>,
+    replyComment: replyComment.bind(null, operator) as (params: ReplyCommentInput) => ReturnType<typeof replyComment>,
     // comment replies
-    commentReplies(params: CommentRepliesInput) {
-      return commentReplies({...engineParams, ...params})
-    },
-    addCommentReply(params: AddCommentReplyInput) {
-      // commentPost, replyComment 와 transaction
-      return addCommentReply({...engineParams, ...params})
-    },
-    removeComment(params: RemoveCommentInput) {
-      return removeComment({...engineParams, ...params})
-    },
-    // user
-    login(params: LoginInput) {
-      return login({...engineParams, ...params})
-    },
-    user(params: UserInput) {
-      return user({...engineParams, ...params})
-    },
+    commentReplies: commentReplies.bind(null, operator) as (params: CommentRepliesInput) => ReturnType<typeof commentReplies>,
+    addCommentReply: addCommentReply.bind(null, operator) as (params: AddCommentReplyInput) => ReturnType<typeof addCommentReply>,
+    removeComment: removeComment.bind(null, operator) as (params: RemoveCommentInput) => ReturnType<typeof removeComment>,
     // common
-    remove(params: RemoveInput) {
-      return remove({...engineParams, ...params})
-    },
+    remove: remove.bind(null, operator) as (params: RemoveInput) => ReturnType<typeof remove>,
   }
 }

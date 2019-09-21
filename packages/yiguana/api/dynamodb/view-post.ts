@@ -1,10 +1,10 @@
-import {DynamoDbApiInput, PostDocument} from './common'
-import {update} from '../../../dynamodb/common'
+import {CreateApiInput, PostDocument} from './common'
 
-export async function viewPost(params: DynamoDbApiInput & ViewPostInput) {
-  const {client, tableName, post} = params
+export async function viewPost(operator: CreateApiInput, params: ViewPostInput) {
+  const {dynamodb, tableName} = operator
+  const {post} = params
   const {id, range} = post
-  const response = await update(client, {
+  const response = await dynamodb.update({
     ReturnConsumedCapacity   : 'TOTAL',
     ReturnValues             : 'ALL_NEW',
     TableName                : tableName,
@@ -23,7 +23,7 @@ export async function viewPost(params: DynamoDbApiInput & ViewPostInput) {
   if (response) {
     if (response.ConsumedCapacity) {
       const wcu = response.ConsumedCapacity.CapacityUnits
-//      console.log({wcu})
+      console.log({wcu})
     }
     return response.Attributes as PostDocument
   }

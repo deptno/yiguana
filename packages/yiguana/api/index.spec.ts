@@ -7,7 +7,7 @@ describe('yiguana api', function () {
   it('should create instance', function () {
     new YiguanaApi({
       tableName,
-      client: ddbClient
+      dynamodb: ddbClient
     })
   })
 })
