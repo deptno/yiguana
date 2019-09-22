@@ -16,7 +16,7 @@ export function postsByUserId(operator: CreateApiInput, params: PostsByUserIdInp
     },
     ExpressionAttributeValues: {
       ':p': userId,
-      ':r': stringifyOrderKey({boardName, category})
+      ':r': stringifyOrderKey({board: boardName, category})
     },
     ScanIndexForward: false,
     ReturnConsumedCapacity   : 'TOTAL',

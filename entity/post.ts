@@ -13,9 +13,3 @@ export class Post {
   createdAt: string
   author: any
 }
-
-class DbPost {
-  publish() {
-
-  }
-}

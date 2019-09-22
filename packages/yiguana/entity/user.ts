@@ -1,13 +1,10 @@
-export type User = {
+export type User = Member | NonMember
+export type Member = {
   id: string
   name: string
-  thumbnail: string
-  userId: string // GSI PK 필요한지 확인
-  password?: string
-  login: number
+  thumbnail?: string
 }
-export type UserInput = {
-  id: string
+export type NonMember = {
   name: string
   thumbnail?: string
 }

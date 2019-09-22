@@ -36,26 +36,26 @@ describe('user scenario', function () {
     if (user) {
       await yiguana.remove(user)
     }
-    const {items} = await yiguana.posts({boardName})
+    const {items} = await yiguana.posts({board: boardName})
     console.log(`clean up ${items.length}`)
     await Promise.all(items.map(item => yiguana.removePost({id: item.id})))
     done()
   })
 
   it('유저 글 목록 보기', async done => {
-    const {items} = await yiguana.posts({boardName, category: '', userId: user!.id})
+    const {items} = await yiguana.posts({board: boardName, category: '', userId: user!.id})
     console.table(items)
     expect(items).toHaveLength(3)
     done()
   })
   it('유저 글 목록 카테고리 별 보기', async done => {
     {
-      const {items} = await yiguana.posts({boardName, category: 'game', userId: user!.id})
+      const {items} = await yiguana.posts({board: boardName, category: 'game', userId: user!.id})
       console.table(items)
       expect(items).toHaveLength(2)
     }
     {
-      const {items} = await yiguana.posts({boardName, category: 'music', userId: user!.id})
+      const {items} = await yiguana.posts({board: boardName, category: 'music', userId: user!.id})
       console.table(items)
       expect(items).toHaveLength(1)
     }
@@ -70,7 +70,7 @@ describe('user scenario', function () {
   })
   it('유저 글 및 댓글 보기', async done => {
     const user = await yiguana.login({user: deptnoUserInput})
-    const {items} = await yiguana.posts({boardName, category: '', userId: user!.id})
+    const {items} = await yiguana.posts({board: boardName, category: '', userId: user!.id})
     console.table(items)
     expect(items).toHaveLength(3)
     const [post] = items

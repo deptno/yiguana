@@ -1,49 +1,73 @@
-import {User} from './user'
+import {Member, User} from './user'
+import {YiguanaObject} from './yiguana-object'
+import {EYiguanaEntity} from './enum'
+import {ValidationError} from './error'
 
-export function createPost(post: PostInput): Post {
-  const {title, author, content, category, board, ip} = post
-  const {id: userId, password, ...authorProps} = author
-  const hasImage = regexpHasImage.test(content)
+export class YiguanaPostListItem extends YiguanaObject {
+  private userId: string
 
-  return {
-    content,
-    title,
-    password,
-    userId,
-    board,
-    category,
-    ip,
-    hasImage,
-    views: 0,
-    likes: 0,
-    comments: 0,
-    createdAt: new Date().toISOString(),
-    author: authorProps,
+  constructor(private data: PostListItem) {
+    super(EYiguanaEntity.Post)
+
   }
 }
-const regexpHasImage = /(?:!\[(.*?)\]\((.*?)\))/
+
+export class YiguanaPost extends YiguanaObject {
+  public rId: string = this.data.ip
+  public rType: EYiguanaEntity | undefined
+  public views: number
+  public likes: number
+  public comments: number
+  public createdAt: string
+  public hasImage?: boolean
+  public order: string
+  public userId: string
+
+  constructor(private data: Post) {
+    super(EYiguanaEntity.Post)
+    this.validate()
+
+    this.setOrderKey()
+    this.setUserId()
+  }
+
+  protected validate() {
+    const {author, password} = this.data
+
+    if (!('id' in author) && !password) {
+      throw new ValidationError('회원이 아닌 경우라면 반드시 `password` 가 제공되어야 한다.')
+    }
+  }
+
+  private setOrderKey(): void {
+    if (!this.order) {
+      const {board, category, createdAt} = this.data
+      const dtCreatedAt = new Date(this.data.createdAt)
+        .toISOString()
+        .slice(0, 16)
+
+      this.order = [board, category, dtCreatedAt].join('#')
+    }
+  }
+
+  private setUserId(): void {
+    if (!this.userId) {
+      if ('id' in this.data.author) {
+        const user = this.data.author as Member
+        this.userId = user.id
+      }
+    }
+  }
+}
 
 export type Post = {
   title: string
   content: string
-  userId: User['id']
-  author: Pick<User, 'name'|'thumbnail'>
   board: string
-  category: string
   ip: string
-  views: number
-  likes: number
-  comments: number
+  author: User
   createdAt: string
-  hasImage?: boolean
+  category?: string
   password?: string
 }
-export type PostInput = {
-  title: string
-  content: string
-  board: string
-  category: string
-  ip: string
-  author: Pick<User, 'id'|'name'|'thumbnail'|'password'>
-  password?: string
-}
+export type PostListItem = Exclude<YiguanaPost, 'title'>

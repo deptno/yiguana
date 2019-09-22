@@ -1,25 +1,28 @@
-import {UserInput} from './user'
-import {CommentInput} from './comment'
+import {User} from './user'
+import {Comment} from './comment'
+import {YiguanaObject} from './yiguana-object'
+import {ValidationError} from './error'
+import {EYiguanaEntity} from './enum'
 
-export function createCommentReply(params: CommentReplyInput): CommentReply|undefined {
-  const {postId, comment, commentId, mention} = params
-
-  if (mention) {
-    // todo 언급된 유저 처리
+export class YiguanaCommentReply extends YiguanaObject {
+  constructor(private data: CommentReply) {
+    super(EYiguanaEntity.Comment)
   }
-  return {
-    ...params,
+
+  validate() {
+    const {comment} = this.data
+    if (comment.length > MAX_CONTENT_LENGTH) {
+      throw new ValidationError(`comment length(${comment.length}) > ${MAX_CONTENT_LENGTH}`)
+    }
   }
 }
-const COMMENT_MAX_LENGTH = 300
+const MAX_CONTENT_LENGTH = 200
 
-export type CommentReply = CommentReplyInput & {
-}
-export type CommentReplyInput = Omit<CommentInput, 'priority'> & {
+export type CommentReply = Comment & {
   commentId: string
   mention?: Mention
 }
 type Mention = {
   userId: string
-  user: UserInput
+  user: User
 }

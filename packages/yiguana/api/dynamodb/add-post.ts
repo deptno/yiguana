@@ -13,7 +13,7 @@ export async function addPost(operator: CreateApiInput, params: AddPostInput) {
 
   const id = createIdKey()
   const order = createPostOrderKey({
-    boardName: board,
+    board: board,
     category : ddbPost.category,
   })
   const range = createRangeKey(EType.Post)

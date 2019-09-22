@@ -16,7 +16,7 @@ describe('yiguana client comment', function () {
   let postDoc: PostDocument
   beforeAll(async done => {
     yiguana = new Yiguana({tableName, client: ddbClient})
-    const {items} = await yiguana.board.posts({boardName})
+    const {items} = await yiguana.board.posts({board: boardName})
     expect(items).toHaveLength(0)
     const post = yiguana.post.create(muckbangPost)
     postDoc = (await yiguana.board.addPost({boardName, post}))!
@@ -25,14 +25,14 @@ describe('yiguana client comment', function () {
     done()
   })
   afterAll(async done => {
-    const {items} = await yiguana.board.posts({boardName})
+    const {items} = await yiguana.board.posts({board: boardName})
     console.log(`글 삭제 ${items.length}`)
     await Promise.all(items.map(item => yiguana.board.removePost({id: item.id})))
     done()
   })
 
   it('comments add remove', async done => {
-    const posts = await yiguana.board.posts({boardName})
+    const posts = await yiguana.board.posts({board: boardName})
     table('글 목록 보기', posts.items)
     expect(posts.items).toHaveLength(2)
     const comments = await yiguana.post.comments({postId: postDoc.id})
@@ -69,7 +69,7 @@ describe('yiguana client comment', function () {
       console.log('덧글 작성')
     }
     {
-      const posts = await yiguana.board.posts({boardName})
+      const posts = await yiguana.board.posts({board: boardName})
       table('글 목록 보기', posts.items)
     }
     {

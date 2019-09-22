@@ -26,8 +26,10 @@
     "@deptno/dynamodb": "0.0.10",
     "@deptno/s3": "0.0.4",
     "@types/node": "^10.14.8",
+    "date-fns": "^2.2.1",
     "dynamodb-data-types": "^3.0.1",
-    "ramda": "^0.26.1"
+    "ramda": "^0.26.1",
+    "short-uuid": "^3.1.1"
   },
   "devDependencies": {
     "@babel/preset-env": "^7.4.5",
@@ -60,8 +62,7 @@
     "testEnvironment": "node",
     "testMatch": [
       "**/?(*.)(spec|test).ts?(x)",
-      "__tests__/scenario/**/*.ts?(x)",
-      "__tests__/unit/**/*.ts?(x)"
+      "__tests__/**/*.ts?(x)"
     ],
     "globals": {
       "TZ": "utc",

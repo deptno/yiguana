@@ -1,5 +1,3 @@
-import {DdbTableIndex} from '../interface/dynamodb-index'
-
 export class CommentReply {
   content: string
   title: string

@@ -1,20 +1,20 @@
 import {EPriority} from '../../../entity/comment'
 
 export function createPostOrderKey(key: OrderKey) {
-  const {boardName, category = ''} = key
+  const {board, category = ''} = key
   const date = new Date().toISOString()
 
-  return [boardName, category, date].join('#')
+  return [board, category, date].join('#')
 }
 export function stringifyOrderKey(key: OrderKey) {
-  const {boardName, category = ''} = key
-  return [boardName, category].join('#')
+  const {board, category = ''} = key
+  return [board, category].join('#')
 }
 export function parseOrderKey(key: string): OrderKey {
   return {} as OrderKey
 }
 type OrderKey = {
-  boardName: string
+  board: string
   category?: string
 }
 

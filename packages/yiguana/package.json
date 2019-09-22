@@ -15,5 +15,14 @@
     "aws-sdk": "^2.480.0"
   },
   "author": "deptno@gmail.com",
-  "license": "ISC"
+  "license": "ISC",
+  "jest": {
+    "bail": true,
+    "preset": "ts-jest",
+    "testEnvironment": "node",
+    "testMatch": [
+      "**/?(*.)(spec|test).ts?(x)",
+      "__tests__/**/*.ts?(x)"
+    ]
+  }
 }

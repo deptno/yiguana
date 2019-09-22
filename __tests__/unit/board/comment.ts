@@ -17,7 +17,7 @@ describe('comment', function () {
   let postDoc: PostDocument
   beforeAll(async done => {
     yiguana = createYiguana({tableName, client})
-    const {items} = await yiguana.posts({boardName})
+    const {items} = await yiguana.posts({board: boardName})
     expect(items).toHaveLength(0)
     const post = createPost(muckbangPost)
     postDoc = (await yiguana.addPost({boardName, post}))!
@@ -26,14 +26,14 @@ describe('comment', function () {
     done()
   })
   afterAll(async done => {
-    const {items} = await yiguana.posts({boardName})
+    const {items} = await yiguana.posts({board: boardName})
     console.log(`글 삭제 ${items.length}`)
     await Promise.all(items.map(item => yiguana.removePost({id: item.id})))
     done()
   })
 
   it('comments add remove', async done => {
-    const posts = await yiguana.posts({boardName})
+    const posts = await yiguana.posts({board: boardName})
     table('글 목록 보기', posts.items)
     expect(posts.items).toHaveLength(2)
     const comments = await yiguana.comments({postId: postDoc.id})
@@ -74,7 +74,7 @@ describe('comment', function () {
       console.log('덧글 작성')
     }
     {
-      const posts = await yiguana.posts({boardName})
+      const posts = await yiguana.posts({board: boardName})
       table('글 목록 보기', posts.items)
     }
     {
