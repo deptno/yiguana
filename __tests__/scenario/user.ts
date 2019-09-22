@@ -1,5 +1,5 @@
 import {createYiguana} from '../../packages/yiguana'
-import {ddbClient as client, tableName} from '../env'
+import {ddbClient, tableName, s3Client, bucketName} from '../env'
 import {deptnoUserInput} from '../data/user'
 import {UserDocument} from '../../packages/yiguana/api/dynamodb/common'
 import {createPost} from '../../packages/yiguana/entity/post'
@@ -10,10 +10,14 @@ jest.unmock('aws-sdk')
 
 describe('user scenario', function () {
   const boardName = 'ent'
-  let yiguana: ReturnType<typeof createYiguana>
+  const yiguana = createYiguana({
+    tableName,
+    ddbClient,
+    s3Client,
+    bucketName
+  })
   let user: UserDocument | undefined
   beforeAll(async done => {
-    yiguana = createYiguana({tableName, client})
     user = await yiguana.login({user: deptnoUserInput})
     expect(user).toBeTruthy()
     expect(user!.login).toBe(1)

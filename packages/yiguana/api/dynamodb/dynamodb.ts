@@ -13,27 +13,50 @@ import {commentPost, CommentPostInput} from './comment-post'
 import {replyComment, ReplyCommentInput} from './reply-comment'
 import {commentReplies, CommentRepliesInput} from './comment-replies'
 import {postsByUserId, PostsByUserIdInput} from './post-by-user-id'
+import {PaginationResult} from '@deptno/dynamodb/dist/api/query'
 
-export function createApi(operator: CreateApiInput) {
+export function createApi<P>(operator: CreateApiInput): YiguanaApi<P> {
   return {
-    // board
-    posts: posts.bind(null, operator) as (params: PostsInput) => ReturnType<typeof posts>,
-    postsByUserId: postsByUserId.bind(null, operator) as (params: PostsByUserIdInput) => ReturnType<typeof postsByUserId>,
-    addPost: addPost.bind(null, operator) as (params: AddPostInput) => ReturnType<typeof addPost>,
-    removePost: removePost.bind(null, operator) as (params: RemovePostInput) => ReturnType<typeof removePost>,
-    // post
-    viewPost: viewPost.bind(null, operator) as (params: ViewPostInput) => ReturnType<typeof viewPost>,
-    likePost: likePost.bind(null, operator) as (params: LikePostInput) => ReturnType<typeof likePost>,
-    commentPost: commentPost.bind(null, operator) as (params: CommentPostInput) => ReturnType<typeof commentPost>,
-    // comment
-    comments: comments.bind(null, operator) as (params: CommentsInput) => ReturnType<typeof comments>,
-    addComment: addComment.bind(null, operator) as (params: AddCommentInput) => ReturnType<typeof addComment>,
-    replyComment: replyComment.bind(null, operator) as (params: ReplyCommentInput) => ReturnType<typeof replyComment>,
-    // comment replies
-    commentReplies: commentReplies.bind(null, operator) as (params: CommentRepliesInput) => ReturnType<typeof commentReplies>,
-    addCommentReply: addCommentReply.bind(null, operator) as (params: AddCommentReplyInput) => ReturnType<typeof addCommentReply>,
-    removeComment: removeComment.bind(null, operator) as (params: RemoveCommentInput) => ReturnType<typeof removeComment>,
-    // common
-    remove: remove.bind(null, operator) as (params: RemoveInput) => ReturnType<typeof remove>,
+    posts: posts.bind(null, operator),
+    postsByUserId: postsByUserId.bind(null, operator),
+    addPost: addPost.bind(null, operator),
+    removePost: removePost.bind(null, operator),
+    viewPost: viewPost.bind(null, operator),
+    likePost: likePost.bind(null, operator),
+    commentPost: commentPost.bind(null, operator),
+    comments: comments.bind(null, operator),
+    addComment: addComment.bind(null, operator),
+    replyComment: replyComment.bind(null, operator),
+    commentReplies: commentReplies.bind(null, operator),
+    addCommentReply: addCommentReply.bind(null, operator),
+    removeComment: removeComment.bind(null, operator),
+    remove: remove.bind(null, operator),
   }
 }
+
+interface YiguanaApi<P> {
+  // board
+  posts(params: PostsInput): Promise<PaginationResult<P>>
+  postsByUserId(params: PostsByUserIdInput): ReturnType<typeof postsByUserId>
+  addPost(params: AddPostInput): ReturnType<typeof addPost>
+  removePost(params: RemovePostInput): ReturnType<typeof removePost>
+
+  // post
+  viewPost(params: ViewPostInput): ReturnType<typeof viewPost>
+  likePost(params: LikePostInput): ReturnType<typeof likePost>
+  commentPost(params: CommentPostInput): ReturnType<typeof commentPost>
+
+  // comment
+  comments(params: CommentsInput): ReturnType<typeof comments>
+  addComment(params: AddCommentInput): ReturnType<typeof addComment>
+  replyComment(params: ReplyCommentInput): ReturnType<typeof replyComment>
+
+  // comment replies
+  commentReplies(params: CommentRepliesInput): ReturnType<typeof commentReplies>
+  addCommentReply(params: AddCommentReplyInput): ReturnType<typeof addCommentReply>
+  removeComment(params: RemoveCommentInput): ReturnType<typeof removeComment>
+
+  // common
+  remove(params: RemoveInput): ReturnType<typeof remove>
+}
+
