@@ -1,17 +1,19 @@
 import {CreateApiInput, EType} from './common'
-import {get} from '../../../dynamodb/common'
+import {PostsInput} from './posts'
 
-export function post(params: CreateApiInput & GetPostInput) {
-  const {tableName, id, dynamodb} = params
-  return get(dynamodb, {
+export function post(operator: CreateApiInput, params: PostInput) {
+  const {dynamodb, tableName} = operator
+  const {id} = params
+
+  return dynamodb.get({
     TableName: tableName,
     Key: {
-      id,
-      range: EType.Post
+      hk: id,
+      rk: EType.Post
     }
   })
 }
 
-export type GetPostInput = {
-  id: string
+export type PostInput = {
+  id,
 }

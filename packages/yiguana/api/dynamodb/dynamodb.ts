@@ -14,9 +14,11 @@ import {replyComment, ReplyCommentInput} from './reply-comment'
 import {commentReplies, CommentRepliesInput} from './comment-replies'
 import {postsByUserId, PostsByUserIdInput} from './post-by-user-id'
 import {PaginationResult} from '@deptno/dynamodb/dist/api/query'
+import {post, PostInput} from './post'
 
 export function createApi<P>(operator: CreateApiInput): YiguanaApi<P> {
   return {
+    post: post.bind(null, operator),
     posts: posts.bind(null, operator),
     postsByUserId: postsByUserId.bind(null, operator),
     addPost: addPost.bind(null, operator),
@@ -34,8 +36,9 @@ export function createApi<P>(operator: CreateApiInput): YiguanaApi<P> {
   }
 }
 
-interface YiguanaApi<P> {
+export interface YiguanaApi<P> {
   // board
+  post(params: PostInput): ReturnType<typeof post>
   posts(params: PostsInput): Promise<PaginationResult<P>>
   postsByUserId(params: PostsByUserIdInput): ReturnType<typeof postsByUserId>
   addPost(params: AddPostInput): ReturnType<typeof addPost>

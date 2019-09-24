@@ -1,29 +1,14 @@
-import {createApi} from './api/dynamodb/dynamodb'
-import {YiguanaApi} from './api'
-import {createDynamoDB} from '@deptno/dynamodb'
-import {createS3} from '@deptno/s3'
-import {DocumentClient} from 'aws-sdk/clients/dynamodb'
-import {S3} from 'aws-sdk'
+import {YiguanaApi} from './api/dynamodb/dynamodb'
+import * as R from 'ramda'
 
-export function createYiguana(params: CreateInput) {
-  const {ddbClient, s3Client, bucketName, tableName} = params
-  const dynamodb = createDynamoDB(ddbClient)
-  const s3 = createS3(s3Client)
+export {createApi} from './api/dynamodb/dynamodb'
+export class Yiguana<T> {
+  public constructor(private api: YiguanaApi<T>) {}
 
-  return createApi({
-    dynamodb,
-    tableName,
-    s3,
-    bucketName,
-  })
+  public board = R.pick(['post', 'posts', 'addPost', 'removePost'], this.api)
+  public post = R.pick(['post', 'posts', 'addPost', 'removePost'], this.api)
+  public comment = R.pick(['post', 'posts', 'addPost', 'removePost'], this.api)
+  public commentReply = R.pick(['post', 'posts', 'addPost', 'removePost'], this.api)
 }
 
-export class Yiguana extends YiguanaApi {
-}
 
-type CreateInput = {
-  ddbClient: DocumentClient
-  s3Client: S3
-  tableName: string
-  bucketName: string
-}
