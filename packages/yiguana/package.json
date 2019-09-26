@@ -32,5 +32,9 @@
       "**/?(*.)(spec|test).ts?(x)",
       "__tests__/**/*.ts?(x)"
     ]
+  },
+  "devDependencies": {
+    "@shelf/jest-dynamodb": "^1.4.1",
+    "aws-sdk": "^2.536.0"
   }
 }

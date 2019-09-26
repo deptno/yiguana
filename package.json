@@ -52,7 +52,7 @@
   },
   "jest": {
     "bail": true,
-    "preset": "ts-jest",
+    "preset": "./jest.config.js",
     "testEnvironment": "node",
     "testMatch": [
       "**/?(*.)(spec|test).ts?(x)",

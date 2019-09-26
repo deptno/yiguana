@@ -1,7 +1,7 @@
 module.exports = {
   tables: [
     {
-      TableName: `yiguana`,
+      TableName: 'yiguana',
       KeySchema: [{
         AttributeName: 'id',
         KeyType: 'HASH'
