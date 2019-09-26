@@ -11,6 +11,12 @@
   "keywords": [
     "yiguana"
   ],
+  "dependencies": {
+    "date-fns": "^2.2.1",
+    "dynamodb-data-types": "^3.0.1",
+    "ramda": "^0.26.1",
+    "short-uuid": "^3.1.1"
+  },
   "peerDependencies": {
     "aws-sdk": "^2.480.0"
   },
