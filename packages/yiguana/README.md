@@ -1,5 +1,7 @@
 # Yiguana
 
+![](https://github.com/deptno/yiguana/workflows/pr/badge.svg)
+
 Yiguana-sdk,
 
 @private, Do not use this.
