@@ -3,14 +3,14 @@ import {CreateApiInput, PostDocument} from './common'
 export async function likePost(operator: CreateApiInput, params: LikePostInput) {
   const {dynamodb, tableName} = operator
   const {post} = params
-  const {id, range} = post
+  const {hk, rk} = post
   const response = await dynamodb.update({
     ReturnConsumedCapacity   : 'TOTAL',
     ReturnValues             : 'ALL_NEW',
     TableName                : tableName,
     Key                      : {
-      id,
-      range
+      hk,
+      rk
     },
     UpdateExpression         : 'SET #v = #v + :v',
     ExpressionAttributeNames : {

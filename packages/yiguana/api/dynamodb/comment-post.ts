@@ -19,12 +19,12 @@ export async function commentPost(operator: CreateApiInput, params: CommentPostI
 export function commentPostParams(operator: CreateApiInput, params: CommentPostInput): DocumentClient.Update {
   const {tableName} = operator
   const {post} = params
-  const {id, range} = post
+  const {hk, rk} = post
   return {
     TableName                : tableName,
     Key                      : {
-      id,
-      range
+      hk,
+      rk,
     },
     UpdateExpression         : 'SET #v = #v + :v',
     ExpressionAttributeNames : {
@@ -37,5 +37,5 @@ export function commentPostParams(operator: CreateApiInput, params: CommentPostI
 
 }
 export type CommentPostInput = {
-  post: Pick<PostDocument, 'id' | 'range'>
+  post: Pick<PostDocument, 'hk' | 'rk'>
 }

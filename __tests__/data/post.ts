@@ -1,47 +1,58 @@
-import {PostInput} from '../../packages/yiguana/entity/post'
-import {deptnoUserInput} from './user'
+import {Post} from '../../packages/yiguana/entity'
+//import {Post} from '../../packages/yiguana/api/dynamodb/post'
 
-export const muckbangPost: PostInput = {
-  title   : 'mukbang post',
-  content : `content`,
+export const muckbangPost: Post = {
+  board: 'ent',
+  title: 'mukbang post',
+  contentUrl: 's3://uri',
   category: 'mukbang',
-  author  : {
-    id       : 'userId',
-    name     : 'userName',
-    thumbnail: 'https://thumb'
-  }
+  createdAt: '2019-09-27T15:27:35.098Z',
+  ip: '0.0.0.0',
+  author: {
+    id: 'userId',
+    name: 'userName',
+    thumbnail: 'https://thumb',
+  },
 }
-export const musicPost: PostInput = {
-  title   : 'music post',
-  content : `content`,
+export const musicPost: Post = {
+  board: 'ent',
+  title: 'music post',
+  contentUrl: 's3://uri',
   category: 'music',
-  author  : {
-    id       : 'userId',
-    name     : 'userName',
-    thumbnail: 'https://thumb'
-  }
+  createdAt: '2019-09-27T15:27:35.098Z',
+  ip: '0.0.0.0',
+  author: {
+    id: 'userId',
+    name: 'userName',
+    thumbnail: 'https://thumb',
+  },
 }
-export const gamePost: PostInput = {
-  title   : 'game post',
-  content : `content`,
+export const gamePost: Post = {
+  board: 'ent',
+  title: 'game post',
+  contentUrl: 's3://uri',
   category: 'game',
-  author  : {
-    id       : 'userId',
-    name     : 'Bonggyun Lee',
-    thumbnail: 'https://thumb'
-  }
+  createdAt: '2019-09-27T15:27:35.098Z',
+  ip: '0.0.0.0',
+  author: {
+    id: 'userId',
+    name: 'Bonggyun Lee',
+    thumbnail: 'https://thumb',
+  },
 }
-export const deptnoGamePost: PostInput = {
+export const deptnoGamePost: Post = {
   ...gamePost,
-  author  : {
-    ...deptnoUserInput,
-    thumbnail: 'https://thumb'
-  }
+  author: {
+    id: 'deptno',
+    name: 'Bonggyun Lee',
+    thumbnail: 'https://thumb',
+  },
 }
-export const deptnoMusicPost: PostInput = {
+export const deptnoMusicPost: Post = {
   ...musicPost,
-  author  : {
-    ...deptnoUserInput,
-    thumbnail: 'https://thumb'
-  }
+  author: {
+    id: 'deptno',
+    name: 'Bonggyun Lee',
+    thumbnail: 'https://thumb',
+  },
 }

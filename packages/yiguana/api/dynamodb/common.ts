@@ -20,13 +20,13 @@ export enum EIndexName {
   CommentCreatedAtIndex = 'commentId-createdAt-index'
 }
 export type TableIndex = {
-  id: string // hash
-  range: string // range
+  hk: string // hash
+  rk: string // range
   _type: EType
 }
 export type CategoryIndex = {
   category: string // hash
-  range: EType.Post | string
+  rk: EType.Post | string
   order: string // range
 } & TableIndex
 export type UserIndex = {
@@ -35,12 +35,12 @@ export type UserIndex = {
 } & TableIndex
 export type PostIndex = {
   postId: string // hash
-  range: EType.Comment | string
+  rk: EType.Comment | string
   order: string // range
 } & TableIndex
 export type CommentIndex = {
   postId: string // hash
-  range: EType.CommentReply | string
+  rk: EType.CommentReply | string
   createdAt: string // range
 } & TableIndex
 
@@ -48,9 +48,7 @@ export type DdbCategoryDocument<T> = T & CategoryIndex
 export type DdbUserDocument<T> = T & UserIndex
 export type DdbCommentDocument<T> = T & PostIndex
 export type DdbCommentReplyDocument<T> = T & CommentIndex
-export type PostDocument = DdbCategoryDocument<Omit<Post, 'content'> & {
-  s3: string
-}>
+export type PostDocument = DdbCategoryDocument<Post>
 export type UserDocument = DdbUserDocument<User>
 export type CommentDocument = DdbCommentDocument<Comment>
 export type CommentReplyDocument = DdbCommentReplyDocument<CommentReply>

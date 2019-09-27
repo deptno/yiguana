@@ -3,14 +3,14 @@ import {CreateApiInput, PostDocument} from './common'
 export async function removePost(operator: CreateApiInput, params: RemovePostInput) {
   const {dynamodb, tableName} = operator
   const {id} = params
-  const range = 'post'
+  const rk = 'post'
   // fixme update 삭제
   const response = await dynamodb.del({
     ReturnConsumedCapacity: 'TOTAL',
     TableName             : tableName,
     Key                   : {
       id,
-      range
+      rk
     }
   })
   if (response) {
@@ -22,5 +22,5 @@ export async function removePost(operator: CreateApiInput, params: RemovePostInp
   return Boolean(response)
 }
 export type RemovePostInput = {
-  id: PostDocument['id']
+  id: PostDocument['hk']
 }

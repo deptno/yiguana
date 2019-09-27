@@ -2,12 +2,12 @@ import {CommentDocument, CreateApiInput, PostDocument} from './common'
 
 export async function replyComment(operator: CreateApiInput, params: ReplyCommentInput) {
   const {dynamodb, tableName} = operator
-  const {id, range} = params.comment
+  const {hk, rk} = params.comment
   const response = await dynamodb.update({
     TableName                : tableName,
     Key                      : {
-      id,
-      range
+      hk,
+      rk
     },
     UpdateExpression         : 'SET #v = #v + :v',
     ExpressionAttributeNames : {
@@ -29,5 +29,5 @@ export async function replyComment(operator: CreateApiInput, params: ReplyCommen
 }
 
 export type ReplyCommentInput = {
-  comment: Pick<CommentDocument, 'id'|'range'>
+  comment: Pick<CommentDocument, 'hk'|'rk'>
 }

@@ -4,7 +4,6 @@
 
 import {ddbClient as client, tableName} from '../env'
 import {createYiguana} from '../../packages/yiguana'
-import {deptnoUserInput} from '../data/user'
 import {UserDocument} from '../../packages/yiguana/api/dynamodb/common'
 
 jest.unmock('aws-sdk')
@@ -14,7 +13,10 @@ describe('user', function () {
   let user: UserDocument|undefined
   beforeAll(async done => {
     yiguana = createYiguana({tableName, client})
-    user = await yiguana.login({user: deptnoUserInput})
+    user = await yiguana.login({user: {
+        id: 'deptno',
+        name: 'Bonggyun Lee',
+      }})
     expect(user).toBeTruthy()
     expect(user!.login).toBe(1)
     done()
@@ -27,7 +29,10 @@ describe('user', function () {
   })
 
   it('로그인', async done => {
-    const user = await yiguana.login({user: deptnoUserInput})
+    const user = await yiguana.login({user: {
+        id: 'deptno',
+        name: 'Bonggyun Lee',
+      }})
     expect(user!.login).toBe(2)
     done()
   })

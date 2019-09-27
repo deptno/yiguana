@@ -1,5 +1,5 @@
-import {v4} from 'uuid'
+import {generate} from 'short-uuid'
 
-export function createIdKey() {
-  return v4()
+export function createHashKey() {
+  return generate()
 }

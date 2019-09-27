@@ -4,7 +4,6 @@ import {ddbClient, tableName} from '../env'
 import {PostDocument} from '../../packages/yiguana/api/dynamodb/common'
 import {muckbangPost} from '../data/post'
 import {table} from '../helper/table'
-import {deptnoUserInput} from '../data/user'
 import {EPriority} from '../../packages/yiguana/entity/comment'
 
 jest.unmock('aws-sdk')
@@ -35,12 +34,15 @@ describe('yiguana client comment', function () {
     const posts = await yiguana.board.posts({board: boardName})
     table('글 목록 보기', posts.items)
     expect(posts.items).toHaveLength(2)
-    const comments = await yiguana.post.comments({postId: postDoc.id})
+    const comments = await yiguana.post.comments({postId: postDoc.hk})
     expect(comments.items).toHaveLength(0)
     const comment = yiguana.comment.create({
-      postId: postDoc.id,
+      postId: postDoc.hk,
       userId: postDoc.userId,
-      user: deptnoUserInput,
+      user: {
+        id: 'deptno',
+        name: 'Bonggyun Lee',
+      },
       comment: 'parent',
       priority: EPriority.Normal,
       ip: '255.255.255.255'
@@ -51,8 +53,8 @@ describe('yiguana client comment', function () {
       console.log('댓글 작성')
     }
     {
-      const comments = await yiguana.post.comments({postId: postDoc.id})
-      table(`${postDoc.id} 댓글 보기`, comments.items)
+      const comments = await yiguana.post.comments({postId: postDoc.hk})
+      table(`${postDoc.hk} 댓글 보기`, comments.items)
       expect(comments.items).toHaveLength(1)
     }
     // comment +2
@@ -73,8 +75,8 @@ describe('yiguana client comment', function () {
       table('글 목록 보기', posts.items)
     }
     {
-      const comments = await yiguana.post.comments({postId: postDoc.id})
-      table(`${postDoc.id} 댓글 보기`, comments.items)
+      const comments = await yiguana.post.comments({postId: postDoc.hk})
+      table(`${postDoc.hk} 댓글 보기`, comments.items)
       expect(comments.items).toHaveLength(2)
       const commentReplies = await yiguana.comment.commentReplies({commentId: commentDoc2!.id})
       table(`${commentDoc2!.id} 댓글의 덧글 보기`,commentReplies.items)

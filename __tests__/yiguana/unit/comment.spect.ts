@@ -1,4 +1,4 @@
-import {YiguanaComment} from '../../entity'
+import {YiguanaComment} from '../../../packages/yiguana/entity'
 
 describe('yiguana', function () {
   it('YiguanaComment 생성', function () {

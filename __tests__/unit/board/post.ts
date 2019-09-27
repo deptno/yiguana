@@ -5,8 +5,8 @@ import {gamePost, muckbangPost, musicPost} from '../../data/post'
 
 jest.unmock('aws-sdk')
 
-const boardName = 'ent'
 describe('board', function () {
+  const boardName = 'ent'
   let yiguana: ReturnType<typeof createYiguana>
   beforeAll(async done => {
     yiguana = createYiguana({tableName, client})

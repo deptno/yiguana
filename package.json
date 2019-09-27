@@ -8,6 +8,9 @@
     "yiguana": "packages/yiguana",
     "serverless": "serverless"
   },
+  "workspaces": [
+    "packages/*"
+  ],
   "scripts": {
     "dev.sls.deploy": "sls deploy --stage dev",
     "dev.sls.deploy.stream": "sls deploy --stage dev -f stream",
@@ -26,6 +29,8 @@
   "devDependencies": {
     "@babel/preset-env": "^7.4.5",
     "@babel/preset-typescript": "^7.3.3",
+    "@deptno/dynamodb": "0.0.12",
+    "@deptno/s3": "0.0.4",
     "@shelf/jest-dynamodb": "^1.4.1",
     "@types/aws-lambda": "^8.10.26",
     "@types/jest": "^24.0.13",

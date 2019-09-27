@@ -1,6 +1,5 @@
 import {createYiguana} from '../../packages/yiguana'
-import {ddbClient, tableName, s3Client, bucketName} from '../env'
-import {deptnoUserInput} from '../data/user'
+import {bucketName, ddbClient, s3Client, tableName} from '../env'
 import {UserDocument} from '../../packages/yiguana/api/dynamodb/common'
 import {createPost} from '../../packages/yiguana/entity/post'
 import {deptnoGamePost, deptnoMusicPost, gamePost, muckbangPost, musicPost} from '../data/post'
@@ -18,7 +17,10 @@ describe('user scenario', function () {
   })
   let user: UserDocument | undefined
   beforeAll(async done => {
-    user = await yiguana.login({user: deptnoUserInput})
+    user = await yiguana.login({user: {
+        id: 'deptno',
+        name: 'Bonggyun Lee',
+      }})
     expect(user).toBeTruthy()
     expect(user!.login).toBe(1)
     const posts = [
@@ -43,19 +45,19 @@ describe('user scenario', function () {
   })
 
   it('유저 글 목록 보기', async done => {
-    const {items} = await yiguana.posts({board: boardName, category: '', userId: user!.id})
+    const {items} = await yiguana.posts({board: boardName, category: '', userId: user!.hk})
     console.table(items)
     expect(items).toHaveLength(3)
     done()
   })
   it('유저 글 목록 카테고리 별 보기', async done => {
     {
-      const {items} = await yiguana.posts({board: boardName, category: 'game', userId: user!.id})
+      const {items} = await yiguana.posts({board: boardName, category: 'game', userId: user!.hk})
       console.table(items)
       expect(items).toHaveLength(2)
     }
     {
-      const {items} = await yiguana.posts({board: boardName, category: 'music', userId: user!.id})
+      const {items} = await yiguana.posts({board: boardName, category: 'music', userId: user!.hk})
       console.table(items)
       expect(items).toHaveLength(1)
     }
@@ -69,7 +71,10 @@ describe('user scenario', function () {
     }
   })
   it('유저 글 및 댓글 보기', async done => {
-    const user = await yiguana.login({user: deptnoUserInput})
+    const user = await yiguana.login({user: {
+        id: 'deptno',
+        name: 'Bonggyun Lee',
+      }})
     const {items} = await yiguana.posts({board: boardName, category: '', userId: user!.id})
     console.table(items)
     expect(items).toHaveLength(3)

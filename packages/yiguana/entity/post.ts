@@ -13,7 +13,7 @@ export class YiguanaPostListItem extends YiguanaObject {
 }
 
 export class YiguanaPost extends YiguanaObject {
-  public rId: string = this.data.ip
+  public rId: string = this.data.ip!
   public rType: EYiguanaEntity | undefined
   public views: number
   public likes: number
@@ -42,7 +42,7 @@ export class YiguanaPost extends YiguanaObject {
   private setOrderKey(): void {
     if (!this.order) {
       const {board, category, createdAt} = this.data
-      const dtCreatedAt = new Date(this.data.createdAt)
+      const dtCreatedAt = new Date(createdAt!)
         .toISOString()
         .slice(0, 16)
 
@@ -62,12 +62,12 @@ export class YiguanaPost extends YiguanaObject {
 
 export type Post = {
   title: string
-  content: string
-  board: string
-  ip: string
   author: User
   createdAt: string
-  category?: string
+  category: string
+  board: string
+  ip: string
   password?: string
+  contentUrl: string
 }
 export type PostListItem = Exclude<YiguanaPost, 'title'>
