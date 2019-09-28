@@ -24,6 +24,7 @@ describe('레거시', function () {
       gamePost,
       musicPost,
     ]
+    // todo contentUrl 을 만들면서 hasImage 에 대한 처리가 필요함
     const postDocs = await Promise.all(posts.map(post => api.addPost({post})))
     console.table(postDocs)
     done()
@@ -32,12 +33,20 @@ describe('레거시', function () {
     done()
   })
 
-  it('get', done => {
+  it('posts', done => {
     api
       .posts({board: 'ent'})
       .then(res => {
         console.table(res.items)
         console.log(R.omit(['items'], res))
+        const [p1, p2, p3] = res.items as YiguanaPost[]
+        const {...rest} = muckbangPost
+        expect(p1).toHaveProperty('hk')
+        expect(p1).toHaveProperty('rk')
+        expect(p1['rk']).toEqual('post')
+        expect(p1).toContainEqual(rest)
+        expect(p2).toContainEqual(gamePost)
+        expect(p3).toContainEqual(muckbangPost)
       })
       .finally(done)
   })
