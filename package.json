@@ -67,5 +67,9 @@
       "TZ": "utc",
       "YIGUANA_ENCRYPTION_KEY": "dummy-encryption-key-24-length"
     }
+  },
+  "dependencies": {
+    "ramda": "^0.26.1",
+    "short-uuid": "^3.1.1"
   }
 }
