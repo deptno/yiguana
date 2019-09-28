@@ -1,7 +1,7 @@
-import {YiguanaPost} from '../../../packages/yiguana/entity'
+import {YiguanaPost} from '../../../packages/yiguana/entity/dynamodb'
 import {createYiguana} from '../../../packages/yiguana'
 import {ddbClient as client, tableName} from '../../env'
-import {createPost} from '../../../packages/yiguana/entity/post'
+import {createPost} from '../../../packages/yiguana/entity/dynamodb/post'
 import {gamePost, muckbangPost, musicPost} from '../../data/post'
 
 describe('yiguana', function () {

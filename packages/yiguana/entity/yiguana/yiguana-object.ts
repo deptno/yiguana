@@ -2,9 +2,8 @@ import {generate} from 'short-uuid'
 import {EYiguanaEntity} from './enum'
 
 export abstract class YiguanaObject {
-  private hk = generate()
-
-  protected constructor(private rk: EYiguanaEntity) {
+  public hk = generate()
+  protected constructor(public rk: EYiguanaEntity) {
 
   }
 

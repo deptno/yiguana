@@ -1,4 +1,4 @@
-import {Post} from '../../packages/yiguana/entity'
+import {Post} from '../../packages/yiguana/entity/dynamodb'
 //import {Post} from '../../packages/yiguana/api/dynamodb/post'
 
 export const muckbangPost: Post = {
@@ -19,7 +19,7 @@ export const musicPost: Post = {
   title: 'music post',
   contentUrl: 's3://uri',
   category: 'music',
-  createdAt: '2019-09-27T15:27:35.098Z',
+  createdAt: '2019-09-27T15:27:35.058Z',
   ip: '0.0.0.0',
   author: {
     id: 'userId',
@@ -32,7 +32,7 @@ export const gamePost: Post = {
   title: 'game post',
   contentUrl: 's3://uri',
   category: 'game',
-  createdAt: '2019-09-27T15:27:35.098Z',
+  createdAt: '2019-09-27T15:27:35.048Z',
   ip: '0.0.0.0',
   author: {
     id: 'userId',

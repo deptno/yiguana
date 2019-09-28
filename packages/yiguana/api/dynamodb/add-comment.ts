@@ -1,5 +1,5 @@
 import {CommentDocument, CreateApiInput, EType} from './common'
-import {Comment} from '../../entity/comment'
+import {Comment} from '../../entity/dynamodb/comment'
 import {createHashKey} from './key/id'
 import {createRangeKey} from './key/range'
 import {extractType} from './key/type'

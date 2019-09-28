@@ -2,19 +2,19 @@ import {CreateApiInput, EIndexName} from './common'
 
 export function posts(operator: CreateApiInput, params: PostsInput) {
   const {tableName, dynamodb} = operator
-  const {board, category, exclusiveStartKey} = params
+  const {category, exclusiveStartKey} = params
 
   return dynamodb.query({
     TableName: tableName,
     IndexName: EIndexName.BoardOrderIndex,
     KeyConditionExpression: '#h = :h and begins_with(#r, :r)',
     ExpressionAttributeNames: {
-      '#h': 'board',
+      '#h': 'rk',
       '#r': 'order',
     },
     ExpressionAttributeValues: {
-      ':h': board,
-      ':r': [board, category].join('#'),
+      ':h': 'post',
+      ':r': category,
     },
     ScanIndexForward: false,
     ReturnConsumedCapacity: 'TOTAL',
@@ -23,7 +23,6 @@ export function posts(operator: CreateApiInput, params: PostsInput) {
 }
 
 export type PostsInput = {
-  board: string
-  category?: string
+  category: string
   exclusiveStartKey?: Exclude<any, string | number>
 }

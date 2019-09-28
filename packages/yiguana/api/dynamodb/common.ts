@@ -1,8 +1,8 @@
-import {Post} from '../../entity/post'
-import {User} from '../../entity/user'
-import {Comment} from '../../entity/comment'
+import {Post} from '../../entity/dynamodb/post'
+import {User} from '../../entity/dynamodb/user'
+import {Comment} from '../../entity/dynamodb/comment'
 import {DocumentClient} from 'aws-sdk/clients/dynamodb'
-import {CommentReply} from '../../entity/comment-reply'
+import {CommentReply} from '../../entity/dynamodb/comment-reply'
 import {S3} from 'aws-sdk'
 import {createDynamoDB} from '@deptno/dynamodb'
 import {createS3} from '@deptno/s3'
@@ -22,7 +22,6 @@ export enum EIndexName {
 export type TableIndex = {
   hk: string // hash
   rk: string // range
-  _type: EType
 }
 export type CategoryIndex = {
   category: string // hash

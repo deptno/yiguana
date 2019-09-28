@@ -1,6 +1,6 @@
 import {createYiguana} from '../../../packages/yiguana'
 import {ddbClient as client, tableName} from '../../env'
-import {createPost} from '../../../packages/yiguana/entity/post'
+import {createPost} from '../../../packages/yiguana/entity/dynamodb/post'
 import {gamePost, muckbangPost, musicPost} from '../../data/post'
 
 jest.unmock('aws-sdk')

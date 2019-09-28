@@ -20,15 +20,12 @@ export class YiguanaPost extends YiguanaObject {
   public comments: number
   public createdAt: string
   public hasImage?: boolean
-  public order: string
-  public userId: string
+  public order: string = this.setOrderKey()
+  public userId: string = this.setUserId()
 
-  constructor(private data: Post) {
+  constructor(private data: Post, private content: Content) {
     super(EYiguanaEntity.Post)
     this.validate()
-
-    this.setOrderKey()
-    this.setUserId()
   }
 
   protected validate() {
@@ -39,24 +36,17 @@ export class YiguanaPost extends YiguanaObject {
     }
   }
 
-  private setOrderKey(): void {
-    if (!this.order) {
-      const {board, category, createdAt} = this.data
-      const dtCreatedAt = new Date(createdAt!)
-        .toISOString()
-        .slice(0, 16)
+  private setOrderKey(): string {
+    const {board, category, createdAt} = this.data
+    const dtCreatedAt = new Date(createdAt!)
+      .toISOString()
+      .slice(0, 16)
 
-      this.order = [board, category, dtCreatedAt].join('#')
-    }
+    return [board, category, dtCreatedAt].join('#')
   }
 
-  private setUserId(): void {
-    if (!this.userId) {
-      if ('id' in this.data.author) {
-        const user = this.data.author as Member
-        this.userId = user.id
-      }
-    }
+  private setUserId(): string {
+    return (this.data.author as Member).id
   }
 }
 
@@ -71,3 +61,7 @@ export type Post = {
   contentUrl: string
 }
 export type PostListItem = Exclude<YiguanaPost, 'title'>
+export type Content = {
+  location: string
+  hasImage: string
+}

@@ -3,10 +3,6 @@ module.exports = {
     {
       'AttributeDefinitions'  : [
         {
-          'AttributeName': 'board',
-          'AttributeType': 'S'
-        },
-        {
           'AttributeName': 'commentId',
           'AttributeType': 'S'
         },
@@ -75,7 +71,7 @@ module.exports = {
           'IndexName'            : 'board-order-index',
           'KeySchema'            : [
             {
-              'AttributeName': 'board',
+              'AttributeName': 'rk',
               'KeyType'      : 'HASH'
             },
             {

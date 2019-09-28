@@ -1,10 +1,10 @@
 import {createYiguana} from '../../../packages/yiguana'
 import {ddbClient as client, tableName} from '../../env'
-import {createPost} from '../../../packages/yiguana/entity/post'
+import {createPost} from '../../../packages/yiguana/entity/dynamodb/post'
 import {muckbangPost} from '../../data/post'
 import {PostDocument} from '../../../packages/yiguana/api/dynamodb/common'
-import {createComment, EPriority} from '../../../packages/yiguana/entity/comment'
-import {createCommentReply} from '../../../packages/yiguana/entity/comment-reply'
+import {createComment, EPriority} from '../../../packages/yiguana/entity/dynamodb/comment'
+import {createCommentReply} from '../../../packages/yiguana/entity/dynamodb/comment-reply'
 import {omit} from 'ramda'
 import {table} from '../../helper/table'
 

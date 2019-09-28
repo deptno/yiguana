@@ -1,9 +1,9 @@
 import {createYiguana} from '../../packages/yiguana'
 import {bucketName, ddbClient, s3Client, tableName} from '../env'
 import {UserDocument} from '../../packages/yiguana/api/dynamodb/common'
-import {createPost} from '../../packages/yiguana/entity/post'
+import {createPost} from '../../packages/yiguana/entity/dynamodb/post'
 import {deptnoGamePost, deptnoMusicPost, gamePost, muckbangPost, musicPost} from '../data/post'
-import {createComment, EPriority} from '../../packages/yiguana/entity/comment'
+import {createComment, EPriority} from '../../packages/yiguana/entity/dynamodb/comment'
 
 jest.unmock('aws-sdk')
 

@@ -4,7 +4,7 @@ import {ddbClient, tableName} from '../env'
 import {PostDocument} from '../../packages/yiguana/api/dynamodb/common'
 import {muckbangPost} from '../data/post'
 import {table} from '../helper/table'
-import {EPriority} from '../../packages/yiguana/entity/comment'
+import {EPriority} from '../../packages/yiguana/entity/dynamodb/comment'
 
 jest.unmock('aws-sdk')
 jest.setTimeout(10000)

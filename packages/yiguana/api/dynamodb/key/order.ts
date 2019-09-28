@@ -1,4 +1,4 @@
-import {EPriority} from '../../../entity/comment'
+import {EPriority} from '../../../entity/dynamodb/comment'
 
 export function createPostOrderKey(key: OrderKey) {
   const {board, category = ''} = key
