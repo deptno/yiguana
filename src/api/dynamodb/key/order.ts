@@ -1,21 +1,20 @@
-import {EPriority} from '../../../entity/dynamodb/comment'
+//import {EPriority} from '../../../entity/dynamodb/comment'
 
 export function createPostOrderKey(key: OrderKey) {
-  const {board, category = ''} = key
+  const {category = ''} = key
   const date = new Date().toISOString()
 
-  return [board, category, date].join('#')
+  return [category, date].join('#')
 }
 export function stringifyOrderKey(key: OrderKey) {
-  const {board, category = ''} = key
-  return [board, category].join('#')
+  const {category = ''} = key
+  return [category].join('#')
 }
 export function parseOrderKey(key: string): OrderKey {
   return {} as OrderKey
 }
 type OrderKey = {
-  board: string
-  category?: string
+  category: string
 }
 
 export function createCommentOrderKey(key: CommentOrderKey) {
@@ -28,7 +27,7 @@ export function createCommentOrderKey(key: CommentOrderKey) {
   ].join('#')
 }
 type CommentOrderKey = {
-  priority: EPriority
+  priority: any //EPriority
 }
 export function createCommentReplyOrderKey(key: CommentReplyOrderKey) {
   const {commentId} = key

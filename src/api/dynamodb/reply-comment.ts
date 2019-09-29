@@ -1,6 +1,6 @@
-import {CommentDocument, CreateApiInput, PostDocument} from './common'
+import {CommentDocument, DynamoDBInput, PostDocument} from './common'
 
-export async function replyComment(operator: CreateApiInput, params: ReplyCommentInput) {
+export async function replyComment(operator: DynamoDBInput, params: ReplyCommentInput) {
   const {dynamodb, tableName} = operator
   const {hk, rk} = params.comment
   const response = await dynamodb.update({

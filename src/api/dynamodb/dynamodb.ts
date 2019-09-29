@@ -1,5 +1,5 @@
 import {posts, PostsInput} from './posts'
-import {CreateApiInput} from './common'
+import {DynamoDBInput} from './common'
 import {addPost, AddPostInput} from './add-post'
 import {removePost, RemovePostInput} from './remove-post'
 import {viewPost, ViewPostInput} from './view-post'
@@ -16,7 +16,7 @@ import {postsByUserId, PostsByUserIdInput} from './post-by-user-id'
 import {PaginationResult} from '@deptno/dynamodb/dist/api/query'
 import {post, PostInput} from './post'
 
-export function createApi<P>(operator: CreateApiInput): YiguanaApi<P> {
+export function createStore<P>(operator: DynamoDBInput): YiguanaApi<P> {
   return {
     post: post.bind(null, operator),
     posts: posts.bind(null, operator),

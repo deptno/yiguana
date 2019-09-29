@@ -1,16 +1,17 @@
-import {CreateApiInput, EIndexName} from './common'
+import {DynamoDBInput, EIndexName} from './common'
+import {Post} from '../../entity/dynamodb'
 
-export function posts(operator: CreateApiInput, params: PostsInput) {
+export function posts(operator: DynamoDBInput, params: PostsInput) {
   const {tableName, dynamodb} = operator
   const {category, exclusiveStartKey} = params
 
-  return dynamodb.query({
+  return dynamodb.query<Post>({
     TableName: tableName,
-    IndexName: EIndexName.BoardOrderIndex,
+    IndexName: EIndexName.RkCategory,
     KeyConditionExpression: '#h = :h and begins_with(#r, :r)',
     ExpressionAttributeNames: {
       '#h': 'rk',
-      '#r': 'order',
+      '#r': 'category',
     },
     ExpressionAttributeValues: {
       ':h': 'post',

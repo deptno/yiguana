@@ -7,6 +7,10 @@ module.exports = {
           'AttributeType': 'S'
         },
         {
+          'AttributeName': 'category',
+          'AttributeType': 'S'
+        },
+        {
           'AttributeName': 'createdAt',
           'AttributeType': 'S'
         },
@@ -56,6 +60,26 @@ module.exports = {
             },
             {
               'AttributeName': 'order',
+              'KeyType'      : 'RANGE'
+            }
+          ],
+          'Projection'           : {
+            'ProjectionType': 'ALL'
+          },
+          'ProvisionedThroughput': {
+            'ReadCapacityUnits'     : 1,
+            'WriteCapacityUnits'    : 1
+          },
+        },
+        {
+          'IndexName'            : 'rk-category-index',
+          'KeySchema'            : [
+            {
+              'AttributeName': 'rk',
+              'KeyType'      : 'HASH'
+            },
+            {
+              'AttributeName': 'category',
               'KeyType'      : 'RANGE'
             }
           ],

@@ -1,73 +1,66 @@
-import {createApi} from '../../../../packages'
 import {DynamoDB, S3} from 'aws-sdk'
 import {createDynamoDB} from '@deptno/dynamodb'
 import {createS3} from '@deptno/s3'
-import {Post, YiguanaPost} from '../../../../packages/entity/dynamodb'
-import {gamePost, muckbangPost, musicPost} from '../../../data/post'
 import * as R from 'ramda'
+import {createPost, Post} from '../../../src/entity/dynamodb/post'
+import {createPostContentUnSafe} from '../../../src/entity/system/post-content'
+import {posts} from '../../../src/api/dynamodb/posts'
+import {addPost} from '../../../src/api/dynamodb/add-post'
+
+const ddbClient = new DynamoDB.DocumentClient()
+const s3Client = new S3()
+const dynamodb = createDynamoDB(ddbClient)
+const s3 = createS3(s3Client)
+const opDynamodb = {dynamodb, tableName: 'yiguana'}
+const opS3 = {s3, bucket: 'bucket'}
 
 describe('api', function () {
-  const category = 'ent'
-  let api: ReturnType<typeof createApi>
-  let posts: Post[]
+  let postList: Post[]
 
   beforeAll(async done => {
-    const dynamodb = createDynamoDB(new DynamoDB.DocumentClient())
-    const s3 = createS3(new S3())
+    const postInput = {
+      category: 'news#politics',
+      title: '뉴스기사',
+      content: '기사 내용',
+    }
+    const postContent = await createPostContentUnSafe(opS3, postInput)
+    expect(postContent.id).toBeDefined()
+    expect(postContent.contentUrl).toBeDefined()
+    expect(postContent.input).toBeDefined()
 
-    api = createApi({
-      bucketName: '',
-      tableName: 'yiguana',
-      dynamodb,
-      s3,
+    const post = createPost(opS3, {
+      data: postContent,
     })
 
-    const {items} = await api.posts({category})
+    const {items} = await posts(opDynamodb, {category: 'news'})
     expect(items).toHaveLength(0)
-    posts = Array(3)
-      .fill(0)
-      .map<Post>((_, i) => {
+
+    postList = Array(3)
+      .fill(post)
+      .map<Post>((post, i) => {
         return {
-          board: 'ent',
-          title: i.toString().padStart(4, '0'),
-          contentUrl: 's3://uri',
-          category: (100-i).toString(),
-          createdAt: new Date().toISOString(),
-          ip: '0.0.0.0',
-          author: {
-            id: 'userId',
-            name: 'userName',
-            thumbnail: 'https://thumb',
-          },
+          ...post,
+          hk: i.toString().padStart(4, '0'),
         }
       })
     // todo contentUrl 을 만들면서 hasImage 에 대한 처리가 필요함
-    const postDocs = await Promise.all(posts.map(post => api.addPost({post})))
+    const postDocs = await Promise.all(
+      postList.map(
+        post => addPost(opDynamodb, {post}),
+      ),
+    )
+
+    console.log('---dynamodb')
     console.table(postDocs)
-    done()
-  })
-  afterAll(async done => {
+    console.log('---')
     done()
   })
 
-  it('시간순 리스트', done => {
-    api
-      .posts({category})
-      .then(res => {
-        console.table(res.items)
-        console.log(R.omit(['items'], res))
-        const [p1, p2, p3] = res.items as YiguanaPost[]
-        const {_type, hk, rk, order, ...rest} = p1 as any
+  it('시간순 리스트', async done => {
+    const {items} = await posts(opDynamodb, {category: 'news'})
+    const [p1, p2, p3] = items
 
-        console.log(rest)
-        console.log(posts[0])
-        expect(p1).toHaveProperty('hk')
-        expect(p1).toHaveProperty('rk')
-        expect(p1['rk']).toEqual('post')
-        expect(rest).toEqual(posts[0])
-//        expect(p2).toContainEqual(gamePost)
-//        expect(p3).toContainEqual(muckbangPost)
-      })
-      .finally(done)
+    expect(items).toHaveLength(3)
+    postList.map((p, i) => expect(p).toEqual(postList[i]))
   })
 })

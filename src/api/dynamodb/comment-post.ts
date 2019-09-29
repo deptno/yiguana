@@ -1,7 +1,7 @@
-import {CreateApiInput, PostDocument} from './common'
+import {DynamoDBInput, PostDocument} from './common'
 import {DocumentClient} from 'aws-sdk/lib/dynamodb/document_client'
 
-export async function commentPost(operator: CreateApiInput, params: CommentPostInput) {
+export async function commentPost(operator: DynamoDBInput, params: CommentPostInput) {
   const {dynamodb} = operator
   const response = await dynamodb.update({
     ReturnConsumedCapacity: 'TOTAL',
@@ -16,7 +16,7 @@ export async function commentPost(operator: CreateApiInput, params: CommentPostI
     return response.Attributes as PostDocument
   }
 }
-export function commentPostParams(operator: CreateApiInput, params: CommentPostInput): DocumentClient.Update {
+export function commentPostParams(operator: DynamoDBInput, params: CommentPostInput): DocumentClient.Update {
   const {tableName} = operator
   const {post} = params
   const {hk, rk} = post

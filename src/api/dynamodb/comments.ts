@@ -1,12 +1,12 @@
-import {CreateApiInput, EIndexName} from './common'
+import {DynamoDBInput, EIndexName} from './common'
 
-export function comments(operator: CreateApiInput, params: CommentsInput) {
+export function comments(operator: DynamoDBInput, params: CommentsInput) {
   const {tableName, dynamodb} = operator
   const {postId, nextToken} = params
 
   return dynamodb.query({
     TableName                : tableName,
-    IndexName                : EIndexName.PostOrderIndex,
+    IndexName                : EIndexName.PostOrder,
     KeyConditionExpression   : '#p = :p',
     ExpressionAttributeNames : {
       '#p': 'postId',

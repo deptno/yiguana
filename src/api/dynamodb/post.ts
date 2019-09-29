@@ -1,7 +1,7 @@
-import {CreateApiInput, EType} from './common'
+import {DynamoDBInput, EType} from './common'
 import {PostsInput} from './posts'
 
-export function post(operator: CreateApiInput, params: PostInput) {
+export function post(operator: DynamoDBInput, params: PostInput) {
   const {dynamodb, tableName} = operator
   const {id} = params
 

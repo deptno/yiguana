@@ -1,6 +1,5 @@
 import {YiguanaObject} from './yiguana-object'
-import {ValidationError} from './error'
-import {EYiguanaEntity} from './enum'
+import {ValidationError} from '../system/error'
 import {User} from './user'
 
 export class YiguanaComment extends YiguanaObject {

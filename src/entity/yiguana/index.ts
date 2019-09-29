@@ -1,5 +1,0 @@
-export * from './comment'
-export * from './comment-reply'
-export * from './post'
-export * from './enum'
-export * from './error'

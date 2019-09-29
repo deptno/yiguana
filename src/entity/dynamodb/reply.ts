@@ -1,11 +1,11 @@
 import {User} from './user'
 import {Comment} from './comment'
 import {YiguanaObject} from './yiguana-object'
-import {ValidationError} from './error'
-import {EYiguanaEntity} from './enum'
+import {ValidationError} from '../system/error'
+import {EYiguanaEntity} from '../meta/enum'
 
 export class YiguanaCommentReply extends YiguanaObject {
-  constructor(private data: CommentReply) {
+  constructor(private data: Reply) {
     super(EYiguanaEntity.Comment)
   }
 
@@ -18,7 +18,7 @@ export class YiguanaCommentReply extends YiguanaObject {
 }
 const MAX_CONTENT_LENGTH = 200
 
-export type CommentReply = Comment & {
+export type Reply = Comment & {
   commentId: string
   mention?: Mention
 }

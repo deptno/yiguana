@@ -1,6 +1,6 @@
-import {CreateApiInput, PostDocument} from './common'
+import {DynamoDBInput, PostDocument} from './common'
 
-export async function viewPost(operator: CreateApiInput, params: ViewPostInput) {
+export async function viewPost(operator: DynamoDBInput, params: ViewPostInput) {
   const {dynamodb, tableName} = operator
   const {post} = params
   const {hk, rk} = post

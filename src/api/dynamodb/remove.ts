@@ -1,6 +1,6 @@
-import {CreateApiInput, TableIndex, UserDocument} from './common'
+import {DynamoDBInput, TableIndex, UserDocument} from './common'
 
-export async function remove(operator: CreateApiInput, params: RemoveInput): Promise<UserDocument | undefined> {
+export async function remove(operator: DynamoDBInput, params: RemoveInput): Promise<UserDocument | undefined> {
   const {dynamodb, tableName} = operator
   const {hk, rk} = params
   const response = await dynamodb.del({

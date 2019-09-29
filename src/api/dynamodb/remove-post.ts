@@ -1,6 +1,6 @@
-import {CreateApiInput, PostDocument} from './common'
+import {DynamoDBInput, PostDocument} from './common'
 
-export async function removePost(operator: CreateApiInput, params: RemovePostInput) {
+export async function removePost(operator: DynamoDBInput, params: RemovePostInput) {
   const {dynamodb, tableName} = operator
   const {id} = params
   const rk = 'post'

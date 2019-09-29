@@ -1,6 +1,6 @@
-import {CreateApiInput} from './common'
+import {DynamoDBInput} from './common'
 
-export async function removeComment(operator: CreateApiInput, params: RemoveCommentInput) {
+export async function removeComment(operator: DynamoDBInput, params: RemoveCommentInput) {
   const {dynamodb, tableName} = operator
   const {id} = params
   const rk = 'post'

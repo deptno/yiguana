@@ -1,12 +1,12 @@
-import {CreateApiInput, EIndexName} from './common'
+import {DynamoDBInput, EIndexName} from './common'
 
-export function commentReplies(operator: CreateApiInput, params: CommentRepliesInput) {
+export function commentReplies(operator: DynamoDBInput, params: CommentRepliesInput) {
   const {dynamodb, tableName} = operator
   const {commentId, nextToken} = params
 
   return dynamodb.query({
     TableName                : tableName,
-    IndexName                : EIndexName.CommentCreatedAtIndex,
+    IndexName                : EIndexName.CommentCreatedAt,
     KeyConditionExpression   : '#p = :p',
     ExpressionAttributeNames : {
       '#p': 'commentId',
