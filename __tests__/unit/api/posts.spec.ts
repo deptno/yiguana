@@ -29,18 +29,8 @@ describe('api', function () {
       data: postContent,
     })
 
-    console.log('beforeAll')
-    try {
-      const result = await ddbClient.scan({TableName: opDynamodb.tableName})
-        .promise()
-      console.log({result})
-    } catch (e) {
-      console.error('fail error')
-    }
-    console.log('beforeAll')
     const {items} = await posts(opDynamodb, {category: 'news'})
     expect(items).toHaveLength(0)
-    console.log('beforeAll')
     console.table(items)
 
     postList = Array(3)
@@ -65,13 +55,11 @@ describe('api', function () {
   })
 
   it('시간순 리스트', async done => {
-    console.log(1)
     const {items} = await posts(opDynamodb, {category: 'news'})
-    console.log(2)
-    const [p1, p2, p3] = items
-
     expect(items).toHaveLength(3)
+
     postList.map((p, i) => expect(p).toEqual(postList[i]))
+
     done()
   })
 })

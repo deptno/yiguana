@@ -1,6 +1,6 @@
 module.exports = {
   'bail'           : true,
-  'preset'         : './jest.config.js',
+  'preset'         : './jest.preset.js',
   'testEnvironment': 'node',
   'testMatch'      : [
     '**/?(*.)(spec|test).ts?(x)',
