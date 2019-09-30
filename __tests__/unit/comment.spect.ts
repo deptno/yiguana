@@ -1,5 +1,3 @@
-import {YiguanaComment} from '../../../packages/entity/dynamodb'
-
 describe('yiguana', function () {
   it('YiguanaComment 생성', function () {
   })

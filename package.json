@@ -14,8 +14,9 @@
   "scripts": {
     "dev.sls.deploy": "sls deploy --stage dev",
     "dev.sls.deploy.stream": "sls deploy --stage dev -f stream",
-    "prepare": "rimraf lib && rollup -c",
-    "test": "jest --silent --runInBand"
+    "prepare2": "rimraf lib && rollup -c",
+    "test2": "jest --silent --runInBand",
+    "test": "jest"
   },
   "repository": {
     "type": "git",
@@ -27,6 +28,8 @@
   },
   "homepage": "https://github.com/deptno/yiguana#readme",
   "devDependencies": {
+    "@babel/preset-env": "^7.6.2",
+    "@babel/preset-typescript": "^7.6.0",
     "@deptno/dynamodb": "0.0.13",
     "@deptno/s3": "0.0.5",
     "@shelf/jest-dynamodb": "^1.4.1",
@@ -43,19 +46,6 @@
     "rollup-plugin-typescript2": "^0.21.2",
     "ts-jest": "^24.0.2",
     "typescript": "^3.6.3"
-  },
-  "jest": {
-    "bail": true,
-    "preset": "./jest.config.js",
-    "testEnvironment": "node",
-    "testMatch": [
-      "**/?(*.)(spec|test).ts?(x)",
-      "__tests__/**/*.ts?(x)"
-    ],
-    "globals": {
-      "TZ": "utc",
-      "YIGUANA_ENCRYPTION_KEY": "dummy-encryption-key-24-length"
-    }
   },
   "dependencies": {
     "ramda": "^0.26.1",

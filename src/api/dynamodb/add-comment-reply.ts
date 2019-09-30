@@ -2,7 +2,6 @@ import {DynamoDBInput, EType} from './common'
 import {createHashKey} from './key/id'
 import {createRangeKey} from './key/range'
 import {extractType} from './key/type'
-import {CommentReply} from '../../entity/dynamodb/comment-reply'
 
 export async function addCommentReply(operator: DynamoDBInput, params: AddCommentReplyInput) {
   const {dynamodb, tableName} = operator

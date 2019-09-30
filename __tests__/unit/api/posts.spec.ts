@@ -1,14 +1,11 @@
-import {DynamoDB, S3} from 'aws-sdk'
-import {createDynamoDB} from '@deptno/dynamodb'
-import {createS3} from '@deptno/s3'
-import * as R from 'ramda'
 import {createPost, Post} from '../../../src/entity/dynamodb/post'
 import {createPostContentUnSafe} from '../../../src/entity/system/post-content'
 import {posts} from '../../../src/api/dynamodb/posts'
 import {addPost} from '../../../src/api/dynamodb/add-post'
+import {createDynamoDB} from '@deptno/dynamodb'
+import {createS3} from '@deptno/s3'
+import {ddbClient, s3Client} from '../../env'
 
-const ddbClient = new DynamoDB.DocumentClient()
-const s3Client = new S3()
 const dynamodb = createDynamoDB(ddbClient)
 const s3 = createS3(s3Client)
 const opDynamodb = {dynamodb, tableName: 'yiguana'}
@@ -32,8 +29,19 @@ describe('api', function () {
       data: postContent,
     })
 
+    console.log('beforeAll')
+    try {
+      const result = await ddbClient.scan({TableName: opDynamodb.tableName})
+        .promise()
+      console.log({result})
+    } catch (e) {
+      console.error('fail error')
+    }
+    console.log('beforeAll')
     const {items} = await posts(opDynamodb, {category: 'news'})
     expect(items).toHaveLength(0)
+    console.log('beforeAll')
+    console.table(items)
 
     postList = Array(3)
       .fill(post)
@@ -57,10 +65,13 @@ describe('api', function () {
   })
 
   it('시간순 리스트', async done => {
+    console.log(1)
     const {items} = await posts(opDynamodb, {category: 'news'})
+    console.log(2)
     const [p1, p2, p3] = items
 
     expect(items).toHaveLength(3)
     postList.map((p, i) => expect(p).toEqual(postList[i]))
+    done()
   })
 })

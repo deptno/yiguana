@@ -1,7 +1,9 @@
 import {PutRecordInput} from 'aws-sdk/clients/firehose'
 import {PutObjectRequest} from 'aws-sdk/clients/s3'
+import {config, SharedIniFileCredentials} from 'aws-sdk'
 
-const debug = function(...args: any[]) {}
+const debug = function (...args: any[]) {
+}
 
 export class Firehose {
   putRecord(params: PutRecordInput) {
@@ -31,20 +33,21 @@ export class S3 {
   }
 }
 
-
-export class DynamoDB {
-  static DocumentClient = class {
+export const DynamoDB = {
+  DocumentClient: class {
     constructor() {
-      if (this instanceof DynamoDB.DocumentClient) {
-        const {DocumentClient} = require('aws-sdk/clients/dynamodb')
-        const isTest = process.env.JEST_WORKER_ID
-        const config = {
-          convertEmptyValues: true,
-          ...(isTest && {endpoint: 'localhost:8000', sslEnabled: false, region: 'local-env'}),
-        }
-        return new DocumentClient(config)
+      if (!(this instanceof DynamoDB.DocumentClient)) {
+        throw new Error('new')
       }
-      throw new Error('new')
+
+      const {DocumentClient} = require('aws-sdk/clients/dynamodb')
+      const isTest = process.env.JEST_WORKER_ID
+      const config = {
+        convertEmptyValues: true,
+        ...(isTest && {endpoint: 'localhost:8000', sslEnabled: false, region: 'local-env'}),
+      }
+
+      return new DocumentClient(config)
     }
-  }
+  },
 }

@@ -1,28 +1,35 @@
-import {User} from './user'
-import {Comment} from './comment'
 import {YiguanaObject} from './yiguana-object'
-import {ValidationError} from '../system/error'
-import {EYiguanaEntity} from '../meta/enum'
+import {User} from '../system'
+import {EYiguanaEntity} from './enum'
+import {ReplyUserInput} from '../input/reply'
+import {uuid} from '../../lib/uuid'
 
-export class YiguanaCommentReply extends YiguanaObject {
-  constructor(private data: Reply) {
-    super(EYiguanaEntity.Comment)
+export function createReply(operator, params: CreateReplyInput): Reply {
+  const {user, data} = params
+  const reply: Reply = {
+    hk: uuid(),
+    rk: EYiguanaEntity.Reply,
+    createdAt: new Date().toISOString(),
+    likes: 0,
+    unlikes: 0,
+    comments: 0,
+    content: '',
+  }
+  if (user) {
+    reply.userId = user.userId
   }
 
-  validate() {
-    const {comment} = this.data
-    if (comment.length > MAX_CONTENT_LENGTH) {
-      throw new ValidationError(`comment length(${comment.length}) > ${MAX_CONTENT_LENGTH}`)
-    }
-  }
+  return reply
 }
-const MAX_CONTENT_LENGTH = 200
 
-export type Reply = Comment & {
-  commentId: string
-  mention?: Mention
+export type CreateReplyInput = {
+  data: ReplyUserInput
+  user?: User
 }
-type Mention = {
-  userId: string
-  user: User
+export interface Reply extends YiguanaObject {
+  likes: number
+  unlikes: number
+  comments: number
+  content: string
+  userId?: string // gsi.hk
 }

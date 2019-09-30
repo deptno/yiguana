@@ -1,5 +1,13 @@
-const merge = require('merge')
-const ts = require('ts-jest/jest-preset')
-const dynamodb = require('@shelf/jest-dynamodb/jest-preset')
-
-module.exports = merge.recursive(ts, dynamodb)
+module.exports = {
+  'bail'           : true,
+  'preset'         : './jest.config.js',
+  'testEnvironment': 'node',
+  'testMatch'      : [
+    '**/?(*.)(spec|test).ts?(x)',
+    '__tests__/**/*.ts?(x)'
+  ],
+  'globals'        : {
+    'TZ'                    : 'utc',
+    'YIGUANA_ENCRYPTION_KEY': 'dummy-encryption-key-24-length'
+  }
+}
