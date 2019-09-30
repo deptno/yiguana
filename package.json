@@ -27,8 +27,8 @@
   },
   "homepage": "https://github.com/deptno/yiguana#readme",
   "devDependencies": {
-    "@deptno/dynamodb": "0.0.12",
-    "@deptno/s3": "0.0.4",
+    "@deptno/dynamodb": "0.0.13",
+    "@deptno/s3": "0.0.5",
     "@shelf/jest-dynamodb": "^1.4.1",
     "@types/aws-lambda": "^8.10.26",
     "@types/jest": "^24.0.13",
