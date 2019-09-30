@@ -17,8 +17,8 @@ describe('api', function () {
   beforeAll(async done => {
     const postInput = {
       category: 'news#politics',
-      title: '뉴스기사',
-      content: '기사 내용',
+      title: 'title',
+      content: 'content',
     }
     const postContent = await createPostContentUnSafe(opS3, postInput)
     expect(postContent.id).toBeDefined()
@@ -31,7 +31,6 @@ describe('api', function () {
 
     const {items} = await posts(opDynamodb, {category: 'news'})
     expect(items).toHaveLength(0)
-    console.table(items)
 
     postList = Array(3)
       .fill(post)
@@ -48,9 +47,7 @@ describe('api', function () {
       ),
     )
 
-    console.log('---dynamodb')
     console.table(postDocs)
-    console.log('---')
     done()
   })
 
