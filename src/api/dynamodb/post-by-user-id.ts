@@ -4,27 +4,31 @@ import {EIndexName} from '../../entity/dynamodb/enum'
 
 export function postsByUserId(operator: DynamoDBInput, params: PostsByUserIdInput) {
   const {tableName, dynamodb} = operator
-  const {boardName, category, exclusiveStartKey, userId} = params
-  console.log('listByUserId', userId)
-  return dynamodb.query({
-    TableName                : tableName,
-    IndexName                : EIndexName.UserOrder,
-    KeyConditionExpression   : '#p = :p and begins_with(#r, :r)',
-    ExpressionAttributeNames : {
+  const {category, exclusiveStartKey, userId} = params
+
+  const queryParams = {
+    TableName: tableName,
+    IndexName: EIndexName.UserOrder,
+    KeyConditionExpression: '#p = :p',
+    ExpressionAttributeNames: {
       '#p': 'userId',
-      '#r': 'order',
     },
     ExpressionAttributeValues: {
       ':p': userId,
-      ':r': '@todo'
     },
     ScanIndexForward: false,
-    ReturnConsumedCapacity   : 'TOTAL',
-    ExclusiveStartKey        : exclusiveStartKey
-  })
+    ReturnConsumedCapacity: 'TOTAL',
+    ExclusiveStartKey: exclusiveStartKey,
+  }
+  if (category) {
+    queryParams.KeyConditionExpression += ' and begins_with(#r, :r)'
+    queryParams.ExpressionAttributeNames['#r'] = 'category'
+    queryParams.ExpressionAttributeValues[':r'] = category
+  }
+
+  return dynamodb.query(queryParams)
 }
 export type PostsByUserIdInput = {
-  boardName: string
   userId: string
   category?: string
   exclusiveStartKey?: Key

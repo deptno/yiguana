@@ -6,7 +6,7 @@
   "main": "index.js",
   "scripts": {
     "prepare": "rimraf lib && rollup -c",
-    "test": "jest"
+    "test": "jest --collect-coverage --verbose"
   },
   "repository": {
     "type": "git",

@@ -59,7 +59,7 @@ module.exports = {
               'KeyType'      : 'HASH'
             },
             {
-              'AttributeName': 'order',
+              'AttributeName': 'category',
               'KeyType'      : 'RANGE'
             }
           ],

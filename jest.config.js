@@ -9,5 +9,9 @@ module.exports = {
   'globals'        : {
     'TZ'                    : 'utc',
     'YIGUANA_ENCRYPTION_KEY': 'dummy-encryption-key-24-length'
+  },
+  displayName: {
+    name: 'yiguana',
+    color: 'blue',
   }
 }
