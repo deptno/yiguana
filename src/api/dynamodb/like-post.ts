@@ -1,4 +1,5 @@
-import {DynamoDBInput, PostDocument} from './common'
+import {DynamoDBInput} from '../../entity/input/dynamodb'
+import {Post} from '../../entity/post'
 
 export async function likePost(operator: DynamoDBInput, params: LikePostInput) {
   const {dynamodb, tableName} = operator
@@ -25,9 +26,9 @@ export async function likePost(operator: DynamoDBInput, params: LikePostInput) {
       const wcu = response.ConsumedCapacity.CapacityUnits
       console.log({wcu})
     }
-    return response.Attributes as PostDocument
+    return response.Attributes as Post
   }
 }
 export type LikePostInput = {
-  post: PostDocument
+  post: Post
 }

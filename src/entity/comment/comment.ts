@@ -1,17 +1,18 @@
-import {YiguanaObject} from './yiguana-object'
-import {User} from '../system'
-import {EYiguanaEntity} from './enum'
-import {ReplyUserInput} from '../input/reply'
+import {EEntity} from '../enum'
 import {uuid} from '../../lib/uuid'
+import {YiguanaDocument} from '../../dynamodb/yiguana-document'
+import {ReplyUserInput} from '../reply/user-input'
+import {User} from '../user/user'
 
 export function createReply(operator, params: CreateCommentInput): Comment {
   const {user, data} = params
   const comment: Comment = {
     hk: uuid(),
-    rk: EYiguanaEntity.Comment,
+    rk: EEntity.Comment,
     createdAt: new Date().toISOString(),
     comments: 0,
-    content: ''
+    content: '',
+    priority: EPriority.Normal,
   }
   if (user) {
     comment.userId = user.userId
@@ -24,13 +25,13 @@ export type CreateCommentInput = {
   data: ReplyUserInput
   user?: User
 }
-export interface Comment extends YiguanaObject {
+export interface Comment extends YiguanaDocument {
   comments: number
   content: string
+  priority: EPriority
   userId?: string // gsi.hk
 //  postId: string
 //  user: User
-//  priority: EPriority
 //  ip: string
 //  password?: string
 }
@@ -43,7 +44,7 @@ export enum EPriority {
   Normal = 50,
 }
 
-// mention 을 commentReply 보다 comment 에 두는 것이 맞는지 확인
+// mention 을 reply 보다 reply 에 두는 것이 맞는지 확인
 // 댓글에도 like|(dislike) 가 있어야 함
 // ip 필요
 // 신고 필요

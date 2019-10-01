@@ -1,4 +1,4 @@
-import {PostUserInput} from '../input'
+import {PostUserInput} from './user-input'
 import {createS3} from '@deptno/s3'
 import {uuid} from '../../lib/uuid'
 

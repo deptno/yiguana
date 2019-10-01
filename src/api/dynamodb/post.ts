@@ -1,5 +1,6 @@
-import {DynamoDBInput, EType} from './common'
+import {EType} from './common'
 import {PostsInput} from './posts'
+import {DynamoDBInput} from '../../entity/input/dynamodb'
 
 export function post(operator: DynamoDBInput, params: PostInput) {
   const {dynamodb, tableName} = operator

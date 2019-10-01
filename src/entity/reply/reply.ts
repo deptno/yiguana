@@ -1,14 +1,14 @@
-import {YiguanaObject} from './yiguana-object'
-import {User} from '../system'
-import {EYiguanaEntity} from './enum'
-import {ReplyUserInput} from '../input/reply'
+import {EEntity} from '../enum'
 import {uuid} from '../../lib/uuid'
+import {ReplyUserInput} from './index'
+import {User} from '../user'
+import {YiguanaDocument} from '../../dynamodb/yiguana-document'
 
 export function createReply(operator, params: CreateReplyInput): Reply {
   const {user, data} = params
   const reply: Reply = {
     hk: uuid(),
-    rk: EYiguanaEntity.Reply,
+    rk: EEntity.Reply,
     createdAt: new Date().toISOString(),
     likes: 0,
     unlikes: 0,
@@ -26,7 +26,7 @@ export type CreateReplyInput = {
   data: ReplyUserInput
   user?: User
 }
-export interface Reply extends YiguanaObject {
+export interface Reply extends YiguanaDocument {
   likes: number
   unlikes: number
   comments: number

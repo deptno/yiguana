@@ -1,6 +1,7 @@
-import {DynamoDBInput, TableIndex, UserDocument} from './common'
+import {DynamoDBInput} from '../../entity/input/dynamodb'
+import {EEntity} from '../../entity/enum'
 
-export async function remove(operator: DynamoDBInput, params: RemoveInput): Promise<UserDocument | undefined> {
+export async function remove(operator: DynamoDBInput, params: RemoveInput): Promise<any | undefined> {
   const {dynamodb, tableName} = operator
   const {hk, rk} = params
   const response = await dynamodb.del({
@@ -14,8 +15,11 @@ export async function remove(operator: DynamoDBInput, params: RemoveInput): Prom
   })
 
   if (response) {
-    return response.Attributes as UserDocument
+    return response.Attributes as any
   }
 }
 
-export type RemoveInput = Pick<TableIndex, 'hk' | 'rk'>
+export type RemoveInput = {
+  hk: string,
+  rk: EEntity
+}

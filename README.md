@@ -26,8 +26,8 @@ Yiguana-sdk,
 ```
   // comment replies
 ```typescript
-  commentReplies(params: CommentRepliesInput): ReturnType<typeof commentReplies>
-  addCommentReply(params: AddCommentReplyInput): ReturnType<typeof addCommentReply>
+  replies(params: CommentRepliesInput): ReturnType<typeof replies>
+  addReply(params: AddReplyInput): ReturnType<typeof addReply>
   removeComment(params: RemoveCommentInput): ReturnType<typeof removeComment>
 ```
   // common

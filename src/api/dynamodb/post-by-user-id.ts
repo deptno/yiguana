@@ -1,6 +1,6 @@
-import {DynamoDBInput, EIndexName} from './common'
-import {stringifyOrderKey} from './key/order'
 import {Key} from 'readline'
+import {DynamoDBInput} from '../../entity/input/dynamodb'
+import {EIndexName} from '../../entity/dynamodb/enum'
 
 export function postsByUserId(operator: DynamoDBInput, params: PostsByUserIdInput) {
   const {tableName, dynamodb} = operator
@@ -16,7 +16,7 @@ export function postsByUserId(operator: DynamoDBInput, params: PostsByUserIdInpu
     },
     ExpressionAttributeValues: {
       ':p': userId,
-      ':r': stringifyOrderKey({board: boardName, category})
+      ':r': '@todo'
     },
     ScanIndexForward: false,
     ReturnConsumedCapacity   : 'TOTAL',

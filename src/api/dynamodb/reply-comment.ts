@@ -1,8 +1,10 @@
-import {CommentDocument, DynamoDBInput, PostDocument} from './common'
+import {DynamoDBInput} from '../../entity/input/dynamodb'
+import {Post} from '../../entity/post'
+import {Reply} from '../../entity/reply/reply'
 
 export async function replyComment(operator: DynamoDBInput, params: ReplyCommentInput) {
   const {dynamodb, tableName} = operator
-  const {hk, rk} = params.comment
+  const {hk, rk} = params.reply
   const response = await dynamodb.update({
     TableName                : tableName,
     Key                      : {
@@ -24,10 +26,10 @@ export async function replyComment(operator: DynamoDBInput, params: ReplyComment
       const wcu = response.ConsumedCapacity.CapacityUnits
       console.log({wcu})
     }
-    return response.Attributes as PostDocument
+    return response.Attributes as Post
   }
 }
 
 export type ReplyCommentInput = {
-  comment: Pick<CommentDocument, 'hk'|'rk'>
+  reply: Reply
 }

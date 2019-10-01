@@ -1,5 +1,5 @@
-import {createPost, Post} from '../../../src/entity/dynamodb/post'
-import {createPostContentUnSafe} from '../../../src/entity/system/post-content'
+import {createPost, Post} from '../../../src/entity/post'
+import {createPostContentUnSafe} from '../../../src/entity/post/post-content'
 import {posts} from '../../../src/api/dynamodb/posts'
 import {addPost} from '../../../src/api/dynamodb/add-post'
 import {createDynamoDB} from '@deptno/dynamodb'

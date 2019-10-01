@@ -1,4 +1,4 @@
-import {DynamoDBInput} from './common'
+import {DynamoDBInput} from '../../entity/input/dynamodb'
 
 export async function removeComment(operator: DynamoDBInput, params: RemoveCommentInput) {
   const {dynamodb, tableName} = operator

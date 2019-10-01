@@ -1,5 +1,4 @@
 import {posts, PostsInput} from './posts'
-import {DynamoDBInput} from './common'
 import {addPost, AddPostInput} from './add-post'
 import {removePost, RemovePostInput} from './remove-post'
 import {viewPost, ViewPostInput} from './view-post'
@@ -8,13 +7,14 @@ import {remove, RemoveInput} from './remove'
 import {addComment, AddCommentInput} from './add-comment'
 import {comments, CommentsInput} from './comments'
 import {removeComment, RemoveCommentInput} from './remove-comment'
-import {addCommentReply, AddCommentReplyInput} from './add-comment-reply'
+import {addReply, AddCommentReplyInput} from './add-reply'
 import {commentPost, CommentPostInput} from './comment-post'
 import {replyComment, ReplyCommentInput} from './reply-comment'
-import {commentReplies, CommentRepliesInput} from './comment-replies'
+import {replies, CommentRepliesInput} from './replies'
 import {postsByUserId, PostsByUserIdInput} from './post-by-user-id'
 import {PaginationResult} from '@deptno/dynamodb/dist/api/query'
 import {post, PostInput} from './post'
+import {DynamoDBInput} from '../../entity/input/dynamodb'
 
 export function createStore<P>(operator: DynamoDBInput): YiguanaApi<P> {
   return {
@@ -29,8 +29,8 @@ export function createStore<P>(operator: DynamoDBInput): YiguanaApi<P> {
     comments: comments.bind(null, operator),
     addComment: addComment.bind(null, operator),
     replyComment: replyComment.bind(null, operator),
-    commentReplies: commentReplies.bind(null, operator),
-    addCommentReply: addCommentReply.bind(null, operator),
+    commentReplies: replies.bind(null, operator),
+    addCommentReply: addReply.bind(null, operator),
     removeComment: removeComment.bind(null, operator),
     remove: remove.bind(null, operator),
   }
@@ -49,14 +49,14 @@ export interface YiguanaApi<P> {
   likePost(params: LikePostInput): ReturnType<typeof likePost>
   commentPost(params: CommentPostInput): ReturnType<typeof commentPost>
 
-  // comment
+  // reply
   comments(params: CommentsInput): ReturnType<typeof comments>
   addComment(params: AddCommentInput): ReturnType<typeof addComment>
   replyComment(params: ReplyCommentInput): ReturnType<typeof replyComment>
 
-  // comment replies
-  commentReplies(params: CommentRepliesInput): ReturnType<typeof commentReplies>
-  addCommentReply(params: AddCommentReplyInput): ReturnType<typeof addCommentReply>
+  // reply replies
+  commentReplies(params: CommentRepliesInput): ReturnType<typeof replies>
+  addCommentReply(params: AddCommentReplyInput): ReturnType<typeof addReply>
   removeComment(params: RemoveCommentInput): ReturnType<typeof removeComment>
 
   // common

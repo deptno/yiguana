@@ -1,6 +1,7 @@
-import {DynamoDBInput, EIndexName} from './common'
+import {DynamoDBInput} from '../../entity/input/dynamodb'
+import {EIndexName} from '../../entity/dynamodb/enum'
 
-export function commentReplies(operator: DynamoDBInput, params: CommentRepliesInput) {
+export function replies(operator: DynamoDBInput, params: CommentRepliesInput) {
   const {dynamodb, tableName} = operator
   const {commentId, nextToken} = params
 

@@ -1,3 +1,2 @@
-export * from './comment'
-export * from './reply'
-export * from './post'
+export * from '../comment/comment'
+

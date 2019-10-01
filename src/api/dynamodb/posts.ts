@@ -1,5 +1,6 @@
-import {DynamoDBInput, EIndexName} from './common'
-import {Post} from '../../entity/dynamodb'
+import {Post} from '../../entity/post'
+import {DynamoDBInput} from '../../entity/input/dynamodb'
+import {EIndexName} from '../../entity/dynamodb/enum'
 
 export function posts(operator: DynamoDBInput, params: PostsInput) {
   const {tableName, dynamodb} = operator

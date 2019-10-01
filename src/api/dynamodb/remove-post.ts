@@ -1,4 +1,4 @@
-import {DynamoDBInput, PostDocument} from './common'
+import {DynamoDBInput} from '../../entity/input/dynamodb'
 
 export async function removePost(operator: DynamoDBInput, params: RemovePostInput) {
   const {dynamodb, tableName} = operator
@@ -22,5 +22,5 @@ export async function removePost(operator: DynamoDBInput, params: RemovePostInpu
   return Boolean(response)
 }
 export type RemovePostInput = {
-  id: PostDocument['hk']
+  id: string
 }

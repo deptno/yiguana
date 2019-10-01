@@ -1,5 +1,6 @@
-import {DynamoDBInput, PostDocument} from './common'
 import {DocumentClient} from 'aws-sdk/lib/dynamodb/document_client'
+import {DynamoDBInput} from '../../entity/input/dynamodb'
+import {Post} from '../../entity/post'
 
 export async function commentPost(operator: DynamoDBInput, params: CommentPostInput) {
   const {dynamodb} = operator
@@ -13,7 +14,7 @@ export async function commentPost(operator: DynamoDBInput, params: CommentPostIn
       const wcu = response.ConsumedCapacity.CapacityUnits
       console.log({wcu})
     }
-    return response.Attributes as PostDocument
+    return response.Attributes as Post
   }
 }
 export function commentPostParams(operator: DynamoDBInput, params: CommentPostInput): DocumentClient.Update {
@@ -37,5 +38,5 @@ export function commentPostParams(operator: DynamoDBInput, params: CommentPostIn
 
 }
 export type CommentPostInput = {
-  post: Pick<PostDocument, 'hk' | 'rk'>
+  post: Post
 }
