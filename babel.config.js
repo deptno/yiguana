@@ -7,8 +7,7 @@ module.exports = (api) => {
         {
           targets    : {
             node: '10.15'
-          },
-          useBuiltIns: 'entry'
+          }
         }
       ],
       '@babel/preset-typescript',
