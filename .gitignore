@@ -1,3 +1,6 @@
-env.yml
-dist/
 node_modules/
+.rpt2_cache/
+.idea/
+coverage/
+lib/
+.webpack
