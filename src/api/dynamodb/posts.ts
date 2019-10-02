@@ -4,7 +4,7 @@ import {EIndexName} from '../../entity/dynamodb/enum'
 
 export function posts(operator: DynamoDBInput, params: PostsInput) {
   const {tableName, dynamodb} = operator
-  const {category, exclusiveStartKey} = params
+  const {category = '', exclusiveStartKey} = params
   const queryParams = {
     TableName: tableName,
     IndexName: EIndexName.RkCategory,
@@ -29,6 +29,6 @@ export function posts(operator: DynamoDBInput, params: PostsInput) {
 }
 
 export type PostsInput = {
-  category: string
+  category?: string
   exclusiveStartKey?: Exclude<any, string | number>
 }

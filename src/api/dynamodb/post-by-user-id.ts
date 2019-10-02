@@ -1,8 +1,9 @@
 import {Key} from 'readline'
 import {DynamoDBInput} from '../../entity/input/dynamodb'
 import {EIndexName} from '../../entity/dynamodb/enum'
+import {Post} from '../../entity/post'
 
-export function postsByUserId(operator: DynamoDBInput, params: PostsByUserIdInput) {
+export function postsByUserId<T = Post>(operator: DynamoDBInput, params: PostsByUserIdInput) {
   const {tableName, dynamodb} = operator
   const {category, exclusiveStartKey, userId} = params
 
@@ -26,7 +27,7 @@ export function postsByUserId(operator: DynamoDBInput, params: PostsByUserIdInpu
     queryParams.ExpressionAttributeValues[':r'] = category
   }
 
-  return dynamodb.query(queryParams)
+  return dynamodb.query<T>(queryParams)
 }
 export type PostsByUserIdInput = {
   userId: string
