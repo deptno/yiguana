@@ -5,14 +5,15 @@ import {User} from '../user'
 
 export function createPost(operator, params: CreatePostInput): Post {
   const {user, data} = params
+  const createdAt = new Date().toISOString()
   const post: Post = {
     hk: data.id,
     rk: EEntity.Post,
-    createdAt: new Date().toISOString(),
+    createdAt: createdAt,
     views: 0,
     likes: 0,
     comments: 0,
-    category: data.input.category,
+    category: `${data.input.category}#${createdAt}`,
     title: data.input.title,
     contentUrl: data.contentUrl,
   }

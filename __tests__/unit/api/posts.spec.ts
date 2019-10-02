@@ -39,7 +39,12 @@ describe('api', function () {
         return {
           ...post,
           hk: i.toString().padStart(4, '0'),
-          createdAt: new Date(Date.now() - 864000000*i).toISOString()
+          createdAt: new Date(Date.now() - 864000000 * i).toISOString(),
+          category: post.category
+            .split('#')
+            .slice(0, 2)
+            .concat(new Date(Date.now() - 864000000 * i).toISOString())
+            .join('#')
         }
       })
 
@@ -73,10 +78,6 @@ describe('api', function () {
     items
       .map(p => p.createdAt)
       .reduce((prev, curr) => {
-        console.log({
-          prev,
-          curr
-        })
         expect(new Date(prev).getTime()).toBeGreaterThan(new Date(curr).getTime())
         return curr
       })
