@@ -1,10 +1,8 @@
 import {S3} from 'aws-sdk'
 import {createS3} from '@deptno/s3'
-import {CreatePostInput, createPost} from './dynamodb'
-import {createPostContentUnSafe, PostContent} from './system'
-import {PostUserInput} from './input'
+import {createPost, createPostContentUnSafe, CreatePostInput, PostContent, PostUserInput} from './post'
 
-export function entity(params: CreateInput): Entity {
+export function createEntityFactory(params: CreateInput): Entity {
   const s3 = createS3(params.s3Client)
   const operator = {
     s3,

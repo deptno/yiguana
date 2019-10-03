@@ -154,7 +154,31 @@ describe('api', function () {
           })
         done()
       })
-      it('유저 리스트 cGun, 카테고리 kids', async done => {
+      it('유저 리스트 cGun, 카테고리 kids, 포스트 추가, 삭제 후 조회, 글 수 확인', async done => {
+        const {items: before} = await postsByUserId(opDynamodb, {userId: 'cGun', category: 'kids'})
+        const beforeItemCount = before.length
+
+        {
+          await addPost(opDynamodb, {
+            post: createPost(
+              opS3,
+              {
+                data: await createPostContentUnSafe(opS3, {
+                  category: 'news#anime',
+                  title: 'latest',
+                  content: 'out of kids',
+                }),
+                user: {
+                  userId: 'cGun',
+                  ip: '0.0.0.0',
+                },
+              },
+            ),
+          })
+          const {items} = await postsByUserId(opDynamodb, {userId: 'cGun', category: 'kids'})
+          expect(items).toHaveLength(beforeItemCount)
+        }
+
         await addPost(opDynamodb, {
           post: createPost(
             opS3,
@@ -171,6 +195,7 @@ describe('api', function () {
             },
           ),
         })
+
         const {items} = await postsByUserId(opDynamodb, {userId: 'cGun', category: 'kids'})
         console.debug('유저 리스트 cGun, 카테고리 kids')
         console.table(items)
@@ -185,7 +210,7 @@ describe('api', function () {
             .map(p => p.category)
             .every(c => c.startsWith('kids')),
         ).toBeTruthy()
-        expect(items).toHaveLength(2)
+        expect(items.length).toBeGreaterThan(beforeItemCount)
         done()
       })
     })
