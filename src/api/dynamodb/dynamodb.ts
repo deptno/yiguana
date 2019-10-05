@@ -9,7 +9,7 @@ import {comments, CommentsInput} from './comments'
 import {removeComment, RemoveCommentInput} from './remove-comment'
 import {addReply, AddCommentReplyInput} from './add-reply'
 import {commentPost, CommentPostInput} from './comment-post'
-import {replyComment, ReplyCommentInput} from './reply-comment'
+import {reply, ReplyInput} from './reply'
 import {replies, CommentRepliesInput} from './replies'
 import {postsByUserId, PostsByUserIdInput} from './post-by-user-id'
 import {PaginationResult} from '@deptno/dynamodb/dist/api/query'
@@ -28,7 +28,7 @@ export function createStore<P>(operator: DynamoDBInput): YiguanaApi<P> {
     commentPost: commentPost.bind(null, operator),
     comments: comments.bind(null, operator),
     addComment: addComment.bind(null, operator),
-    replyComment: replyComment.bind(null, operator),
+    replyComment: reply.bind(null, operator),
     commentReplies: replies.bind(null, operator),
     addCommentReply: addReply.bind(null, operator),
     removeComment: removeComment.bind(null, operator),
@@ -52,7 +52,7 @@ export interface YiguanaApi<P> {
   // reply
   comments(params: CommentsInput): ReturnType<typeof comments>
   addComment(params: AddCommentInput): ReturnType<typeof addComment>
-  replyComment(params: ReplyCommentInput): ReturnType<typeof replyComment>
+  replyComment(params: ReplyInput): ReturnType<typeof reply>
 
   // reply replies
   commentReplies(params: CommentRepliesInput): ReturnType<typeof replies>

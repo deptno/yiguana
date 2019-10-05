@@ -2,7 +2,7 @@ import {DynamoDBInput} from '../../entity/input/dynamodb'
 import {Post} from '../../entity/post'
 import {Reply} from '../../entity/reply/reply'
 
-export async function replyComment(operator: DynamoDBInput, params: ReplyCommentInput) {
+export async function reply(operator: DynamoDBInput, params: ReplyInput) {
   const {dynamodb, tableName} = operator
   const {hk, rk} = params.reply
   const response = await dynamodb.update({
@@ -30,6 +30,6 @@ export async function replyComment(operator: DynamoDBInput, params: ReplyComment
   }
 }
 
-export type ReplyCommentInput = {
+export type ReplyInput = {
   reply: Reply
 }
