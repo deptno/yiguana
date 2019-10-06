@@ -30,6 +30,56 @@ describe('api', function () {
         })
       done()
     })
+
+    describe('addPost', function () {
+      it('시간순 리스트', async done => {
+        const latestPost = createPost(
+          opS3,
+          {
+            data: await createPostContentUnSafe(opS3, {
+              category: 'news#politics',
+              title: 'latest',
+              content: 'content',
+            }),
+            user: {
+              userId: 'aGun',
+              ip: '0.0.0.0',
+            },
+          },
+        )
+        await addPost(opDdb, {post: latestPost})
+        const {items} = await posts(opDdb, {})
+        console.debug('시간순 리스트')
+        console.table(items)
+
+        expect(items.length).toBeGreaterThan(postList.length)
+        items
+          .map(p => p.createdAt)
+          .reduce((prev, curr) => {
+            expect(new Date(prev).getTime()).toBeGreaterThan(new Date(curr).getTime())
+            return curr
+          })
+        done()
+      })
+    })
+
+    describe('removePost', () => {
+    })
+
+    describe('updatePost', function () {
+      it('updatePost', async () => {
+        expect(true).toEqual(false)
+      })
+      it('likePost', async () => {
+        expect(true).toEqual(false)
+      })
+      it('viewPost', async () => {
+        expect(true).toEqual(false)
+      })
+    })
+  })
+
+  describe('postByUserId', async function () {
     it('유저 리스트 aGun', async done => {
       const {items} = await postsByUserId(opDdb, {userId: 'aGun'})
       console.debug('유저 리스트 aGun')
@@ -72,36 +122,8 @@ describe('api', function () {
       ).toBeTruthy()
       done()
     })
-    describe(', 포스트 추가시', function () {
-      it('시간순 리스트', async done => {
-        const latestPost = createPost(
-          opS3,
-          {
-            data: await createPostContentUnSafe(opS3, {
-              category: 'news#politics',
-              title: 'latest',
-              content: 'content',
-            }),
-            user: {
-              userId: 'aGun',
-              ip: '0.0.0.0',
-            },
-          },
-        )
-        await addPost(opDdb, {post: latestPost})
-        const {items} = await posts(opDdb, {})
-        console.debug('시간순 리스트')
-        console.table(items)
 
-        expect(items.length).toBeGreaterThan(postList.length)
-        items
-          .map(p => p.createdAt)
-          .reduce((prev, curr) => {
-            expect(new Date(prev).getTime()).toBeGreaterThan(new Date(curr).getTime())
-            return curr
-          })
-        done()
-      })
+    describe('addPost', function () {
       it('유저 리스트 cGun, 카테고리 kids, 포스트 추가, 삭제 후 조회, 글 수 확인', async done => {
         const {items: before} = await postsByUserId(opDdb, {userId: 'cGun', category: 'kids'})
         const beforeItemCount = before.length
@@ -160,6 +182,21 @@ describe('api', function () {
         ).toBeTruthy()
         expect(items.length).toBeGreaterThan(beforeItemCount)
         done()
+      })
+    })
+
+    describe('removePost', () => {
+    })
+
+    describe('updatePost', function () {
+      it('updatePost', async () => {
+        expect(true).toEqual(false)
+      })
+      it('likePost', async () => {
+        expect(true).toEqual(false)
+      })
+      it('viewPost', async () => {
+        expect(true).toEqual(false)
       })
     })
   })

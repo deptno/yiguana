@@ -16,5 +16,4 @@ export async function addComment(operator: DynamoDBInput, params: AddCommentInpu
 
 export type AddCommentInput = {
   data: Comment
-  postId: string
 }

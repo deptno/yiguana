@@ -132,10 +132,10 @@ module.exports = {
           },
         },
         {
-          'IndexName'            : 'commentId-createdAt-index',
+          'IndexName'            : 'postId-createdAt-index',
           'KeySchema'            : [
             {
-              'AttributeName': 'commentId',
+              'AttributeName': 'postId',
               'KeyType'      : 'HASH'
             },
             {

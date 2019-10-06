@@ -5,8 +5,9 @@ import {Post} from '../src/entity/post'
 import {posts} from '../src/api/dynamodb/posts'
 import {addPost} from '../src/api/dynamodb/add-post'
 import * as R from 'ramda'
-import {createComment, EPriority} from '../src/entity/comment'
+import {createComment} from '../src/entity/comment'
 import {addComment} from '../src/api/dynamodb/add-comment'
+import {EPriority} from '../src/entity/enum'
 
 export const getInitialData = async () => {
   await clearData()

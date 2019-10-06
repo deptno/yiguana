@@ -1,5 +1,5 @@
-import {Post} from '../../../../src/entity/post'
-import {getInitialData} from '../../../setup'
+import {Post} from '../../../src/entity/post'
+import {getInitialData} from '../../setup'
 
 describe('api', function () {
   let postList: Post[]
@@ -8,6 +8,6 @@ describe('api', function () {
     done()
   })
 
-  it('removeComment', async function () {
+  describe('replies', function () {
   })
 })
