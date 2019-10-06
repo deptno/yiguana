@@ -6,7 +6,7 @@ export function createEntityFactory(params: CreateInput): Entity {
   const s3 = createS3(params.s3Client)
   const operator = {
     s3,
-    bucketName: params.bucketName
+    bucket: params.bucketName
   }
   return {
     createPostContent: createPostContentUnSafe.bind(null, operator),

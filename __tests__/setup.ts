@@ -5,6 +5,8 @@ import {Post} from '../src/entity/post'
 import {posts} from '../src/api/dynamodb/posts'
 import {addPost} from '../src/api/dynamodb/add-post'
 import * as R from 'ramda'
+import {createComment, EPriority} from '../src/entity/comment'
+import {addComment} from '../src/api/dynamodb/add-comment'
 
 export const getInitialData = async () => {
   await clearData()
@@ -61,14 +63,27 @@ export const getInitialData = async () => {
     ),
   )
 
+  const comment = createComment({
+    data: {
+      content: 'test comment',
+      priority: EPriority.Normal,
+    },
+    user: {
+      userId: 'userId',
+      ip: '0.0.0.0',
+    },
+  })
+  await addComment(opDdb, {comment})
+  const initialData = await opDdb.dynamodb.scan({TableName: opDdb.tableName})
+
   console.debug('초기 데이터 셋')
-  console.table(postDocs)
+  console.table(initialData)
 
   return postList
 }
 
 
-export const clearData = async () => {
+const clearData = async () => {
   console.log('데이터 초기화')
   const {dynamodb, tableName} = opDdb
   const {items} = await posts(opDdb, {})

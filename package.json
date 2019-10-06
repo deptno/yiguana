@@ -6,7 +6,7 @@
   "main": "index.js",
   "scripts": {
     "prepare": "rimraf lib && rollup -c",
-    "test": "jest --collect-coverage  --silent --verbose --ci",
+    "test": "jest --collect-coverage  --silent --verbose --run-in-band --ci",
     "local.test": "jest --verbose --run-in-band"
   },
   "repository": {

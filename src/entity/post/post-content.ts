@@ -10,7 +10,7 @@ export async function createPostContentUnSafe(op: Operator, input: PostUserInput
     Body: input.content,
     ContentType: 'plain/text',
   })
-  const contentUrl = `https://s3.ap-northeast-2.amazonaws.com/${op.bucket}/${id}`
+  const contentUrl = `s3://${op.bucket}/${id}`
   const postInput: PostContent = {
     id,
     input,

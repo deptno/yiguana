@@ -1,18 +1,18 @@
 import {EEntity} from '../enum'
 import {uuid} from '../../lib/uuid'
 import {YiguanaDocument} from '../../dynamodb/yiguana-document'
-import {ReplyUserInput} from '../reply/user-input'
-import {User} from '../user/user'
+import {User} from '../user'
+import {CommentUserInput} from './user-input'
 
-export function createReply(operator, params: CreateCommentInput): Comment {
+export function createComment(params: CreateCommentInput): Comment {
   const {user, data} = params
   const comment: Comment = {
     hk: uuid(),
     rk: EEntity.Comment,
     createdAt: new Date().toISOString(),
     comments: 0,
-    content: '',
-    priority: EPriority.Normal,
+    content: data.content,
+    priority: data.priority,
   }
   if (user) {
     comment.userId = user.userId
@@ -22,7 +22,7 @@ export function createReply(operator, params: CreateCommentInput): Comment {
 }
 
 export type CreateCommentInput = {
-  data: ReplyUserInput
+  data: CommentUserInput
   user?: User
 }
 export interface Comment extends YiguanaDocument {

@@ -9,10 +9,12 @@ export async function addComment(operator: DynamoDBInput, params: AddCommentInpu
     {
       TableName: tableName,
       Item: dynamodb.util.js2DdbDoc(comment),
+      ReturnValues: 'ALL_OLD',
     },
   )
 }
 
 export type AddCommentInput = {
   comment: Comment
+  postId: string
 }
