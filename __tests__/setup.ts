@@ -67,6 +67,7 @@ export const getInitialData = async () => {
 
   const comment = createComment({
     data: {
+      postId: postList[0].hk,
       content: 'test data',
       priority: EPriority.Normal,
     },
@@ -76,20 +77,18 @@ export const getInitialData = async () => {
     },
   })
   await addComment(opDdb, {
-    postId: postList[0].hk,
     data: comment
   })
   const initialData = await opDdb.dynamodb.scan({TableName: opDdb.tableName})
 
-  console.debug('초기 데이터 셋')
   console.table(initialData)
+  console.debug('-----------------')
 
   return postList
 }
 
 
 const clearData = async () => {
-  console.log('데이터 초기화')
   const {dynamodb, tableName} = opDdb
   const {items} = await posts(opDdb, {})
 

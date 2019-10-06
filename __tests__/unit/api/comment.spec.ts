@@ -41,21 +41,6 @@ describe('api', function () {
       console.table(items)
       expect(items).toHaveLength(1)
     })
-    it('UI', async function () {
-      const {items} = await comments(opDdb, {
-        postId: post.hk,
-      })
-      const uiItems = items.map(c => {
-        // fixme: userId 가 아닌 유저 정보가 필요
-        return {
-          'TYPE': EPriority[c.priority],
-          'CONTENT': c.content,
-          'AUTHOR': c.userId,
-          'TIME': c.createdAt,
-        }
-      })
-      console.table(uiItems)
-    })
   })
 })
 
