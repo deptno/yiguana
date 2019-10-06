@@ -3,18 +3,18 @@ import {DynamoDBInput} from '../../entity/input/dynamodb'
 
 export async function addComment(operator: DynamoDBInput, params: AddCommentInput) {
   const {dynamodb, tableName} = operator
-  const {comment} = params
+  const {data} = params
 
   return dynamodb.put<Comment>(
     {
       TableName: tableName,
-      Item: dynamodb.util.js2DdbDoc(comment),
+      Item: dynamodb.util.js2DdbDoc(data),
       ReturnValues: 'ALL_OLD',
     },
   )
 }
 
 export type AddCommentInput = {
-  comment: Comment
+  data: Comment
   postId: string
 }

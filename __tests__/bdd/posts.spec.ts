@@ -1,6 +1,6 @@
 import {Post} from '../../src/entity/post'
 import {posts} from '../../src/api/dynamodb/posts'
-import {clearData, getInitialData} from '../setup'
+import {getInitialData} from '../setup'
 
 describe('posts', function () {
   let postList: Post[]

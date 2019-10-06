@@ -1,5 +1,5 @@
 import {Post} from '../../../../src/entity/post'
-import {clearData, getInitialData} from '../../../setup'
+import {getInitialData} from '../../../setup'
 
 describe('api', function () {
   let postList: Post[]

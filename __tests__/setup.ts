@@ -62,10 +62,11 @@ export const getInitialData = async () => {
       post => addPost(opDdb, {post}),
     ),
   )
+  expect(postDocs).toEqual(postList)
 
   const comment = createComment({
     data: {
-      content: 'test comment',
+      content: 'test data',
       priority: EPriority.Normal,
     },
     user: {
@@ -73,7 +74,10 @@ export const getInitialData = async () => {
       ip: '0.0.0.0',
     },
   })
-  await addComment(opDdb, {comment})
+  await addComment(opDdb, {
+    postId: postList[0].hk,
+    data: comment
+  })
   const initialData = await opDdb.dynamodb.scan({TableName: opDdb.tableName})
 
   console.debug('초기 데이터 셋')

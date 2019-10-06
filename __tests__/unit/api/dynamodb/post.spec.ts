@@ -1,7 +1,7 @@
 import {Post} from '../../../../src/entity/post'
 import {post} from '../../../../src/api/dynamodb/post'
 import {opDdb} from '../../../env'
-import {clearData, getInitialData} from '../../../setup'
+import {getInitialData} from '../../../setup'
 
 describe('api', function () {
   let postList: Post[]

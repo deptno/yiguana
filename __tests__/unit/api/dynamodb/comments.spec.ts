@@ -12,6 +12,7 @@ describe('api', function () {
 
   it('comments', async function () {
     const {items} = await posts(opDdb, {category: 'news'})
+
     console.debug('addComment')
     const comment = createComment({
       data: {
@@ -23,7 +24,11 @@ describe('api', function () {
         ip: '0.0.0.0'
       }
     })
-    const commented = await addComment(opDdb, {comment})
+    const [post] = items
+    const commented = await addComment(opDdb, {
+      postId: post.hk,
+      data: comment
+    })
 
     console.table([comment, commented])
     expect(commented).toEqual(comment)

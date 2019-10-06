@@ -4,7 +4,7 @@ import {posts} from '../../../src/api/dynamodb/posts'
 import {addPost} from '../../../src/api/dynamodb/add-post'
 import {opDdb, opS3} from '../../env'
 import {postsByUserId} from '../../../src/api/dynamodb/post-by-user-id'
-import {clearData, getInitialData} from '../../setup'
+import {getInitialData} from '../../setup'
 
 describe('api', function () {
   let postList: Post[]
