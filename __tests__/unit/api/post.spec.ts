@@ -6,6 +6,7 @@ import {opDdb, opS3} from '../../env'
 import {postsByUserId} from '../../../src/api/dynamodb/post-by-user-id'
 import {getInitialData} from '../../setup'
 import {removePost} from '../../../src/api/dynamodb/remove-post'
+import { likePost } from '../../../src/api/dynamodb/like-post'
 
 describe('api', function () {
   let postList: Post[]
@@ -91,7 +92,14 @@ describe('api', function () {
         expect(false).toEqual(true)
       })
       it('likePost', async () => {
-        expect(false).toEqual(true)
+        const {items: before} = await posts(opDdb, {})
+        const isLiked = await likePost(opDdb, {post: before[0]})
+        console.log(isLiked)
+
+        const {items: after} = await posts(opDdb, {})
+        expect(after[0].likes).toEqual(before[0].likes + 1)
+        console.debug('result')
+        console.table(after)
       })
       it('viewPost', async () => {
         expect(false).toEqual(true)
