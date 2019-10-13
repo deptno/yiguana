@@ -2,15 +2,18 @@ import {DynamoDBInput} from '../../entity/input/dynamodb'
 
 export async function removeComment(operator: DynamoDBInput, params: RemoveCommentInput) {
   const {dynamodb, tableName} = operator
-  const {id} = params
-  const rk = 'post'
-  // todo 지우지말고 내용으로 변경 해야한다. CommentReply 는 문제 없이 보여야 함
-  const response = await dynamodb.del({
+  const {hk} = params
+  const rk = 'comment'
+  const response = await dynamodb.update({
     ReturnConsumedCapacity: 'TOTAL',
     TableName             : tableName,
     Key                   : {
-      id,
+      hk,
       rk
+    },
+    UpdateExpression: 'SET deleted = :d',
+    ExpressionAttributeValues: {
+      ':d': true
     }
   })
   if (response) {
@@ -23,5 +26,5 @@ export async function removeComment(operator: DynamoDBInput, params: RemoveComme
   return Boolean(response)
 }
 export type RemoveCommentInput = {
-  id: string
+  hk: string
 }

@@ -9,6 +9,7 @@ import {createComment} from '../src/entity/comment'
 import {addComment} from '../src/api/dynamodb/add-comment'
 import {EPriority} from '../src/entity/enum'
 import {commentPost} from '../src/api/dynamodb/comment-post'
+import {YiguanaDocument} from '../src/dynamodb/yiguana-document'
 
 export const getInitialData = async () => {
   await clearData()
@@ -83,12 +84,12 @@ export const getInitialData = async () => {
   await commentPost(opDdb, {
     data: postList[0]
   })
-  const initialData = await opDdb.dynamodb.scan({TableName: opDdb.tableName})
+  const initialData = await opDdb.dynamodb.scan<YiguanaDocument>({TableName: opDdb.tableName})
 
+  console.debug('--- test data set')
   console.table(initialData)
-  console.debug('-----------------')
 
-  return postList
+  return initialData
 }
 
 

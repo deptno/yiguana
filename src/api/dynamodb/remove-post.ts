@@ -2,14 +2,14 @@ import {DynamoDBInput} from '../../entity/input/dynamodb'
 
 export async function removePost(operator: DynamoDBInput, params: RemovePostInput) {
   const {dynamodb, tableName} = operator
-  const {id} = params
+  const {hk} = params
   const rk = 'post'
   // fixme update 삭제
   const response = await dynamodb.update({
     ReturnConsumedCapacity: 'TOTAL',
     TableName             : tableName,
     Key                   : {
-      hk: id,
+      hk,
       rk
     },
     UpdateExpression: [
@@ -29,5 +29,5 @@ export async function removePost(operator: DynamoDBInput, params: RemovePostInpu
   return Boolean(response)
 }
 export type RemovePostInput = {
-  id: string
+  hk: string
 }

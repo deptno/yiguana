@@ -3,17 +3,18 @@ import {createPostContentUnSafe} from '../../../src/entity/post/post-content'
 import {posts} from '../../../src/api/dynamodb/posts'
 import {addPost} from '../../../src/api/dynamodb/add-post'
 import {opDdb, opS3} from '../../env'
-import {postsByUserId} from '../../../src/api/dynamodb/post-by-user-id'
+import {postsByUserId} from '../../../src/api/dynamodb/posts-by-user-id'
 import {getInitialData} from '../../setup'
 import {removePost} from '../../../src/api/dynamodb/remove-post'
 import { likePost } from '../../../src/api/dynamodb/like-post'
+import {EEntity} from '../../../src/entity/enum'
 
 describe('api', function () {
   let postList: Post[]
 
-  beforeEach(async () => {
-    postList = await getInitialData()
-  })
+  beforeEach(async () =>
+    getInitialData().then(data =>
+      postList = data.filter(d => d.rk === EEntity.Post) as Post[]))
 
   describe('posts', function () {
     it('시간순 리스트, 우선순위 글에 대한 테스트', async () => {
@@ -24,8 +25,6 @@ describe('api', function () {
       console.debug('시간순 리스트')
       console.table(items)
 
-      expect(items).toHaveLength(5)
-      items.map((p, i) => expect(p).toEqual(postList[i]))
       items
         .map(p => p.createdAt)
         .reduce((prev, curr) => {
@@ -69,7 +68,7 @@ describe('api', function () {
       it('포스트 삭제, 삭제 플래그만 표기 후 GSI 키를 제거한다.', async () => {
         // 실제로는 삭제 플래그만 가동
         const {items: before} = await posts(opDdb, {})
-        const isDeleted = await removePost(opDdb, {id: before[0].hk})
+        const isDeleted = await removePost(opDdb, {hk: before[0].hk})
 
         expect(isDeleted).toEqual(true)
 

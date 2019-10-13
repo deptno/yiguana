@@ -4,19 +4,21 @@ import {opDdb} from '../../env'
 import {addComment} from '../../../src/api/dynamodb/add-comment'
 import {createComment} from '../../../src/entity/comment'
 import {comments} from '../../../src/api/dynamodb/comments'
-import {EPriority} from '../../../src/entity/enum'
+import {EEntity, EPriority} from '../../../src/entity/enum'
 import {post} from '../../../src/api/dynamodb/post'
 import {commentPost} from '../../../src/api/dynamodb/comment-post'
+import {removeComment} from '../../../src/api/dynamodb/remove-comment'
 
 describe('api', function () {
   let postList: Post[]
   let commentedPost: Post
 
   describe('comments', () => {
-    beforeAll(() => getInitialData().then(d => {
-      postList = d
-      commentedPost = postList[0]
-    }))
+    beforeAll(async () =>
+      getInitialData().then(data => {
+        postList = data.filter(d => d.rk === EEntity.Post) as Post[]
+        commentedPost = postList[0]
+      }))
 
     it('comments(1)', async function () {
       const {items} = await comments(opDdb, {postId: commentedPost.hk})
@@ -86,6 +88,42 @@ describe('api', function () {
       const nextCommentedPost = await post(opDdb, {hk: commentedPost.hk})
       expect(nextCommentedPost.comments).toEqual(3)
     })
+
+    describe('removeComment', function () {
+      // 삭제된 코메트의 경우 삭제된 코멘트라고 표시되며 코멘트 수는 유지된다.
+
+      it('removeComment', async () => {
+        const {items: before} = await comments(opDdb, {postId: commentedPost.hk})
+        const [comment] = before
+        const isDeleted = await removeComment(opDdb, {hk: comment.hk})
+
+        expect(isDeleted).toEqual(true)
+
+        const {items: after} = await comments(opDdb, {postId: commentedPost.hk})
+        expect(after.length).toEqual(before.length)
+
+        console.table(before)
+        console.table(after)
+      })
+
+      it('post.comments(1), 삭제되도 코멘트 수는 유지', async function () {
+        const nextCommentedPost = await post(opDdb, {hk: commentedPost.hk})
+        expect(nextCommentedPost.comments).toEqual(1)
+      })
+    })
   })
+
+  describe('commentsByUserId', () => {
+    beforeAll(async () =>
+      getInitialData().then(data => {
+        postList = data.filter(d => d.rk === EEntity.Post) as Post[]
+        commentedPost = postList[0]
+      }))
+
+    it('todo', async () => {
+
+    })
+  })
+  // todo commentsByUserId 에 대한 구현
 })
 

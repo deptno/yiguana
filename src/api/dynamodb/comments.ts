@@ -7,17 +7,17 @@ export function comments(operator: DynamoDBInput, params: CommentsInput) {
   const {postId, nextToken} = params
 
   return dynamodb.query<Comment>({
-    TableName                : tableName,
-    IndexName                : EIndexName.Comment,
-    KeyConditionExpression   : '#p = :p',
-    ExpressionAttributeNames : {
+    TableName: tableName,
+    IndexName: EIndexName.Comment,
+    KeyConditionExpression: '#p = :p',
+    ExpressionAttributeNames: {
       '#p': 'postId',
     },
     ExpressionAttributeValues: {
       ':p': postId,
     },
     ScanIndexForward: false,
-    ReturnConsumedCapacity   : 'TOTAL',
+    ReturnConsumedCapacity: 'TOTAL',
   })
 }
 
