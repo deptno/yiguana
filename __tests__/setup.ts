@@ -8,6 +8,7 @@ import * as R from 'ramda'
 import {createComment} from '../src/entity/comment'
 import {addComment} from '../src/api/dynamodb/add-comment'
 import {EPriority} from '../src/entity/enum'
+import {commentPost} from '../src/api/dynamodb/comment-post'
 
 export const getInitialData = async () => {
   await clearData()
@@ -78,6 +79,9 @@ export const getInitialData = async () => {
   })
   await addComment(opDdb, {
     data: comment
+  })
+  await commentPost(opDdb, {
+    data: postList[0]
   })
   const initialData = await opDdb.dynamodb.scan({TableName: opDdb.tableName})
 

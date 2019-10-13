@@ -19,8 +19,8 @@ export async function commentPost(operator: DynamoDBInput, params: CommentPostIn
 }
 export function commentPostParams(operator: DynamoDBInput, params: CommentPostInput): DocumentClient.Update {
   const {tableName} = operator
-  const {post} = params
-  const {hk, rk} = post
+  const {data} = params
+  const {hk, rk} = data
   return {
     TableName                : tableName,
     Key                      : {
@@ -35,8 +35,7 @@ export function commentPostParams(operator: DynamoDBInput, params: CommentPostIn
       ':v': 1
     }
   }
-
 }
 export type CommentPostInput = {
-  post: Post
+  data: Post
 }
