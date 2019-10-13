@@ -65,7 +65,7 @@ describe('api', function () {
     })
 
     describe('removePost', () => {
-      it('포스트 삭제', async () => {
+      it('포스트 삭제, 삭제 플래그만 표기 후 GSI 키를 제거한다.', async () => {
         // 실제로는 삭제 플래그만 가동
         const {items: before} = await posts(opDdb, {})
         const isDeleted = await removePost(opDdb, {id: before[0].hk})
