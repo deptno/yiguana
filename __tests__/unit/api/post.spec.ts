@@ -219,17 +219,51 @@ describe('api', function () {
     })
 
     describe('removePost', () => {
-    })
+      it('유저 리스트 cGun -> 포스트 추가 -> 포스트 삭제', async () => {
+        const {items: before} = await postsByUserId(opDdb, {userId: 'cGun'})
+        console.table(before)
 
-    describe('updatePost', function () {
-      it('updatePost', async () => {
-        expect(false).toEqual(true)
+        console.debug('포스트 추가')
+        await addPost(opDdb, {
+          post: createPost(
+            opS3,
+            {
+              data: await createPostContentUnSafe(opS3, {
+                category: 'kids#anime',
+                title: 'latest',
+                content: 'content',
+              }),
+              user: {
+                userId: 'cGun',
+                ip: '0.0.0.0',
+              },
+            },
+          ),
+        })
+
+        const {items} = await postsByUserId(opDdb, {userId: 'cGun'})
+        console.debug('유저 리스트 cGun')
+        console.table(items)
+
+        console.log('포스트 삭제')
+        const isDeleted = await removePost(opDdb, {hk: items[0].hk})
+        expect(isDeleted).toEqual(true)
+
+        const {items: after} = await postsByUserId(opDdb, {userId: 'cGun'})
+        console.table(after)
+        expect(after.filter(t => t.rk === 'post').length).toEqual(before.length)
       })
-      it('likePost', async () => {
-        expect(false).toEqual(true)
-      })
-      it('viewPost', async () => {
-        expect(false).toEqual(true)
+
+      describe('updatePost', function () {
+        it('updatePost', async () => {
+          expect(false).toEqual(true)
+        })
+        it('likePost', async () => {
+          expect(false).toEqual(true)
+        })
+        it('viewPost', async () => {
+          expect(false).toEqual(true)
+        })
       })
     })
   })
