@@ -10,13 +10,15 @@ import {removePost} from '../../../src/api/dynamodb/remove-post'
 describe('api', function () {
   let postList: Post[]
 
-  beforeEach(async done => {
+  beforeEach(async () => {
     postList = await getInitialData()
-    done()
   })
 
   describe('posts', function () {
-    it('시간순 리스트', async done => {
+    it('시간순 리스트, 우선순위 글에 대한 테스트', async () => {
+      expect(false).toEqual(true)
+    })
+    it('시간순 리스트', async () => {
       const {items} = await posts(opDdb, {category: 'news'})
       console.debug('시간순 리스트')
       console.table(items)
@@ -29,11 +31,10 @@ describe('api', function () {
           expect(new Date(prev).getTime()).toBeGreaterThan(new Date(curr).getTime())
           return curr
         })
-      done()
     })
 
     describe('addPost', function () {
-      it('시간순 리스트', async done => {
+      it('시간순 리스트', async () => {
         const latestPost = createPost(
           opS3,
           {
@@ -60,7 +61,6 @@ describe('api', function () {
             expect(new Date(prev).getTime()).toBeGreaterThan(new Date(curr).getTime())
             return curr
           })
-        done()
       })
     })
 
@@ -88,19 +88,19 @@ describe('api', function () {
 
     describe('updatePost', function () {
       it('updatePost', async () => {
-        expect(true).toEqual(false)
+        expect(false).toEqual(true)
       })
       it('likePost', async () => {
-        expect(true).toEqual(false)
+        expect(false).toEqual(true)
       })
       it('viewPost', async () => {
-        expect(true).toEqual(false)
+        expect(false).toEqual(true)
       })
     })
   })
 
   describe('postByUserId', function () {
-    it('유저 리스트 aGun', async done => {
+    it('유저 리스트 aGun', async () => {
       const {items} = await postsByUserId(opDdb, {userId: 'aGun'})
       console.debug('유저 리스트 aGun')
       console.table(items)
@@ -111,9 +111,8 @@ describe('api', function () {
           .map(p => p.userId)
           .every(u => u === 'aGun'),
       ).toBeTruthy()
-      done()
     })
-    it('유저 리스트 bGun', async done => {
+    it('유저 리스트 bGun', async () => {
       const {items} = await postsByUserId(opDdb, {userId: 'bGun'})
       console.debug('유저 리스트 bGun')
       console.table(items)
@@ -123,9 +122,8 @@ describe('api', function () {
           .map(p => p.userId)
           .every(u => u === 'bGun'),
       ).toBeTruthy()
-      done()
     })
-    it('유저 리스트 cGun, 카테고리 kids', async done => {
+    it('유저 리스트 cGun, 카테고리 kids', async () => {
       const {items} = await postsByUserId(opDdb, {userId: 'cGun', category: 'kids'})
       console.debug('유저 리스트 cGun, 카테고리 kids')
       console.table(items)
@@ -140,11 +138,10 @@ describe('api', function () {
           .map(p => p.category)
           .every(c => c.startsWith('kids')),
       ).toBeTruthy()
-      done()
     })
 
     describe('addPost', function () {
-      it('유저 리스트 cGun, 카테고리 kids, 포스트 추가, 삭제 후 조회, 글 수 확인', async done => {
+      it('유저 리스트 cGun, 카테고리 kids, 포스트 추가, 삭제 후 조회, 글 수 확인', async () => {
         const {items: before} = await postsByUserId(opDdb, {userId: 'cGun', category: 'kids'})
         const beforeItemCount = before.length
 
@@ -201,7 +198,6 @@ describe('api', function () {
             .every(c => c.startsWith('kids')),
         ).toBeTruthy()
         expect(items.length).toBeGreaterThan(beforeItemCount)
-        done()
       })
     })
 
@@ -210,13 +206,13 @@ describe('api', function () {
 
     describe('updatePost', function () {
       it('updatePost', async () => {
-        expect(true).toEqual(false)
+        expect(false).toEqual(true)
       })
       it('likePost', async () => {
-        expect(true).toEqual(false)
+        expect(false).toEqual(true)
       })
       it('viewPost', async () => {
-        expect(true).toEqual(false)
+        expect(false).toEqual(true)
       })
     })
   })
