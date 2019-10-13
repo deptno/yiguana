@@ -1,5 +1,4 @@
-import {bucketName, opDdb, s3Client} from './env'
-import {createStore} from '../src'
+import {opDdb, opS3} from './env'
 import {createEntityFactory} from '../src/entity'
 import {Post} from '../src/entity/post'
 import {posts} from '../src/store/dynamodb/posts'
@@ -10,15 +9,13 @@ import {addComment} from '../src/store/dynamodb/add-comment'
 import {EPriority} from '../src/entity/enum'
 import {commentPost} from '../src/store/dynamodb/comment-post'
 import {YiguanaDocument} from '../src/dynamodb/yiguana-document'
+import {createStore} from '../src/store/dynamodb/dynamodb'
 
 export const getInitialData = async () => {
   await clearData()
 
   const store = createStore(opDdb)
-  const entityFactory = createEntityFactory({
-    s3Client,
-    bucketName,
-  })
+  const entityFactory = createEntityFactory(opS3)
 
   const postContentNews = await entityFactory.createPostContent({
     category: 'news#politics',

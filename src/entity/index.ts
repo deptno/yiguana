@@ -1,23 +1,13 @@
-import {S3} from 'aws-sdk'
-import {createS3} from '@deptno/s3'
 import {createPost, createPostContentUnSafe, CreatePostInput, PostContent, PostUserInput} from './post'
+import {S3Input} from './input/s3'
 
-export function createEntityFactory(params: CreateInput): Entity {
-  const s3 = createS3(params.s3Client)
-  const operator = {
-    s3,
-    bucket: params.bucketName
-  }
+export function createEntityFactory(operator: S3Input): EntityFactory {
   return {
     createPostContent: createPostContentUnSafe.bind(null, operator),
     createPost: createPost.bind(null, operator),
   }
 }
-export type Entity = {
-  createPostContent(params: PostUserInput): PostContent
+export type EntityFactory = {
+  createPostContent(params: PostUserInput): Promise<PostContent>
   createPost(params: CreatePostInput): ReturnType<typeof createPost>
-}
-type CreateInput = {
-  s3Client: S3
-  bucketName: string
 }

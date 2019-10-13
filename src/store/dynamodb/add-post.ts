@@ -7,6 +7,7 @@ export async function addPost(operator: DynamoDBInput, params: AddPostInput) {
   return dynamodb.put({
     TableName: tableName,
     Item: dynamodb.util.js2DdbDoc(params.post),
+    ReturnValues: 'ALL_OLD'
   })
 }
 

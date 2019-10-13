@@ -6,9 +6,9 @@ export async function remove(operator: DynamoDBInput, params: RemoveInput): Prom
   const {hk, rk} = params
   const response = await dynamodb.del({
     ReturnConsumedCapacity: 'TOTAL',
-    ReturnValues          : 'ALL_OLD',
-    TableName             : tableName,
-    Key                   : {
+    ReturnValues: 'ALL_OLD',
+    TableName: tableName,
+    Key: {
       hk,
       rk,
     },

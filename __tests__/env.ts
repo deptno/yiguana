@@ -11,4 +11,4 @@ const dynamodb = createDynamoDB(ddbClient)
 const s3 = createS3(s3Client)
 
 export const opDdb = {dynamodb, tableName: 'yiguana'}
-export const opS3 = {s3, bucket: 'bucket'}
+export const opS3 = {s3, bucketName: 'bucket'}

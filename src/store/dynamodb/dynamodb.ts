@@ -16,7 +16,7 @@ import {PaginationResult} from '@deptno/dynamodb/dist/api/query'
 import {post, PostInput} from './post'
 import {DynamoDBInput} from '../../entity/input/dynamodb'
 
-export function createStore<P>(operator: DynamoDBInput): YiguanaApi<P> {
+export function createStore<P>(operator: DynamoDBInput): YiguanaStore<P> {
   return {
     post: post.bind(null, operator),
     posts: posts.bind(null, operator),
@@ -36,7 +36,7 @@ export function createStore<P>(operator: DynamoDBInput): YiguanaApi<P> {
   }
 }
 
-export interface YiguanaApi<P> {
+export interface YiguanaStore<P> {
   // board
   post(params: PostInput): ReturnType<typeof post>
   posts(params: PostsInput): Promise<PaginationResult<P>>
