@@ -5,6 +5,7 @@ import {addPost} from '../../../src/api/dynamodb/add-post'
 import {opDdb, opS3} from '../../env'
 import {postsByUserId} from '../../../src/api/dynamodb/post-by-user-id'
 import {getInitialData} from '../../setup'
+import {removePost} from '../../../src/api/dynamodb/remove-post'
 
 describe('api', function () {
   let postList: Post[]
@@ -64,6 +65,25 @@ describe('api', function () {
     })
 
     describe('removePost', () => {
+      it('포스트 삭제', async () => {
+        // 실제로는 삭제 플래그만 가동
+        const {items: before} = await posts(opDdb, {})
+        const isDeleted = await removePost(opDdb, {id: before[0].hk})
+
+        expect(isDeleted).toEqual(true)
+
+        const {items: after} = await posts(opDdb, {})
+
+        expect(after.length).toEqual(before.length - 1)
+
+        const items = await opDdb.dynamodb.scan<any>({
+          TableName: opDdb.tableName
+        })
+
+        expect(items.filter(t => t.rk === 'post').length).toEqual(before.length)
+        expect(items.filter(t => t.rk === 'post').length).toEqual(after.length + 1)
+
+      })
     })
 
     describe('updatePost', function () {
@@ -79,7 +99,7 @@ describe('api', function () {
     })
   })
 
-  describe('postByUserId', async function () {
+  describe('postByUserId', function () {
     it('유저 리스트 aGun', async done => {
       const {items} = await postsByUserId(opDdb, {userId: 'aGun'})
       console.debug('유저 리스트 aGun')

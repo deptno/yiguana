@@ -5,12 +5,19 @@ export async function removePost(operator: DynamoDBInput, params: RemovePostInpu
   const {id} = params
   const rk = 'post'
   // fixme update 삭제
-  const response = await dynamodb.del({
+  const response = await dynamodb.update({
     ReturnConsumedCapacity: 'TOTAL',
     TableName             : tableName,
     Key                   : {
-      id,
+      hk: id,
       rk
+    },
+    UpdateExpression: [
+      'SET dCategory = category, deleted = :d',
+      'REMOVE category'
+    ].join(' '),
+    ExpressionAttributeValues: {
+      ':d': true
     }
   })
   if (response) {
