@@ -1,13 +1,13 @@
-import {Post} from '../../../src/entity/post'
-import {getInitialData} from '../../setup'
-import {opDdb} from '../../env'
-import {addComment} from '../../../src/api/dynamodb/add-comment'
-import {createComment} from '../../../src/entity/comment'
-import {comments} from '../../../src/api/dynamodb/comments'
-import {EEntity, EPriority} from '../../../src/entity/enum'
-import {post} from '../../../src/api/dynamodb/post'
-import {commentPost} from '../../../src/api/dynamodb/comment-post'
-import {removeComment} from '../../../src/api/dynamodb/remove-comment'
+import {Post} from '../../../../src/entity/post'
+import {getInitialData} from '../../../setup'
+import {opDdb} from '../../../env'
+import {addComment} from '../../../../src/store/dynamodb/add-comment'
+import {createComment} from '../../../../src/entity/comment'
+import {comments} from '../../../../src/store/dynamodb/comments'
+import {EEntity, EPriority} from '../../../../src/entity/enum'
+import {post} from '../../../../src/store/dynamodb/post'
+import {commentPost} from '../../../../src/store/dynamodb/comment-post'
+import {removeComment} from '../../../../src/store/dynamodb/remove-comment'
 
 describe('api', function () {
   let postList: Post[]

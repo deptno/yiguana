@@ -1,22 +1,22 @@
-import {createPost, Post} from '../../../src/entity/post'
-import {createPostContentUnSafe} from '../../../src/entity/post/post-content'
-import {posts} from '../../../src/api/dynamodb/posts'
-import {addPost} from '../../../src/api/dynamodb/add-post'
-import {opDdb, opS3} from '../../env'
-import {postsByUserId} from '../../../src/api/dynamodb/posts-by-user-id'
-import {getInitialData} from '../../setup'
-import {removePost} from '../../../src/api/dynamodb/remove-post'
-import {likePost} from '../../../src/api/dynamodb/like-post'
-import {viewPost} from '../../../src/api/dynamodb/view-post'
-import {EEntity} from '../../../src/entity/enum'
-import {updatePost} from '../../../src/api/dynamodb/update-post'
+import {createPost, Post} from '../../../../src/entity/post'
+import {createPostContentUnSafe} from '../../../../src/entity/post/post-content'
+import {posts} from '../../../../src/store/dynamodb/posts'
+import {addPost} from '../../../../src/store/dynamodb/add-post'
+import {opDdb, opS3} from '../../../env'
+import {postsByUserId} from '../../../../src/store/dynamodb/posts-by-user-id'
+import {getInitialData} from '../../../setup'
+import {removePost} from '../../../../src/store/dynamodb/remove-post'
+import {likePost} from '../../../../src/store/dynamodb/like-post'
+import {viewPost} from '../../../../src/store/dynamodb/view-post'
+import {EEntity} from '../../../../src/entity/enum'
+import {updatePost} from '../../../../src/store/dynamodb/update-post'
 
 describe('api', function () {
   let postList: Post[]
 
   beforeEach(async () =>
-    getInitialData().then(data =>
-      postList = data.filter(d => d.rk === EEntity.Post) as Post[]))
+    getInitialData().then(data => postList = data.filter(d => d.rk === EEntity.Post) as Post[]),
+  )
 
   describe('posts', function () {
     it('시간순 리스트, 우선순위 글에 대한 테스트', async () => {
@@ -79,7 +79,7 @@ describe('api', function () {
         expect(after.length).toEqual(before.length - 1)
 
         const items = await opDdb.dynamodb.scan<any>({
-          TableName: opDdb.tableName
+          TableName: opDdb.tableName,
         })
 
         expect(items.filter(t => t.rk === 'post').length).toEqual(before.length)
@@ -95,7 +95,7 @@ describe('api', function () {
         // todo: 이 경우라면 updatePost 는 필요하지 않다
         const [post] = postList
         const updatedPost = await updatePost(opDdb, {
-          data: post
+          data: post,
         })
         console.table([post, updatedPost])
       })

@@ -1,7 +1,7 @@
-import {YiguanaApi} from './api/dynamodb/dynamodb'
+import {YiguanaApi} from './store/dynamodb/dynamodb'
 import * as R from 'ramda'
 
-export {createStore} from './api/dynamodb/dynamodb'
+export {createStore} from './store/dynamodb/dynamodb'
 export class Yiguana<T> {
   public constructor(private api: YiguanaApi<T>) {}
 
@@ -10,5 +10,3 @@ export class Yiguana<T> {
   public comment = R.pick(['post', 'posts', 'addPost', 'removePost'], this.api)
   public commentReply = R.pick(['post', 'posts', 'addPost', 'removePost'], this.api)
 }
-
-

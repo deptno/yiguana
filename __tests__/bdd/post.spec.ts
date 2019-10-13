@@ -1,14 +1,16 @@
-import {comments} from '../../src/api/dynamodb/comments'
+import {comments} from '../../src/store/dynamodb/comments'
 import {opDdb} from '../env'
 import {getInitialData} from '../setup'
 import {Post} from '../../src/entity/post'
 import {uiComment} from '../ui'
+import {EEntity} from '../../src/entity/enum'
 
 describe('BDD post', function () {
   let postList: Post[]
-  beforeEach(() => getInitialData().then(d => {
-    postList = d
-  }))
+
+  beforeEach(() =>
+    getInitialData().then(data => postList = data.filter(d => d.rk === EEntity.Post) as Post[]),
+  )
 
   it('보기', function () {
 
