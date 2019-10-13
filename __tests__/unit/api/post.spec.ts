@@ -227,9 +227,15 @@ describe('api', function () {
     })
 
     describe('removePost', () => {
-      it('유저 리스트 cGun -> 포스트 추가 -> 포스트 삭제', async () => {
+      // cGun 데이터만 추가/삭제하였으니 cGun 데이터는 잘 갱신되고 aGun 데이터는 무결함을 확인하는 테스트
+      it('유저 리스트 cGun -> 포스트 추가 -> 포스트 삭제 -> 유저 리스트 aGun', async () => {
         const {items: before} = await postsByUserId(opDdb, {userId: 'cGun'})
+        console.debug('유저 리스트 cGun')
         console.table(before)
+
+        const {items: other} = await postsByUserId(opDdb, {userId: 'aGun'})
+        console.debug('다른 유저 리스트 aGun')
+        console.table(other)
 
         console.debug('포스트 추가')
         await addPost(opDdb, {
@@ -248,18 +254,18 @@ describe('api', function () {
             },
           ),
         })
-
-        const {items} = await postsByUserId(opDdb, {userId: 'cGun'})
-        console.debug('유저 리스트 cGun')
-        console.table(items)
-
         console.log('포스트 삭제')
-        const isDeleted = await removePost(opDdb, {hk: items[0].hk})
+        const isDeleted = await removePost(opDdb, {hk: before[0].hk})
         expect(isDeleted).toEqual(true)
 
         const {items: after} = await postsByUserId(opDdb, {userId: 'cGun'})
         console.table(after)
         expect(after.filter(t => t.rk === 'post').length).toEqual(before.length)
+
+        console.log('다른 유저 리스트 aGun')
+        const {items} = await postsByUserId(opDdb, {userId: 'aGun'})
+        console.table(items)
+        expect(items.length).toEqual(other.length)
       })
 
       describe('updatePost', function () {
