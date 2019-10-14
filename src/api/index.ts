@@ -8,6 +8,7 @@ import {Post} from '../entity/post'
 import {createPostApi} from './post'
 import {createCommentApi} from './comment'
 import {createReplyApi} from './reply'
+import {YiguanaObjectApi} from './interface'
 
 export function createApi(params: CreateInput): YiguanaApi<Post> {
   const {ddbClient, s3Client, bucketName, tableName} = params
@@ -24,9 +25,9 @@ export function createApi(params: CreateInput): YiguanaApi<Post> {
 }
 
 export interface YiguanaApi<P> {
-  post
-  comment
-  reply
+  post: YiguanaObjectApi
+  comment: YiguanaObjectApi
+  reply: YiguanaObjectApi
 
 //  report: ApiReport
 }

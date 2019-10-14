@@ -12,14 +12,14 @@ describe('api', () => {
     bucketName: 'yiguana',
   })
   it('getPosts(0)', async () => {
-    const {items} = await api.getPosts({})
+    const {items} = await api.post.list({})
     expect(items.length).toEqual(0)
   })
 
   describe('post', () => {
     it('add post, 비밀 번호 없는 비회원 글쓰기', async () => {
       try {
-        await api.addPost({
+        await api.post.create({
           data: {
             content: 'content',
             title: 'title',
@@ -31,7 +31,7 @@ describe('api', () => {
       }
     })
     it('add post, 비회원 글쓰기', async () => {
-      const post = await api.addPost({
+      const post = await api.post.create({
         data: {
           content: 'content',
           title: 'title',
@@ -40,7 +40,7 @@ describe('api', () => {
           userPw: 'pw',
         },
       })
-      const {items} = await api.getPosts({})
+      const {items} = await api.post.list({})
       expect(items.length).toEqual(1)
       console.table(items)
     })
