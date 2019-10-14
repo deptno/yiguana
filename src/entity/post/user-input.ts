@@ -6,6 +6,6 @@ export type PostMemberInput = {
   images?: string[]
 }
 export type PostNonMemberInput = PostMemberInput & {
-  userName?: string
-  userPw?: string
+  userName: string
+  userPw: string
 }

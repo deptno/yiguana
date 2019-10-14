@@ -1,16 +1,23 @@
 import {PostUserInput} from './user-input'
-import {createS3} from '@deptno/s3'
 import {uuid} from '../../lib/uuid'
+import {S3Input} from '../input/s3'
+import {ES3ErrorMessage, S3Error} from '../error/s3-error'
 
-export async function createPostContentUnSafe(op: Operator, input: PostUserInput): Promise<PostContent> {
+export async function createPostContentUnSafe(op: S3Input, input: PostUserInput): Promise<PostContent> {
   const id = uuid()
-  const response = await op.s3.putObject({
-    Bucket: op.bucket,
-    Key: id,
-    Body: input.content,
-    ContentType: 'plain/text',
-  })
-  const contentUrl = `https://s3.ap-northeast-2.amazonaws.com/${op.bucket}/${id}`
+
+  try {
+    await op.s3.putObject({
+      Bucket: op.bucketName,
+      Key: id,
+      Body: input.content,
+      ContentType: 'plain/text',
+    })
+  } catch (e) {
+    throw new S3Error(ES3ErrorMessage.FailToPut)
+  }
+
+  const contentUrl = `s3://${op.bucketName}/${id}`
   const postInput: PostContent = {
     id,
     input,
@@ -21,10 +28,6 @@ export async function createPostContentUnSafe(op: Operator, input: PostUserInput
   }
 
   return postInput
-}
-export type Operator = {
-  s3: ReturnType<typeof createS3>
-  bucket: string
 }
 export type PostContent = {
   id: string

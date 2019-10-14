@@ -5,4 +5,5 @@ export interface YiguanaDocument {
   rk: EEntity
   createdAt: string
   updatedAt?: string
+  deleted?: boolean
 }

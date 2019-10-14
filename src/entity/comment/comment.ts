@@ -1,19 +1,24 @@
-import {EEntity} from '../enum'
+import {EEntity, EPriority} from '../enum'
 import {uuid} from '../../lib/uuid'
 import {YiguanaDocument} from '../../dynamodb/yiguana-document'
-import {ReplyUserInput} from '../reply/user-input'
-import {User} from '../user/user'
+import {User} from '../user'
+import {CommentUserInput} from './user-input'
 
-export function createReply(operator, params: CreateCommentInput): Comment {
+export function createComment(params: CreateCommentInput): Comment {
   const {user, data} = params
+  const createdAt = new Date().toISOString()
+  const forComment = [data.priority, createdAt].join('#')
   const comment: Comment = {
     hk: uuid(),
     rk: EEntity.Comment,
-    createdAt: new Date().toISOString(),
     comments: 0,
-    content: '',
-    priority: EPriority.Normal,
+    content: data.content,
+    priority: data.priority,
+    postId: data.postId,
+    forComment,
+    createdAt,
   }
+
   if (user) {
     comment.userId = user.userId
   }
@@ -22,27 +27,22 @@ export function createReply(operator, params: CreateCommentInput): Comment {
 }
 
 export type CreateCommentInput = {
-  data: ReplyUserInput
+  data: CommentUserInput
   user?: User
 }
 export interface Comment extends YiguanaDocument {
   comments: number
   content: string
   priority: EPriority
+  forComment: string
+  postId: string
   userId?: string // gsi.hk
-//  postId: string
 //  user: User
 //  ip: string
 //  password?: string
 }
 
 const MAX_CONTENT_LENGTH = 300
-
-export enum EPriority {
-  Top = 10,
-  SuperComment = 20,
-  Normal = 50,
-}
 
 // mention 을 reply 보다 reply 에 두는 것이 맞는지 확인
 // 댓글에도 like|(dislike) 가 있어야 함

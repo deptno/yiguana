@@ -4,7 +4,7 @@ export enum EEntity {
   Reply = 'reply',
 }
 export enum EPriority {
-  Top = 10,
-  Super = 30,
+  VeryHigh = 10,
+  High = 30,
   Normal = 50,
 }
