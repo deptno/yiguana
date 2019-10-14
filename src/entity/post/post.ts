@@ -7,6 +7,7 @@ export function createPost(operator, params: CreatePostInput): Post {
   const {user, data} = params
   const createdAt = new Date().toISOString()
   const post: Post = {
+    postId: data.id,
     hk: data.id,
     rk: EEntity.Post,
     createdAt: createdAt,
@@ -41,4 +42,5 @@ export interface Post extends YiguanaDocument {
   userId?: string // gsi.hk
   cover?: string
   updatedAt?: string
+  postId: string
 }

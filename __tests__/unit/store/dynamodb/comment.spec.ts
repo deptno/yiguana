@@ -16,27 +16,27 @@ describe('api', function () {
   describe('comments', () => {
     beforeAll(async () =>
       getInitialData().then(data => {
-        postList = data.filter(d => d.rk === EEntity.Post) as Post[]
+        postList = data.filter(d => d.rk === EEntity.Comment) as Post[]
         commentedPost = postList[0]
       }))
 
     it('comments(1)', async function () {
-      const {items} = await comments(opDdb, {postId: commentedPost.hk})
+      const {items} = await comments(opDdb, {postId: commentedPost.postId})
       console.debug('comments')
       console.table(items)
 
       expect(items.length).toEqual(1)
     })
     it('comments(1)', async function () {
-      const {items} = await comments(opDdb, {postId: commentedPost.hk})
-      const nextCommentedPost = await post(opDdb, {hk: commentedPost.hk})
+      const {items} = await comments(opDdb, {postId: commentedPost.postId})
+      const nextCommentedPost = await post(opDdb, {hk: commentedPost.postId})
       expect(nextCommentedPost.comments).toEqual(items.length)
     })
     it('addComment(회원)', async function () {
       console.debug('회원')
       const comment = createComment({
         data: {
-          postId: commentedPost.hk,
+          postId: commentedPost.postId,
           content: 'comment',
           priority: EPriority.Normal,
         },
@@ -51,7 +51,7 @@ describe('api', function () {
     })
     it('comments(2)', async function () {
       const {items} = await comments(opDdb, {
-        postId: commentedPost.hk,
+        postId: commentedPost.postId,
       })
       console.debug('comments')
       console.table(items)
@@ -59,14 +59,14 @@ describe('api', function () {
     })
     it('commentPost(2), Post 의 comments 값도 증가', async function () {
       await commentPost(opDdb, {data: commentedPost})
-      const nextCommentedPost = await post(opDdb, {hk: commentedPost.hk})
+      const nextCommentedPost = await post(opDdb, {hk: commentedPost.postId})
       expect(nextCommentedPost.comments).toEqual(2)
     })
     it('addComment(비회원)', async function () {
       console.debug('비회원')
       const comment = createComment({
         data: {
-          postId: commentedPost.hk,
+          postId: commentedPost.postId,
           content: 'comment',
           priority: EPriority.Normal,
         },
@@ -77,7 +77,7 @@ describe('api', function () {
     })
     it('comments(3)', async function () {
       const {items} = await comments(opDdb, {
-        postId: commentedPost.hk,
+        postId: commentedPost.postId,
       })
       console.debug('comments')
       console.table(items)
@@ -85,7 +85,7 @@ describe('api', function () {
     })
     it('commentPost(3), Post 의 comments 값도 증가', async function () {
       await commentPost(opDdb, {data: commentedPost})
-      const nextCommentedPost = await post(opDdb, {hk: commentedPost.hk})
+      const nextCommentedPost = await post(opDdb, {hk: commentedPost.postId})
       expect(nextCommentedPost.comments).toEqual(3)
     })
 
@@ -93,13 +93,13 @@ describe('api', function () {
       // 삭제된 코메트의 경우 삭제된 코멘트라고 표시되며 코멘트 수는 유지된다.
 
       it('removeComment', async () => {
-        const {items: before} = await comments(opDdb, {postId: commentedPost.hk})
+        const {items: before} = await comments(opDdb, {postId: commentedPost.postId})
         const [comment] = before
         const isDeleted = await removeComment(opDdb, {hk: comment.hk})
 
         expect(isDeleted).toEqual(true)
 
-        const {items: after} = await comments(opDdb, {postId: commentedPost.hk})
+        const {items: after} = await comments(opDdb, {postId: commentedPost.postId})
         expect(after.length).toEqual(before.length)
 
         console.table(before)
@@ -107,7 +107,7 @@ describe('api', function () {
       })
 
       it('post.comments(1), 삭제되도 코멘트 수는 유지', async function () {
-        const nextCommentedPost = await post(opDdb, {hk: commentedPost.hk})
+        const nextCommentedPost = await post(opDdb, {hk: commentedPost.postId})
         expect(nextCommentedPost.comments).toEqual(1)
       })
     })
