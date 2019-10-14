@@ -4,11 +4,10 @@ import {DocumentClient} from 'aws-sdk/clients/dynamodb'
 import {S3} from 'aws-sdk'
 import {createStore} from '../store/dynamodb/dynamodb'
 import {createEntityFactory} from '../entity'
-import {addPost, ApiAddPost} from './add-post'
-import {addComment, ApiAddComment} from './add-comment'
 import {Post} from '../entity/post'
-import {ApiGetPosts, getPosts} from './get-posts'
-import {ApiGetPost, getPost} from './get-post'
+import {createPostApi} from './post'
+import {createCommentApi} from './comment'
+import {createReplyApi} from './reply'
 
 export function createApi(params: CreateInput): YiguanaApi<Post> {
   const {ddbClient, s3Client, bucketName, tableName} = params
@@ -18,26 +17,20 @@ export function createApi(params: CreateInput): YiguanaApi<Post> {
   const ep = createEntityFactory({s3, bucketName})
 
   return {
-    getPosts: getPosts.bind(null, store, ep),
-    getPost: getPost.bind(null, store, ep),
-    addPost: addPost.bind(null, store, ep),
-//    likePost: likePost.bind(null, store, ep),
-//    removePost: removePost.bind(null, store, ep),
-
-    addComment: addComment.bind(null, store, ep),
-//    removeComment: removeComment.bind(null, store, ep),
-
-//    addReply: addReply.bind(null, store, ep),
-//    removeReply: removeReply.bind(null, store, ep),
+    post: createPostApi(store, ep),
+    comment: createCommentApi(store, ep),
+    reply: createReplyApi(store, ep),
   }
 }
 
 export interface YiguanaApi<P> {
-  getPosts: ApiGetPosts,
-  getPost: ApiGetPost,
-  addPost: ApiAddPost,
-  addComment: ApiAddComment,
+  post
+  comment
+  reply
+
+//  report: ApiReport
 }
+
 type CreateInput = {
   ddbClient: DocumentClient
   s3Client: S3

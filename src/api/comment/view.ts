@@ -1,8 +1,8 @@
-import {YiguanaStore} from '../store/dynamodb/dynamodb'
-import {Post, PostUserInput} from '../entity/post'
-import {EntityFactory} from '../entity'
+import {YiguanaStore} from '../../store/dynamodb/dynamodb'
+import {Post, PostUserInput} from '../../entity/post'
+import {EntityFactory} from '../../entity'
 
-export async function addPost(store: YiguanaStore<Post>, ep: EntityFactory, input: PostUserInput) {
+export async function view(store: YiguanaStore<Post>, ep: EntityFactory, input: PostUserInput) {
   try {
     const content = await ep.createPostContent(input)
     const post = ep.createPost({data: content})
