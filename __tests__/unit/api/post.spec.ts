@@ -46,6 +46,11 @@ describe('api', () => {
     })
     // it('update post', async () => {})
     it('like post', async () => {
+      const {items} = await api.post.list({})
+      const [post] = items
+      await api.post.like(post)
+      const nextPost = await api.post.read(post)
+      console.log(nextPost)
     })
 
     it('cancel like post', async () => {

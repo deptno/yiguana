@@ -8,8 +8,10 @@ import {read} from './read'
 import {update} from './update'
 import {del} from './del'
 import {view} from './view'
+import {Post} from '../../entity/post'
 
-export function createPostApi<P>(store: YiguanaStore<P>, ep: EntityFactory): YiguanaObjectApi {
+export function createPostApi<P>(store: YiguanaStore<P>, ep: EntityFactory)
+  : YiguanaObjectApi<Post, {category}> {
   return {
     list: list.bind(null, store, ep),
     create: create.bind(null, store, ep),
@@ -20,3 +22,4 @@ export function createPostApi<P>(store: YiguanaStore<P>, ep: EntityFactory): Yig
     view: view.bind(null, store, ep),
   }
 }
+

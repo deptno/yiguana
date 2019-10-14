@@ -4,13 +4,11 @@ import {DocumentClient} from 'aws-sdk/clients/dynamodb'
 import {S3} from 'aws-sdk'
 import {createStore} from '../store/dynamodb/dynamodb'
 import {createEntityFactory} from '../entity'
-import {Post} from '../entity/post'
 import {createPostApi} from './post'
 import {createCommentApi} from './comment'
 import {createReplyApi} from './reply'
-import {YiguanaObjectApi} from './interface'
 
-export function createApi(params: CreateInput): YiguanaApi<Post> {
+export function createApi(params: CreateInput) {
   const {ddbClient, s3Client, bucketName, tableName} = params
   const dynamodb = createDynamoDB(ddbClient)
   const s3 = createS3(s3Client)
@@ -22,14 +20,6 @@ export function createApi(params: CreateInput): YiguanaApi<Post> {
     comment: createCommentApi(store, ep),
     reply: createReplyApi(store, ep),
   }
-}
-
-export interface YiguanaApi<P> {
-  post: YiguanaObjectApi
-  comment: YiguanaObjectApi
-  reply: YiguanaObjectApi
-
-//  report: ApiReport
 }
 
 type CreateInput = {

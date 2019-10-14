@@ -9,3 +9,7 @@ const api = createApi({
   tableName: 'yiguana',
   bucketName: 'yiguana',
 })
+
+api.post.list({
+  category: ''
+})
