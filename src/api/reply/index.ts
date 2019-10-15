@@ -8,8 +8,10 @@ import {read} from './read'
 import {update} from './update'
 import {del} from './del'
 import {view} from './view'
+import {Reply} from '../../entity/reply/reply'
 
-export function createReplyApi<P>(store: YiguanaStore<P>, ep: EntityFactory): YiguanaObjectApi {
+export function createReplyApi<P>(store: YiguanaStore<P>, ep: EntityFactory)
+  : YiguanaObjectApi<Reply, {commentId}> {
   return {
     list,
     create,
@@ -18,5 +20,5 @@ export function createReplyApi<P>(store: YiguanaStore<P>, ep: EntityFactory): Yi
     del,
     like,
     view,
-  }
+  } as any
 }
