@@ -16,12 +16,6 @@ export async function removeComment(operator: DynamoDBInput, params: RemoveComme
       ':d': true
     }
   })
-  if (response) {
-    if (response.ConsumedCapacity) {
-      const wcu = response.ConsumedCapacity.CapacityUnits
-      console.log({wcu})
-    }
-  }
 
   return Boolean(response)
 }

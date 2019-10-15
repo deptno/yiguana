@@ -20,12 +20,6 @@ export async function removePost(operator: DynamoDBInput, params: RemovePostInpu
       ':d': true
     }
   })
-  if (response) {
-    if (response.ConsumedCapacity) {
-      const wcu = response.ConsumedCapacity.CapacityUnits
-//      console.log({wcu})
-    }
-  }
   return Boolean(response)
 }
 export type RemovePostInput = {

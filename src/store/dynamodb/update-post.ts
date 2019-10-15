@@ -22,10 +22,6 @@ export async function updatePost(operator: DynamoDBInput, params: LikePostInput)
     }
   })
   if (response) {
-    if (response.ConsumedCapacity) {
-      const wcu = response.ConsumedCapacity.CapacityUnits
-      console.log({wcu})
-    }
     return response.Attributes as Post
   }
 }

@@ -12,7 +12,7 @@ describe('api', () => {
       bucketName: 'yiguana',
   })
 
-  it('getPosts(0)', async () => {
+  it('list(0)', async () => {
     const {items} = await api.post.list({})
     expect(items.length).toEqual(0)
   })
@@ -43,7 +43,6 @@ describe('api', () => {
       })
       const {items} = await api.post.list({})
       expect(items.length).toEqual(1)
-      console.table(items)
     })
     // it('update post', async () => {})
     it('like post', async () => {
@@ -91,9 +90,9 @@ describe('api', () => {
       const nextPost = await api.post.read({data: post})
       expect(nextPost.deleted).toEqual(true)
     })
-    it('request to block post', async () => {
-      // 블락 신고의 경우에는 이를 검색할 수 있는 GSI가 필요
-      // postId block#userId
-    })
+    it.todo(`request to block post
+      블락 신고의 경우에는 이를 검색할 수 있는 GSI가 필요
+      postId block#userId
+    `)
   })
 })

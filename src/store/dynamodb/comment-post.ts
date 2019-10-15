@@ -10,10 +10,6 @@ export async function commentPost(operator: DynamoDBInput, params: CommentPostIn
     ...commentPostParams(operator, params)
   })
   if (response) {
-    if (response.ConsumedCapacity) {
-      const wcu = response.ConsumedCapacity.CapacityUnits
-      console.log({wcu})
-    }
     return response.Attributes as Post
   }
 }

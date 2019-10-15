@@ -21,11 +21,8 @@ export async function reply(operator: DynamoDBInput, params: ReplyInput) {
     ReturnConsumedCapacity: 'TOTAL',
     ReturnValues          : 'ALL_NEW',
   })
+
   if (response) {
-    if (response.ConsumedCapacity) {
-      const wcu = response.ConsumedCapacity.CapacityUnits
-      console.log({wcu})
-    }
     return response.Attributes as Post
   }
 }
