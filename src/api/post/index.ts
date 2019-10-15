@@ -9,6 +9,7 @@ import {update} from './update'
 import {del} from './del'
 import {view} from './view'
 import {Post} from '../../entity/post'
+import {unlike} from './unlike'
 
 export function createPostApi<P>(store: YiguanaStore<P>, ep: EntityFactory)
   : YiguanaObjectApi<Post, {category}> {
@@ -19,6 +20,7 @@ export function createPostApi<P>(store: YiguanaStore<P>, ep: EntityFactory)
     update: update.bind(null, store, ep),
     del: del.bind(null, store, ep),
     like: like.bind(null, store, ep),
+    unlike: unlike.bind(null, store, ep),
     view: view.bind(null, store, ep),
   }
 }

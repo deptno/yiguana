@@ -5,5 +5,6 @@ import {PostsInput} from '../../store/dynamodb/posts'
 import {PaginationResult} from '@deptno/dynamodb/dist/api'
 
 export async function list(store: YiguanaStore<Post>, ep: EntityFactory, input: PostsInput) {
+  console.log({input})
   return store.posts(input)
 }

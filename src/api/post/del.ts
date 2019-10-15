@@ -4,8 +4,10 @@ import {EntityFactory} from '../../entity'
 import {PaginationResult} from '@deptno/dynamodb/dist/api'
 import {PostInput} from '../../store/dynamodb/post'
 
-export async function del(store: YiguanaStore<Post>, ep: EntityFactory, input: PostInput) {
-  return store.post(input)
+export async function del(store: YiguanaStore<Post>, ep: EntityFactory, input: Input) {
+  return store.removePost({hk: input.data.hk})
 }
 
-export type ApiGetPost = (input: PostInput) => Promise<PaginationResult<Post>>
+type Input = {
+  data: Post
+}

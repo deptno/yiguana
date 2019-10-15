@@ -14,8 +14,9 @@ export interface YiguanaObjectApi<
   read(...args): Promise<T>
   update(...args): Promise<T>
   del(...args): Promise<T>
-  like(item: H): Promise<T>
-  view(item: H): Promise<T>
+  like({data: H}): Promise<T>
+  unlike({data: H}): Promise<T>
+  view({data: H}): Promise<T>
 }
 
 type NextKey = {

@@ -4,5 +4,5 @@ import {EntityFactory} from '../../entity'
 import {LikePostInput} from '../../store/dynamodb/like-post'
 
 export async function like(store: YiguanaStore<Post>, ep: EntityFactory, input: LikePostInput) {
-  return store.likePost(input)
+  return store.likePost({post: input.post})
 }
