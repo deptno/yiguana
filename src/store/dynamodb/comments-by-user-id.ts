@@ -1,15 +1,30 @@
 import {DynamoDBInput} from '../../entity/input/dynamodb'
+import {EIndexName} from '../../entity/dynamodb/enum'
+import {Comment} from '../../entity/Comment'
 
-export async function commentsByUserId(operator: DynamoDBInput, params: CommentsInput) {
+export function commentsByUserId<T = Comment>(operator: DynamoDBInput, params: CommentsByUserIdInput) {
   const {tableName, dynamodb} = operator
-  const {postId, nextToken} = params
+  const {userId, postId, nextToken} = params
 
   // todo
-
-  return []
+  const queryParams = {
+    TableName: tableName,
+    IndexName: EIndexName.UserOrder,
+    KeyConditionExpression: '#p = :p',
+    ExpressionAttributeNames: {
+      '#p': 'userId',
+    },
+    ExpressionAttributeValues: {
+      ':p': userId,
+    },
+    ScanIndexForward: false,
+    ReturnConsumedCapacity: 'TOTAL',
+  }
+  return dynamodb.query<T>(queryParams)
 }
 
-export type CommentsInput = {
-  postId: string
+export type CommentsByUserIdInput = {
+  userId: string
+  postId?: string
   nextToken?: string
 }

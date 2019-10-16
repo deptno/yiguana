@@ -8,6 +8,7 @@ import {EEntity, EPriority} from '../../../../src/entity/enum'
 import {post} from '../../../../src/store/dynamodb/post'
 import {commentPost} from '../../../../src/store/dynamodb/comment-post'
 import {removeComment} from '../../../../src/store/dynamodb/remove-comment'
+import {commentsByUserId} from '../../../../src/store/dynamodb/comments-by-user-id'
 
 describe('api', function () {
   let postList: Post[]
@@ -113,17 +114,20 @@ describe('api', function () {
     })
   })
 
+  // todo commentsByUserId 에 대한 구현
   describe('commentsByUserId', () => {
     beforeAll(async () =>
       getInitialData().then(data => {
         postList = data.filter(d => d.rk === EEntity.Post) as Post[]
-        commentedPost = postList[0]
+        commentedPost = postList[4]
       }))
 
-    it('todo', async () => {
-
+    it('comment 리스트 userId', async () => {
+      const {items} = await commentsByUserId(opDdb, {userId: 'userId'})
+      console.debug('comment 리스트 userId')
+      console.table(items)
+      expect(items.length).toEqual(1)
     })
   })
-  // todo commentsByUserId 에 대한 구현
 })
 
