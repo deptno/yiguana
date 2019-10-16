@@ -17,7 +17,7 @@ describe('api', function () {
     beforeAll(async () =>
       getInitialData().then(data => {
         postList = data.filter(d => d.rk === EEntity.Post) as Post[]
-        commentedPost = postList[0]
+        commentedPost = postList[4]
       }))
 
     it('comments(1)', async function () {
@@ -108,7 +108,7 @@ describe('api', function () {
 
       it('post.comments(1), 삭제되도 코멘트 수는 유지', async function () {
         const nextCommentedPost = await post(opDdb, {hk: commentedPost.hk})
-        expect(nextCommentedPost.comments).toEqual(1)
+        expect(nextCommentedPost.comments).toEqual(3)
       })
     })
   })
