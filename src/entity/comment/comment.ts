@@ -7,7 +7,7 @@ import {CommentUserInput} from './user-input'
 export function createComment(params: CreateCommentInput): Comment {
   const {user, data} = params
   const createdAt = new Date().toISOString()
-  const forComment = [data.priority, createdAt].join('#')
+  const order = [EEntity.Comment, data.priority, createdAt].join('#')
   const comment: Comment = {
     hk: uuid(),
     rk: EEntity.Comment,
@@ -15,7 +15,7 @@ export function createComment(params: CreateCommentInput): Comment {
     content: data.content,
     priority: data.priority,
     postId: data.postId,
-    forComment,
+    order,
     createdAt,
   }
 
@@ -34,7 +34,7 @@ export interface Comment extends YiguanaDocument {
   comments: number
   content: string
   priority: EPriority
-  forComment: string
+  order: string
   postId: string
   userId?: string // gsi.hk
 //  user: User

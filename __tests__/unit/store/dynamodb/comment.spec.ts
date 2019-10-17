@@ -123,7 +123,9 @@ describe('api', function () {
       }))
 
     it('comment 리스트 userId', async () => {
-      const {items} = await commentsByUserId(opDdb, {userId: 'userId'})
+      const {items} = await commentsByUserId(opDdb, {
+        userId: 'userId'
+      })
       console.debug('comment 리스트 userId')
       console.table(items)
       expect(items.length).toEqual(1)

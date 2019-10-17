@@ -1,6 +1,7 @@
 import {DynamoDBInput} from '../../entity/input/dynamodb'
 import {EIndexName} from '../../entity/dynamodb/enum'
 import {Comment} from '../../entity/Comment'
+import {EEntity} from '../../entity/enum'
 
 export function commentsByUserId<T = Comment>(operator: DynamoDBInput, params: CommentsByUserIdInput) {
   const {tableName, dynamodb} = operator
@@ -9,13 +10,15 @@ export function commentsByUserId<T = Comment>(operator: DynamoDBInput, params: C
   // todo
   const queryParams = {
     TableName: tableName,
-    IndexName: EIndexName.UserOrder,
-    KeyConditionExpression: '#p = :p',
+    IndexName: EIndexName.ByUser,
+    KeyConditionExpression: '#h = :h AND begins_with(#r, :r)',
     ExpressionAttributeNames: {
-      '#p': 'userId',
+      '#h': 'userId',
+      '#r': 'order',
     },
     ExpressionAttributeValues: {
-      ':p': userId,
+      ':h': userId,
+      ':r': EEntity.Comment
     },
     ScanIndexForward: false,
     ReturnConsumedCapacity: 'TOTAL',

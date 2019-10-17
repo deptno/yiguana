@@ -52,6 +52,26 @@ module.exports = {
       },
       'GlobalSecondaryIndexes': [
         {
+          'IndexName'            : 'by-user',
+          'KeySchema'            : [
+            {
+              'AttributeName': 'userId',
+              'KeyType'      : 'HASH'
+            },
+            {
+              'AttributeName': 'order',
+              'KeyType'      : 'RANGE'
+            }
+          ],
+          'Projection'           : {
+            'ProjectionType': 'ALL'
+          },
+          'ProvisionedThroughput': {
+            'ReadCapacityUnits'     : 1,
+            'WriteCapacityUnits'    : 1
+          },
+        },
+        {
           'IndexName'            : 'userId-order-index',
           'KeySchema'            : [
             {
