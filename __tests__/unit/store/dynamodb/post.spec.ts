@@ -19,9 +19,7 @@ describe('api', function () {
   )
 
   describe('posts', function () {
-    it('시간순 리스트, 우선순위 글에 대한 테스트', async () => {
-      expect(false).toEqual(true)
-    })
+    it.todo('시간순 리스트, 우선순위 글에 대한 테스트')
     it('시간순 리스트', async () => {
       const {items} = await posts(opDdb, {category: 'news'})
       console.debug('시간순 리스트')
@@ -269,15 +267,9 @@ describe('api', function () {
       })
 
       describe('updatePost', function () {
-        it('updatePost', async () => {
-          expect(false).toEqual(true)
-        })
-        it('likePost', async () => {
-          expect(false).toEqual(true)
-        })
-        it('viewPost', async () => {
-          expect(false).toEqual(true)
-        })
+        it.todo('updatePost')
+        it.todo('likePost')
+        it.todo('viewPost')
       })
     })
   })

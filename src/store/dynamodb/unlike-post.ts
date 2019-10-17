@@ -1,32 +1,30 @@
 import {DynamoDBInput} from '../../entity/input/dynamodb'
 import {Post} from '../../entity/post'
-import {Reply} from '../../entity/reply/reply'
 
-export async function reply(operator: DynamoDBInput, params: ReplyInput) {
+export async function unlikePost(operator: DynamoDBInput, params: UnlikePostInput) {
   const {dynamodb, tableName} = operator
-  const {hk, rk} = params.reply
+  const {post} = params
+  const {hk, rk} = post
   const response = await dynamodb.update({
+    ReturnConsumedCapacity   : 'TOTAL',
+    ReturnValues             : 'ALL_NEW',
     TableName                : tableName,
     Key                      : {
       hk,
       rk
     },
-    UpdateExpression         : 'SET #v = #v + :v',
+    UpdateExpression         : 'SET #v = #v - :v',
     ExpressionAttributeNames : {
-      '#v': 'replies'
+      '#v': 'likes'
     },
     ExpressionAttributeValues: {
       ':v': 1
-    },
-    ReturnConsumedCapacity: 'TOTAL',
-    ReturnValues          : 'ALL_NEW',
+    }
   })
-
   if (response) {
     return response.Attributes as Post
   }
 }
-
-export type ReplyInput = {
-  reply: Reply
+export type UnlikePostInput = {
+  post: Post
 }

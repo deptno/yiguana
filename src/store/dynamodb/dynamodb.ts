@@ -16,6 +16,7 @@ import {PaginationResult} from '@deptno/dynamodb/dist/api/query'
 import {post, PostInput} from './post'
 import {DynamoDBInput} from '../../entity/input/dynamodb'
 import {commentsByUserId, CommentsByUserIdInput} from './comments-by-user-id'
+import {unlikePost} from './unlike-post'
 
 export function createStore<P>(operator: DynamoDBInput): YiguanaStore<P> {
   return {
@@ -26,6 +27,7 @@ export function createStore<P>(operator: DynamoDBInput): YiguanaStore<P> {
     removePost: removePost.bind(null, operator),
     viewPost: viewPost.bind(null, operator),
     likePost: likePost.bind(null, operator),
+    unlikePost: unlikePost.bind(null, operator),
     commentPost: commentPost.bind(null, operator),
     comments: comments.bind(null, operator),
     commentsByUserId: commentsByUserId.bind(null, operator),
@@ -49,6 +51,7 @@ export interface YiguanaStore<P> {
   // post
   viewPost(params: ViewPostInput): ReturnType<typeof viewPost>
   likePost(params: LikePostInput): ReturnType<typeof likePost>
+  unlikePost(params: LikePostInput): ReturnType<typeof likePost>
   commentPost(params: CommentPostInput): ReturnType<typeof commentPost>
 
   // reply
