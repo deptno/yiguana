@@ -2,6 +2,7 @@ import {Key} from 'readline'
 import {DynamoDBInput} from '../../entity/input/dynamodb'
 import {EIndexName} from '../../entity/dynamodb/enum'
 import {Post} from '../../entity/post'
+import {EEntity} from '../../entity/enum'
 
 export function postsByUserId<T = Post>(operator: DynamoDBInput, params: PostsByUserIdInput) {
   const {tableName, dynamodb} = operator
@@ -9,7 +10,7 @@ export function postsByUserId<T = Post>(operator: DynamoDBInput, params: PostsBy
 
   const queryParams = {
     TableName: tableName,
-    IndexName: EIndexName.UserOrder,
+    IndexName: EIndexName.ByUser,
     KeyConditionExpression: '#p = :p',
     ExpressionAttributeNames: {
       '#p': 'userId',
@@ -23,8 +24,8 @@ export function postsByUserId<T = Post>(operator: DynamoDBInput, params: PostsBy
   }
   if (category) {
     queryParams.KeyConditionExpression += ' and begins_with(#r, :r)'
-    queryParams.ExpressionAttributeNames['#r'] = 'category'
-    queryParams.ExpressionAttributeValues[':r'] = category
+    queryParams.ExpressionAttributeNames['#r'] = 'order'
+    queryParams.ExpressionAttributeValues[':r'] = [EEntity.Post, category].join('#')
   }
 
   return dynamodb.query<T>(queryParams)

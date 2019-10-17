@@ -6,6 +6,8 @@ import {User} from '../user'
 export function createPost(operator, params: CreatePostInput): Post {
   const {user, data} = params
   const createdAt = new Date().toISOString()
+  const category = [data.input.category, createdAt].join('#')
+  const order = [EEntity.Post, category].join('#')
   const post: Post = {
     hk: data.id,
     rk: EEntity.Post,
@@ -13,9 +15,10 @@ export function createPost(operator, params: CreatePostInput): Post {
     views: 0,
     likes: 0,
     comments: 0,
-    category: `${data.input.category}#${createdAt}`,
     title: data.input.title,
     contentUrl: data.contentUrl,
+    category,
+    order,
   }
   if (user) {
     post.userId = user.userId
@@ -36,6 +39,7 @@ export interface Post extends YiguanaDocument {
   likes: number
   comments: number
   category: string
+  order: string
   title: string
   contentUrl: string
   userId?: string // gsi.hk
