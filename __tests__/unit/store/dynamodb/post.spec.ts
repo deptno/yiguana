@@ -258,7 +258,13 @@ describe('api', function () {
 
         const {items: after} = await postsByUserId(opDdb, {userId: 'cGun'})
         console.table(after)
-        expect(after.filter(t => t.rk === 'post').length).toEqual(before.length)
+        expect(
+          after
+            .filter(t => t.rk === 'post')
+            .filter(t => !t.deleted)
+            .length,
+        ).toEqual(before.length)
+        expect(after.filter(t => t.deleted).length).toEqual(1)
 
         console.log('다른 유저 리스트 aGun')
         const {items} = await postsByUserId(opDdb, {userId: 'aGun'})

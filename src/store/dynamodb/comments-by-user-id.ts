@@ -5,7 +5,7 @@ import {EEntity} from '../../entity/enum'
 
 export function commentsByUserId<T = Comment>(operator: DynamoDBInput, params: CommentsByUserIdInput) {
   const {tableName, dynamodb} = operator
-  const {userId, postId, nextToken} = params
+  const {userId, nextToken} = params
 
   // todo
   const queryParams = {

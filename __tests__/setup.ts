@@ -76,10 +76,10 @@ export const getInitialData = async () => {
     },
   })
   await addComment(opDdb, {
-    data: comment
+    data: comment,
   })
   await commentPost(opDdb, {
-    data: postList[0]
+    data: postList[0],
   })
   const initialData = await opDdb.dynamodb.scan<YiguanaDocument>({TableName: opDdb.tableName})
 
@@ -90,9 +90,9 @@ export const getInitialData = async () => {
 }
 
 
-const clearData = async () => {
+export const clearData = async () => {
   const {dynamodb, tableName} = opDdb
-  const {items} = await posts(opDdb, {})
+  const items = await dynamodb.scan({TableName: tableName})
 
   return dynamodb.batchWrite({
     tableName,

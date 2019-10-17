@@ -1,17 +1,16 @@
 import {createApi} from '../../../src/api'
-import {DynamoDB, S3} from 'aws-sdk'
 import {EValidationErrorMessage} from '../../../src/entity/error'
+import {bucketName, ddbClient, s3Client, tableName} from '../../env'
+import {clearData} from '../../setup'
 
 describe('api', () => {
+
   describe('post', () => {
     it.todo('like, 혹은 like 를 포함한 view 모두가 다이나모디비에 저장되는 경우에는 추후 저장 용량의 부담이 생길 수 있음')
 
-    const api = createApi({
-      ddbClient: new DynamoDB.DocumentClient({region: 'ap-northeast-2'}),
-      s3Client: new S3({region: 'ap-northeast-2'}),
-      tableName: 'yiguana',
-      bucketName: 'yiguana',
-    })
+    beforeAll(clearData)
+
+    const api = createApi({ddbClient, s3Client, tableName, bucketName})
 
     it('list(0)', async () => {
       const {items} = await api.post.list({})

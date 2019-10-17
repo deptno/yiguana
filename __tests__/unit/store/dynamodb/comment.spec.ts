@@ -15,11 +15,10 @@ describe('api', function () {
   let commentedPost: Post
 
   describe('comments', () => {
-    beforeAll(async () =>
-      getInitialData().then(data => {
-        postList = data.filter(d => d.rk === EEntity.Post) as Post[]
-        commentedPost = postList[4]
-      }))
+    beforeAll(() => getInitialData().then(data => {
+      postList = data.filter(d => d.rk === EEntity.Post) as Post[]
+      commentedPost = postList[4]
+    }))
 
     it('comments(1)', async function () {
       const {items} = await comments(opDdb, {postId: commentedPost.hk})
@@ -116,16 +115,13 @@ describe('api', function () {
 
   // todo commentsByUserId 에 대한 구현
   describe('commentsByUserId', () => {
-    beforeAll(async () =>
-      getInitialData().then(data => {
-        postList = data.filter(d => d.rk === EEntity.Post) as Post[]
-        commentedPost = postList[4]
-      }))
+    beforeAll(() => getInitialData().then(data => {
+      postList = data.filter(d => d.rk === EEntity.Post) as Post[]
+      commentedPost = postList[4]
+    }))
 
     it('comment 리스트 userId', async () => {
-      const {items} = await commentsByUserId(opDdb, {
-        userId: 'userId'
-      })
+      const {items} = await commentsByUserId(opDdb, {userId: 'userId'})
       console.debug('comment 리스트 userId')
       console.table(items)
       expect(items.length).toEqual(1)
