@@ -7,6 +7,7 @@
   "scripts": {
     "prepare": "rimraf lib && rollup -c",
     "test": "jest --collect-coverage  --silent --verbose --run-in-band --ci",
+    "test.slient": "jest --collect-coverage  --silent --run-in-band --ci",
     "local.test": "jest --verbose --run-in-band"
   },
   "repository": {
