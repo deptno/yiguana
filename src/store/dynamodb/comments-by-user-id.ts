@@ -1,6 +1,6 @@
 import {DynamoDBInput} from '../../entity/input/dynamodb'
 import {EIndexName} from '../../entity/dynamodb/enum'
-import {Comment} from '../../entity/Comment'
+import {Comment} from '../../entity/comment'
 import {EEntity} from '../../entity/enum'
 
 export function commentsByUserId<T = Comment>(operator: DynamoDBInput, params: CommentsByUserIdInput) {
