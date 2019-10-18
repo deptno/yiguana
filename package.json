@@ -7,7 +7,8 @@
   "scripts": {
     "prepare": "rimraf lib && rollup -c",
     "test": "jest --collect-coverage  --silent --verbose -i --ci",
-    "test.with-log": "jest --verbose -i",
+    "test._log": "jest --verbose -i",
+    "test._slient": "jest --collect-coverage  --silent -i",
     "test.bdd": "jest --silent -i --testPathPattern=/bdd",
     "test.unit": "jest --silent -i --testPathPattern=/unit",
     "test.unit.api": "jest --silent -i --testPathPattern=/unit/api",
