@@ -1,11 +1,15 @@
-describe('api', () => {
-  describe('reply', () => {
-    it('add reply', async () => {})
-    it('update reply', async () => {})
-    it('like reply', async () => {})
-    it('cancel like reply', async () => {})
-    it('view reply', async () => {})
-    it('remove reply', async () => {})
-    it('request to block reply', async () => {})
+describe('unit', () => {
+  describe('api', () => {
+    describe('reply', () => {
+
+      it.todo('add reply')
+      it.todo('update reply')
+      it.todo('like reply')
+      it.todo('cancel like reply')
+      it.todo('view reply')
+      it.todo('remove reply')
+      it.todo('request to block reply')
+
+    })
   })
 })
