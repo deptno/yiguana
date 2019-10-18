@@ -3,23 +3,29 @@ const path = require('path')
 
 module.exports = class PostCommentReplySequencer extends Sequencer {
   sort(tests) {
-    return Array
-      .from(tests)
-      .sort(
-        (p, c) => {
-          const a = path.parse(p.path)
-          const b = path.parse(c.path)
+    try {
+      return Array
+        .from(tests)
+        .sort(
+          (p, c) => {
+            const a = path.parse(p.path)
+            const b = path.parse(c.path)
 
-          if (a.dir === b.dir) {
-            return score[a.name.split('.')[0]] > score[b.name.split('.')[0]]
+            if (a.dir === b.dir) {
+              return score[a.name.split('.')[0]] > score[b.name.split('.')[0]]
+                ? 1
+                : -1
+            }
+            return a.dir > b.dir
               ? 1
               : -1
           }
-          return a.dir > b.dir
-            ? 1
-            : -1
-        }
-      )
+        )
+    } catch (e) {
+      console.error('sort error')
+      console.error(e)
+      return tests
+    }
   }
 }
 
