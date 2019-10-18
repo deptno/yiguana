@@ -11,7 +11,7 @@
     "test.bdd": "jest --silent -i --testPathPattern=/bdd",
     "test.unit": "jest --silent -i --testPathPattern=/unit",
     "test.unit.api": "jest --silent -i --testPathPattern=/unit/api",
-    "test.unit.store": "jest --silent -i --testPathPattern=/unit/store",
+    "test.unit.store": "jest --silent -i --testPathPattern=/unit/store"
   },
   "repository": {
     "type": "git",
