@@ -6,12 +6,11 @@ import {clearData} from '../../setup'
 describe('api', () => {
 
   describe('post', () => {
-    it.todo('like, 혹은 like 를 포함한 view 모두가 다이나모디비에 저장되는 경우에는 추후 저장 용량의 부담이 생길 수 있음')
-
     beforeAll(clearData)
 
     const api = createApi({ddbClient, s3Client, tableName, bucketName})
 
+    it.todo('like, 혹은 like 를 포함한 view 모두가 다이나모디비에 저장되는 경우에는 추후 저장 용량의 부담이 생길 수 있음')
     it('list(0)', async () => {
       const {items} = await api.post.list({})
       expect(items.length).toEqual(0)

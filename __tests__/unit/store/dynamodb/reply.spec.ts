@@ -8,5 +8,6 @@ describe('api', function () {
   beforeEach(() => getInitialData().then(data => postList = data.filter(d => d.rk === EEntity.Post) as Post[]))
 
   describe('replies', function () {
+    it.todo('replies')
   })
 })
