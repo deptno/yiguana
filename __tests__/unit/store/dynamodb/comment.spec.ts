@@ -11,6 +11,7 @@ import {removeComment} from '../../../../src/store/dynamodb/remove-comment'
 import {commentsByUserId} from '../../../../src/store/dynamodb/comments-by-user-id'
 import {removePost} from '../../../../src/store/dynamodb/remove-post'
 import {posts} from '../../../../src/store/dynamodb/posts'
+import {commentsByPostId} from '../../../../src/store/dynamodb/comments-by-post-id'
 
 describe('api', function () {
   let postList: Post[]
@@ -166,6 +167,20 @@ describe('api', function () {
       await commentPost(opDdb, {data: commentedPost})
       const nextCommentedPost = await post(opDdb, {hk: commentedPost.hk})
       expect(nextCommentedPost.comments).toEqual(2)
+    })
+  })
+
+  describe('commentsByPostId', () => {
+    beforeAll(() => getInitialData().then(data => {
+      postList = data.filter(d => d.rk === EEntity.Post) as Post[]
+      commentedPost = postList[4]
+    }))
+
+    it('코멘트 리스트 postId', async () => {
+      const {items} = await commentsByPostId(opDdb, {postId: commentedPost.hk})
+      console.debug('코멘트 리스트 postId')
+      console.table(items)
+      expect(items.length).toEqual(1)
     })
   })
 
