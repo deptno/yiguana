@@ -7,7 +7,6 @@ export function commentsByUserId<T = Comment>(operator: DynamoDBInput, params: C
   const {tableName, dynamodb} = operator
   const {userId, nextToken} = params
 
-  // todo
   const queryParams = {
     TableName: tableName,
     IndexName: EIndexName.ByUser,
