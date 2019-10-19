@@ -3,5 +3,6 @@ export enum EIndexName {
   BoardOrder = 'board-order-index',
   PostOrder = 'postId-order-index',
   Comment = 'postId-createdAt-index',
+  Replies = 'replies',
   ByUser = 'by-user'
 }

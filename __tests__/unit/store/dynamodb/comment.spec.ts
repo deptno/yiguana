@@ -34,7 +34,7 @@ describe('unit', function () {
 
             expect(items.length).toEqual(1)
           })
-          it('comments(1)', async function () {
+          it('post.comments(1)', async function () {
             const {items} = await comments(opDdb, {postId: commentedPost.hk})
             const nextCommentedPost = await post(opDdb, {hk: commentedPost.hk})
             expect(nextCommentedPost.comments).toEqual(items.length)

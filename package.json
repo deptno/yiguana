@@ -7,12 +7,13 @@
   "scripts": {
     "prepare": "rimraf lib && rollup -c",
     "test": "jest --collect-coverage  --silent --verbose -i --ci",
-    "test._log": "jest --verbose -i",
-    "test._slient": "jest --collect-coverage  --silent -i",
+    "test._full": "jest --verbose -i",
+    "test._silent": "jest --collect-coverage  --silent -i",
     "test.bdd": "jest --silent -i --testPathPattern=/bdd",
     "test.unit": "jest --silent -i --testPathPattern=/unit",
     "test.unit.api": "jest --silent -i --testPathPattern=/unit/api",
-    "test.unit.store": "jest --silent -i --testPathPattern=/unit/store"
+    "test.unit.store": "jest --silent -i --testPathPattern=/unit/store",
+    "test.unit.store._verbose": "jest --verbose --silent -i --testPathPattern=/unit/store"
   },
   "repository": {
     "type": "git",

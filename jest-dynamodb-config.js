@@ -170,6 +170,26 @@ module.exports = {
             'ReadCapacityUnits'     : 1,
             'WriteCapacityUnits'    : 1
           },
+        },
+        {
+          'IndexName'            : 'replies',
+          'KeySchema'            : [
+            {
+              'AttributeName': 'commentId',
+              'KeyType'      : 'HASH'
+            },
+            {
+              'AttributeName': 'order',
+              'KeyType'      : 'RANGE'
+            }
+          ],
+          'Projection'           : {
+            'ProjectionType': 'ALL'
+          },
+          'ProvisionedThroughput': {
+            'ReadCapacityUnits'     : 1,
+            'WriteCapacityUnits'    : 1
+          },
         }
       ],
       'StreamSpecification'   : {

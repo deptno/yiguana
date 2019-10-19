@@ -10,6 +10,7 @@ export function createReply(operator, params: CreateReplyInput): Reply {
     hk: uuid(),
     rk: EEntity.Reply,
     createdAt: new Date().toISOString(),
+    commentId: data.commentId,
     likes: 0,
     unlikes: 0,
     comments: 0,
@@ -27,6 +28,7 @@ export type CreateReplyInput = {
   user?: User
 }
 export interface Reply extends YiguanaDocument {
+  commentId: string
   likes: number
   unlikes: number
   comments: number

@@ -7,7 +7,7 @@ export function replies(operator: DynamoDBInput, params: CommentRepliesInput) {
 
   return dynamodb.query({
     TableName                : tableName,
-    IndexName                : EIndexName.Comment,
+    IndexName                : EIndexName.Replies,
     KeyConditionExpression   : '#p = :p',
     ExpressionAttributeNames : {
       '#p': 'commentId',
