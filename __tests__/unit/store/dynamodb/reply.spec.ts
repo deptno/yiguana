@@ -6,7 +6,6 @@ import {replies} from '../../../../src/store/dynamodb/replies'
 import {opDdb} from '../../../env'
 import {addReply} from '../../../../src/store/dynamodb/add-reply'
 import {createReply} from '../../../../src/entity/reply/reply'
-import {logTable} from '../../../../src/lib/log-table'
 import {replyComment} from '../../../../src/store/dynamodb/reply-comment'
 import {comments} from '../../../../src/store/dynamodb/comments'
 
@@ -47,7 +46,6 @@ describe('unit', function () {
             })
             console.log({replied})
             const {items} = await replies(opDdb, {commentId})
-            logTable(16, items)
             expect(items.length).toEqual(1)
           })
           it('BEFORE replyComment, comment.children(0) ', async () => {
@@ -61,9 +59,10 @@ describe('unit', function () {
             const repliedComment = items.find(c => c.hk === comment.hk)!
             expect(repliedComment.children).toEqual(1)
           })
+          it.todo('update reply')
+          it.todo('remove reply')
 
         })
-
       })
     })
   })
