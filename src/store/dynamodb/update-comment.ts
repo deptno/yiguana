@@ -1,5 +1,5 @@
 import {DynamoDBInput} from '../../entity/input/dynamodb'
-import {Comment} from '../../entity/Comment'
+import {Comment} from '../../entity/comment'
 
 export async function updateComment(operator: DynamoDBInput, params: CommentInput) {
   const {dynamodb, tableName} = operator
