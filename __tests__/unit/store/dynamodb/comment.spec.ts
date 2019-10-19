@@ -1,17 +1,18 @@
+import {EEntity, EPriority} from '../../../../src/entity/enum'
 import {Post} from '../../../../src/entity/post'
 import {getInitialData} from '../../../setup'
 import {opDdb} from '../../../env'
-import {addComment} from '../../../../src/store/dynamodb/add-comment'
 import {createComment} from '../../../../src/entity/comment'
-import {comments} from '../../../../src/store/dynamodb/comments'
-import {EEntity, EPriority} from '../../../../src/entity/enum'
-import {post} from '../../../../src/store/dynamodb/post'
-import {commentPost} from '../../../../src/store/dynamodb/comment-post'
+import {addComment} from '../../../../src/store/dynamodb/add-comment'
 import {removeComment} from '../../../../src/store/dynamodb/remove-comment'
+import {updateComment} from '../../../../src/store/dynamodb/update-comment'
+import {comments} from '../../../../src/store/dynamodb/comments'
+import {commentPost} from '../../../../src/store/dynamodb/comment-post'
 import {commentsByUserId} from '../../../../src/store/dynamodb/comments-by-user-id'
-import {removePost} from '../../../../src/store/dynamodb/remove-post'
-import {posts} from '../../../../src/store/dynamodb/posts'
 import {commentsByPostId} from '../../../../src/store/dynamodb/comments-by-post-id'
+import {post} from '../../../../src/store/dynamodb/post'
+import {posts} from '../../../../src/store/dynamodb/posts'
+import {removePost} from '../../../../src/store/dynamodb/remove-post'
 
 describe('unit', function () {
   describe('store', function () {
@@ -118,9 +119,19 @@ describe('unit', function () {
               expect(nextCommentedPost.children).toEqual(3)
             })
           })
+
+          describe('updateComment', function() {
+            it('updateComment', async() => {
+              const {items} = await comments(opDdb, {postId: commentedPost.hk})
+              const target = items[0]
+              console.table(target)
+              target.content = 'updated content'
+              const updatedComment = await updateComment(opDdb, {data: items[0]})
+              console.table(updatedComment)
+            })
+          })
         })
 
-        // todo commentsByUserId 에 대한 구현
         describe('commentsByUserId', () => {
           beforeAll(() => getInitialData().then(data => {
             postList = data.filter(d => d.rk === EEntity.Post) as Post[]
@@ -134,17 +145,14 @@ describe('unit', function () {
             expect(items.length).toEqual(1)
           })
 
-          /* TODO: [궁금] 이런 식으로 순차 흐름인 통합 테스트일 때
-           *  각각을 it으로 나누는 게 정석인지 it 안에 묶어서 한 덩어리로 진행하는 것이 정석인지?
-           */
           // aSsi 유저의 코멘트 조회 -> 코멘트 추가 -> 코멘트 재조회
-          it('코멘트 리스트 aSsi (1)', async () => {
+          it('코멘트 리스트 aSsi', async () => {
             const {items} = await commentsByUserId(opDdb, {userId: 'aSsi'})
             console.debug('코멘트 리스트 aSsi')
             console.table(items)
             expect(items.length).toEqual(0)
           })
-          it('코멘트 리스트 aSsi (2)', async () => {
+          it('회원 aSsi 코멘트 추가 -> 코멘트 리스트 aSsi (재조회) -> Post 의 Comments 값 증가 확인', async () => {
             console.debug('회원 코멘트 추가')
             const comment = createComment({
               data: {
