@@ -11,7 +11,8 @@
     "test._silent": "jest --collect-coverage  --silent -i",
     "test.bdd": "jest --silent -i --testPathPattern=/bdd",
     "test.unit": "jest --silent -i --testPathPattern=/unit",
-    "test.unit.api": "jest --silent -i --testPathPattern=/unit/api",
+    "test.unit.api": "jest --silent --verbose -i --testPathPattern=/unit/api",
+    "test.unit.api._silent": "jest --silent -i --testPathPattern=/unit/api",
     "test.unit.store": "jest --silent -i --testPathPattern=/unit/store",
     "test.unit.store._verbose": "jest --verbose --silent -i --testPathPattern=/unit/store"
   },

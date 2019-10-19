@@ -10,10 +10,11 @@ import {del} from './del'
 import {view} from './view'
 import {Post} from '../../entity/post'
 import {unlike} from './unlike'
+import {PostsInput} from '../../store/dynamodb/posts'
 
 export function createPostApi<P>(store: YiguanaStore<P>, ep: EntityFactory): YiguanaObjectApi<Post, {category}> {
   return {
-    list: list.bind(null, store, ep),
+    list: list.bind(null, store, ep) as (input: PostsInput) => ReturnType<typeof list>,
     create: create.bind(null, store, ep),
     read: read.bind(null, store, ep),
     update: update.bind(null, store, ep),
