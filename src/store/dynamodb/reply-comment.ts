@@ -1,22 +1,24 @@
 import {DocumentClient} from 'aws-sdk/lib/dynamodb/document_client'
 import {DynamoDBInput} from '../../entity/input/dynamodb'
-import {Post} from '../../entity/post'
+import {Comment} from '../../entity/comment'
 
-export async function commentPost(operator: DynamoDBInput, params: CommentPostInput) {
+export async function replyComment(operator: DynamoDBInput, params: ReplyCommentInput) {
   const {dynamodb} = operator
   const response = await dynamodb.update({
     ReturnConsumedCapacity: 'TOTAL',
     ReturnValues          : 'ALL_NEW',
     ...commentPostParams(operator, params)
   })
+
   if (response) {
-    return response.Attributes as Post
+    return response.Attributes as Comment
   }
 }
-export function commentPostParams(operator: DynamoDBInput, params: CommentPostInput): DocumentClient.Update {
+export function commentPostParams(operator: DynamoDBInput, params: ReplyCommentInput): DocumentClient.Update {
   const {tableName} = operator
   const {data} = params
   const {hk, rk} = data
+
   return {
     TableName                : tableName,
     Key                      : {
@@ -32,6 +34,7 @@ export function commentPostParams(operator: DynamoDBInput, params: CommentPostIn
     }
   }
 }
-export type CommentPostInput = {
-  data: Post
+
+export type ReplyCommentInput = {
+  data: Comment
 }

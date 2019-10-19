@@ -11,7 +11,7 @@ export function createComment(params: CreateCommentInput): Comment {
   const comment: Comment = {
     hk: uuid(),
     rk: EEntity.Comment,
-    comments: 0,
+    children: 0,
     content: data.content,
     priority: data.priority,
     postId: data.postId,
@@ -31,7 +31,7 @@ export type CreateCommentInput = {
   user?: User
 }
 export interface Comment extends YiguanaDocument {
-  comments: number
+  children: number
   content: string
   priority: EPriority
   order: string

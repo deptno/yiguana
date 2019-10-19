@@ -14,7 +14,7 @@ export function createPost(operator, params: CreatePostInput): Post {
     createdAt: createdAt,
     views: 0,
     likes: 0,
-    comments: 0,
+    children: 0,
     title: data.input.title,
     contentUrl: data.contentUrl,
     category,
@@ -37,7 +37,7 @@ export type CreatePostInput = {
 export interface Post extends YiguanaDocument {
   views: number
   likes: number
-  comments: number
+  children: number
   category: string
   order: string
   title: string

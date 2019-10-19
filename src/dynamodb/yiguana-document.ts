@@ -6,4 +6,5 @@ export interface YiguanaDocument {
   createdAt: string
   updatedAt?: string
   deleted?: boolean
+  order?: string
 }

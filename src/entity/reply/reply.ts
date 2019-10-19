@@ -4,17 +4,20 @@ import {ReplyUserInput} from './index'
 import {User} from '../user'
 import {YiguanaDocument} from '../../dynamodb/yiguana-document'
 
-export function createReply(operator, params: CreateReplyInput): Reply {
+export function createReply(params: CreateReplyInput): Reply {
   const {user, data} = params
+  const {commentId, content, createdAt} = data
+  // TODO: createdAt 의 시간 지정을 createReply 타이밍에 하는 것이 나아보임
+  const order = [EEntity.Reply, createdAt].join('#')
   const reply: Reply = {
     hk: uuid(),
     rk: EEntity.Reply,
-    createdAt: new Date().toISOString(),
-    commentId: data.commentId,
     likes: 0,
     unlikes: 0,
-    comments: 0,
-    content: '',
+    commentId,
+    content,
+    createdAt,
+    order
   }
   if (user) {
     reply.userId = user.userId
@@ -31,7 +34,7 @@ export interface Reply extends YiguanaDocument {
   commentId: string
   likes: number
   unlikes: number
-  comments: number
   content: string
+  createdAt: string
   userId?: string // gsi.hk
 }

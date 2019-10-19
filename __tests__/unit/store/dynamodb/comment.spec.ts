@@ -37,7 +37,7 @@ describe('unit', function () {
           it('post.comments(1)', async function () {
             const {items} = await comments(opDdb, {postId: commentedPost.hk})
             const nextCommentedPost = await post(opDdb, {hk: commentedPost.hk})
-            expect(nextCommentedPost.comments).toEqual(items.length)
+            expect(nextCommentedPost.children).toEqual(items.length)
           })
           it('addComment(회원)', async function () {
             console.debug('회원')
@@ -67,7 +67,7 @@ describe('unit', function () {
           it('commentPost(2), Post 의 comments 값도 증가', async function () {
             await commentPost(opDdb, {data: commentedPost})
             const nextCommentedPost = await post(opDdb, {hk: commentedPost.hk})
-            expect(nextCommentedPost.comments).toEqual(2)
+            expect(nextCommentedPost.children).toEqual(2)
           })
           it('addComment(비회원)', async function () {
             console.debug('비회원')
@@ -93,7 +93,7 @@ describe('unit', function () {
           it('commentPost(3), Post 의 comments 값도 증가', async function () {
             await commentPost(opDdb, {data: commentedPost})
             const nextCommentedPost = await post(opDdb, {hk: commentedPost.hk})
-            expect(nextCommentedPost.comments).toEqual(3)
+            expect(nextCommentedPost.children).toEqual(3)
           })
 
           describe('removeComment', function () {
@@ -115,7 +115,7 @@ describe('unit', function () {
 
             it('post.comments(1), 삭제되도 코멘트 수는 유지', async function () {
               const nextCommentedPost = await post(opDdb, {hk: commentedPost.hk})
-              expect(nextCommentedPost.comments).toEqual(3)
+              expect(nextCommentedPost.children).toEqual(3)
             })
           })
         })
@@ -170,7 +170,7 @@ describe('unit', function () {
             console.log('Post 의 Comments 값도 증가')
             await commentPost(opDdb, {data: commentedPost})
             const nextCommentedPost = await post(opDdb, {hk: commentedPost.hk})
-            expect(nextCommentedPost.comments).toEqual(2)
+            expect(nextCommentedPost.children).toEqual(2)
           })
         })
 
@@ -220,7 +220,7 @@ describe('unit', function () {
 
             console.log('삭제되어도 코멘트 수는 유지')
             const nextCommentedPost = await post(opDdb, {hk: commentedPost.hk})
-            expect(nextCommentedPost.comments).toEqual(1)
+            expect(nextCommentedPost.children).toEqual(1)
           })
         })
       })
