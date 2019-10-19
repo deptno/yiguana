@@ -34,7 +34,7 @@ describe('unit', function () {
 
             expect(items.length).toEqual(1)
           })
-          it('post.comments(1)', async function () {
+          it('post.children(1)', async function () {
             const {items} = await comments(opDdb, {postId: commentedPost.hk})
             const nextCommentedPost = await post(opDdb, {hk: commentedPost.hk})
             expect(nextCommentedPost.children).toEqual(items.length)
@@ -113,7 +113,7 @@ describe('unit', function () {
               console.table(after)
             })
 
-            it('post.comments(1), 삭제되도 코멘트 수는 유지', async function () {
+            it('post.children(1), 삭제되도 코멘트 수는 유지', async function () {
               const nextCommentedPost = await post(opDdb, {hk: commentedPost.hk})
               expect(nextCommentedPost.children).toEqual(3)
             })
