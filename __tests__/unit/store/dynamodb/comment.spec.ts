@@ -125,8 +125,10 @@ describe('unit', function () {
               const {items} = await comments(opDdb, {postId: commentedPost.hk})
               const target = items[0]
               console.table(target)
-              target.content = 'updated content'
-              const updatedComment = await updateComment(opDdb, {data: items[0]})
+
+              const content = 'updated content'
+              const updatedAt = new Date().toISOString()
+              const updatedComment = await updateComment(opDdb, target.hk, content, updatedAt)
               console.table(updatedComment)
             })
           })
@@ -152,7 +154,7 @@ describe('unit', function () {
             console.table(items)
             expect(items.length).toEqual(0)
           })
-          it('회원 aSsi 코멘트 추가 -> 코멘트 리스트 aSsi (재조회) -> Post 의 Comments 값 증가 확인', async () => {
+          it('회원 aSsi 코멘트 추가 -> 코멘트 리스트 aSsi (재조회) -> Post 의 children 값 증가 확인', async () => {
             console.debug('회원 코멘트 추가')
             const comment = createComment({
               data: {
@@ -175,7 +177,7 @@ describe('unit', function () {
             console.table(items)
             expect(items.length).toEqual(1)
 
-            console.log('Post 의 Comments 값도 증가')
+            console.log('Post 의 children 값도 증가')
             await commentPost(opDdb, {data: commentedPost})
             const nextCommentedPost = await post(opDdb, {hk: commentedPost.hk})
             expect(nextCommentedPost.children).toEqual(2)
