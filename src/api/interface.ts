@@ -1,8 +1,9 @@
 import {PaginationResult} from '@deptno/dynamodb/dist/api'
 import {YiguanaDocument} from '../dynamodb/yiguana-document'
+import {User} from '../entity/user'
 
 export interface YiguanaObjectApi<
-  T,
+  T extends YiguanaDocument,
   GK,
   GU = unknown,
   G = Partial<GK> & NextKey,
@@ -10,13 +11,13 @@ export interface YiguanaObjectApi<
   H = Pick<YiguanaDocument, 'hk'>,
   > {
   list(gsi: G): Promise<PaginationResult<T>>
-  create(...args): Promise<T>
-  read(...args): Promise<T>
-  update(...args): Promise<T>
-  del(...args): Promise<T>
-  like({data: H}): Promise<T>
-  unlike({data: H}): Promise<T>
-  view({data: H}): Promise<T>
+  create(input: {data, user: User}): Promise<T>
+  read(input: {data: {hk: string}}): Promise<T>
+  update(input: {data: H & Partial<T>, user: User}): Promise<T|undefined>
+  del(input: {data: H, user: User}): Promise<boolean>
+  like(input: {data: H}): Promise<T|undefined>
+  unlike(input: {data: H}): Promise<T|undefined>
+  view(input: {data: H}): Promise<T|undefined>
 }
 
 type NextKey = {

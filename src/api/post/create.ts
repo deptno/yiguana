@@ -1,47 +1,41 @@
 import {YiguanaStore} from '../../store/dynamodb/dynamodb'
-import {Post, PostNonMemberInput, PostUserInput} from '../../entity/post'
+import {Post, PostUserInput} from '../../entity/post'
 import {EntityFactory} from '../../entity'
 import {User} from '../../entity/user'
 import {EValidationErrorMessage, ValidationError} from '../../entity/error'
-import * as R from 'ramda'
 
-export async function create(store: YiguanaStore<Post>, ep: EntityFactory, input: Input) {
-  const {data, user} = input
+export async function create(store: YiguanaStore<Post>, ep: EntityFactory, input: CreateInput) {
+  validateUser(input.user)
+  const user = input.user
+  // createPostContent 는 throw 가능성(unsafe)이 있다.
+  const content = await ep.createPostContent(input.data)
+  const post = ep.createPost({
+    user,
+    data: content,
+  })
 
-  if (!user) {
-    const {userName, userPw} = data as PostNonMemberInput
-
-    if (!userName) {
-      throw new Error(EValidationErrorMessage.InvalidInput)
-    }
-    if (!userPw) {
-      throw new Error(EValidationErrorMessage.InvalidInput)
-    }
-  }
-
-  // TODO: 로그인 유저인 유저인 경우의 처리
-    if (false) {
-      try {
-        const content = await ep.createPostContent(data)
-        const post = ep.createPost({data: content})
-        const result = store.addPost({post})
-
-        return result
-      } catch (e) {
-        console.error(e)
-      }
-    }
-
-  return ep.createPostContent(data)
-    .then(R.objOf('data'))
-    .then(ep.createPost)
-    .then(R.objOf('post'))
-    .then(store.addPost)
-    .catch(console.error)
+  return store.addPost({data: post})
 }
 
-export type ApiAddPost = (input: Input) => Promise<unknown>
-type Input = {
+const validateUser = (user: User) => {
+  if ('userId' in user) {
+    // 회원
+    console.log('member', user.userId)
+  } else {
+    // TODO: 비회원, 비회원이 우선순위
+    const {name, pw} = user
+
+    if (!name) {
+      throw new ValidationError(EValidationErrorMessage.InvalidInput)
+    }
+    if (!pw) {
+      throw new ValidationError(EValidationErrorMessage.InvalidInput)
+    }
+    console.log('not member', user.name)
+  }
+}
+
+export type CreateInput = {
   data: PostUserInput
-  user?: User
+  user: User
 }

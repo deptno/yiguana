@@ -1,11 +1,10 @@
-export type PostUserInput = PostMemberInput | PostNonMemberInput
-export type PostMemberInput = {
+import {Post} from './post'
+
+export type PostUserInput = {
   category: string
   title: string
   content: string
   images?: string[]
 }
-export type PostNonMemberInput = PostMemberInput & {
-  userName: string
-  userPw: string
-}
+
+export type PostUpdateUserInput = Required<Pick<Post, 'hk'|'updatedAt'>> & Partial<PostUserInput>

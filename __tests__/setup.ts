@@ -53,14 +53,14 @@ export const getInitialData = async () => {
     entityFactory.createPost({data: postContentNews, user: {userId: 'aGun', ip: '0.0.0.0'}}),
     entityFactory.createPost({data: postContentNews, user: {userId: 'bGun', ip: '0.0.0.0'}}),
     entityFactory.createPost({data: postContentNews, user: {userId: 'cGun', ip: '0.0.0.0'}}),
-    entityFactory.createPost({data: postContentNews}),
+    entityFactory.createPost({data: postContentNews, user: {name: 'notMemberA', pw: 'pw', ip: '0.0.0.1'}}),
     entityFactory.createPost({data: postContentNews, user: {userId: 'aGun', ip: '0.0.0.0'}}),
     entityFactory.createPost({data: postContentKids, user: {userId: 'cGun', ip: '0.0.0.0'}}),
   ])
 // todo contentUrl 을 만들면서 hasImage 에 대한 처리가 필요함
   const postDocs = await Promise.all(
     postList.map(
-      post => addPost(opDdb, {post}),
+      post => addPost(opDdb, {data: post}),
     ),
   )
   expect(postDocs).toEqual(postList)

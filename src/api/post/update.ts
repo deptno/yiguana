@@ -1,15 +1,22 @@
 import {YiguanaStore} from '../../store/dynamodb/dynamodb'
-import {Post, PostNonMemberInput, PostUserInput} from '../../entity/post'
+import {Post, PostUpdateUserInput} from '../../entity/post'
 import {EntityFactory} from '../../entity'
 import {User} from '../../entity/user'
-import {EValidationErrorMessage, ValidationError} from '../../entity/error'
-import * as R from 'ramda'
 
-export async function update(store: YiguanaStore<Post>, ep: EntityFactory, input: Input) {
-  console.error('todo')
+export async function update(store: YiguanaStore<Post>, ep: EntityFactory, input: UpdateInput): Promise<Post|undefined> {
+  // TODO: update 는 s3 쪽 데이를 업데이트 한다.
+
+  // TODO: 다이나모 디비에 updatedAt 을 업데이트 한다.
+  const {hk, updatedAt} = input.data
+  return store.updatePost({
+    data: {
+      hk,
+      updatedAt
+    }
+  })
 }
 
-type Input = {
-  data: PostUserInput
-  user?: User
+export type UpdateInput = {
+  data: PostUpdateUserInput
+  user: User
 }

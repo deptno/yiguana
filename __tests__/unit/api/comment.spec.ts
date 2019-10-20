@@ -17,10 +17,15 @@ describe('unit', () => {
             userName: 'name',
             userPw: 'pw',
           },
+          user: member
         })
       })
 
       const api = createApi({ddbClient, s3Client, tableName, bucketName})
+      const member = {
+        userId: 'member',
+        ip: '0.0.0.0'
+      }
 
       let post: Post
 

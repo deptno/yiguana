@@ -20,7 +20,7 @@ export function createPost(operator, params: CreatePostInput): Post {
     category,
     order,
   }
-  if (user) {
+  if ('userId' in user) {
     post.userId = user.userId
   }
   if (data.cover) {
@@ -32,7 +32,7 @@ export function createPost(operator, params: CreatePostInput): Post {
 
 export type CreatePostInput = {
   data: PostContent
-  user?: User
+  user: User
 }
 export interface Post extends YiguanaDocument {
   views: number

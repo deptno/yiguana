@@ -53,7 +53,7 @@ describe('unit', function () {
                   },
                 },
               )
-              await addPost(opDdb, {post: latestPost})
+              await addPost(opDdb, {data: latestPost})
               const {items} = await posts(opDdb, {})
               console.debug('시간순 리스트')
               console.table(items)
@@ -174,7 +174,7 @@ describe('unit', function () {
 
               {
                 await addPost(opDdb, {
-                  post: createPost(
+                  data: createPost(
                     opS3,
                     {
                       data: await createPostContentUnSafe(opS3, {
@@ -194,7 +194,7 @@ describe('unit', function () {
               }
 
               await addPost(opDdb, {
-                post: createPost(
+                data: createPost(
                   opS3,
                   {
                     data: await createPostContentUnSafe(opS3, {
@@ -241,7 +241,7 @@ describe('unit', function () {
 
               console.debug('포스트 추가')
               await addPost(opDdb, {
-                post: createPost(
+                data: createPost(
                   opS3,
                   {
                     data: await createPostContentUnSafe(opS3, {

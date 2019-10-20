@@ -2,11 +2,12 @@ import {YiguanaStore} from '../../store/dynamodb/dynamodb'
 import {Post} from '../../entity/post'
 import {EntityFactory} from '../../entity'
 
-export async function like(store: YiguanaStore<Post>, ep: EntityFactory, input: Input) {
+export async function like(store: YiguanaStore<Post>, ep: EntityFactory, input: LikeInput): Promise<Post|undefined> {
   return store.likePost({
     post: input.data,
   })
 }
-type Input = {
+
+export type LikeInput = {
   data: Post
 }

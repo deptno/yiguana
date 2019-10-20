@@ -10,6 +10,7 @@ describe('unit', () => {
       beforeAll(clearData)
 
       const api = createApi({ddbClient, s3Client, tableName, bucketName})
+      const nonMember = {name: 'non member', pw: 'pw', ip: '0.0.0.0'}
 
       it.todo('like, 혹은 like 를 포함한 view 모두가 다이나모디비에 저장되는 경우에는 추후 저장 용량의 부담이 생길 수 있음')
       it('list(0)', async () => {
@@ -26,12 +27,18 @@ describe('unit', () => {
                 title: 'title',
                 category: 'news',
               },
+              user: {
+                name: 'non member',
+                pw: '',
+                ip: '0.0.0.0',
+              },
             })
           } catch (e) {
             expect(e.message).toEqual(EValidationErrorMessage.InvalidInput)
           }
         })
         it('create post, 비회원 글쓰기', async () => {
+
           const post = await api.post.create({
             data: {
               content: 'content',
@@ -40,6 +47,7 @@ describe('unit', () => {
               userName: 'name',
               userPw: 'pw',
             },
+            user: nonMember,
           })
           const {items} = await api.post.list({})
           expect(items.length).toEqual(1)
@@ -88,7 +96,7 @@ describe('unit', () => {
           expect(items.length).toEqual(1)
           const [post] = items
           expect(post.deleted).toEqual(undefined)
-          await api.post.del({data: post})
+          await api.post.del({data: post, user: nonMember})
           const nextPost = await api.post.read({data: post})
           expect(nextPost.deleted).toEqual(true)
         })

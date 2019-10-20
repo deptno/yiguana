@@ -6,7 +6,7 @@ export async function view(store: YiguanaStore<Post>, ep: EntityFactory, input: 
   try {
     const content = await ep.createPostContent(input)
     const post = ep.createPost({data: content})
-    const result = store.addPost({post})
+    const result = store.addPost({data: post})
 
     return result
   } catch (e) {
