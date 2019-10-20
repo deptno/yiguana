@@ -134,10 +134,10 @@ describe('unit', function () {
                   content,
                   updatedAt
               })
-              console.log(isUpdated)
 
               const {items: after} = await comments(opDdb, {postId: commentedPost.hk})
-              expect(after.length).toEqual(before.length)
+              expect(before[0].content).not.toEqual(content)
+              expect(after[0].content).toEqual(content)
 
               console.table(before)
               console.table(after)
