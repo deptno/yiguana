@@ -17,6 +17,7 @@ import {post, PostInput} from './post'
 import {DynamoDBInput} from '../../entity/input/dynamodb'
 import {commentsByUserId, CommentsByUserIdInput} from './comments-by-user-id'
 import {unlikePost} from './unlike-post'
+import {updatePost, UpdatePostInput} from './update-post'
 
 export function createStore<P>(operator: DynamoDBInput): YiguanaStore<P> {
   return {
@@ -24,6 +25,7 @@ export function createStore<P>(operator: DynamoDBInput): YiguanaStore<P> {
     posts: posts.bind(null, operator),
     postsByUserId: postsByUserId.bind(null, operator),
     addPost: addPost.bind(null, operator),
+    updatePost: updatePost.bind(null, operator),
     removePost: removePost.bind(null, operator),
     viewPost: viewPost.bind(null, operator),
     likePost: likePost.bind(null, operator),
@@ -49,6 +51,7 @@ export interface YiguanaStore<P> {
   removePost(params: RemovePostInput): ReturnType<typeof removePost>
 
   // post
+  updatePost(params: UpdatePostInput): ReturnType<typeof updatePost>
   viewPost(params: ViewPostInput): ReturnType<typeof viewPost>
   likePost(params: LikePostInput): ReturnType<typeof likePost>
   unlikePost(params: LikePostInput): ReturnType<typeof likePost>
