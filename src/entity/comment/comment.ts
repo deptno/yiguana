@@ -12,6 +12,7 @@ export function createComment(params: CreateCommentInput): Comment {
     hk: uuid(),
     rk: EEntity.Comment,
     children: 0,
+    likes: 0,
     content: data.content,
     priority: data.priority,
     postId: data.postId,
@@ -38,6 +39,7 @@ export interface Comment extends YiguanaDocument {
   postId: string
   userId?: string // gsi.hk
   updatedAt?: string
+  likes: number
 //  user: User
 //  ip: string
 //  password?: string

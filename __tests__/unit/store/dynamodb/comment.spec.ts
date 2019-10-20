@@ -13,6 +13,8 @@ import {commentsByPostId} from '../../../../src/store/dynamodb/comments-by-post-
 import {post} from '../../../../src/store/dynamodb/post'
 import {posts} from '../../../../src/store/dynamodb/posts'
 import {removePost} from '../../../../src/store/dynamodb/remove-post'
+import {likeComment} from '../../../../src/store/dynamodb/like-comment'
+import {unlikeComment} from '../../../../src/store/dynamodb/unlike-comment'
 
 describe('unit', function () {
   describe('store', function () {
@@ -122,14 +124,51 @@ describe('unit', function () {
 
           describe('updateComment', function() {
             it('updateComment', async() => {
-              const {items} = await comments(opDdb, {postId: commentedPost.hk})
-              const target = items[0]
-              console.table(target)
+              const {items: before} = await comments(opDdb, {postId: commentedPost.hk})
+              const [comment] = before
 
               const content = 'updated content'
               const updatedAt = new Date().toISOString()
-              const updatedComment = await updateComment(opDdb, target.hk, content, updatedAt)
-              console.table(updatedComment)
+              const isUpdated = await updateComment(opDdb, {
+                  hk: comment.hk,
+                  content,
+                  updatedAt
+              })
+              console.log(isUpdated)
+
+              const {items: after} = await comments(opDdb, {postId: commentedPost.hk})
+              expect(after.length).toEqual(before.length)
+
+              console.table(before)
+              console.table(after)
+            })
+          })
+
+          describe('likeComment', function() {
+            it('likeComment', async () => {
+              const {items: before} = await comments(opDdb, {postId: commentedPost.hk})
+              const isLiked = await likeComment(opDdb, {hk: before[0].hk})
+              expect(isLiked).toEqual(true)
+
+              const {items: after} = await comments(opDdb, {postId: commentedPost.hk})
+              expect(after[0].likes).toEqual(before[0].likes + 1)
+
+              console.table(before)
+              console.table(after)
+            })
+          })
+
+          describe('unlikeComment', function() {
+            it('unlikeComment', async () => {
+              const {items: before} = await comments(opDdb, {postId: commentedPost.hk})
+              const isUnliked = await unlikeComment(opDdb, {hk: before[0].hk})
+              expect(isUnliked).toEqual(true)
+
+              const {items: after} = await comments(opDdb, {postId: commentedPost.hk})
+              expect(after[0].likes).toEqual(before[0].likes - 1)
+
+              console.table(before)
+              console.table(after)
             })
           })
         })
