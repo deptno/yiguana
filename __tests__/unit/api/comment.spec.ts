@@ -1,6 +1,8 @@
 import {createApi} from '../../../src/api'
 import {Post} from '../../../src/entity/post'
 import {bucketName, ddbClient, s3Client, tableName} from '../../env'
+import {EPriority} from '../../../src/entity/enum'
+import {EValidationErrorMessage} from '../../../src/entity/error'
 
 describe('unit', () => {
   describe('api', () => {
@@ -30,7 +32,24 @@ describe('unit', () => {
       })
 
       describe('comment', () => {
-        it.todo('create comment')
+        it('create comment', async () => {
+         try {
+           await api.comment.create({
+             data: {
+               postId: post.hk,
+               content: 'test data',
+               priority: EPriority.Normal,
+             },
+             user: {
+               userId: 'userId',
+               ip: '0.0.0.0',
+             },
+           })
+         } catch (e) {
+           expect(e.message).toEqual(EValidationErrorMessage.InvalidInput)
+         }
+        })
+
         it.todo('update comment')
         it.todo('like comment')
         it.todo('unlike comment')
