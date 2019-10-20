@@ -7,18 +7,17 @@ import {CommentUserInput} from './user-input'
 export function createComment(params: CreateCommentInput): Comment {
   const {user, data} = params
   const createdAt = new Date().toISOString()
-  const updatedAt = createdAt // 초기 값은 createdAt 값과 동일
   const order = [EEntity.Comment, data.priority, createdAt].join('#')
   const comment: Comment = {
     hk: uuid(),
     rk: EEntity.Comment,
     children: 0,
+    likes: 0,
     content: data.content,
     priority: data.priority,
     postId: data.postId,
     order,
     createdAt,
-    updatedAt,
   }
 
   if (user) {
@@ -39,6 +38,8 @@ export interface Comment extends YiguanaDocument {
   order: string
   postId: string
   userId?: string // gsi.hk
+  updatedAt?: string
+  likes: number
 //  user: User
 //  ip: string
 //  password?: string

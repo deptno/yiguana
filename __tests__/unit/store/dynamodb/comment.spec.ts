@@ -13,6 +13,8 @@ import {commentsByPostId} from '../../../../src/store/dynamodb/comments-by-post-
 import {post} from '../../../../src/store/dynamodb/post'
 import {posts} from '../../../../src/store/dynamodb/posts'
 import {removePost} from '../../../../src/store/dynamodb/remove-post'
+import {likeComment} from '../../../../src/store/dynamodb/like-comment'
+import {unlikeComment} from '../../../../src/store/dynamodb/unlike-comment'
 
 describe('unit', function () {
   describe('store', function () {
@@ -122,12 +124,51 @@ describe('unit', function () {
 
           describe('updateComment', function() {
             it('updateComment', async() => {
-              const {items} = await comments(opDdb, {postId: commentedPost.hk})
-              const target = items[0]
-              console.table(target)
-              target.content = 'updated content'
-              const updatedComment = await updateComment(opDdb, {data: items[0]})
-              console.table(updatedComment)
+              const {items: before} = await comments(opDdb, {postId: commentedPost.hk})
+              const [comment] = before
+
+              const content = 'updated content'
+              const updatedAt = new Date().toISOString()
+              const isUpdated = await updateComment(opDdb, {
+                  hk: comment.hk,
+                  content,
+                  updatedAt
+              })
+
+              const {items: after} = await comments(opDdb, {postId: commentedPost.hk})
+              expect(before[0].content).not.toEqual(content)
+              expect(after[0].content).toEqual(content)
+
+              console.table(before)
+              console.table(after)
+            })
+          })
+
+          describe('likeComment', function() {
+            it('likeComment', async () => {
+              const {items: before} = await comments(opDdb, {postId: commentedPost.hk})
+              const isLiked = await likeComment(opDdb, {hk: before[0].hk})
+              expect(isLiked).toEqual(true)
+
+              const {items: after} = await comments(opDdb, {postId: commentedPost.hk})
+              expect(after[0].likes).toEqual(before[0].likes + 1)
+
+              console.table(before)
+              console.table(after)
+            })
+          })
+
+          describe('unlikeComment', function() {
+            it('unlikeComment', async () => {
+              const {items: before} = await comments(opDdb, {postId: commentedPost.hk})
+              const isUnliked = await unlikeComment(opDdb, {hk: before[0].hk})
+              expect(isUnliked).toEqual(true)
+
+              const {items: after} = await comments(opDdb, {postId: commentedPost.hk})
+              expect(after[0].likes).toEqual(before[0].likes - 1)
+
+              console.table(before)
+              console.table(after)
             })
           })
         })
@@ -152,7 +193,7 @@ describe('unit', function () {
             console.table(items)
             expect(items.length).toEqual(0)
           })
-          it('회원 aSsi 코멘트 추가 -> 코멘트 리스트 aSsi (재조회) -> Post 의 Comments 값 증가 확인', async () => {
+          it('회원 aSsi 코멘트 추가 -> 코멘트 리스트 aSsi (재조회) -> Post 의 children 값 증가 확인', async () => {
             console.debug('회원 코멘트 추가')
             const comment = createComment({
               data: {
@@ -175,7 +216,7 @@ describe('unit', function () {
             console.table(items)
             expect(items.length).toEqual(1)
 
-            console.log('Post 의 Comments 값도 증가')
+            console.log('Post 의 children 값도 증가')
             await commentPost(opDdb, {data: commentedPost})
             const nextCommentedPost = await post(opDdb, {hk: commentedPost.hk})
             expect(nextCommentedPost.children).toEqual(2)
