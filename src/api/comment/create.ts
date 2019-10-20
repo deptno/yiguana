@@ -19,7 +19,7 @@ export async function create(store: YiguanaStore<Post>, ep: EntityFactory, input
     }
   }
 
-  // todo: 로그인 유저인 유저인 경우의 처리
+  // TODO: 로그인 유저인 유저인 경우의 처리
     if (false) {
       try {
         const content = await ep.createPostContent(data)
