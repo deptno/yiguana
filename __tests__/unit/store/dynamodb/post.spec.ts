@@ -92,9 +92,9 @@ describe('unit', function () {
 
           describe('updatePost', function () {
             it('updatePost', async () => {
-              // todo: update 는 기본적으로 포스트(s3에 저장)에 대해서 만 적용되며 메타데이터는 변경이 없다
-              // todo: updatedAt 이 필요한지 생각해 볼 필요가 있고 이 데이터 자체는 s3 데이터가 가지고 있을 수 있다
-              // todo: 이 경우라면 updatePost 는 필요하지 않다
+              // TODO: update 는 기본적으로 포스트(s3에 저장)에 대해서 만 적용되며 메타데이터는 변경이 없다
+              // TODO: updatedAt 이 필요한지 생각해 볼 필요가 있고 이 데이터 자체는 s3 데이터가 가지고 있을 수 있다
+              // TODO: 이 경우라면 updatePost 는 필요하지 않다
               const [post] = postList
               const updatedPost = await updatePost(opDdb, {
                 data: post,

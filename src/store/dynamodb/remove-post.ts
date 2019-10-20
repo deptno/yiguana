@@ -4,7 +4,7 @@ export async function removePost(operator: DynamoDBInput, params: RemovePostInpu
   const {dynamodb, tableName} = operator
   const {hk} = params
   const rk = 'post'
-  // fixme update 삭제
+  // FIXME: update 삭제
   const response = await dynamodb.update({
     ReturnConsumedCapacity: 'TOTAL',
     TableName             : tableName,
