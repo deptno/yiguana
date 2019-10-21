@@ -13,7 +13,7 @@ export interface YiguanaObjectApi<
   list(gsi: G): Promise<PaginationResult<T>>
   create(input: {data, user: User}): Promise<T>
   read(input: {data: {hk: string}}): Promise<T>
-  update(input: {data: H & Partial<T>, user: User}): Promise<T|undefined>
+  update(input: {data: H & Partial<T>, user?: User}): Promise<T|undefined> // post 그리고 comment에서 같이 쓰기 위해 일단 user optional 처리
   del(input: {data: H, user: User}): Promise<boolean>
   like(input: {data: H}): Promise<T|undefined>
   unlike(input: {data: H}): Promise<T|undefined>

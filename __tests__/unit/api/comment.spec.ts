@@ -55,7 +55,13 @@ describe('unit', () => {
          }
         })
 
-        it.todo('update comment')
+        it('update comment', async () => {
+          const content = 'updated content'
+          await api.comment.update({
+            data: post,
+          })
+          console.table(post)
+        })
         it.todo('like comment')
         it.todo('unlike comment')
         it.todo('view comment')
