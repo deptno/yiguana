@@ -4,7 +4,7 @@ import {EntityFactory} from '../../entity'
 import {PaginationResult} from '@deptno/dynamodb/dist/api'
 import {PostInput} from '../../store/dynamodb/post'
 
-export async function read(store: YiguanaStore<Post>, ep: EntityFactory, input: PostInput) {
+export async function read(store: YiguanaStore, ep: EntityFactory, input: PostInput) {
   return store.post(input)
 }
 

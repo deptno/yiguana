@@ -1,7 +1,7 @@
 import {DynamoDBInput} from '../../entity/input/dynamodb'
 import {EIndexName} from '../../entity/dynamodb/enum'
 
-export function replies(operator: DynamoDBInput, params: CommentRepliesInput) {
+export function replies(operator: DynamoDBInput, params: RepliesInput) {
   const {dynamodb, tableName} = operator
   const {commentId, nextToken} = params
 
@@ -20,7 +20,7 @@ export function replies(operator: DynamoDBInput, params: CommentRepliesInput) {
   })
 }
 
-export type CommentRepliesInput = {
+export type RepliesInput = {
   commentId: string
   nextToken?: string
 }

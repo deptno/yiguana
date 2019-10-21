@@ -104,7 +104,7 @@ describe('unit', function () {
 
             it('likePost', async () => {
               const {items: before} = await posts(opDdb, {})
-              const isLiked = await likePost(opDdb, {post: before[0]})
+              const isLiked = await likePost(opDdb, {data: before[0]})
               console.log(isLiked)
 
               const {items: after} = await posts(opDdb, {})
@@ -115,7 +115,7 @@ describe('unit', function () {
 
             it('viewPost', async () => {
               const {items: before} = await posts(opDdb, {})
-              const isViewed = await viewPost(opDdb, {post: before[0]})
+              const isViewed = await viewPost(opDdb, {data: before[0]})
               console.log(isViewed)
 
               const {items: after} = await posts(opDdb, {})

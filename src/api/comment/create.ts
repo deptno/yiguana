@@ -3,7 +3,7 @@ import {EntityFactory} from '../../entity'
 import {User} from '../../entity/user'
 import {CommentUserInput} from '../../entity/comment'
 
-export async function create(store: YiguanaStore<Comment>, ep: EntityFactory, input: CreateInput) {
+export async function create(store: YiguanaStore, ep: EntityFactory, input: CreateInput) {
   const {data, user} = input
   const comment = ep.createComment({
     data: data
@@ -14,5 +14,5 @@ export async function create(store: YiguanaStore<Comment>, ep: EntityFactory, in
 
 export type CreateInput = {
   data: CommentUserInput
-  user?: User
+  user: User
 }

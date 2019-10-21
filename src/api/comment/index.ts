@@ -1,24 +1,50 @@
 import {YiguanaStore} from '../../store/dynamodb/dynamodb'
 import {EntityFactory} from '../../entity'
-import {YiguanaObjectApi} from '../interface'
-import {Comment} from '../../entity/comment'
-import {like} from './like'
-import {unlike} from './unlike'
+import {like, LikeInput} from './like'
+import {unlike, UnlikeInput} from './unlike'
 import {list, ListInput} from './list'
 import {create, CreateInput} from './create'
 import {update, UpdateInput} from './update'
-import {del} from './del'
-import {view} from './view'
+import {del, DelInput} from './del'
+import {view, ViewInput} from './view'
 
-//export function createCommentApi<P>(store: YiguanaStore<P>, ep: EntityFactory): YiguanaObjectApi<Comment, { postId }> {
-export function createCommentApi<P>(store: YiguanaStore<P>, ep: EntityFactory) {
-  return {
-    list: list.bind(null, store, ep) as (input: ListInput) => ReturnType<typeof list>,
-    create: create.bind(null, store, ep) as (input: CreateInput) => ReturnType<typeof create>,
-    update: update.bind(null, store, ep) as (input: UpdateInput) => ReturnType<typeof update>,
-    del: del.bind(null, store, ep),
-    like: like.bind(null, store, ep),
-    unlike: unlike.bind(null, store, ep),
-    view: view.bind(null, store, ep),
-  } as any
+export function createCommentApi(store: YiguanaStore, ep: EntityFactory) {
+  return new CommentApi(store, ep)
+}
+
+class CommentApi {
+  constructor(private store: YiguanaStore, private ep: EntityFactory) {
+  }
+
+  list(input: ListInput) {
+    return list(this.store, this.ep, input)
+  }
+
+  create(input: CreateInput) {
+    return create(this.store, this.ep, input)
+  }
+
+//  read(input: ReadInput) {
+//    return read(this.store, this.ep, input)
+//  }
+
+  update(input: UpdateInput) {
+    return update(this.store, this.ep, input)
+  }
+
+  del(input: DelInput) {
+    return del(this.store, this.ep, input)
+  }
+
+  like(input: LikeInput) {
+    return like(this.store, this.ep, input)
+  }
+
+  unlike(input: UnlikeInput) {
+    return unlike(this.store, this.ep, input)
+  }
+
+//  view(input: ViewInput) {
+//    return view(this.store, this.ep, input)
+//  }
 }

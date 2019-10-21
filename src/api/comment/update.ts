@@ -3,7 +3,7 @@ import {EntityFactory} from '../../entity'
 import {User} from '../../entity/user'
 import {CommentUserInput} from '../../entity/comment'
 
-export async function update(store: YiguanaStore<Comment>, ep: EntityFactory, input: UpdateInput) {
+export async function update(store: YiguanaStore, ep: EntityFactory, input: UpdateInput) {
   const {data , user} = input
   // TODO: updateComment
 }

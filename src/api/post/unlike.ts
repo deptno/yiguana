@@ -1,13 +1,13 @@
 import {YiguanaStore} from '../../store/dynamodb/dynamodb'
-import {Post} from '../../entity/post'
 import {EntityFactory} from '../../entity'
+import {YiguanaDocumentHash} from '../../dynamodb/yiguana-document'
 
-export async function unlike(store: YiguanaStore<Post>, ep: EntityFactory, input: UnlikeInput) {
+export async function unlike(store: YiguanaStore, ep: EntityFactory, input: UnlikeInput) {
   return store.unlikePost({
-    post: input.data,
+    data: input.data,
   })
 }
 
 export type UnlikeInput = {
-  data: Post
+  data: YiguanaDocumentHash
 }
