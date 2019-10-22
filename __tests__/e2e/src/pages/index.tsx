@@ -3,6 +3,7 @@ import {NextPage} from 'next'
 import * as R from 'ramda'
 import {Post} from '../../../../src/entity/post'
 import Head from 'next/head'
+import {Board} from '../components/board/Board'
 
 const IndexPage: NextPage<Props> = props => {
   const [posts, setPosts] = useState<Post[]>([])
@@ -15,35 +16,21 @@ const IndexPage: NextPage<Props> = props => {
   }, [])
 
   return (
-    <div className="bg-black-10">
+    <div>
       <Head>
         <link
           rel="stylesheet"
           type="text/css"
           href="https://cdnjs.cloudflare.com/ajax/libs/tachyons/4.11.1/tachyons.min.css"
         />
+        <link
+          rel="stylesheet"
+          type="text/css"
+          href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.11.2/css/all.min.css"
+        />
       </Head>
       <div className="pa3">
-      <ul className="list pl0">
-        {posts.map(p => (
-          <li className="mv2 w-100 pa2 bg-white" key={p.hk}>
-            <div>hk: {p.hk}</div>
-            <div>rk: {p.rk}</div>
-            <div>title: {p.title}</div>
-            <div>order: {p.order}</div>
-            <div>userId: {p.userId}</div>
-            <div>createdAt: {p.createdAt}</div>
-            <div>updatedAt: {p.updatedAt}</div>
-            <div>deleted: {p.deleted}</div>
-            <div>category: {p.category}</div>
-            <div>contentUrl: {p.contentUrl}</div>
-            <div>cover: {p.cover}</div>
-            <div>views: {p.views}</div>
-            <div>likes: {p.likes}</div>
-            <div>children(comments): {p.children}</div>
-          </li>
-        ))}
-      </ul>
+        <Board items={posts}/>
       </div>
     </div>
   )
