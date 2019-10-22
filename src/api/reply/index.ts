@@ -11,7 +11,7 @@ export function createReplyApi(store: YiguanaStore, ep: EntityFactory) {
   return new ReplyApi(store, ep)
 }
 
-class ReplyApi {
+export class ReplyApi {
   constructor(private store: YiguanaStore, private ep: EntityFactory) {
   }
 
