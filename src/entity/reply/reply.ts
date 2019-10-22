@@ -19,7 +19,8 @@ export function createReply(params: CreateReplyInput): Reply {
     createdAt,
     order
   }
-  if (user) {
+  if ('userId' in user) {
+    // TODO: user 처리
     reply.userId = user.userId
   }
 
@@ -28,7 +29,7 @@ export function createReply(params: CreateReplyInput): Reply {
 
 export type CreateReplyInput = {
   data: ReplyUserInput
-  user?: User
+  user: User
 }
 export interface Reply extends YiguanaDocument {
   commentId: string

@@ -14,17 +14,15 @@ describe('unit', () => {
             content: 'content',
             title: 'title',
             category: 'news',
-            userName: 'name',
-            userPw: 'pw',
           },
-          user: member
+          user: member,
         })
       })
 
       const api = createApi({ddbClient, s3Client, tableName, bucketName})
       const member = {
         userId: 'member',
-        ip: '0.0.0.0'
+        ip: '0.0.0.0',
       }
 
       let post: Post
@@ -38,27 +36,30 @@ describe('unit', () => {
 
       describe('comment', () => {
         it('create comment', async () => {
-         try {
-           await api.comment.create({
-             data: {
-               postId: post.hk,
-               content: 'test data',
-               priority: EPriority.Normal,
-             },
-             user: {
-               userId: 'userId',
-               ip: '0.0.0.0',
-             },
-           })
-         } catch (e) {
-           expect(e.message).toEqual(EValidationErrorMessage.InvalidInput)
-         }
+          try {
+            await api.comment.create({
+              data: {
+                postId: post.hk,
+                content: 'test data',
+                priority: EPriority.Normal,
+              },
+              user: {
+                userId: 'userId',
+                ip: '0.0.0.0',
+              },
+            })
+          } catch (e) {
+            expect(e.message).toEqual(EValidationErrorMessage.InvalidInput)
+          }
         })
 
         it('update comment', async () => {
-          const content = 'updated content'
           await api.comment.update({
-            data: post,
+            data: {
+              postId: 'postId',
+              content: 'updated content',
+              priority: EPriority.Normal,
+            },
           })
           console.table(post)
         })

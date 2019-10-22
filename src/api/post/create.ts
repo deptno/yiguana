@@ -4,8 +4,9 @@ import {EntityFactory} from '../../entity'
 import {User} from '../../entity/user'
 import {EValidationErrorMessage, ValidationError} from '../../entity/error'
 
-export async function create(store: YiguanaStore<Post>, ep: EntityFactory, input: CreateInput) {
+export async function create(store: YiguanaStore, ep: EntityFactory, input: CreateInput) {
   validateUser(input.user)
+
   const user = input.user
   // createPostContent 는 throw 가능성(unsafe)이 있다.
   const content = await ep.createPostContent(input.data)

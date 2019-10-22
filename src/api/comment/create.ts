@@ -6,7 +6,8 @@ import {CommentUserInput} from '../../entity/comment'
 export async function create(store: YiguanaStore, ep: EntityFactory, input: CreateInput) {
   const {data, user} = input
   const comment = ep.createComment({
-    data: data
+    data,
+    user
   })
 
   return store.addComment({data: comment})

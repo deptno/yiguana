@@ -23,7 +23,7 @@ export function commentPostParams(operator: DynamoDBInput, params: CommentPostIn
     TableName                : tableName,
     Key                      : {
       hk,
-      rk: EEntity.Comment,
+      rk: EEntity.Post,
     },
     UpdateExpression         : 'SET #v = #v + :v',
     ExpressionAttributeNames : {

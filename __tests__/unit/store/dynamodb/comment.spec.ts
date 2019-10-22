@@ -40,6 +40,9 @@ describe('unit', function () {
           it('post.children(1)', async function () {
             const {items} = await comments(opDdb, {postId: commentedPost.hk})
             const nextCommentedPost = await post(opDdb, {hk: commentedPost.hk})
+
+            console.table(items)
+
             expect(nextCommentedPost.children).toEqual(items.length)
           })
           it('addComment(회원)', async function () {
