@@ -1,5 +1,6 @@
 import {createApi} from '../../../src/api'
 import {Post} from '../../../src/entity/post'
+import {Comment} from '../../../src/entity/comment'
 import {bucketName, ddbClient, s3Client, tableName} from '../../env'
 import {EPriority} from '../../../src/entity/enum'
 import {EValidationErrorMessage} from '../../../src/entity/error'
@@ -17,6 +18,14 @@ describe('unit', () => {
           },
           user: member,
         })
+        comment = await api.comment.create({
+          data: {
+            postId: post.hk,
+            content: 'init data',
+            priority: EPriority.Normal,
+          },
+          user: member,
+        })
       })
 
       const api = createApi({ddbClient, s3Client, tableName, bucketName})
@@ -26,12 +35,13 @@ describe('unit', () => {
       }
 
       let post: Post
+      let comment: Comment
 
       it('list(0)', async () => {
         const {items} = await api.comment.list({
           postId: post.hk,
         })
-        expect(items.length).toEqual(0)
+        expect(items.length).toEqual(1)
       })
 
       describe('comment', () => {
@@ -52,19 +62,49 @@ describe('unit', () => {
             expect(e.message).toEqual(EValidationErrorMessage.InvalidInput)
           }
         })
-
         it('update comment', async () => {
-          await api.comment.update({
+          const {items: before} = await api.comment.list({
+            postId: post.hk,
+          })
+          console.table(before)
+
+          const targetComment = await api.comment.update({
             data: {
-              postId: 'postId',
+              hk: comment.hk,
+              postId: post.hk,
               content: 'updated content',
-              priority: EPriority.Normal,
+              updatedAt: new Date().toISOString(),
             },
           })
-          console.table(post)
+          console.table(targetComment)
+
+          const {items: after} = await api.comment.list({
+            postId: post.hk,
+          })
+          console.table(after)
+
+          // TODO: before/after 객체가 Comment 타입을 갖도록 해야 expect 비교가 가능한데
         })
-        it.todo('like comment')
-        it.todo('unlike comment')
+        it('like comment', async() => {
+          const isLiked = await api.comment.like({
+            hk: comment.hk,
+          })
+          expect(isLiked).toEqual(true)
+          const {items} = await api.comment.list({
+            postId: post.hk,
+          })
+          console.table(items)
+        })
+        it('unlike comment', async() => {
+          const isUnliked = await api.comment.unlike({
+            hk: comment.hk,
+          })
+          expect(isUnliked).toEqual(true)
+          const {items} = await api.comment.list({
+            postId: post.hk,
+          })
+          console.table(items)
+        })
         it.todo('view comment')
         it.todo('remove comment')
         it.todo('request to block comment')
