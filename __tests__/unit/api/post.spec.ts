@@ -27,11 +27,7 @@ describe('unit', () => {
                 title: 'title',
                 category: 'news',
               },
-              user: {
-                name: 'non member',
-                pw: '',
-                ip: '0.0.0.0',
-              },
+              user: nonMember,
             })
           } catch (e) {
             expect(e.message).toEqual(EValidationErrorMessage.InvalidInput)
@@ -44,8 +40,6 @@ describe('unit', () => {
               content: 'content',
               title: 'title',
               category: 'news',
-              userName: 'name',
-              userPw: 'pw',
             },
             user: nonMember,
           })
