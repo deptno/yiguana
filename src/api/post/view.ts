@@ -1,13 +1,13 @@
 import {YiguanaStore} from '../../store/dynamodb/dynamodb'
-import {Post, PostUserInput} from '../../entity/post'
 import {EntityFactory} from '../../entity'
+import {YiguanaDocumentHash} from '../../dynamodb/yiguana-document'
 
-export async function view(store: YiguanaStore<Post>, ep: EntityFactory, input: ViewInput) {
+export async function view(store: YiguanaStore, ep: EntityFactory, input: ViewInput) {
   return store.viewPost({
-    post: input.data
+    data: input.data
   })
 }
 
 export type ViewInput = {
-  data: Post
+  data: YiguanaDocumentHash
 }

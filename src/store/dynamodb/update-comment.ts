@@ -5,8 +5,6 @@ import {EEntity} from '../../entity/enum'
 export async function updateComment(operator: DynamoDBInput, params: UpdateCommentInput) {
   const {dynamodb, tableName} = operator
   const {hk, content, updatedAt} = params
-  const rk = EEntity.Comment
-
   // TODO: MAX_CONTENT_LENGTH 활용한 content length 체크해서 300자 넘으면 얼럿 띄우기?
 
   const response = await dynamodb.update({
@@ -15,7 +13,7 @@ export async function updateComment(operator: DynamoDBInput, params: UpdateComme
     TableName                : tableName,
     Key                      : {
       hk,
-      rk,
+      rk: EEntity.Comment,
     },
     UpdateExpression         : 'SET #c = :c, #u = :u',
     ExpressionAttributeNames : {
@@ -32,6 +30,7 @@ export async function updateComment(operator: DynamoDBInput, params: UpdateComme
     return response.Attributes as Comment
   }
 }
+//TODO: {data: {..}} 형식으로 맞출 것
 export type UpdateCommentInput = {
   hk: string
   content: string

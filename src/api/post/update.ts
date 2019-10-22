@@ -3,7 +3,7 @@ import {Post, PostUpdateUserInput} from '../../entity/post'
 import {EntityFactory} from '../../entity'
 import {User} from '../../entity/user'
 
-export async function update(store: YiguanaStore<Post>, ep: EntityFactory, input: UpdateInput): Promise<Post|undefined> {
+export async function update(store: YiguanaStore, ep: EntityFactory, input: UpdateInput): Promise<Post|undefined> {
   // TODO: update 는 s3 쪽 데이를 업데이트 한다.
 
   // TODO: 다이나모 디비에 updatedAt 을 업데이트 한다.

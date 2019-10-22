@@ -20,7 +20,7 @@ export function createComment(params: CreateCommentInput): Comment {
     createdAt,
   }
 
-  if (user) {
+  if (user && 'userId' in user) {
     comment.userId = user.userId
   }
 

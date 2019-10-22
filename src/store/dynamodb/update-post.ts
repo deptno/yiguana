@@ -1,6 +1,7 @@
 import {DynamoDBInput} from '../../entity/input/dynamodb'
 import {Post} from '../../entity/post'
 import {EEntity} from '../../entity/enum'
+import {YiguanaDocument} from '../../dynamodb/yiguana-document'
 
 export async function updatePost(operator: DynamoDBInput, params: UpdatePostInput): Promise<Post|undefined> {
   const {dynamodb, tableName} = operator
@@ -27,5 +28,5 @@ export async function updatePost(operator: DynamoDBInput, params: UpdatePostInpu
   }
 }
 export type UpdatePostInput = {
-  data: Pick<Post, 'hk' | 'updatedAt'>
+  data: Pick<YiguanaDocument, 'hk' | 'updatedAt'>
 }

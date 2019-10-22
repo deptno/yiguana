@@ -1,9 +1,10 @@
 import {DynamoDBInput} from '../../entity/input/dynamodb'
 import {EEntity} from '../../entity/enum'
+import {YiguanaDocumentHashRange} from '../../dynamodb/yiguana-document'
 
 export async function remove(operator: DynamoDBInput, params: RemoveInput): Promise<any | undefined> {
   const {dynamodb, tableName} = operator
-  const {hk, rk} = params
+  const {hk, rk} = params.data
   const response = await dynamodb.del({
     ReturnConsumedCapacity: 'TOTAL',
     ReturnValues: 'ALL_OLD',
@@ -20,6 +21,5 @@ export async function remove(operator: DynamoDBInput, params: RemoveInput): Prom
 }
 
 export type RemoveInput = {
-  hk: string,
-  rk: EEntity
+  data: YiguanaDocumentHashRange
 }

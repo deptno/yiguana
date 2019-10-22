@@ -39,20 +39,17 @@ describe('unit', function () {
 
           describe('addPost', function () {
             it('시간순 리스트', async () => {
-              const latestPost = createPost(
-                opS3,
-                {
-                  data: await createPostContentUnSafe(opS3, {
-                    category: 'news#politics',
-                    title: 'latest',
-                    content: 'content',
-                  }),
-                  user: {
-                    userId: 'aGun',
-                    ip: '0.0.0.0',
-                  },
+              const latestPost = createPost({
+                data: await createPostContentUnSafe(opS3, {
+                  category: 'news#politics',
+                  title: 'latest',
+                  content: 'content',
+                }),
+                user: {
+                  userId: 'aGun',
+                  ip: '0.0.0.0',
                 },
-              )
+              })
               await addPost(opDdb, {data: latestPost})
               const {items} = await posts(opDdb, {})
               console.debug('시간순 리스트')
@@ -104,7 +101,7 @@ describe('unit', function () {
 
             it('likePost', async () => {
               const {items: before} = await posts(opDdb, {})
-              const isLiked = await likePost(opDdb, {post: before[0]})
+              const isLiked = await likePost(opDdb, {data: before[0]})
               console.log(isLiked)
 
               const {items: after} = await posts(opDdb, {})
@@ -115,7 +112,7 @@ describe('unit', function () {
 
             it('viewPost', async () => {
               const {items: before} = await posts(opDdb, {})
-              const isViewed = await viewPost(opDdb, {post: before[0]})
+              const isViewed = await viewPost(opDdb, {data: before[0]})
               console.log(isViewed)
 
               const {items: after} = await posts(opDdb, {})
@@ -174,9 +171,7 @@ describe('unit', function () {
 
               {
                 await addPost(opDdb, {
-                  data: createPost(
-                    opS3,
-                    {
+                  data: createPost({
                       data: await createPostContentUnSafe(opS3, {
                         category: 'news#anime',
                         title: 'latest',
@@ -194,9 +189,7 @@ describe('unit', function () {
               }
 
               await addPost(opDdb, {
-                data: createPost(
-                  opS3,
-                  {
+                data: createPost({
                     data: await createPostContentUnSafe(opS3, {
                       category: 'kids#anime',
                       title: 'latest',
@@ -242,7 +235,6 @@ describe('unit', function () {
               console.debug('포스트 추가')
               await addPost(opDdb, {
                 data: createPost(
-                  opS3,
                   {
                     data: await createPostContentUnSafe(opS3, {
                       category: 'kids#anime',

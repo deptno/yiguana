@@ -85,7 +85,7 @@ export const getInitialData = async () => {
   const initialData = await opDdb.dynamodb.scan<YiguanaDocument>({TableName: opDdb.tableName})
 
   console.debug('--- test data set')
-//  console.table(initialData)
+  console.table(initialData)
   logTable(16, initialData)
 
   return initialData
