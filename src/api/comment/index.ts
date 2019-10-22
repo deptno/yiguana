@@ -12,7 +12,7 @@ export function createCommentApi(store: YiguanaStore, ep: EntityFactory) {
   return new CommentApi(store, ep)
 }
 
-class CommentApi {
+export class CommentApi {
   constructor(private store: YiguanaStore, private ep: EntityFactory) {
   }
 

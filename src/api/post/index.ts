@@ -13,7 +13,7 @@ export function createPostApi(store: YiguanaStore, ep: EntityFactory) {
   return new PostApi(store, ep)
 }
 
-class PostApi {
+export class PostApi {
   constructor(private store: YiguanaStore, private ep: EntityFactory) {
   }
 
