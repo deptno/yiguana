@@ -1,10 +1,10 @@
 import {DynamoDBInput} from '../../entity/input/dynamodb'
-import {Comment} from '../../entity/comment'
+import {Comment, CommentUpdateUserInput} from '../../entity/comment'
 import {EEntity} from '../../entity/enum'
 
 export async function updateComment(operator: DynamoDBInput, params: UpdateCommentInput) {
   const {dynamodb, tableName} = operator
-  const {hk, content, updatedAt} = params
+  const {data} = params
   // TODO: MAX_CONTENT_LENGTH 활용한 content length 체크해서 300자 넘으면 얼럿 띄우기?
 
   const response = await dynamodb.update({
@@ -12,7 +12,7 @@ export async function updateComment(operator: DynamoDBInput, params: UpdateComme
     ReturnValues             : 'ALL_NEW',
     TableName                : tableName,
     Key                      : {
-      hk,
+      hk: data.hk,
       rk: EEntity.Comment,
     },
     UpdateExpression         : 'SET #c = :c, #u = :u',
@@ -21,8 +21,8 @@ export async function updateComment(operator: DynamoDBInput, params: UpdateComme
       '#u': 'updatedAt',
     },
     ExpressionAttributeValues: {
-      ':c': content,
-      ':u': updatedAt,
+      ':c': data.content,
+      ':u': data.updatedAt,
     }
   })
   // TODO: Comment 타입 리턴이 적합할지 Boolean 타입 리턴이 적합할지 고민
@@ -30,9 +30,6 @@ export async function updateComment(operator: DynamoDBInput, params: UpdateComme
     return response.Attributes as Comment
   }
 }
-//TODO: {data: {..}} 형식으로 맞출 것
 export type UpdateCommentInput = {
-  hk: string
-  content: string
-  updatedAt?: string
+  data: CommentUpdateUserInput
 }

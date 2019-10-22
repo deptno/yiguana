@@ -3,9 +3,7 @@ import {EntityFactory} from '../../entity'
 import {YiguanaDocumentHash} from '../../dynamodb/yiguana-document'
 
 export async function like(store: YiguanaStore, ep: EntityFactory, input: LikeInput) {
-  return store.likePost(input)
+  return store.likeComment(input)
 }
 
-export type LikeInput = {
-  data: YiguanaDocumentHash
-}
+export type LikeInput = YiguanaDocumentHash

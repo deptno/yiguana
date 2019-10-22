@@ -133,9 +133,12 @@ describe('unit', function () {
               const content = 'updated content'
               const updatedAt = new Date().toISOString()
               const isUpdated = await updateComment(opDdb, {
+                data: {
                   hk: comment.hk,
+                  postId: commentedPost.hk,
                   content,
-                  updatedAt
+                  updatedAt,
+                }
               })
 
               const {items: after} = await comments(opDdb, {postId: commentedPost.hk})

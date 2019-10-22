@@ -1,5 +1,5 @@
 import {YiguanaStore} from '../../store/dynamodb/dynamodb'
-import {Post, PostUserInput} from '../../entity/post'
+import {PostUserInput} from '../../entity/post'
 import {EntityFactory} from '../../entity'
 import {User} from '../../entity/user'
 import {EValidationErrorMessage, ValidationError} from '../../entity/error'
