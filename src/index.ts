@@ -2,6 +2,8 @@ import {YiguanaStore} from './store/dynamodb/dynamodb'
 import * as R from 'ramda'
 import {createApi} from './api'
 
+export {createApi} from './api'
+
 export class Yiguana<T> {
   public constructor(private api: YiguanaStore) {}
 

@@ -1,0 +1,21 @@
+{
+  "name": "yiguana-e2e",
+  "version": "0.0.0",
+  "description": "yiguana e2e test",
+  "main": "index.js",
+  "scripts": {
+    "start": "AWS_PROFILE=yiguana next",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Bonggyun Lee<deptno@gmail.com>",
+  "private": true,
+  "devDependencies": {
+    "@types/quill": "^2.0.3",
+    "@types/react": "^16.9.9",
+    "date-fns": "^2.6.0",
+    "next": "^9.1.1",
+    "react": "^16.10.2",
+    "react-dom": "^16.10.2"
+  },
+  "dependencies": {}
+}
