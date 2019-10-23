@@ -22,6 +22,7 @@ export async function removePost(operator: DynamoDBInput, params: RemovePostInpu
   })
   return Boolean(response)
 }
+// TODO: {data: ... } 형식으로 변환
 export type RemovePostInput = {
   hk: string
 }

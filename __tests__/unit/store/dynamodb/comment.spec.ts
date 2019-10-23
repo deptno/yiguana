@@ -40,6 +40,9 @@ describe('unit', function () {
           it('post.children(1)', async function () {
             const {items} = await comments(opDdb, {postId: commentedPost.hk})
             const nextCommentedPost = await post(opDdb, {hk: commentedPost.hk})
+
+            console.table(items)
+
             expect(nextCommentedPost.children).toEqual(items.length)
           })
           it('addComment(회원)', async function () {
@@ -130,9 +133,12 @@ describe('unit', function () {
               const content = 'updated content'
               const updatedAt = new Date().toISOString()
               const isUpdated = await updateComment(opDdb, {
+                data: {
                   hk: comment.hk,
+                  postId: commentedPost.hk,
                   content,
-                  updatedAt
+                  updatedAt,
+                }
               })
 
               const {items: after} = await comments(opDdb, {postId: commentedPost.hk})

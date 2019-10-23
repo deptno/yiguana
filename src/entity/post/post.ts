@@ -3,7 +3,7 @@ import {PostContent} from './post-content'
 import {YiguanaDocument} from '../../dynamodb/yiguana-document'
 import {User} from '../user'
 
-export function createPost(operator, params: CreatePostInput): Post {
+export function createPost(params: CreatePostInput): Post {
   const {user, data} = params
   const createdAt = new Date().toISOString()
   const category = [data.input.category, createdAt].join('#')

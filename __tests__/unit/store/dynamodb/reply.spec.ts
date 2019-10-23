@@ -40,6 +40,11 @@ describe('unit', function () {
                 content: 'reply content',
                 createdAt: new Date().toISOString(),
               },
+              user: {
+                name: 'not member',
+                pw: 'password',
+                ip: '0.0.0.1'
+              }
             })
             const replied = await addReply(opDdb, {
               data: reply,

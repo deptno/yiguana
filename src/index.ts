@@ -3,7 +3,7 @@ import * as R from 'ramda'
 import {createApi} from './api'
 
 export class Yiguana<T> {
-  public constructor(private api: YiguanaStore<T>) {}
+  public constructor(private api: YiguanaStore) {}
 
   public board = R.pick(['post', 'posts', 'addPost', 'removePost'], this.api)
   public post = R.pick(['post', 'posts', 'addPost', 'removePost'], this.api)

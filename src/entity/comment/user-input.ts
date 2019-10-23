@@ -5,3 +5,10 @@ export type CommentUserInput = {
   content: string
   priority: EPriority
 }
+
+export type CommentUpdateUserInput = {
+  hk: string
+  postId: string
+  content: string
+  updatedAt?: string
+}

@@ -10,6 +10,7 @@ describe('unit', () => {
       beforeAll(clearData)
 
       const api = createApi({ddbClient, s3Client, tableName, bucketName})
+      const nonMemberWithoutPw = {name: 'non member', pw: '', ip: '0.0.0.0'}
       const nonMember = {name: 'non member', pw: 'pw', ip: '0.0.0.0'}
 
       it.todo('like, 혹은 like 를 포함한 view 모두가 다이나모디비에 저장되는 경우에는 추후 저장 용량의 부담이 생길 수 있음')
@@ -27,11 +28,7 @@ describe('unit', () => {
                 title: 'title',
                 category: 'news',
               },
-              user: {
-                name: 'non member',
-                pw: '',
-                ip: '0.0.0.0',
-              },
+              user: nonMemberWithoutPw,
             })
           } catch (e) {
             expect(e.message).toEqual(EValidationErrorMessage.InvalidInput)
@@ -44,8 +41,6 @@ describe('unit', () => {
               content: 'content',
               title: 'title',
               category: 'news',
-              userName: 'name',
-              userPw: 'pw',
             },
             user: nonMember,
           })

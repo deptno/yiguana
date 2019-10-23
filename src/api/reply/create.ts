@@ -1,15 +1,15 @@
 import {YiguanaStore} from '../../store/dynamodb/dynamodb'
-import {Post, PostUserInput} from '../../entity/post'
 import {EntityFactory} from '../../entity'
 import {User} from '../../entity/user'
+import {ReplyUserInput} from '../../entity/reply'
 
-export async function create(store: YiguanaStore<Post>, ep: EntityFactory, input: Input) {
+export async function create(store: YiguanaStore, ep: EntityFactory, input: CreateInput) {
   const {data, user} = input
 
   //TODO:
 }
 
-type Input = {
-  data: PostUserInput
-  user?: User
+export type CreateInput = {
+  data: ReplyUserInput
+  user: User
 }

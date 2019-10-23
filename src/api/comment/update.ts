@@ -1,13 +1,14 @@
 import {YiguanaStore} from '../../store/dynamodb/dynamodb'
-import {Post, PostUserInput} from '../../entity/post'
 import {EntityFactory} from '../../entity'
-import {User} from '../../entity/user'
+import {CommentUpdateUserInput} from '../../entity/comment'
 
-export async function update(store: YiguanaStore<Post>, ep: EntityFactory, input: Input) {
-  console.error('todo')
+export async function update(store: YiguanaStore, ep: EntityFactory, input: UpdateInput) {
+  const {data} = input
+  return store.updateComment({
+    data
+  })
 }
 
-type Input = {
-  data: PostUserInput
-  user?: User
+export type UpdateInput = {
+  data: CommentUpdateUserInput
 }

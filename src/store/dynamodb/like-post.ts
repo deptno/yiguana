@@ -1,17 +1,19 @@
 import {DynamoDBInput} from '../../entity/input/dynamodb'
 import {Post} from '../../entity/post'
+import {EEntity} from '../../entity/enum'
+import {YiguanaDocumentHash} from '../../dynamodb/yiguana-document'
 
 export async function likePost(operator: DynamoDBInput, params: LikePostInput) {
   const {dynamodb, tableName} = operator
-  const {post} = params
-  const {hk, rk} = post
+  const {data} = params
+  const {hk} = data
   const response = await dynamodb.update({
     ReturnConsumedCapacity   : 'TOTAL',
     ReturnValues             : 'ALL_NEW',
     TableName                : tableName,
     Key                      : {
       hk,
-      rk
+      rk: EEntity.Post
     },
     UpdateExpression         : 'SET #v = #v + :v',
     ExpressionAttributeNames : {
@@ -26,5 +28,5 @@ export async function likePost(operator: DynamoDBInput, params: LikePostInput) {
   }
 }
 export type LikePostInput = {
-  post: Post
+  data: YiguanaDocumentHash
 }

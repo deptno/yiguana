@@ -1,23 +1,49 @@
 import {YiguanaStore} from '../../store/dynamodb/dynamodb'
 import {EntityFactory} from '../../entity'
-import {YiguanaObjectApi} from '../interface'
-import {like} from './like'
-import {list} from './list'
-import {create} from './create'
-import {read} from './read'
-import {update} from './update'
-import {del} from './del'
-import {view} from './view'
-import {Reply} from '../../entity/reply/reply'
+import {like, LikeInput} from './like'
+import {list, ListInput} from './list'
+import {create, CreateInput} from './create'
+import {update, UpdateInput} from './update'
+import {del, DelInput} from './del'
+import {view, ViewInput} from './view'
 
-export function createReplyApi<P>(store: YiguanaStore<P>, ep: EntityFactory): YiguanaObjectApi<Reply, { commentId }> {
-  return {
-    list: list.bind(null, store, ep),
-    create: create.bind(null, store, ep),
-    read: read.bind(null, store, ep),
-    update: update.bind(null, store, ep),
-    del: del.bind(null, store, ep),
-    like: like.bind(null, store, ep),
-    view: view.bind(null, store, ep),
-  } as any
+export function createReplyApi(store: YiguanaStore, ep: EntityFactory) {
+  return new ReplyApi(store, ep)
+}
+
+export class ReplyApi {
+  constructor(private store: YiguanaStore, private ep: EntityFactory) {
+  }
+
+  list(input: ListInput) {
+    return list(this.store, this.ep, input)
+  }
+
+  create(input: CreateInput) {
+    return create(this.store, this.ep, input)
+  }
+
+//  read(input: ReadInput) {
+//    return read(this.store, this.ep, input)
+//  }
+
+  update(input: UpdateInput) {
+    return update(this.store, this.ep, input)
+  }
+
+  del(input: DelInput) {
+    return del(this.store, this.ep, input)
+  }
+
+  like(input: LikeInput) {
+    return like(this.store, this.ep, input)
+  }
+
+//  unlike(input: UnlikeInput) {
+//    return unlike(this.store, this.ep, input)
+//  }
+
+  view(input: ViewInput) {
+    return view(this.store, this.ep, input)
+  }
 }
