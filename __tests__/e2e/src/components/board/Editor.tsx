@@ -28,7 +28,7 @@ export const Editor: FunctionComponent<Props> = props => {
 }
 
   return (
-    <div className="">
+    <div className="pv3">
       <Head>
         <link href="https://cdn.quilljs.com/1.3.6/quill.snow.css" rel="stylesheet"/>
         <script src="https://cdn.quilljs.com/1.3.6/quill.js"/>
