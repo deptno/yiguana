@@ -4,22 +4,23 @@ import * as R from 'ramda'
 
 export default handler({
   async post(req, res) {
+    const {category, content, title} = req.query as { [key: string]: string }
     yiguana.post
       .create({
         data: {
-          content: 'content',
-          title: 'title',
-          category: 'news',
+          category,
+          content,
+          title,
         },
         user: {
           name: 'non member',
           pw: 'pw',
-          ip: '0.0.0.0'
+          ip: '0.0.0.0',
         },
       })
       .then(R.tap(console.log))
       .then(JSON.stringify)
       .then(res.send)
-  }
+  },
 })
 

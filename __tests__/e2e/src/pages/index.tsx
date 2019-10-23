@@ -5,6 +5,7 @@ import {Post} from '../../../../src/entity/post'
 import Head from 'next/head'
 import {Board} from '../components/board/Board'
 import {PaginationResult} from '@deptno/dynamodb/dist/api'
+import {Editor} from '../components/board/Editor'
 
 const IndexPage: NextPage<Props> = props => {
   return (
@@ -21,8 +22,13 @@ const IndexPage: NextPage<Props> = props => {
           href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.11.2/css/all.min.css"
         />
       </Head>
-      <div className="pa3">
-        <Board />
+      <div className="pa3 flex">
+        <div className="flex-auto">
+          <Board />
+        </div>
+        <div className="flex-auto">
+          <Editor />
+        </div>
       </div>
     </div>
   )
