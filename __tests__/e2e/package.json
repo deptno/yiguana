@@ -4,7 +4,7 @@
   "description": "yiguana e2e test",
   "main": "index.js",
   "scripts": {
-    "start": "next",
+    "start": "AWS_PROFILE=yiguana next",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "Bonggyun Lee<deptno@gmail.com>",
@@ -15,5 +15,6 @@
     "next": "^9.1.1",
     "react": "^16.10.2",
     "react-dom": "^16.10.2"
-  }
+  },
+  "dependencies": {}
 }

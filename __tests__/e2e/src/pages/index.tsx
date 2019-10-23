@@ -4,17 +4,9 @@ import * as R from 'ramda'
 import {Post} from '../../../../src/entity/post'
 import Head from 'next/head'
 import {Board} from '../components/board/Board'
+import {PaginationResult} from '@deptno/dynamodb/dist/api'
 
 const IndexPage: NextPage<Props> = props => {
-  const [posts, setPosts] = useState<Post[]>([])
-
-  useEffect(() => {
-    fetch('api/posts')
-      .then(res => res.json())
-      .then(R.compose(setPosts, R.prop('items')))
-
-  }, [])
-
   return (
     <div>
       <Head>
@@ -30,7 +22,7 @@ const IndexPage: NextPage<Props> = props => {
         />
       </Head>
       <div className="pa3">
-        <Board items={posts}/>
+        <Board />
       </div>
     </div>
   )

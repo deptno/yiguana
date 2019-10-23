@@ -18,6 +18,7 @@ export function posts(operator: DynamoDBInput, params: PostsInput) {
     ScanIndexForward: false,
     ReturnConsumedCapacity: 'TOTAL',
     ExclusiveStartKey: exclusiveStartKey,
+    Limit: 50
   }
   if (category) {
     queryParams.KeyConditionExpression += ' and begins_with(#r, :r)'
