@@ -5,12 +5,14 @@ import {YiguanaDocumentHash} from '../../dynamodb/yiguana-document'
 export async function unlikeComment(operator: DynamoDBInput, params: UnlikeCommentInput) {
   const {dynamodb, tableName} = operator
   const {hk} = params
+  const rk = EEntity.Comment
+
   const response = await dynamodb.update({
     ReturnConsumedCapacity: 'TOTAL',
     TableName             : tableName,
     Key                   : {
       hk,
-      rk: EEntity.Comment
+      rk,
     },
     UpdateExpression: 'SET #v = #v - :v',
     ExpressionAttributeNames : {
@@ -24,5 +26,4 @@ export async function unlikeComment(operator: DynamoDBInput, params: UnlikeComme
   if (response)
     return Boolean(response)
 }
-// FIXME: {data: YiguanaDocumentHash}
 export type UnlikeCommentInput = YiguanaDocumentHash

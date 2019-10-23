@@ -106,7 +106,22 @@ describe('unit', () => {
           console.table(items)
         })
         it.todo('view comment')
-        it.todo('remove comment')
+        it('remove comment', async() => {
+          const {items: before} = await api.comment.list({
+            postId: post.hk,
+          })
+          console.table(before)
+
+          const targetComment = await api.comment.del({
+            hk: comment.hk,
+          })
+          console.table(targetComment)
+
+          const {items: after} = await api.comment.list({
+            postId: post.hk,
+          })
+          console.table(after)
+        })
         it.todo('request to block comment')
       })
 

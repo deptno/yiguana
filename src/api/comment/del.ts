@@ -3,9 +3,7 @@ import {EntityFactory} from '../../entity'
 import {YiguanaDocumentHash} from '../../dynamodb/yiguana-document'
 
 export async function del(store: YiguanaStore, ep: EntityFactory, input: DelInput) {
-  return store.removeComment(input.data)
+  return store.removeComment(input)
 }
 
-export type DelInput = {
-  data: YiguanaDocumentHash
-}
+export type DelInput = YiguanaDocumentHash

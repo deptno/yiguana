@@ -5,12 +5,14 @@ import {YiguanaDocumentHash} from '../../dynamodb/yiguana-document'
 export async function likeComment(operator: DynamoDBInput, params: LikeCommentInput) {
   const {dynamodb, tableName} = operator
   const {hk} = params
+  const rk = EEntity.Comment
+
   const response = await dynamodb.update({
     ReturnConsumedCapacity: 'TOTAL',
     TableName             : tableName,
     Key                   : {
       hk,
-      rk: EEntity.Comment
+      rk,
     },
     UpdateExpression: 'SET #v = #v + :v',
     ExpressionAttributeNames : {
