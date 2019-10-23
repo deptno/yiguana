@@ -35,5 +35,6 @@ export default {
     '@deptno/dynamodb',
     '@deptno/s3',
     'short-uuid',
+    'debug',
   ],
 }

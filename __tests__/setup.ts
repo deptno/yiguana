@@ -10,7 +10,6 @@ import {EPriority} from '../src/entity/enum'
 import {commentPost} from '../src/store/dynamodb/comment-post'
 import {YiguanaDocument} from '../src/dynamodb/yiguana-document'
 import {createStore} from '../src/store/dynamodb/dynamodb'
-import {logTable} from '../src/lib/log-table'
 
 export const getInitialData = async () => {
   await clearData()
@@ -86,7 +85,6 @@ export const getInitialData = async () => {
 
   console.debug('--- test data set')
   console.table(initialData)
-  logTable(16, initialData)
 
   return initialData
 }

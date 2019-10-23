@@ -4,7 +4,7 @@
   "description": "yiguana e2e test",
   "main": "index.js",
   "scripts": {
-    "start": "AWS_PROFILE=yiguana next",
+    "start": "AWS_PROFILE=yiguana DEBUG=yiguana:* next",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "Bonggyun Lee<deptno@gmail.com>",

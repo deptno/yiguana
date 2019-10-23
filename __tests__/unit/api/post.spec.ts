@@ -46,6 +46,8 @@ describe('unit', () => {
           })
           const {items} = await api.post.list({})
           expect(items.length).toEqual(1)
+          console.log(post)
+          expect(items[0]).toEqual(post)
         })
         it.todo('update post 가 필요할 수 있음')
         it('like post', async () => {

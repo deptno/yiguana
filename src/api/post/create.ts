@@ -3,8 +3,10 @@ import {PostUserInput} from '../../entity/post'
 import {EntityFactory} from '../../entity'
 import {User} from '../../entity/user'
 import {EValidationErrorMessage, ValidationError} from '../../entity/error'
+import {postLogger as log} from '../../lib/log'
 
 export async function create(store: YiguanaStore, ep: EntityFactory, input: CreateInput) {
+  log('create %j', input)
   validateUser(input.user)
 
   const user = input.user
@@ -21,7 +23,7 @@ export async function create(store: YiguanaStore, ep: EntityFactory, input: Crea
 const validateUser = (user: User) => {
   if ('userId' in user) {
     // 회원
-    console.log('member', user.userId)
+    log('member', user.userId)
   } else {
     // TODO: 비회원, 비회원이 우선순위
     const {name, pw} = user
@@ -32,7 +34,7 @@ const validateUser = (user: User) => {
     if (!pw) {
       throw new ValidationError(EValidationErrorMessage.InvalidInput)
     }
-    console.log('not member', user.name)
+    log('not member', user.name)
   }
 }
 

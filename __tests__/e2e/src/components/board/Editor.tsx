@@ -7,11 +7,6 @@ declare var Quill
 export const Editor: FunctionComponent<Props> = props => {
   const ref = useRef()
   const [editor, setEditor] = useState<Q.Quill>()
-  useEffect(() => {
-    if (ref.current) {
-      setEditor(new Quill(ref.current, {theme: 'snow'}))
-    }
-  }, [ref])
   const save = () => {
     const title = editor.getText()
     const body = JSON.stringify({
@@ -25,7 +20,13 @@ export const Editor: FunctionComponent<Props> = props => {
     })
       .then(response => response.json())
       .then(console.log)
-}
+  }
+
+  useEffect(() => {
+    if (ref.current) {
+      setEditor(new Quill(ref.current, {theme: 'snow'}))
+    }
+  }, [ref])
 
   return (
     <div className="pv3">
