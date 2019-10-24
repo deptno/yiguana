@@ -32,18 +32,18 @@ export const Board: FunctionComponent<Props> = props => {
 
   return (
     <div className="">
-      <ul className="pl0 flex-column justify-center items-center list mv0">
+      <div className="pl0 flex-column justify-center items-center list mv0">
         <BoardItemHeader/>
         {items.map((item, i) => <BoardItem key={item.hk} item={item} no={i + 1} onDelete={getCurrentPosts}/>)}
         {items.length === 0 && (
-          <li
+          <div
             className="lh-copy center flex items-center flex tc pa2 bl br bb b--black-05 nowrap hover-bg-light-pink w-100"
           >
             글이 없습니다.
-          </li>
+          </div>
         )}
         <LineButton onClick={getNextPosts}>{buttonText}</LineButton>
-      </ul>
+      </div>
     </div>
   )
 }

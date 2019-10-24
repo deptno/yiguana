@@ -3,6 +3,7 @@ import {FunctionComponent, useCallback, useState} from 'react'
 import {Post} from '../../../../../src/entity/post'
 import {format, parseISO} from 'date-fns'
 import * as R from 'ramda'
+import {BoardItemContent} from './BoardItemContent'
 
 export const BoardItem: FunctionComponent<Props> = props => {
   const [expend, setExpend] = useState(false)
@@ -17,8 +18,8 @@ export const BoardItem: FunctionComponent<Props> = props => {
   }, [item])
 
   return (
-    <li
-      className="lh-copy center flex flex-column items-center nowrap tc ph2 bl br bb b--black-05 hover-bg-light-pink"
+    <div
+      className="lh-copy center flex flex-column items-center nowrap tc ph2 bl br bb b--black-05"
       onClick={() => setExpend(!expend)}
     >
       <div className="flex w-100 pointer mv0 pv0 lh-copy ">
@@ -32,16 +33,8 @@ export const BoardItem: FunctionComponent<Props> = props => {
         <span className="w-10">{item.children}</span>
         <span className="w-10 bg-black-05 hover-bg-black hover-yellow" onClick={del}>삭제</span>
       </div>
-      {expend && (
-        <Link href={item.contentUrl} prefetch={false}>
-          <a className="link near-black flex w-100 ph4">
-            <pre className="tl">
-              {JSON.stringify(item, null, 2)}
-            </pre>
-          </a>
-        </Link>
-      )}
-    </li>
+      <BoardItemContent item={item} show={expend} />
+    </div>
   )
 }
 
