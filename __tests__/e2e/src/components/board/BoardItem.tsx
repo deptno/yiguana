@@ -7,13 +7,14 @@ import * as R from 'ramda'
 export const BoardItem: FunctionComponent<Props> = props => {
   const [expend, setExpend] = useState(false)
   const {item, no} = props
-  const del = useCallback(() => {
+  const del = useCallback((e) => {
+    e.stopPropagation()
+
     fetch(`api/post/${item.hk}`, {method: 'delete'})
       .then(response => response.text())
       .then(console.log)
       .then(props.onDelete)
   }, [item])
-
 
   return (
     <li

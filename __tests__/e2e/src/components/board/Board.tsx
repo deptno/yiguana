@@ -1,4 +1,4 @@
-import React, {FunctionComponent, useCallback, useEffect, useState} from 'react'
+import React, {FunctionComponent, useCallback, useEffect, useMemo, useState} from 'react'
 import {BoardItem} from './BoardItem'
 import {BoardItemHeader} from './BoardItemHeader'
 import {LineButton} from './LineButton'
@@ -21,9 +21,14 @@ export const Board: FunctionComponent<Props> = props => {
   }
   const getCurrentPosts = useCallback(() => getPosts(token), [token])
   const getNextPosts = useCallback(() => getPosts(nextToken), [nextToken])
+  const buttonText = useMemo(
+    () => nextToken
+      ? '더 보기'
+      : '처음으로',
+    [nextToken],
+  )
 
   useEffect(getNextPosts, [])
-
 
   return (
     <div className="">
@@ -32,17 +37,12 @@ export const Board: FunctionComponent<Props> = props => {
         {items.map((item, i) => <BoardItem key={item.hk} item={item} no={i + 1} onDelete={getCurrentPosts}/>)}
         {items.length === 0 && (
           <li
-            className="lh-copy center flex items-center flex tc pa2 bl br bb b--black-05 nowrap hover-bg-light-pink w-100">
+            className="lh-copy center flex items-center flex tc pa2 bl br bb b--black-05 nowrap hover-bg-light-pink w-100"
+          >
             글이 없습니다.
           </li>
         )}
-        <LineButton onClick={getNextPosts}>
-          {
-            nextToken
-              ? '더 보기'
-              : '처음으로'
-          }
-        </LineButton>
+        <LineButton onClick={getNextPosts}>{buttonText}</LineButton>
       </ul>
     </div>
   )
