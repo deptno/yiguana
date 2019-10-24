@@ -1,10 +1,7 @@
-import React, {useEffect, useState} from 'react'
+import React from 'react'
 import {NextPage} from 'next'
-import * as R from 'ramda'
-import {Post} from '../../../../src/entity/post'
 import Head from 'next/head'
 import {Board} from '../components/board/Board'
-import {PaginationResult} from '@deptno/dynamodb/dist/api'
 import {Editor} from '../components/board/Editor'
 
 const IndexPage: NextPage<Props> = props => {

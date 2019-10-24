@@ -29,6 +29,9 @@ export const BoardItemHeader: FunctionComponent<{}> = props => {
         <span className="w-10">
           <i className="far fa-comment-dots"/>
         </span>
+        <span className="w-10">
+          <i className="fas fa-ellipsis-h"/>
+        </span>
       </li>
     </>
   )

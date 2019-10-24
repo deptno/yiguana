@@ -16,5 +16,20 @@ export default handler({
       .then(JSON.stringify)
       .then(res.send)
   },
+  async del(req, res) {
+    yiguana.post
+      .del({
+        data: {
+          hk: req.query.hk as string
+        },
+        user: {
+          name: 'non member',
+          pw: 'pw1',
+          ip: '0.0.0.0',
+        },
+      })
+      .then(JSON.stringify)
+      .then(res.send)
+  },
 })
 
