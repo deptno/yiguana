@@ -5,9 +5,11 @@ import {EEntity} from '../../../../src/entity/enum'
 import {replies} from '../../../../src/store/dynamodb/replies'
 import {opDdb} from '../../../env'
 import {addReply} from '../../../../src/store/dynamodb/add-reply'
-import {createReply} from '../../../../src/entity/reply/reply'
+import {createReply, Reply} from '../../../../src/entity/reply/reply'
 import {replyComment} from '../../../../src/store/dynamodb/reply-comment'
 import {comments} from '../../../../src/store/dynamodb/comments'
+import {updateReply} from '../../../../src/store/dynamodb/update-reply'
+import {removeReply} from '../../../../src/store/dynamodb/remove-reply'
 
 describe('unit', function () {
   describe('store', function () {
@@ -52,21 +54,51 @@ describe('unit', function () {
             console.log({replied})
             const {items} = await replies(opDdb, {commentId})
             expect(items.length).toEqual(1)
+            console.table(items)
           })
           it('BEFORE replyComment, comment.children(0) ', async () => {
             const {items} = await comments(opDdb, {postId: commentedPost.hk})
-            const repliedComment = items.find(c => c.hk === comment.hk)!
+            const repliedComment = items.find(c => c.hk === commentId)!
             expect(repliedComment.children).toEqual(0)
           })
           it('AFTER replyComment, comment.children(1) ', async () => {
             await replyComment(opDdb, {data: comment})
             const {items} = await comments(opDdb, {postId: commentedPost.hk})
-            const repliedComment = items.find(c => c.hk === comment.hk)!
+            const repliedComment = items.find(c => c.hk === commentId)!
             expect(repliedComment.children).toEqual(1)
           })
-          it.todo('update reply')
-          it.todo('remove reply')
+          it('update reply', async() => {
+            const {items: commentItems} = await comments(opDdb, {postId: commentedPost.hk})
+            const repliedComment = commentItems.find(c => c.hk === commentId)!
 
+            const {items: replyItems} = await replies(opDdb, {commentId: repliedComment.hk})
+            const targetReply = replyItems[0]
+            expect(targetReply).not.toEqual(undefined)
+
+            const content = 'updated reply content'
+            const isUpdated = await updateReply(opDdb, {
+              data: {
+                hk: targetReply.hk,
+                commentId,
+                content,
+              }
+            })
+            const {items: after} = await replies(opDdb, {commentId: repliedComment.hk})
+            console.table(after) // expect 비교군이 생각이 안 나고 일단 로그로 확인하라
+          })
+          it('remove reply', async() => {
+            const {items: commentItems} = await comments(opDdb, {postId: commentedPost.hk})
+            const repliedComment = commentItems.find(c => c.hk === commentId)!
+
+            const {items: replyItems} = await replies(opDdb, {commentId: repliedComment.hk})
+            const targetReply = replyItems[0]
+            expect(targetReply).not.toEqual(undefined)
+
+            const isRemoved = await removeReply(opDdb, {hk: targetReply.hk})
+            expect(isRemoved).toEqual(true)
+            const {items: after} = await replies(opDdb, {commentId: repliedComment.hk})
+            console.table(after) // expect 비교군이 생각이 안 나고 일단 로그로 확인하라
+          })
         })
       })
     })

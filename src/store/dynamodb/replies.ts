@@ -1,11 +1,12 @@
 import {DynamoDBInput} from '../../entity/input/dynamodb'
 import {EIndexName} from '../../entity/dynamodb/enum'
+import {Reply} from '../../entity/reply'
 
 export function replies(operator: DynamoDBInput, params: RepliesInput) {
   const {dynamodb, tableName} = operator
   const {commentId, nextToken} = params
 
-  return dynamodb.query({
+  return dynamodb.query<Reply>({
     TableName                : tableName,
     IndexName                : EIndexName.Replies,
     KeyConditionExpression   : '#p = :p',
