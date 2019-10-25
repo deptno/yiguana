@@ -10,7 +10,7 @@ export default handler({
     yiguana.post
       .read({
         data: {
-          hk: req.query.id as string,
+          hk: req.query.hk as string,
         },
       })
       .then(JSON.stringify)

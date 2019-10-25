@@ -2,15 +2,26 @@ import {YiguanaStore} from '../../store/dynamodb/dynamodb'
 import {EntityFactory} from '../../entity'
 import {User} from '../../entity/user'
 import {CommentUserInput} from '../../entity/comment'
+import {head} from 'ramda'
 
 export async function create(store: YiguanaStore, ep: EntityFactory, input: CreateInput) {
-  const {data, user} = input
-  const comment = ep.createComment({
-    data,
-    user
-  })
+  console.log({input})
+  const comment = ep.createComment(input)
+  console.log({comment})
 
-  return store.addComment({data: comment})
+  return Promise
+    .all([
+      store.addComment({
+        data: comment,
+      }),
+      store.commentPost({
+        data: {
+          hk: input.data.postId,
+        },
+      }),
+    ])
+    .then(head)
+
 }
 
 export type CreateInput = {
