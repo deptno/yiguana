@@ -9,6 +9,7 @@ import {createReply, Reply} from '../../../../src/entity/reply/reply'
 import {replyComment} from '../../../../src/store/dynamodb/reply-comment'
 import {comments} from '../../../../src/store/dynamodb/comments'
 import {updateReply} from '../../../../src/store/dynamodb/update-reply'
+import {removeReply} from '../../../../src/store/dynamodb/remove-reply'
 
 describe('unit', function () {
   describe('store', function () {
@@ -69,25 +70,41 @@ describe('unit', function () {
           it('update reply', async() => {
             const {items: commentItems} = await comments(opDdb, {postId: commentedPost.hk})
             const repliedComment = commentItems.find(c => c.hk === commentId)!
-            console.log({repliedComment}) // reply가 있는 코멘트 획득했으나, 이는 코멘트 객체이므로 reply hk 값은 알 수 없음
 
-            // TODO: comment 객체로부터 reply의 hk를 어떻게 얻을지
-            // const {items} = await replies(opDdb, {commentId})
-            // 위처럼 items 얻은 다음 거기에서 하나 꺼내서, 그럼 이건 reply 객체니까 그거의 hk를 쓰려고 했는데
-            // 이렇게 했더니 items 타입이 reply가 아니라서 hk를 참조하지 못해서 에러 발생
+            const {items: replyItems} = await replies(opDdb, {commentId: repliedComment.hk})
+            const targetReply = replyItems[0]
 
-            const content = 'updated reply content'
-            const isUpdated = await updateReply(opDdb, { // 업데이트 주체는 reply이므로 reply의 hk 값이 필요
-              data: {
-                hk: targetReply.hk, // 업데이트할 reply(이를 targetReply라 한다)에 대한 hk
-                commentId,
-                content,
-              }
-            })
-            console.log({isUpdated})
+            if (targetReply !== undefined) {
+              const content = 'updated reply content'
+              const isUpdated = await updateReply(opDdb, {
+                data: {
+                  hk: targetReply.hk,
+                  commentId,
+                  content,
+                }
+              })
+              const {items: after} = await replies(opDdb, {commentId: repliedComment.hk})
+              console.table(after) // expect 비교군이 생각이 안 나고 일단 로그로 확인하라
+            } else {
+              console.log('not exist reply, so cannot update reply')
+            }
           })
-          it.todo('remove reply')
+          it('remove reply', async() => {
+            const {items: commentItems} = await comments(opDdb, {postId: commentedPost.hk})
+            const repliedComment = commentItems.find(c => c.hk === commentId)!
 
+            const {items: replyItems} = await replies(opDdb, {commentId: repliedComment.hk})
+            const targetReply = replyItems[0]
+
+            if (targetReply !== undefined) {
+              const isRemoved = await removeReply(opDdb, {hk: targetReply.hk})
+              expect(isRemoved).toEqual(true)
+              const {items: after} = await replies(opDdb, {commentId: repliedComment.hk})
+              console.table(after) // expect 비교군이 생각이 안 나고 일단 로그로 확인하라
+            } else {
+              console.log('not exist reply, so cannot remove reply')
+            }
+          })
         })
       })
     })

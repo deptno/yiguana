@@ -3,12 +3,11 @@ import {Reply} from '../../entity/reply/reply'
 import {EEntity} from '../../entity/enum'
 import {ReplyUpdateUserInput} from '../../entity/reply'
 
-export async function updateReply(operator: DynamoDBInput, params: UpdateCommentReplyInput) {
+export async function updateReply<T = Reply>(operator: DynamoDBInput, params: UpdateCommentReplyInput) {
   const {dynamodb, tableName} = operator
   const {data} = params
-  console.log(data)
 
-  return dynamodb.update<Reply>({
+  return await dynamodb.update<T>({
     TableName: tableName,
     Key: {
       hk: data.hk,
