@@ -73,21 +73,18 @@ describe('unit', function () {
 
             const {items: replyItems} = await replies(opDdb, {commentId: repliedComment.hk})
             const targetReply = replyItems[0]
+            expect(targetReply).not.toEqual(undefined)
 
-            if (targetReply !== undefined) {
-              const content = 'updated reply content'
-              const isUpdated = await updateReply(opDdb, {
-                data: {
-                  hk: targetReply.hk,
-                  commentId,
-                  content,
-                }
-              })
-              const {items: after} = await replies(opDdb, {commentId: repliedComment.hk})
-              console.table(after) // expect 비교군이 생각이 안 나고 일단 로그로 확인하라
-            } else {
-              console.log('not exist reply, so cannot update reply')
-            }
+            const content = 'updated reply content'
+            const isUpdated = await updateReply(opDdb, {
+              data: {
+                hk: targetReply.hk,
+                commentId,
+                content,
+              }
+            })
+            const {items: after} = await replies(opDdb, {commentId: repliedComment.hk})
+            console.table(after) // expect 비교군이 생각이 안 나고 일단 로그로 확인하라
           })
           it('remove reply', async() => {
             const {items: commentItems} = await comments(opDdb, {postId: commentedPost.hk})
@@ -95,15 +92,12 @@ describe('unit', function () {
 
             const {items: replyItems} = await replies(opDdb, {commentId: repliedComment.hk})
             const targetReply = replyItems[0]
+            expect(targetReply).not.toEqual(undefined)
 
-            if (targetReply !== undefined) {
-              const isRemoved = await removeReply(opDdb, {hk: targetReply.hk})
-              expect(isRemoved).toEqual(true)
-              const {items: after} = await replies(opDdb, {commentId: repliedComment.hk})
-              console.table(after) // expect 비교군이 생각이 안 나고 일단 로그로 확인하라
-            } else {
-              console.log('not exist reply, so cannot remove reply')
-            }
+            const isRemoved = await removeReply(opDdb, {hk: targetReply.hk})
+            expect(isRemoved).toEqual(true)
+            const {items: after} = await replies(opDdb, {commentId: repliedComment.hk})
+            console.table(after) // expect 비교군이 생각이 안 나고 일단 로그로 확인하라
           })
         })
       })
