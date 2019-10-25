@@ -70,7 +70,7 @@ describe('unit', function () {
             console.table(items)
             expect(items).toHaveLength(2)
           })
-          it('commentPost(2), Post 의 comments 값도 증가', async function () {
+          it('commentPost(2), PostPage 의 comments 값도 증가', async function () {
             await commentPost(opDdb, {data: commentedPost})
             const nextCommentedPost = await post(opDdb, {hk: commentedPost.hk})
             expect(nextCommentedPost.children).toEqual(2)
@@ -96,7 +96,7 @@ describe('unit', function () {
             console.table(items)
             expect(items).toHaveLength(3)
           })
-          it('commentPost(3), Post 의 comments 값도 증가', async function () {
+          it('commentPost(3), PostPage 의 comments 값도 증가', async function () {
             await commentPost(opDdb, {data: commentedPost})
             const nextCommentedPost = await post(opDdb, {hk: commentedPost.hk})
             expect(nextCommentedPost.children).toEqual(3)
@@ -199,7 +199,7 @@ describe('unit', function () {
             console.table(items)
             expect(items.length).toEqual(0)
           })
-          it('회원 aSsi 코멘트 추가 -> 코멘트 리스트 aSsi (재조회) -> Post 의 children 값 증가 확인', async () => {
+          it('회원 aSsi 코멘트 추가 -> 코멘트 리스트 aSsi (재조회) -> PostPage 의 children 값 증가 확인', async () => {
             console.debug('회원 코멘트 추가')
             const comment = createComment({
               data: {
@@ -222,7 +222,7 @@ describe('unit', function () {
             console.table(items)
             expect(items.length).toEqual(1)
 
-            console.log('Post 의 children 값도 증가')
+            console.log('PostPage 의 children 값도 증가')
             await commentPost(opDdb, {data: commentedPost})
             const nextCommentedPost = await post(opDdb, {hk: commentedPost.hk})
             expect(nextCommentedPost.children).toEqual(2)
@@ -235,9 +235,9 @@ describe('unit', function () {
             commentedPost = postList[4]
           }))
 
-          it('코멘트 리스트 postId', async () => {
+          it('코멘트 리스트 commentId', async () => {
             const {items} = await commentsByPostId(opDdb, {postId: commentedPost.hk})
-            console.debug('코멘트 리스트 postId')
+            console.debug('코멘트 리스트 commentId')
             console.table(items)
             expect(items.length).toEqual(1)
           })

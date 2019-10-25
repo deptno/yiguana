@@ -1,8 +1,6 @@
 import Link from 'next/link'
-import React, {FunctionComponent, useCallback, useEffect, useState} from 'react'
+import React, {FunctionComponent, useEffect, useState} from 'react'
 import {Post} from '../../../../../src/entity/post'
-import {format, parseISO} from 'date-fns'
-import * as R from 'ramda'
 import {LineButton} from './LineButton'
 import {Editor} from './Editor'
 
@@ -13,9 +11,9 @@ export const BoardItemContent: FunctionComponent<Props> = props => {
   useEffect(() => {
     if (show) {
       if (items.length < item.children) {
-        fetch(`api/post/${item.hk}/comments`, {method: 'delete'})
+        fetch(`/api/post/${item.hk}/comments`, {method: 'delete'})
           .then(response => response.json())
-          .then(console.table)
+          .then(setResponse)
       }
     }
   }, [show])
@@ -23,11 +21,12 @@ export const BoardItemContent: FunctionComponent<Props> = props => {
   if (show) {
     return (
       <div>
-        <Link href={item.contentUrl} prefetch={false}>
+        <pre className="tl">
+          {JSON.stringify(item, null, 2)}
+        </pre>
+        <Link href="/post/[hk]" as={`/post/${item.hk}`} prefetch={false} passHref>
           <a className="link near-black flex w-100 ph4">
-            <pre className="tl">
-              {JSON.stringify(item, null, 2)}
-            </pre>
+            글 페이지로 이동
           </a>
         </Link>
 

@@ -23,5 +23,18 @@ export default handler({
       .then(JSON.stringify)
       .then(res.send)
   },
+  async get(req, res) {
+    // TODO: 비공개 글을 위해 user 를 받아할지
+    console.log(req.query)
+    yiguana.post
+      .read({
+        data: {
+          hk: req.query.hk as string
+        },
+      })
+      .then(R.tap(console.log))
+      .then(JSON.stringify)
+      .then(res.send)
+  },
 })
 

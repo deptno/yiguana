@@ -34,12 +34,8 @@ export const Editor: FunctionComponent<Props> = props => {
         <link href="https://cdn.quilljs.com/1.3.6/quill.snow.css" rel="stylesheet"/>
         <script src="https://cdn.quilljs.com/1.3.6/quill.js"/>
       </Head>
-      <div className="">
-        <div ref={ref}/>
-      </div>
-      <LineButton onClick={save}>
-        저장하기
-      </LineButton>
+      <div ref={ref}/>
+      <LineButton onClick={save}>저장하기</LineButton>
     </div>
   )
 }

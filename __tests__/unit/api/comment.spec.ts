@@ -83,7 +83,7 @@ describe('unit', () => {
           })
           console.table(after)
 
-          // TODO: before/after 객체가 Comment 타입을 갖도록 해야 expect 비교가 가능한데
+          // TODO: before/after 객체가 Reply 타입을 갖도록 해야 expect 비교가 가능한데
         })
         it('like comment', async() => {
           const isLiked = await api.comment.like({
