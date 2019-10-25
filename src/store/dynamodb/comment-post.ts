@@ -11,6 +11,7 @@ export async function commentPost(operator: DynamoDBInput, params: CommentPostIn
     ReturnValues          : 'ALL_NEW',
     ...commentPostParams(operator, params)
   })
+
   if (response) {
     return response.Attributes as Post
   }
@@ -19,6 +20,7 @@ export function commentPostParams(operator: DynamoDBInput, params: CommentPostIn
   const {tableName} = operator
   const {data} = params
   const {hk} = data
+
   return {
     TableName                : tableName,
     Key                      : {

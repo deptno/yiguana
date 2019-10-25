@@ -15,7 +15,6 @@ export const ReplyWriter: FunctionComponent<Props> = props => {
         }),
       })
       .then(response => response.json())
-      .then(console.log)
       .then(onCreate)
   }
 

@@ -2,11 +2,19 @@ import {YiguanaStore} from '../../store/dynamodb/dynamodb'
 import {EntityFactory} from '../../entity'
 import {User} from '../../entity/user'
 import {ReplyUserInput} from '../../entity/reply'
+import * as R from 'ramda'
 
 export async function create(store: YiguanaStore, ep: EntityFactory, input: CreateInput) {
-  const {data, user} = input
-
-  //TODO:
+  return Promise
+    .all([
+      store.addReply({data: ep.createReply(input)}),
+      store.replyComment({
+        data: {
+          hk: input.data.commentId,
+        },
+      }),
+    ])
+    .then(R.head)
 }
 
 export type CreateInput = {

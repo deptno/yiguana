@@ -1,13 +1,11 @@
 import {YiguanaStore} from '../../store/dynamodb/dynamodb'
 import {EntityFactory} from '../../entity'
 import {User} from '../../entity/user'
-import {CommentUserInput} from '../../entity/comment'
+import {Comment, CommentUserInput} from '../../entity/comment'
 import {head} from 'ramda'
 
 export async function create(store: YiguanaStore, ep: EntityFactory, input: CreateInput) {
-  console.log({input})
   const comment = ep.createComment(input)
-  console.log({comment})
 
   return Promise
     .all([
@@ -20,7 +18,7 @@ export async function create(store: YiguanaStore, ep: EntityFactory, input: Crea
         },
       }),
     ])
-    .then(head)
+    .then<Comment>(head)
 
 }
 

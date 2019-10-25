@@ -8,9 +8,9 @@ import * as R from 'ramda'
 
 export default handler({
   async get(req, res) {
-    yiguana.comment
+    yiguana.reply
       .list({
-        postId: req.query.hk as string,
+        commentId: req.query.hk as string,
       })
       .then((response: PaginationResult<Comment>) => {
         const {items, lastEvaluatedKey} = response
