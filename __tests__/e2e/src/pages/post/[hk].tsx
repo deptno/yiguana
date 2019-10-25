@@ -9,6 +9,7 @@ import {Comments} from '../../components/post/Comments'
 import {useRouter} from 'next/router'
 import * as R from 'ramda'
 import {CommentWriter} from '../../components/board/CommentWriter'
+import {LineLink} from '../../components/board/LineLink'
 
 const PostPage: NextPage<Props> = props => {
   const {query} = useRouter()
@@ -58,14 +59,7 @@ const PostPage: NextPage<Props> = props => {
             <span className="dn di-ns ml2">북마크</span>
           </a>
         </div>
-        <Link href="/">
-          <a className="pa2 link near-black lh-copy flex bg-light-gray hover-bg-light-pink" href="#">
-            <span className="tc w-100">
-             목록으로
-            </span>
-            <i className="pv1 ml-auto fas fa-long-arrow-alt-right"/>
-          </a>
-        </Link>
+        <LineLink href="/">목록으로</LineLink>
       </main>
       <div className="comment-writer mv3 ph2 ph3-ns pv3 bg-white flex flex-column mt3 pv3 b--hot-pink bt bw1">
         <h2 className="ma0 f4">

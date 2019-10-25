@@ -3,7 +3,6 @@ import Head from 'next/head'
 import {LineButton} from './LineButton'
 import * as Q from 'quill'
 
-declare var Quill
 export const Editor: FunctionComponent<Props> = props => {
   const ref = useRef()
   const [editor, setEditor] = useState<Q.Quill>()
