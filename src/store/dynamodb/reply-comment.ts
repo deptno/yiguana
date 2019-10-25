@@ -1,6 +1,8 @@
 import {DocumentClient} from 'aws-sdk/lib/dynamodb/document_client'
 import {DynamoDBInput} from '../../entity/input/dynamodb'
 import {Comment} from '../../entity/comment'
+import {EEntity} from '../../entity/enum'
+import {YiguanaDocumentHash} from '../../dynamodb/yiguana-document'
 
 export async function replyComment(operator: DynamoDBInput, params: ReplyCommentInput) {
   const {dynamodb} = operator
@@ -17,13 +19,13 @@ export async function replyComment(operator: DynamoDBInput, params: ReplyComment
 export function commentPostParams(operator: DynamoDBInput, params: ReplyCommentInput): DocumentClient.Update {
   const {tableName} = operator
   const {data} = params
-  const {hk, rk} = data
+  const {hk} = data
 
   return {
     TableName                : tableName,
     Key                      : {
       hk,
-      rk,
+      rk: EEntity.Comment,
     },
     UpdateExpression         : 'SET #v = #v + :v',
     ExpressionAttributeNames : {
@@ -36,5 +38,5 @@ export function commentPostParams(operator: DynamoDBInput, params: ReplyCommentI
 }
 
 export type ReplyCommentInput = {
-  data: Comment
+  data: YiguanaDocumentHash
 }

@@ -3,12 +3,11 @@ import locale from 'date-fns/locale/ko'
 import {formatDistanceToNow, parseISO} from 'date-fns'
 import {Comment as TComment} from '../../../../../src/entity/comment'
 import {Replies} from './Replies'
-import {CommentWriter} from '../board/CommentWriter'
 
 export const Comment: FunctionComponent<Props> = props => {
   const {data} = props
   const {hk, rk, postId, content, userId, createdAt, updatedAt, priority, children, likes, order} = data
-  const [showReplies, setShowReplies] = useState(true)
+  const [showReplies, setShowReplies] = useState(false)
 
   return (
     <li className="comment mv2 f6 flex">
