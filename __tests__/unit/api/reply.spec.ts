@@ -7,6 +7,15 @@ import {bucketName, ddbClient, s3Client, tableName} from '../../env'
 describe('unit', () => {
   describe('api', () => {
     describe('reply', () => {
+      const api = createApi({ddbClient, s3Client, tableName, bucketName})
+      const member = {
+        userId: 'member',
+        ip: '0.0.0.0',
+      }
+
+      let post: Post
+      let comment: Comment
+      let commentId: string
 
       beforeAll(async () => {
         post = await api.post.create({
@@ -28,16 +37,6 @@ describe('unit', () => {
         commentId = comment.hk
       })
 
-      const api = createApi({ddbClient, s3Client, tableName, bucketName})
-      const member = {
-        userId: 'member',
-        ip: '0.0.0.0',
-      }
-
-      let post: Post
-      let comment: Comment
-      let commentId: string
-
       it('create reply', async() => {
         const reply = await api.reply.create({
           data: {
@@ -53,6 +52,7 @@ describe('unit', () => {
         })
         const {items} = await api.reply.list({commentId})
         expect(items.length).toEqual(1)
+        expect(items[0]).toEqual(reply)
         console.table(items)
       })
 
@@ -62,29 +62,40 @@ describe('unit', () => {
         expect(targetReply).not.toEqual(undefined)
 
         const content = 'updated reply content'
-        const isUpdated = await api.reply.update({
+        expect(targetReply).not.toEqual(content)
+        const updatedReply = await api.reply.update({
           data: {
             hk: targetReply.hk,
             commentId,
             content
           }
         })
+        expect(updatedReply).not.toEqual(targetReply)
         const {items: after} = await api.reply.list({commentId})
         console.table(after)
+        const found = after.find(r => r.hk === targetReply.hk)!
+        expect(found).toBeDefined()
+        expect(found.content).toEqual(content)
+        expect(found).toEqual(updatedReply)
       })
       it.todo('like reply')
       it.todo('cancel like reply')
 
       it('remove reply', async() => {
         const {items: replyItems} = await api.reply.list({commentId})
-        const targetReply = replyItems[0]
+        const [targetReply] = replyItems
         expect(targetReply).not.toEqual(undefined)
 
+        expect(targetReply.deleted).toBeUndefined()
         const isRemoved = await api.reply.del({
           hk: targetReply.hk
         })
+        expect(isRemoved).toEqual(true)
         const {items: after} = await api.reply.list({commentId})
         console.table(after)
+        const found = after.find(r => r.hk === targetReply.hk)!
+        expect(found).toBeDefined()
+        expect(found.deleted).toEqual(true)
       })
 
       it.todo('request to block reply')
