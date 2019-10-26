@@ -2,30 +2,30 @@ import {DynamoDBInput} from '../../entity/input/dynamodb'
 import {Post} from '../../entity/post'
 import {EEntity} from '../../entity/enum'
 import {YiguanaDocument} from '../../dynamodb/yiguana-document'
+import * as R from 'ramda'
 
-export async function updatePost(operator: DynamoDBInput, params: UpdatePostInput): Promise<Post|undefined> {
+export function updatePost(operator: DynamoDBInput, params: UpdatePostInput) {
   const {dynamodb, tableName} = operator
   const {data} = params
   const {hk, updatedAt} = data
-  const response = await dynamodb.update({
-    ReturnConsumedCapacity: 'TOTAL',
-    ReturnValues: 'ALL_NEW',
-    TableName: tableName,
-    Key: {
-      hk,
-      rk: EEntity.Post,
-    },
-    UpdateExpression: 'SET #u = :u',
-    ExpressionAttributeNames: {
-      '#u': 'updatedAt',
-    },
-    ExpressionAttributeValues: {
-      ':u': updatedAt,
-    },
-  })
-  if (response) {
-    return response.Attributes as Post
-  }
+
+  return dynamodb
+    .update({
+      TableName: tableName,
+      Key: {
+        hk,
+        rk: EEntity.Post,
+      },
+      UpdateExpression: 'SET #u = :u',
+      ExpressionAttributeNames: {
+        '#u': 'updatedAt',
+      },
+      ExpressionAttributeValues: {
+        ':u': updatedAt,
+      },
+      ReturnValues: 'ALL_NEW',
+    })
+    .then<Post>(R.prop('Attributes'))
 }
 export type UpdatePostInput = {
   data: Pick<YiguanaDocument, 'hk' | 'updatedAt'>
