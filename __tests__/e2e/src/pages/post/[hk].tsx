@@ -1,8 +1,6 @@
 import React, {useCallback, useEffect, useState} from 'react'
 import {NextPage} from 'next'
 import locale from 'date-fns/locale/ko'
-import {extname} from 'path'
-import Link from 'next/link'
 import {formatDistanceToNow} from 'date-fns'
 import {Post} from '../../../../../src/entity/post'
 import {Comments} from '../../components/post/Comments'
@@ -61,12 +59,6 @@ const PostPage: NextPage<Props> = props => {
         </div>
         <LineLink href="/">목록으로</LineLink>
       </main>
-      <div className="comment-writer mv3 ph2 ph3-ns pv3 bg-white flex flex-column mt3 pv3 b--hot-pink bt bw1">
-        <h2 className="ma0 f4">
-          <i className="far fa-comment-dots"/> 댓글 ({R.o(R.defaultTo(0), R.prop('children'), post)})
-        </h2>
-        <CommentWriter postId={postId} onCreate={console.log}/>
-      </div>
       <Comments postId={postId}/>
     </div>
   )
