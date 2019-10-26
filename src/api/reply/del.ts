@@ -1,15 +1,9 @@
 import {YiguanaStore} from '../../store/dynamodb/dynamodb'
-import {Post} from '../../entity/post'
 import {EntityFactory} from '../../entity'
-import {PaginationResult} from '@deptno/dynamodb/dist/api'
-import {PostInput} from '../../store/dynamodb/post'
 import {YiguanaDocumentHash} from '../../dynamodb/yiguana-document'
 
 export async function del(store: YiguanaStore, ep: EntityFactory, input: DelInput) {
-  //FIXME: post -> remove
-  return store.post(input.data)
+  return store.removeReply(input)
 }
 
-export type DelInput = {
-  data: YiguanaDocumentHash
-}
+export type DelInput = YiguanaDocumentHash

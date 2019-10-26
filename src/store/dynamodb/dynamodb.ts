@@ -22,6 +22,8 @@ import {likeComment, LikeCommentInput} from './like-comment'
 import {unlikeComment, UnlikeCommentInput} from './unlike-comment'
 import {Post} from '../../entity/post'
 import {replyComment, ReplyCommentInput} from './reply-comment'
+import {updateReply, UpdateCommentReplyInput} from './update-reply'
+import {RemoveCommentReplyInput,removeReply} from './remove-reply'
 
 export function createStore<P>(operator: DynamoDBInput): YiguanaStore {
   return {
@@ -45,6 +47,8 @@ export function createStore<P>(operator: DynamoDBInput): YiguanaStore {
     replyComment: replyComment.bind(null, operator),
     replies: replies.bind(null, operator),
     addReply: addReply.bind(null, operator),
+    updateReply: updateReply.bind(null, operator),
+    removeReply: removeReply.bind(null, operator),
     remove: remove.bind(null, operator),
   }
 }
@@ -77,6 +81,8 @@ export interface YiguanaStore {
   // reply replies
   replies(params: RepliesInput): ReturnType<typeof replies>
   addReply(params: AddCommentReplyInput): ReturnType<typeof addReply>
+  updateReply(params: UpdateCommentReplyInput): ReturnType<typeof updateReply>
+  removeReply(params: RemoveCommentReplyInput): ReturnType<typeof removeReply>
 
   // common
   remove(params: RemoveInput): ReturnType<typeof remove>

@@ -1,26 +1,29 @@
 import {DynamoDBInput} from '../../entity/input/dynamodb'
-import {Reply} from '../../entity/reply/reply'
+import {Reply, ReplyUpdateUserInput} from '../../entity/reply'
 import {EEntity} from '../../entity/enum'
-import {ReplyUpdateUserInput} from '../../entity/reply'
+import * as R from 'ramda'
 
-export async function updateReply<T = Reply>(operator: DynamoDBInput, params: UpdateCommentReplyInput) {
+export function updateReply(operator: DynamoDBInput, params: UpdateCommentReplyInput) {
   const {dynamodb, tableName} = operator
   const {data} = params
 
-  return await dynamodb.update<T>({
-    TableName: tableName,
-    Key: {
-      hk: data.hk,
-      rk: EEntity.Reply,
-    },
-    UpdateExpression: 'SET #c = :c',
-    ExpressionAttributeNames: {
-      '#c': 'content',
-    },
-    ExpressionAttributeValues: {
-      ':c': data.content,
-    },
-  })
+  return dynamodb
+    .update({
+      TableName: tableName,
+      Key: {
+        hk: data.hk,
+        rk: EEntity.Reply,
+      },
+      UpdateExpression: 'SET #c = :c',
+      ExpressionAttributeNames: {
+        '#c': 'content',
+      },
+      ExpressionAttributeValues: {
+        ':c': data.content,
+      },
+      ReturnValues: 'ALL_NEW',
+    })
+    .then<Reply>(R.prop('Attributes'))
 }
 
 export type UpdateCommentReplyInput = {
