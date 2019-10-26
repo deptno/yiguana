@@ -8,7 +8,7 @@ export default handler({
   },
   async get(req, res) {
     yiguana.post
-      .read({
+      .view({
         data: {
           hk: req.query.hk as string,
         },

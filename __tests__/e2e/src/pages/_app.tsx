@@ -18,6 +18,8 @@ export default class extends App {
             type="text/css"
             href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.11.2/css/all.min.css"
           />
+          <link href="https://cdn.quilljs.com/1.3.6/quill.snow.css" rel="stylesheet"/>
+          <script src="https://cdn.quilljs.com/1.3.6/quill.js"/>
         </Head>
         <Component {...pageProps} />
       </>
