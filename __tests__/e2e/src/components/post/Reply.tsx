@@ -1,4 +1,4 @@
-import React, {FunctionComponent, useState} from 'react'
+import React, {FunctionComponent} from 'react'
 import locale from 'date-fns/locale/ko'
 import {formatDistanceToNow, parseISO} from 'date-fns'
 import {Reply as TReply} from '../../../../../src/entity/reply'
@@ -8,7 +8,7 @@ export const Reply: FunctionComponent<Props> = props => {
   const {hk, rk, content, createdAt, likes, order} = data
 
   return (
-    <li className="comment mv2 f6 flex">
+    <div className="comment mv2 f6 flex">
       <figure className="dn db-ns mv0 ml0 mr2">
         <img
           className="br2"
@@ -40,7 +40,7 @@ export const Reply: FunctionComponent<Props> = props => {
           <pre className="ma0 pa2" dangerouslySetInnerHTML={{__html: content}}/>
         </main>
       </div>
-    </li>
+    </div>
   )
 }
 

@@ -29,10 +29,6 @@ export const Editor: FunctionComponent<Props> = props => {
 
   return (
     <div className="pv3">
-      <Head>
-        <link href="https://cdn.quilljs.com/1.3.6/quill.snow.css" rel="stylesheet"/>
-        <script src="https://cdn.quilljs.com/1.3.6/quill.js"/>
-      </Head>
       <div ref={ref}/>
       <LineButton onClick={save}>저장하기</LineButton>
     </div>
