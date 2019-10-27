@@ -8,6 +8,14 @@ import {EValidationErrorMessage} from '../../../src/entity/error'
 describe('unit', () => {
   describe('api', () => {
     describe('comment', () => {
+      const api = createApi({ddbClient, s3Client, tableName, bucketName})
+      const member = {
+        userId: 'member',
+        ip: '0.0.0.0',
+      }
+
+      let post: Post
+      let comment: Comment
 
       beforeAll(async () => {
         post = await api.post.create({
@@ -27,15 +35,6 @@ describe('unit', () => {
           user: member,
         })
       })
-
-      const api = createApi({ddbClient, s3Client, tableName, bucketName})
-      const member = {
-        userId: 'member',
-        ip: '0.0.0.0',
-      }
-
-      let post: Post
-      let comment: Comment
 
       it('list(0)', async () => {
         const {items} = await api.comment.list({
