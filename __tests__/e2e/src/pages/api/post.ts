@@ -4,19 +4,15 @@ import * as R from 'ramda'
 
 export default handler({
   async post(req, res) {
-    const {category, content, title} = JSON.parse(req.body)
+    const {data, user} = JSON.parse(req.body)
+    const ip = req.connection.remoteAddress
 
     yiguana.post
       .create({
-        data: {
-          category,
-          content,
-          title,
-        },
+        data,
         user: {
-          name: 'non member',
-          pw: 'pw',
-          ip: '0.0.0.0',
+          ...user,
+          ip,
         },
       })
       .then(R.tap(console.log))
