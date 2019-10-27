@@ -1,5 +1,4 @@
 import {opDdb, opS3} from './env'
-import {createEntityFactory} from '../src/entity'
 import {Post} from '../src/entity/post'
 import {posts} from '../src/store/dynamodb/posts'
 import {addPost} from '../src/store/dynamodb/add-post'
@@ -9,20 +8,20 @@ import {addComment} from '../src/store/dynamodb/add-comment'
 import {EPriority} from '../src/entity/enum'
 import {commentPost} from '../src/store/dynamodb/comment-post'
 import {YiguanaDocument} from '../src/dynamodb/yiguana-document'
-import {createStore} from '../src/store/dynamodb/dynamodb'
+import {ContentStore} from '../src/store/s3'
+import {EntityFactory} from '../src/entity'
 
 export const getInitialData = async () => {
   await clearData()
 
-  const store = createStore(opDdb)
-  const entityFactory = createEntityFactory(opS3)
-
-  const postContentNews = await entityFactory.createPostContent({
+  const ef = new EntityFactory(opS3)
+  const cs = new ContentStore(opS3)
+  const postContentNews = await cs.create({
     category: 'news#politics',
     title: 'title',
     content: 'content',
   })
-  const postContentKids = await entityFactory.createPostContent({
+  const postContentKids = await cs.create({
     category: 'kids#politics',
     title: 'title',
     content: 'content',
@@ -49,12 +48,12 @@ export const getInitialData = async () => {
     })
 
   const postList: Post[] = setup([
-    entityFactory.createPost({data: postContentNews, user: {userId: 'aGun', ip: '0.0.0.0'}}),
-    entityFactory.createPost({data: postContentNews, user: {userId: 'bGun', ip: '0.0.0.0'}}),
-    entityFactory.createPost({data: postContentNews, user: {userId: 'cGun', ip: '0.0.0.0'}}),
-    entityFactory.createPost({data: postContentNews, user: {name: 'notMemberA', pw: 'pw', ip: '0.0.0.1'}}),
-    entityFactory.createPost({data: postContentNews, user: {userId: 'aGun', ip: '0.0.0.0'}}),
-    entityFactory.createPost({data: postContentKids, user: {userId: 'cGun', ip: '0.0.0.0'}}),
+    ef.createPost({data: postContentNews, user: {userId: 'aGun', ip: '0.0.0.0'}}),
+    ef.createPost({data: postContentNews, user: {userId: 'bGun', ip: '0.0.0.0'}}),
+    ef.createPost({data: postContentNews, user: {userId: 'cGun', ip: '0.0.0.0'}}),
+    ef.createPost({data: postContentNews, user: {name: 'notMemberA', pw: 'pw', ip: '0.0.0.1'}}),
+    ef.createPost({data: postContentNews, user: {userId: 'aGun', ip: '0.0.0.0'}}),
+    ef.createPost({data: postContentKids, user: {userId: 'cGun', ip: '0.0.0.0'}}),
   ])
 // todo contentUrl 을 만들면서 hasImage 에 대한 처리가 필요함
   const postDocs = await Promise.all(

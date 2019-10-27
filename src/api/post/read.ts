@@ -1,8 +1,8 @@
-import {YiguanaStore} from '../../store/dynamodb/dynamodb'
+import {MetadataStore} from '../../store/dynamodb'
 import {EntityFactory} from '../../entity'
 import {YiguanaDocumentHash} from '../../dynamodb/yiguana-document'
 
-export async function read(store: YiguanaStore, ep: EntityFactory, input: ReadInput) {
+export async function read(store: MetadataStore, ep: EntityFactory, input: ReadInput) {
   return store.post({
     hk: input.data.hk
   })

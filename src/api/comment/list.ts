@@ -1,8 +1,8 @@
-import {YiguanaStore} from '../../store/dynamodb/dynamodb'
+import {MetadataStore} from '../../store/dynamodb'
 import {EntityFactory} from '../../entity'
 import {CommentsInput} from '../../store/dynamodb/comments'
 
-export async function list(store: YiguanaStore, ep: EntityFactory, input: CommentsInput) {
+export async function list(store: MetadataStore, ep: EntityFactory, input: CommentsInput) {
   return store.comments(input)
 }
 

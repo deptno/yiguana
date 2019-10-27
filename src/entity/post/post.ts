@@ -45,4 +45,5 @@ export interface Post extends YiguanaDocument {
   userId?: string // gsi.hk
   cover?: string
   updatedAt?: string
+  content?: string
 }

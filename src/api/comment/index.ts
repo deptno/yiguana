@@ -1,4 +1,4 @@
-import {YiguanaStore} from '../../store/dynamodb/dynamodb'
+import {MetadataStore} from '../../store/dynamodb'
 import {EntityFactory} from '../../entity'
 import {like, LikeInput} from './like'
 import {unlike, UnlikeInput} from './unlike'
@@ -6,14 +6,9 @@ import {list, ListInput} from './list'
 import {create, CreateInput} from './create'
 import {update, UpdateInput} from './update'
 import {del, DelInput} from './del'
-import {view, ViewInput} from './view'
-
-export function createCommentApi(store: YiguanaStore, ep: EntityFactory) {
-  return new CommentApi(store, ep)
-}
 
 export class CommentApi {
-  constructor(private store: YiguanaStore, private ep: EntityFactory) {
+  constructor(private store: MetadataStore, private ep: EntityFactory) {
   }
 
   list(input: ListInput) {

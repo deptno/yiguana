@@ -2,23 +2,25 @@ import {createDynamoDB} from '@deptno/dynamodb'
 import {createS3} from '@deptno/s3'
 import {DocumentClient} from 'aws-sdk/clients/dynamodb'
 import {S3} from 'aws-sdk'
-import {createStore} from '../store/dynamodb/dynamodb'
-import {createEntityFactory} from '../entity'
-import {createPostApi} from './post'
-import {createCommentApi} from './comment'
-import {createReplyApi} from './reply'
+import {ContentStore} from '../store/s3'
+import {EntityFactory} from '../entity'
+import {PostApi} from './post'
+import {CommentApi} from './comment'
+import {ReplyApi} from './reply'
+import {MetadataStore} from '../store/dynamodb'
 
 export function createApi(params: CreateInput) {
   const {ddbClient, s3Client, bucketName, tableName} = params
   const dynamodb = createDynamoDB(ddbClient)
   const s3 = createS3(s3Client)
-  const store = createStore({dynamodb, tableName})
-  const ep = createEntityFactory({s3, bucketName})
+  const metadataStore = new MetadataStore({dynamodb, tableName})
+  const contentStore = new ContentStore({s3, bucketName})
+  const ef = new EntityFactory({s3, bucketName})
 
   return {
-    post: createPostApi(store, ep),
-    comment: createCommentApi(store, ep),
-    reply: createReplyApi(store, ep),
+    post: new PostApi(metadataStore, contentStore, ef),
+    comment: new CommentApi(metadataStore, ef),
+    reply: new ReplyApi(metadataStore, ef),
   }
 }
 

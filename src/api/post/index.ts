@@ -1,4 +1,3 @@
-import {YiguanaStore} from '../../store/dynamodb/dynamodb'
 import {EntityFactory} from '../../entity'
 import {list, ListInput} from './list'
 import {create, CreateInput} from './create'
@@ -8,44 +7,44 @@ import {del, DelInput} from './del'
 import {view, ViewInput} from './view'
 import {like, LikeInput} from './like'
 import {unlike, UnlikeInput} from './unlike'
-
-export function createPostApi(store: YiguanaStore, ep: EntityFactory) {
-  return new PostApi(store, ep)
-}
+import {MetadataStore} from '../../store/dynamodb'
+import {ContentStore} from '../../store/s3'
 
 export class PostApi {
-  constructor(private store: YiguanaStore, private ep: EntityFactory) {
+  constructor(private ms: MetadataStore, private cs: ContentStore, private ef: EntityFactory) {
   }
 
   list(input: ListInput) {
-    return list(this.store, this.ep, input)
+    return list(this.ms, this.ef, input)
   }
 
   create(input: CreateInput) {
-    return create(this.store, this.ep, input)
+    return create(this.ms, this.cs, this.ef, input)
   }
 
+  // 실제로는 read 대신 view 가 사용된다 read 는 사용되지 않거나 alias 로 동작 해야 될 것으로 보임
+  // @deprecated
   read(input: ReadInput) {
-    return read(this.store, this.ep, input)
+    return read(this.ms, this.ef, input)
   }
 
   update(input: UpdateInput) {
-    return update(this.store, this.ep, input)
+    return update(this.ms, this.ef, input)
   }
 
   del(input: DelInput) {
-    return del(this.store, this.ep, input)
+    return del(this.ms, this.ef, input)
   }
 
   like(input: LikeInput) {
-    return like(this.store, this.ep, input)
+    return like(this.ms, this.ef, input)
   }
 
   unlike(input: UnlikeInput) {
-    return unlike(this.store, this.ep, input)
+    return unlike(this.ms, this.ef, input)
   }
 
   view(input: ViewInput) {
-    return view(this.store, this.ep, input)
+    return view(this.ms, this.cs, this.ef, input)
   }
 }

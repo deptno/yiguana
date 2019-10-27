@@ -1,23 +1,25 @@
-import {YiguanaStore} from '../../store/dynamodb/dynamodb'
+import {MetadataStore} from '../../store/dynamodb'
 import {PostUserInput} from '../../entity/post'
 import {EntityFactory} from '../../entity'
 import {User} from '../../entity/user'
 import {EValidationErrorMessage, ValidationError} from '../../entity/error'
 import {postLogger as log} from '../../lib/log'
+import {ContentStore} from '../../store/s3'
 
-export async function create(store: YiguanaStore, ep: EntityFactory, input: CreateInput) {
+export async function create(ms: MetadataStore, cs: ContentStore, e: EntityFactory, input: CreateInput) {
   log('create %j', input)
+
   validateUser(input.user)
 
-  const user = input.user
-  // createPostContent 는 throw 가능성(unsafe)이 있다.
-  const content = await ep.createPostContent(input.data)
-  const post = ep.createPost({
+  const {data, user} = input
+  // FIXME: cs.create 는 throw 가능성(unsafe)이 있다.
+  const content = await cs.create(data)
+  const post = e.createPost({
     user,
     data: content,
   })
 
-  return store.addPost({data: post})
+  return ms.addPost({data: post})
 }
 
 const validateUser = (user: User) => {

@@ -3,12 +3,13 @@ export class S3Error extends Error {
     super(message)
 
     if (Error.captureStackTrace) {
-      Error.captureStackTrace(this, S3Error);
+      Error.captureStackTrace(this, S3Error)
     }
   }
 }
 
 export enum ES3ErrorMessage {
-  FailToPut = 'Fail to put'
+  FailToPut = 'Fail to put',
+  FailToGet = 'Fail to get'
 }
 

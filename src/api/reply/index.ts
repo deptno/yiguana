@@ -1,4 +1,4 @@
-import {YiguanaStore} from '../../store/dynamodb/dynamodb'
+import {MetadataStore} from '../../store/dynamodb'
 import {EntityFactory} from '../../entity'
 import {like, LikeInput} from './like'
 import {list, ListInput} from './list'
@@ -7,12 +7,12 @@ import {update, UpdateInput} from './update'
 import {del, DelInput} from './del'
 import {view, ViewInput} from './view'
 
-export function createReplyApi(store: YiguanaStore, ep: EntityFactory) {
+export function createReplyApi(store: MetadataStore, ep: EntityFactory) {
   return new ReplyApi(store, ep)
 }
 
 export class ReplyApi {
-  constructor(private store: YiguanaStore, private ep: EntityFactory) {
+  constructor(private store: MetadataStore, private ep: EntityFactory) {
   }
 
   list(input: ListInput) {

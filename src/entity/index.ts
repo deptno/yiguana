@@ -1,19 +1,15 @@
-import {S3Input} from './input/s3'
-import {createPost, createPostContentUnSafe, PostContent, PostUserInput} from './post'
-import {createComment} from './comment'
-import {createReply} from './reply'
+import {createPost, CreatePostInput} from './post'
+import {createComment, CreateCommentInput} from './comment'
+import {createReply, CreateReplyInput} from './reply'
 
-export function createEntityFactory(operator: S3Input): EntityFactory {
-  return {
-    createPostContent: createPostContentUnSafe.bind(null, operator),
-    createPost,
-    createComment,
-    createReply,
+export class EntityFactory {
+  createPost(input: CreatePostInput) {
+    return createPost(input)
   }
-}
-export type EntityFactory = {
-  createPostContent(params: PostUserInput): Promise<PostContent>
-  createPost: typeof createPost
-  createComment: typeof createComment
-  createReply: typeof createReply
+  createComment(input: CreateCommentInput) {
+    return createComment(input)
+  }
+  createReply(input: CreateReplyInput) {
+    return createReply(input)
+  }
 }

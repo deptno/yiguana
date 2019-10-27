@@ -1,8 +1,8 @@
-import {YiguanaStore} from '../../store/dynamodb/dynamodb'
+import {MetadataStore} from '../../store/dynamodb'
 import {EntityFactory} from '../../entity'
 import {CommentUpdateUserInput} from '../../entity/comment'
 
-export async function update(store: YiguanaStore, ep: EntityFactory, input: UpdateInput) {
+export async function update(store: MetadataStore, ep: EntityFactory, input: UpdateInput) {
   const {data} = input
   return store.updateComment({
     data
