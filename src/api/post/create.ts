@@ -13,7 +13,11 @@ export async function create(ms: MetadataStore, cs: ContentStore, e: EntityFacto
 
   const {data, user} = input
   // FIXME: cs.create 는 throw 가능성(unsafe)이 있다.
-  const content = await cs.create(data)
+  const content = await cs.create({
+    ...data,
+    title: data.title.trim(),
+    content: data.title.trim(),
+  })
   const post = e.createPost({
     user,
     data: content,

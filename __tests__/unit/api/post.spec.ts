@@ -35,7 +35,6 @@ describe('unit', () => {
           }
         })
         it('create post, 비회원 글쓰기', async () => {
-
           const post = await api.post.create({
             data: {
               content: 'content',
@@ -81,12 +80,15 @@ describe('unit', () => {
   ddb> postId view#userId`)
         it('view post', async () => {
           const {items} = await api.post.list({})
+          console.table(items)
           expect(items.length).toEqual(1)
           const [post] = items
           expect(post.views).toEqual(0)
-          await api.post.view({data: post})
-          const nextPost = await api.post.read({data: post})
+          const nextPost = await api.post.view({data: post})
+          console.log(nextPost)
           expect(nextPost.views).toEqual(1)
+          expect(nextPost.content).toBeDefined()
+          expect(nextPost.content).toEqual('content')
         })
         it('delete post', async () => {
           const {items} = await api.post.list({})

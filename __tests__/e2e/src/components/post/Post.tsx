@@ -33,8 +33,11 @@ export const Post: FunctionComponent<Props> = props => {
       <div className="ph3 lh-copy bg-gray white tr">
         작성자 메뉴 공간, 수정, 삭제 등
       </div>
-      <pre className="pa3 pre-wrap overflow-x-scroll f7 bg-black-10 ba">
+      <pre className="pa3 pre-wrap overflow-x-scroll f7 bg-black-10 ba b--dashed">
         {JSON.stringify(data, null, 2)}
+      </pre>
+      <pre className="pa3 pre-wrap overflow-x-scroll f6">
+        {data.content}
       </pre>
       <div className="justify-center mv3 lh-copy flex">
         <a className="pa2 link near-black dib white bg-hot-pink mh2 nowrap" href="#">

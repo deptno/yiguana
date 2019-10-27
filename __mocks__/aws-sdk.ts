@@ -1,8 +1,8 @@
 import {PutRecordInput} from 'aws-sdk/clients/firehose'
-import {PutObjectRequest} from 'aws-sdk/clients/s3'
-import {config, SharedIniFileCredentials} from 'aws-sdk'
+import {GetObjectRequest, PutObjectRequest} from 'aws-sdk/clients/s3'
 
 const debug = function (...args: any[]) {
+//  console.log(...args)
 }
 
 export class Firehose {
@@ -17,16 +17,35 @@ export class Firehose {
   }
 }
 
+const s3Store = {}
 export class S3 {
   putObject(params: PutObjectRequest) {
     return {
       async promise() {
         debug('> mock, put object')
         debug(params)
-        debug('< mock')
+
+        if (!s3Store[params.Bucket]) {
+          s3Store[params.Bucket] = {}
+        }
+        s3Store[params.Bucket][params.Key] = params.Body
+
         return {
           ETag: '"6805f2cfc46c0f04559748bb039d69ae"',
           VersionId: 'pSKidl4pHBiNwukdbcPXAIs.sshFFOc0',
+        }
+      },
+    }
+  }
+  getObject(params: GetObjectRequest) {
+    return {
+      async promise() {
+        debug('> mock, get object')
+        debug(params)
+
+        console.log({s3Store})
+        return {
+          Body: s3Store[params.Bucket][params.Key]
         }
       },
     }
