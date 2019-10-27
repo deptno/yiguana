@@ -14,7 +14,7 @@ import {EntityFactory} from '../src/entity'
 export const getInitialData = async () => {
   await clearData()
 
-  const ef = new EntityFactory(opS3)
+  const ef = new EntityFactory()
   const cs = new ContentStore(opS3)
   const postContentNews = await cs.create({
     category: 'news#politics',

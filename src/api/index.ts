@@ -15,7 +15,7 @@ export function createApi(params: CreateInput) {
   const s3 = createS3(s3Client)
   const metadataStore = new MetadataStore({dynamodb, tableName})
   const contentStore = new ContentStore({s3, bucketName})
-  const ef = new EntityFactory({s3, bucketName})
+  const ef = new EntityFactory()
 
   return {
     post: new PostApi(metadataStore, contentStore, ef),
