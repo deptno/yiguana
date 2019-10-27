@@ -33,6 +33,10 @@ module.exports = {
         {
           'AttributeName': 'userId',
           'AttributeType': 'S'
+        },
+        {
+          'AttributeName': 'like',
+          'AttributeType': 'S'
         }
       ],
       'TableName'             : 'yiguana',
@@ -180,6 +184,26 @@ module.exports = {
             },
             {
               'AttributeName': 'order',
+              'KeyType'      : 'RANGE'
+            }
+          ],
+          'Projection'           : {
+            'ProjectionType': 'ALL'
+          },
+          'ProvisionedThroughput': {
+            'ReadCapacityUnits'     : 1,
+            'WriteCapacityUnits'    : 1
+          },
+        },
+        {
+          'IndexName'            : 'like-index',
+          'KeySchema'            : [
+            {
+              'AttributeName': 'hk',
+              'KeyType'      : 'HASH'
+            },
+            {
+              'AttributeName': 'like',
               'KeyType'      : 'RANGE'
             }
           ],
