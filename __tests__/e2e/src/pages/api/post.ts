@@ -7,6 +7,8 @@ export default handler({
     const {data, user} = JSON.parse(req.body)
     const ip = req.connection.remoteAddress
 
+    // TODO: 데이터 밸리데이션
+
     yiguana.post
       .create({
         data,
