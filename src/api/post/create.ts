@@ -16,7 +16,7 @@ export async function create(ms: MetadataStore, cs: ContentStore, e: EntityFacto
   const content = await cs.create({
     ...data,
     title: data.title.trim(),
-    content: data.title.trim(),
+    content: data.content.trim(),
   })
   const post = e.createPost({
     user,
