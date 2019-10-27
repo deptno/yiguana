@@ -4,6 +4,7 @@ import {updatePost, UpdatePostInput} from './update-post'
 import {removePost, RemovePostInput} from './remove-post'
 import {viewPost, ViewPostInput} from './view-post'
 import {likePost, LikePostInput} from './like-post'
+import {unlikePost, UnlikePostInput} from './unlike-post'
 import {remove, RemoveInput} from './remove'
 import {addComment, AddCommentInput} from './add-comment'
 import {comments, CommentsInput} from './comments'
@@ -59,8 +60,8 @@ export class MetadataStore {
     return likePost(this.operator, input)
   }
 
-  unlikePost(input: LikePostInput) {
-    return likePost(this.operator, input)
+  unlikePost(input: UnlikePostInput) {
+    return unlikePost(this.operator, input)
   }
 
   commentPost(input: CommentPostInput) {
