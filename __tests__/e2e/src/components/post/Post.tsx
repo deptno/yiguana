@@ -2,15 +2,22 @@ import React, {FunctionComponent} from 'react'
 import locale from 'date-fns/locale/ko'
 import {formatDistanceToNow, parseISO} from 'date-fns'
 import {Post as TPost} from '../../../../../src/entity/post'
+import * as R from 'ramda'
 
 export const Post: FunctionComponent<Props> = props => {
-  const {data} = props
+  const {data, setPost} = props
 
   if (!data) {
     return null
   }
 
   const {hk, rk, title, contentUrl, userId, createdAt, updatedAt, children, views, likes, order} = data
+  const like = () => {
+    fetch(`/api/post/${hk}/like`, {method: 'post'})
+      .then<TPost>(response => response.json())
+      .then(R.tap(console.log))
+      .then(setPost)
+  }
 
   return (
     <main className="b--light-gray bl bb br">
@@ -40,9 +47,9 @@ export const Post: FunctionComponent<Props> = props => {
         {data.content}
       </pre>
       <div className="justify-center mv3 lh-copy flex">
-        <a className="pa2 link near-black dib white bg-hot-pink mh2 nowrap" href="#">
+        <a className="pa2 link near-black dib white bg-hot-pink mh2 nowrap" onClick={like}>
           <i className="far fa-thumbs-up"/>
-          <span className="dn di-ns ml2"> {likes}</span>
+          <span className="ml2"> {likes}</span>
         </a>
         <a className="pa2 link near-black dib white bg-hot-pink mh2 nowrap w-auto" href="#">
           <i className="far fa-bookmark"/>
@@ -55,4 +62,5 @@ export const Post: FunctionComponent<Props> = props => {
 
 type Props = {
   data: TPost
+  setPost(post: TPost): void
 }

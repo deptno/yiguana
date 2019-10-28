@@ -24,7 +24,7 @@ const PostPage: NextPage<Props> = props => {
 
   return (
     <div className="pa3 flex-column">
-      <Post data={post}/>
+      <Post data={post} setPost={setPost}/>
       <LineLink href="/">목록으로</LineLink>
       <Comments postId={postId}/>
     </div>
