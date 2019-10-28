@@ -181,8 +181,9 @@ describe('unit', function () {
               const saved = await addLike(opDdb, {data: like})
               console.log({saved})
 
-              const isLiked = await likeComment(opDdb, {hk: before[0].hk})
-              expect(isLiked).toEqual(true)
+              const likedComment = await likeComment(opDdb, {data: before[0]})
+              expect(likedComment.hk).toEqual(before[0].hk)
+              expect(likedComment.likes).toEqual(before[0].likes + 1)
 
               const {items: after} = await comments(opDdb, {postId: commentedPost.hk})
               expect(after[0].likes).toEqual(before[0].likes + 1)

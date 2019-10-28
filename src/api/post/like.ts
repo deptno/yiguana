@@ -1,15 +1,31 @@
 import {MetadataStore} from '../../store/dynamodb'
-import {Post} from '../../entity/post'
 import {EntityFactory} from '../../entity'
 import {YiguanaDocumentHash} from '../../dynamodb/yiguana-document'
+import {EEntity} from '../../entity/enum'
+import {User} from '../../entity/user'
+import {Post} from '../../entity/post'
+import * as R from 'ramda'
 
-export async function like(store: MetadataStore, ep: EntityFactory, input: LikeInput): Promise<Post|undefined> {
-  return store.likePost({
-    data: input.data,
+export async function like(store: MetadataStore, ep: EntityFactory, input: LikeInput) {
+  const {data, user} = input
+  const like = ep.createLike({
+    data: {
+      targetId: data.hk,
+      entity: EEntity.Post,
+      createdAt: new Date().toISOString(),
+    },
+    user,
   })
+
+  return Promise
+    .all([
+      store.addLike({data: like}),
+      store.likePost({data: data}),
+    ])
+    .then<Post>(R.view(R.lensIndex(1)))
 }
 
 export type LikeInput = {
   data: YiguanaDocumentHash
+  user: User
 }
-

@@ -85,10 +85,15 @@ describe('unit', () => {
           // TODO: before/after 객체가 Reply 타입을 갖도록 해야 expect 비교가 가능한데
         })
         it('like comment', async() => {
-          const isLiked = await api.comment.like({
-            hk: comment.hk,
+          const likedComment = await api.comment.like({
+            data: comment,
+            user: {
+              userId: 'userId',
+              ip: '0.0.0.0',
+            }
           })
-          expect(isLiked).toEqual(true)
+          expect(likedComment.likes).toEqual(comment.likes + 1)
+
           const {items} = await api.comment.list({
             postId: post.hk,
           })
