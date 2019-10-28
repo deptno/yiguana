@@ -1,11 +1,11 @@
-export type User = Metadata & (Member|NonMember)
+export type User = Member|NonMember
 type Metadata = {
   ip: string
 }
-export type Member = {
+export type Member = Metadata & {
   userId: string
 }
-export type NonMember = {
+export type NonMember = Metadata & {
   name: string
   pw: string
 }
