@@ -1,5 +1,6 @@
 import {handler} from '../../lib/handler'
 import {yiguana} from '../../lib/yiguana'
+import {non_member_a} from '../../../../../../__data__/user'
 
 export default handler({
   post(req, res) {
@@ -15,9 +16,9 @@ export default handler({
           createdAt: new Date().toISOString(),
         },
         user: {
+          ...non_member_a,
           ip,
-          name: 'anonymous',
-          pw: 'password',
+
         },
       })
       .then(JSON.stringify)

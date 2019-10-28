@@ -17,6 +17,7 @@ import {likeComment} from '../../../../src/store/dynamodb/like-comment'
 import {unlikeComment} from '../../../../src/store/dynamodb/unlike-comment'
 import {createLike} from '../../../../src/entity/like'
 import {addLike} from '../../../../src/store/dynamodb/add-like'
+import {member_d, member_e} from '../../../__data__/user'
 
 describe('unit', function () {
   describe('store', function () {
@@ -56,7 +57,7 @@ describe('unit', function () {
                 priority: EPriority.Normal,
               },
               user: {
-                userId: 'aSsi',
+                userId: 'e',
                 ip: '0.0.0.0',
               },
             })
@@ -173,10 +174,7 @@ describe('unit', function () {
                   targetId: before[0].hk,
                   createdAt: new Date().toISOString()
                 },
-                user: {
-                  userId: 'aSsi',
-                  ip: '0.0.0.0',
-                }
+                user: member_e
               })
               const saved = await addLike(opDdb, {data: like})
               console.log({saved})
@@ -215,20 +213,20 @@ describe('unit', function () {
           }))
 
           it('comment 리스트 userId', async () => {
-            const {items} = await commentsByUserId(opDdb, {userId: 'userId'})
+            const {items} = await commentsByUserId(opDdb, {userId: member_d.userId})
             console.debug('comment 리스트 userId')
             console.table(items)
             expect(items.length).toEqual(1)
           })
 
-          // aSsi 유저의 코멘트 조회 -> 코멘트 추가 -> 코멘트 재조회
-          it('코멘트 리스트 aSsi', async () => {
-            const {items} = await commentsByUserId(opDdb, {userId: 'aSsi'})
-            console.debug('코멘트 리스트 aSsi')
+          // e 유저의 코멘트 조회 -> 코멘트 추가 -> 코멘트 재조회
+          it('코멘트 리스트 e', async () => {
+            const {items} = await commentsByUserId(opDdb, {userId: member_e.userId})
+            console.debug('코멘트 리스트 e')
             console.table(items)
             expect(items.length).toEqual(0)
           })
-          it('회원 aSsi 코멘트 추가 -> 코멘트 리스트 aSsi (재조회) -> PostPage 의 children 값 증가 확인', async () => {
+          it('회원 e 코멘트 추가 -> 코멘트 리스트 e (재조회) -> PostPage 의 children 값 증가 확인', async () => {
             console.debug('회원 코멘트 추가')
             const comment = createComment({
               data: {
@@ -236,18 +234,15 @@ describe('unit', function () {
                 content: 'comment',
                 priority: EPriority.Normal,
               },
-              user: {
-                userId: 'aSsi',
-                ip: '0.0.0.0',
-              },
+              user: member_e,
             })
             const commented = await addComment(opDdb, {data: comment})
             console.table([comment, commented])
             expect(commented).toEqual(comment)
 
-            console.log('코멘트 리스트 aSsi (재조회)')
-            const {items} = await commentsByUserId(opDdb, {userId: 'aSsi'})
-            console.debug('코멘트 리스트 aSsi')
+            console.log('코멘트 리스트 e (재조회)')
+            const {items} = await commentsByUserId(opDdb, {userId: 'e'})
+            console.debug('코멘트 리스트 e')
             console.table(items)
             expect(items.length).toEqual(1)
 

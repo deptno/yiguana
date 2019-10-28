@@ -10,6 +10,7 @@ import {commentPost} from '../src/store/dynamodb/comment-post'
 import {YiguanaDocument} from '../src/dynamodb/yiguana-document'
 import {ContentStore} from '../src/store/s3'
 import {EntityFactory} from '../src/entity'
+import {member_a, member_b, member_c, member_d, non_member_a} from './__data__/user'
 
 export const getInitialData = async () => {
   await clearData()
@@ -48,12 +49,12 @@ export const getInitialData = async () => {
     })
 
   const postList: Post[] = setup([
-    ef.createPost({data: postContentNews, user: {userId: 'aGun', ip: '0.0.0.0'}}),
-    ef.createPost({data: postContentNews, user: {userId: 'bGun', ip: '0.0.0.0'}}),
-    ef.createPost({data: postContentNews, user: {userId: 'cGun', ip: '0.0.0.0'}}),
-    ef.createPost({data: postContentNews, user: {name: 'notMemberA', pw: 'pw', ip: '0.0.0.1'}}),
-    ef.createPost({data: postContentNews, user: {userId: 'aGun', ip: '0.0.0.0'}}),
-    ef.createPost({data: postContentKids, user: {userId: 'cGun', ip: '0.0.0.0'}}),
+    ef.createPost({data: postContentNews, user: member_a}),
+    ef.createPost({data: postContentNews, user: member_b}),
+    ef.createPost({data: postContentNews, user: member_c}),
+    ef.createPost({data: postContentNews, user: non_member_a}),
+    ef.createPost({data: postContentNews, user: member_a}),
+    ef.createPost({data: postContentKids, user: member_c}),
   ])
 // todo contentUrl 을 만들면서 hasImage 에 대한 처리가 필요함
   const postDocs = await Promise.all(
@@ -69,10 +70,7 @@ export const getInitialData = async () => {
       content: 'test data',
       priority: EPriority.Normal,
     },
-    user: {
-      userId: 'userId',
-      ip: '0.0.0.0',
-    },
+    user: member_d,
   })
   await addComment(opDdb, {
     data: comment,

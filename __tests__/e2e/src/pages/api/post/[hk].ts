@@ -1,5 +1,6 @@
 import {handler} from '../lib/handler'
 import {yiguana} from '../lib/yiguana'
+import {non_member_a} from '../../../../../__data__/user'
 
 export default handler({
   async put(req, res) {
@@ -22,11 +23,7 @@ export default handler({
         data: {
           hk: req.query.hk as string
         },
-        user: {
-          name: 'non member',
-          pw: 'pw1',
-          ip: '0.0.0.0',
-        },
+        user: non_member_a,
       })
       .then(JSON.stringify)
       .then(res.send)
