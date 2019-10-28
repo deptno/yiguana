@@ -7,6 +7,7 @@ import {Post} from '../../entity/post'
 import * as R from 'ramda'
 
 export async function like(store: MetadataStore, ep: EntityFactory, input: LikeInput) {
+  // FIXME: like 가 이미 존재할 시 에는 unlike 가 동작해야한다.
   const {data, user} = input
   const like = ep.createLike({
     data: {
