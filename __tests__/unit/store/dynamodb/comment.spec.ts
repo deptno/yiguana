@@ -155,9 +155,6 @@ describe('unit', function () {
           describe('likeComment', function() {
             it('likeComment', async () => {
               const {items: before} = await comments(opDdb, {postId: commentedPost.hk})
-              const isLiked = await likeComment(opDdb, {hk: before[0].hk})
-              expect(isLiked).toEqual(true)
-
               /* FIXME: 생각 및 구현이 잘못되었을 수 있으니 올바른 방향으로 수정 필요
                * [목적]
                * - like 수 증가는 likeComment에서 하고 있으니 like count는 저장하지 않고 (양쪽에서 저장하면 되려 sync 안 맞는 경우 생길까봐?)
@@ -174,6 +171,7 @@ describe('unit', function () {
                 data: {
                   entity: EEntity.Comment,
                   targetId: before[0].hk,
+                  createdAt: new Date().toISOString()
                 },
                 user: {
                   userId: 'aSsi',
@@ -182,6 +180,9 @@ describe('unit', function () {
               })
               const saved = await addLike(opDdb, {data: like})
               console.log({saved})
+
+              const isLiked = await likeComment(opDdb, {hk: before[0].hk})
+              expect(isLiked).toEqual(true)
 
               const {items: after} = await comments(opDdb, {postId: commentedPost.hk})
               expect(after[0].likes).toEqual(before[0].likes + 1)
