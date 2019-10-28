@@ -1,7 +1,7 @@
 import {DynamoDBInput} from '../../entity/input/dynamodb'
 import {Like} from '../../entity/like'
 
-export async function addLike(operator: DynamoDBInput, params: LikeInput) {
+export function addLike(operator: DynamoDBInput, params: AddLikeInput) {
   const {dynamodb, tableName} = operator
   const {data} = params
 
@@ -14,6 +14,6 @@ export async function addLike(operator: DynamoDBInput, params: LikeInput) {
   )
 }
 
-export type LikeInput = {
+export type AddLikeInput = {
   data: Like
 }
