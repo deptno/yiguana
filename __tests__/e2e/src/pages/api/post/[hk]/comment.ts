@@ -1,6 +1,7 @@
 import {handler} from '../../lib/handler'
 import {yiguana} from '../../lib/yiguana'
 import * as R from 'ramda'
+import {non_member_a} from '../../../../../../__data__/user'
 
 export default handler({
   post(req, res) {
@@ -16,9 +17,8 @@ export default handler({
           priority: 50
         },
         user: {
+          ...non_member_a,
           ip,
-          name: 'anonymous',
-          pw: 'password',
         },
       })
       .then(R.tap(console.log))

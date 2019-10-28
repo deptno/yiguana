@@ -2,6 +2,7 @@ import {createApi} from '../../../src/api'
 import {EValidationErrorMessage} from '../../../src/entity/error'
 import {bucketName, ddbClient, s3Client, tableName} from '../../env'
 import {clearData} from '../../setup'
+import {member_a, non_member_a, non_member_without_pw} from '../../__data__/user'
 
 describe('unit', () => {
   describe('api', () => {
@@ -10,9 +11,6 @@ describe('unit', () => {
       beforeAll(clearData)
 
       const api = createApi({ddbClient, s3Client, tableName, bucketName})
-      const nonMemberWithoutPw = {name: 'non member', pw: '', ip: '0.0.0.0'}
-      const nonMember = {name: 'non member', pw: 'pw', ip: '0.0.0.0'}
-
       it.todo('like, 혹은 like 를 포함한 view 모두가 다이나모디비에 저장되는 경우에는 추후 저장 용량의 부담이 생길 수 있음')
       it('list(0)', async () => {
         const {items} = await api.post.list({})
@@ -28,7 +26,7 @@ describe('unit', () => {
                 title: 'title',
                 category: 'news',
               },
-              user: nonMemberWithoutPw,
+              user: non_member_without_pw,
             })
           } catch (e) {
             expect(e.message).toEqual(EValidationErrorMessage.InvalidInput)
@@ -41,7 +39,7 @@ describe('unit', () => {
               title: 'title',
               category: 'news',
             },
-            user: nonMember,
+            user: non_member_a,
           })
           const {items} = await api.post.list({})
           expect(items.length).toEqual(1)
@@ -56,10 +54,7 @@ describe('unit', () => {
           expect(post.likes).toEqual(0)
           await api.post.like({
             data: post,
-            user: {
-              userId: 'member',
-              ip: '0.0.0.1',
-            },
+            user: member_a,
           })
           const nextPost = await api.post.read({data: post})
           expect(nextPost.likes).toEqual(1)
@@ -101,7 +96,7 @@ describe('unit', () => {
           expect(items.length).toEqual(1)
           const [post] = items
           expect(post.deleted).toEqual(undefined)
-          await api.post.del({data: post, user: nonMember})
+          await api.post.del({data: post, user: non_member_a})
           const nextPost = await api.post.read({data: post})
           expect(nextPost.deleted).toEqual(true)
         })

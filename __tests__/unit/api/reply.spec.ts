@@ -3,6 +3,7 @@ import {createApi} from '../../../src/api'
 import {Post} from '../../../src/entity/post'
 import {Comment} from '../../../src/entity/comment'
 import {bucketName, ddbClient, s3Client, tableName} from '../../env'
+import {non_member_a} from '../../__data__/user'
 
 describe('unit', () => {
   describe('api', () => {
@@ -44,11 +45,7 @@ describe('unit', () => {
             content: 'reply content',
             createdAt: new Date().toISOString(),
           },
-          user: {
-            name: 'not member',
-            pw: 'password',
-            ip: '0.0.0.1'
-          }
+          user: non_member_a
         })
         const {items} = await api.reply.list({commentId})
         expect(items.length).toEqual(1)

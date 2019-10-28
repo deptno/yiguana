@@ -4,6 +4,7 @@ import {Comment} from '../../../src/entity/comment'
 import {bucketName, ddbClient, s3Client, tableName} from '../../env'
 import {EPriority} from '../../../src/entity/enum'
 import {EValidationErrorMessage} from '../../../src/entity/error'
+import {member_a} from '../../__data__/user'
 
 describe('unit', () => {
   describe('api', () => {
@@ -52,10 +53,7 @@ describe('unit', () => {
                 content: 'test data',
                 priority: EPriority.Normal,
               },
-              user: {
-                userId: 'userId',
-                ip: '0.0.0.0',
-              },
+              user: member_a,
             })
           } catch (e) {
             expect(e.message).toEqual(EValidationErrorMessage.InvalidInput)

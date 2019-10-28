@@ -10,6 +10,7 @@ import {replyComment} from '../../../../src/store/dynamodb/reply-comment'
 import {comments} from '../../../../src/store/dynamodb/comments'
 import {updateReply} from '../../../../src/store/dynamodb/update-reply'
 import {removeReply} from '../../../../src/store/dynamodb/remove-reply'
+import {non_member_a} from '../../../__data__/user'
 
 describe('unit', function () {
   describe('store', function () {
@@ -42,11 +43,7 @@ describe('unit', function () {
                 content: 'reply content',
                 createdAt: new Date().toISOString(),
               },
-              user: {
-                name: 'not member',
-                pw: 'password',
-                ip: '0.0.0.1'
-              }
+              user: non_member_a
             })
             const replied = await addReply(opDdb, {
               data: reply,

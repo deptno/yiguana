@@ -1,5 +1,4 @@
 import {createPost, Post} from '../../../../src/entity/post'
-import {createPostContentUnSafe} from '../../../../src/entity/post/post-content'
 import {posts} from '../../../../src/store/dynamodb/posts'
 import {addPost} from '../../../../src/store/dynamodb/add-post'
 import {opDdb, opS3} from '../../../env'
@@ -10,6 +9,8 @@ import {likePost} from '../../../../src/store/dynamodb/like-post'
 import {viewPost} from '../../../../src/store/dynamodb/view-post'
 import {EEntity} from '../../../../src/entity/enum'
 import {updatePost} from '../../../../src/store/dynamodb/update-post'
+import {member_a, member_b, member_c} from '../../../__data__/user'
+import {createPostContentUnSafe} from '../../../../src/store/s3/create-post-content'
 
 describe('unit', function () {
   describe('store', function () {
@@ -45,10 +46,7 @@ describe('unit', function () {
                   title: 'latest',
                   content: 'content',
                 }),
-                user: {
-                  userId: 'aGun',
-                  ip: '0.0.0.0',
-                },
+                user: member_a,
               })
               await addPost(opDdb, {data: latestPost})
               const {items} = await posts(opDdb, {})
@@ -81,8 +79,8 @@ describe('unit', function () {
                 TableName: opDdb.tableName,
               })
 
-              expect(items.filter(t => t.rk === 'post').length).toEqual(before.length)
-              expect(items.filter(t => t.rk === 'post').length).toEqual(after.length + 1)
+              expect(items.filter(t => t.rk === EEntity.Post).length).toEqual(before.length)
+              expect(items.filter(t => t.rk === EEntity.Post).length).toEqual(after.length + 1)
 
             })
           })
@@ -125,7 +123,7 @@ describe('unit', function () {
 
         describe('postByUserId', function () {
           it('유저 리스트 aGun', async () => {
-            const {items} = await postsByUserId(opDdb, {userId: 'aGun'})
+            const {items} = await postsByUserId(opDdb, {userId: member_a.userId})
             console.debug('유저 리스트 aGun')
             console.table(items)
 
@@ -133,29 +131,29 @@ describe('unit', function () {
             expect(
               items
                 .map(p => p.userId)
-                .every(u => u === 'aGun'),
+                .every(u => u === member_a.userId),
             ).toBeTruthy()
           })
           it('유저 리스트 bGun', async () => {
-            const {items} = await postsByUserId(opDdb, {userId: 'bGun'})
+            const {items} = await postsByUserId(opDdb, {userId: member_b.userId})
             console.debug('유저 리스트 bGun')
             console.table(items)
 
             expect(
               items
                 .map(p => p.userId)
-                .every(u => u === 'bGun'),
+                .every(u => u === member_b.userId),
             ).toBeTruthy()
           })
           it('유저 리스트 cGun, 카테고리 kids', async () => {
-            const {items} = await postsByUserId(opDdb, {userId: 'cGun', category: 'kids'})
+            const {items} = await postsByUserId(opDdb, {userId: member_c.userId, category: 'kids'})
             console.debug('유저 리스트 cGun, 카테고리 kids')
             console.table(items)
 
             expect(
               items
                 .map(p => p.userId)
-                .every(u => u === 'cGun'),
+                .every(u => u === member_c.userId),
             ).toBeTruthy()
             expect(
               items
@@ -166,7 +164,7 @@ describe('unit', function () {
 
           describe('addPost', function () {
             it('유저 리스트 cGun, 카테고리 kids, 포스트 추가, 삭제 후 조회, 글 수 확인', async () => {
-              const {items: before} = await postsByUserId(opDdb, {userId: 'cGun', category: 'kids'})
+              const {items: before} = await postsByUserId(opDdb, {userId: member_c.userId, category: 'kids'})
               const beforeItemCount = before.length
 
               {
@@ -177,14 +175,11 @@ describe('unit', function () {
                         title: 'latest',
                         content: 'out of kids',
                       }),
-                      user: {
-                        userId: 'cGun',
-                        ip: '0.0.0.0',
-                      },
+                      user: member_c,
                     },
                   ),
                 })
-                const {items} = await postsByUserId(opDdb, {userId: 'cGun', category: 'kids'})
+                const {items} = await postsByUserId(opDdb, {userId: member_c.userId, category: 'kids'})
                 expect(items).toHaveLength(beforeItemCount)
               }
 
@@ -195,40 +190,37 @@ describe('unit', function () {
                       title: 'latest',
                       content: 'content',
                     }),
-                    user: {
-                      userId: 'cGun',
-                      ip: '0.0.0.0',
-                    },
+                    user: member_c,
                   },
                 ),
               })
 
-              const {items} = await postsByUserId(opDdb, {userId: 'cGun', category: 'kids'})
+              const {items} = await postsByUserId(opDdb, {userId: member_c.userId, category: 'kids'})
               console.debug('유저 리스트 cGun, 카테고리 kids')
               console.table(items)
 
               expect(
                 items
                   .map(p => p.userId)
-                  .every(u => u === 'cGun'),
+                  .every(u => u === member_c.userId),
               ).toBeTruthy()
               expect(
                 items
                   .map(p => p.category)
                   .every(c => c.startsWith('kids')),
               ).toBeTruthy()
-              expect(items.length).toBeGreaterThan(beforeItemCount)
+              expect(items.length > beforeItemCount).toEqual(true)
             })
           })
 
           describe('removePost', () => {
             // cGun 데이터만 추가/삭제하였으니 cGun 데이터는 잘 갱신되고 aGun 데이터는 무결함을 확인하는 테스트
             it('유저 리스트 cGun -> 포스트 추가 -> 포스트 삭제 -> 유저 리스트 aGun', async () => {
-              const {items: before} = await postsByUserId(opDdb, {userId: 'cGun'})
+              const {items: before} = await postsByUserId(opDdb, {userId: member_c.userId})
               console.debug('유저 리스트 cGun')
               console.table(before)
 
-              const {items: other} = await postsByUserId(opDdb, {userId: 'aGun'})
+              const {items: other} = await postsByUserId(opDdb, {userId: member_a.userId})
               console.debug('다른 유저 리스트 aGun')
               console.table(other)
 
@@ -241,10 +233,7 @@ describe('unit', function () {
                       title: 'latest',
                       content: 'content',
                     }),
-                    user: {
-                      userId: 'cGun',
-                      ip: '0.0.0.0',
-                    },
+                    user: member_c,
                   },
                 ),
               })
@@ -252,18 +241,18 @@ describe('unit', function () {
               const isDeleted = await removePost(opDdb, {hk: before[0].hk})
               expect(isDeleted).toEqual(true)
 
-              const {items: after} = await postsByUserId(opDdb, {userId: 'cGun'})
+              const {items: after} = await postsByUserId(opDdb, {userId: member_c.userId})
               console.table(after)
               expect(
                 after
-                  .filter(t => t.rk === 'post')
+                  .filter(t => t.rk === EEntity.Post)
                   .filter(t => !t.deleted)
                   .length,
               ).toEqual(before.length)
               expect(after.filter(t => t.deleted).length).toEqual(1)
 
               console.log('다른 유저 리스트 aGun')
-              const {items} = await postsByUserId(opDdb, {userId: 'aGun'})
+              const {items} = await postsByUserId(opDdb, {userId: member_a.userId})
               console.table(items)
               expect(items.length).toEqual(other.length)
             })
