@@ -52,9 +52,43 @@ export const Editor: FunctionComponent<Props> = props => {
     }
   }, [ref])
 
+  const [user, setUser] = useState('회원')
+  const handleRadioChange = (e) => setUser(e.target.value)
+  const isMember = user === '회원'
+
   return (
     <form className="black-80 mv3" onSubmit={R.compose(save, R.tap(e => e.preventDefault()))}>
-      <h3>비회원</h3>
+      <div className="flex flex-column">
+        <label>
+          <input type="radio" name="user" value="회원" onChange={handleRadioChange}/> 회원
+        </label>
+        <label>
+          <input type="radio" name="user" value="비회원" onChange={handleRadioChange} defaultChecked /> 비회원
+        </label>
+      </div>
+      <h3>{user}</h3>
+      <div className="flex justify-between">
+        <div className="flex-auto mh2">
+          <label htmlFor="name" className="f6 b db mb2">이름</label>
+          <input
+            id="name"
+            className="input-reset ba b--black-20 pa2 mb2 db w-100"
+            type="text"
+            aria-describedby="name"
+            disabled={isMember}
+          />
+        </div>
+        <div className="flex-auto mh2">
+          <label htmlFor="pw" className="f6 b db mb2">비밀번호</label>
+          <input
+            id="pw"
+            className="input-reset ba b--black-20 pa2 mb2 db w-100"
+            type="password"
+            aria-describedby="password"
+            disabled={isMember}
+          />
+        </div>
+      </div>
       <div className="flex justify-between">
         <div className="w4">
           <div className="flex flex-column items-stretch justify-between">
@@ -69,33 +103,14 @@ export const Editor: FunctionComponent<Props> = props => {
           </div>
         </div>
         <div className="flex-auto mh2">
-          <label htmlFor="name" className="f6 b db mb2">이름</label>
+          <label htmlFor="title" className="f6 b db mb2">제목</label>
           <input
-            id="name"
+            id="title"
             className="input-reset ba b--black-20 pa2 mb2 db w-100"
             type="text"
-            aria-describedby="name"
+            aria-describedby="title"
           />
         </div>
-        <div className="flex-auto mh2">
-          <label htmlFor="pw" className="f6 b db mb2">비밀번호</label>
-          <input
-            id="pw"
-            className="input-reset ba b--black-20 pa2 mb2 db w-100"
-            type="password"
-            aria-describedby="password"
-          />
-        </div>
-      </div>
-
-      <div className="flex-auto">
-        <label htmlFor="title" className="f6 b db mb2">제목</label>
-        <input
-          id="title"
-          className="input-reset ba b--black-20 pa2 mb2 db w-100"
-          type="text"
-          aria-describedby="title"
-        />
       </div>
       <div ref={ref}/>
       <LineSubmitButton>저장하기</LineSubmitButton>
