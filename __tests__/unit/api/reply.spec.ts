@@ -3,17 +3,12 @@ import {createApi} from '../../../src/api'
 import {Post} from '../../../src/entity/post'
 import {Comment} from '../../../src/entity/comment'
 import {bucketName, ddbClient, s3Client, tableName} from '../../env'
-import {non_member_a} from '../../__data__/user'
+import {member_f, non_member_a} from '../../__data__/user'
 
 describe('unit', () => {
   describe('api', () => {
     describe('reply', () => {
       const api = createApi({ddbClient, s3Client, tableName, bucketName})
-      const member = {
-        userId: 'member',
-        ip: '0.0.0.0',
-      }
-
       let post: Post
       let comment: Comment
       let commentId: string
@@ -25,7 +20,7 @@ describe('unit', () => {
             title: 'title',
             category: 'news',
           },
-          user: member,
+          user: member_f,
         })
         comment = await api.comment.create({
           data: {
@@ -33,7 +28,7 @@ describe('unit', () => {
             content: 'init data',
             priority: EPriority.Normal,
           },
-          user: member,
+          user: member_f,
         })
         commentId = comment.hk
       })

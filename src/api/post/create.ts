@@ -27,9 +27,9 @@ export async function create(ms: MetadataStore, cs: ContentStore, e: EntityFacto
 }
 
 const validateUser = (user: User) => {
-  if ('userId' in user) {
+  if ('id' in user) {
     // 회원
-    log('member', user.userId)
+    log('member', user.id)
   } else {
     // TODO: 비회원, 비회원이 우선순위
     const {name, pw} = user

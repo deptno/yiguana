@@ -13,7 +13,7 @@ export async function like(store: MetadataStore, ep: EntityFactory, input: LikeI
   if (!user) {
     throw new Error('user is required')
   }
-  if (!('userId' in user)) {
+  if (!('id' in user)) {
     throw new Error('user.userId is required')
   }
 

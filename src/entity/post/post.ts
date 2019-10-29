@@ -20,8 +20,8 @@ export function createPost(params: CreatePostInput): Post {
     category,
     order,
   }
-  if ('userId' in user) {
-    post.userId = user.userId
+  if ('id' in user) {
+    post.userId = user.id
   }
   if (data.cover) {
     post.cover = data.cover

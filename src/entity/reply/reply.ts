@@ -19,9 +19,9 @@ export function createReply(params: CreateReplyInput): Reply {
     createdAt,
     order
   }
-  if ('userId' in user) {
+  if ('id' in user) {
     // TODO: user 처리
-    reply.userId = user.userId
+    reply.userId = user.id
   }
 
   return reply

@@ -210,7 +210,7 @@ describe('unit', function () {
           }))
 
           it('comment 리스트 userId', async () => {
-            const {items} = await commentsByUserId(opDdb, {userId: member_d.userId})
+            const {items} = await commentsByUserId(opDdb, {userId: member_d.id})
             console.debug('comment 리스트 userId')
             console.table(items)
             expect(items.length).toEqual(1)
@@ -218,7 +218,7 @@ describe('unit', function () {
 
           // e 유저의 코멘트 조회 -> 코멘트 추가 -> 코멘트 재조회
           it('코멘트 리스트 e', async () => {
-            const {items} = await commentsByUserId(opDdb, {userId: member_e.userId})
+            const {items} = await commentsByUserId(opDdb, {userId: member_e.id})
             console.debug('코멘트 리스트 e')
             console.table(items)
             expect(items.length).toEqual(0)
@@ -238,7 +238,7 @@ describe('unit', function () {
             expect(commented).toEqual(comment)
 
             console.log('코멘트 리스트 e (재조회)')
-            const {items} = await commentsByUserId(opDdb, {userId: member_e.userId})
+            const {items} = await commentsByUserId(opDdb, {userId: member_e.id})
             console.debug('코멘트 리스트 e')
             console.table(items)
             expect(items.length).toEqual(1)
