@@ -23,6 +23,7 @@ import {replyComment, ReplyCommentInput} from './reply-comment'
 import {UpdateCommentReplyInput, updateReply} from './update-reply'
 import {RemoveCommentReplyInput, removeReply} from './remove-reply'
 import {addLike, AddLikeInput} from './add-like'
+import {getLike, GetLikeInput} from './get-like'
 
 export class MetadataStore {
   constructor(private operator: DynamoDBInput) {
@@ -123,6 +124,10 @@ export class MetadataStore {
 
   remove(input: RemoveInput) {
     return remove(this.operator, input)
+  }
+
+  getLike(input: GetLikeInput) {
+    return getLike(this.operator, input)
   }
 }
 

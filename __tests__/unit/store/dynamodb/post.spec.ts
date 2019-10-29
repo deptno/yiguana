@@ -9,8 +9,10 @@ import {likePost} from '../../../../src/store/dynamodb/like-post'
 import {viewPost} from '../../../../src/store/dynamodb/view-post'
 import {EEntity} from '../../../../src/entity/enum'
 import {updatePost} from '../../../../src/store/dynamodb/update-post'
-import {member_a, member_b, member_c} from '../../../__data__/user'
+import {member_a, member_b, member_c, member_e} from '../../../__data__/user'
 import {createPostContentUnSafe} from '../../../../src/store/s3/create-post-content'
+import {createLike} from '../../../../src/entity/like'
+import {addLike} from '../../../../src/store/dynamodb/add-like'
 
 describe('unit', function () {
   describe('store', function () {
@@ -99,8 +101,20 @@ describe('unit', function () {
 
             it('likePost', async () => {
               const {items: before} = await posts(opDdb, {})
-              const isLiked = await likePost(opDdb, {data: before[0]})
-              console.log(isLiked)
+              const like = createLike({
+                data: {
+                  entity: EEntity.Post,
+                  targetId: before[0].hk,
+                  createdAt: new Date().toISOString()
+                },
+                user: member_e
+              })
+              const saved = await addLike(opDdb, {data: like})
+              console.log({saved})
+
+              const likedPost = await likePost(opDdb, {data: before[0]})
+              expect(likedPost.hk).toEqual(before[0].hk)
+              expect(likedPost.likes).toEqual(before[0].likes + 1)
 
               const {items: after} = await posts(opDdb, {})
               expect(after[0].likes).toEqual(before[0].likes + 1)

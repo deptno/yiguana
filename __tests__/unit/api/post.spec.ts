@@ -52,10 +52,11 @@ describe('unit', () => {
           expect(items.length).toEqual(1)
           const [post] = items
           expect(post.likes).toEqual(0)
-          await api.post.like({
+          const response = await api.post.like({
             data: post,
             user: member_a,
           })
+          console.table({response})
           const nextPost = await api.post.read({data: post})
           expect(nextPost.likes).toEqual(1)
         })
