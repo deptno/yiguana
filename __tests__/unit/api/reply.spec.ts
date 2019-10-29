@@ -60,7 +60,8 @@ describe('unit', () => {
             hk: targetReply.hk,
             commentId,
             content
-          }
+          },
+          user: member_f
         })
         expect(updatedReply).not.toEqual(targetReply)
         const {items: after} = await api.reply.list({commentId})

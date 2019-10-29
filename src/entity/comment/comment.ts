@@ -29,7 +29,7 @@ export function createComment(params: CreateCommentInput): Comment {
 
 export type CreateCommentInput = {
   data: CommentUserInput
-  user?: User
+  user: User
 }
 export interface Comment extends YiguanaDocument {
   children: number

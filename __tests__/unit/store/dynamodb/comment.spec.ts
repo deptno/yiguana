@@ -83,6 +83,7 @@ describe('unit', function () {
                 content: 'comment',
                 priority: EPriority.Normal,
               },
+              user: member_e
             })
             const commented = await addComment(opDdb, {data: comment})
             console.table([comment, commented])

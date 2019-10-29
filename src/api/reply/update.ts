@@ -5,6 +5,7 @@ import {ReplyUpdateUserInput} from '../../entity/reply'
 
 export async function update(store: MetadataStore, ep: EntityFactory, input: UpdateInput) {
   const {data} = input
+
   return store.updateReply({
     data
   })
@@ -12,5 +13,5 @@ export async function update(store: MetadataStore, ep: EntityFactory, input: Upd
 
 export type UpdateInput = {
   data: ReplyUpdateUserInput
-  user?: User
+  user: User
 }
