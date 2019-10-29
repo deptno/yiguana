@@ -1,12 +1,19 @@
 import React from 'react'
 import App from 'next/app'
 import Head from 'next/dist/next-server/lib/head'
+import {UserSelector} from '../components/user/UserSelector'
+import {StorageContext} from '../context/StorageContext'
 
 export default class extends App {
+  state = {
+    storage: typeof localStorage !== 'undefined' ? localStorage : {},
+  }
+
   render() {
     const {Component, pageProps} = this.props
+
     return (
-      <>
+      <StorageContext.Provider value={this.state.storage}>
         <Head>
           <link
             rel="stylesheet"
@@ -21,8 +28,23 @@ export default class extends App {
           <link href="https://cdn.quilljs.com/1.3.6/quill.snow.css" rel="stylesheet"/>
           <script src="https://cdn.quilljs.com/1.3.6/quill.js"/>
         </Head>
-        <Component {...pageProps} />
-      </>
+        <div>
+          <UserSelector/>
+          <Component {...pageProps} />
+        </div>
+      </StorageContext.Provider>
     )
+  }
+
+  componentDidMount() {
+    window.addEventListener('storage', this.onStorageUpdate)
+  }
+
+  componentWillUnmount(): void {
+    window.removeEventListener('storage', this.onStorageUpdate)
+  }
+
+  onStorageUpdate = (e) => {
+    this.setState({storage: {...localStorage}})
   }
 }

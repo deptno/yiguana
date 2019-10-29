@@ -2,6 +2,7 @@ import React, {FunctionComponent, useEffect, useRef, useState} from 'react'
 import * as Q from 'quill'
 import {LineSubmitButton} from './LineSubmitButton'
 import * as R from 'ramda'
+import {getUserName, isMember} from '../../lib/storage/user'
 
 export const Editor: FunctionComponent<Props> = props => {
   const ref = useRef()
@@ -52,21 +53,10 @@ export const Editor: FunctionComponent<Props> = props => {
     }
   }, [ref])
 
-  const [user, setUser] = useState('회원')
-  const handleRadioChange = (e) => setUser(e.target.value)
-  const isMember = user === '회원'
-
   return (
     <form className="black-80 mv3" onSubmit={R.compose(save, R.tap(e => e.preventDefault()))}>
-      <div className="flex flex-column">
-        <label>
-          <input type="radio" name="user" value="회원" onChange={handleRadioChange}/> 회원
-        </label>
-        <label>
-          <input type="radio" name="user" value="비회원" onChange={handleRadioChange} defaultChecked /> 비회원
-        </label>
-      </div>
-      <h3>{user}</h3>
+
+      <h3>{getUserName()}</h3>
       <div className="flex justify-between">
         <div className="flex-auto mh2">
           <label htmlFor="name" className="f6 b db mb2">이름</label>
@@ -75,7 +65,7 @@ export const Editor: FunctionComponent<Props> = props => {
             className="input-reset ba b--black-20 pa2 mb2 db w-100"
             type="text"
             aria-describedby="name"
-            disabled={isMember}
+            disabled={isMember()}
           />
         </div>
         <div className="flex-auto mh2">
@@ -85,7 +75,7 @@ export const Editor: FunctionComponent<Props> = props => {
             className="input-reset ba b--black-20 pa2 mb2 db w-100"
             type="password"
             aria-describedby="password"
-            disabled={isMember}
+            disabled={isMember()}
           />
         </div>
       </div>
