@@ -56,10 +56,7 @@ describe('unit', function () {
                 content: 'comment',
                 priority: EPriority.Normal,
               },
-              user: {
-                userId: 'e',
-                ip: '0.0.0.0',
-              },
+              user: member_e,
             })
             const commented = await addComment(opDdb, {data: comment})
             console.table([comment, commented])
@@ -241,7 +238,7 @@ describe('unit', function () {
             expect(commented).toEqual(comment)
 
             console.log('코멘트 리스트 e (재조회)')
-            const {items} = await commentsByUserId(opDdb, {userId: 'e'})
+            const {items} = await commentsByUserId(opDdb, {userId: member_e.userId})
             console.debug('코멘트 리스트 e')
             console.table(items)
             expect(items.length).toEqual(1)

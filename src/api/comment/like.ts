@@ -2,10 +2,9 @@ import {MetadataStore} from '../../store/dynamodb'
 import {EntityFactory} from '../../entity'
 import {YiguanaDocumentHash} from '../../dynamodb/yiguana-document'
 import {EEntity} from '../../entity/enum'
-import {User} from '../../entity/user'
+import {Member} from '../../entity/user'
 import {Comment} from '../../entity/comment'
 import * as R from 'ramda'
-import {Post} from '../../entity/post'
 
 export async function like(store: MetadataStore, ep: EntityFactory, input: LikeInput) {
   const {data, user} = input
@@ -28,5 +27,5 @@ export async function like(store: MetadataStore, ep: EntityFactory, input: LikeI
 
 export type LikeInput = {
   data: YiguanaDocumentHash
-  user: User
+  user: Member
 }
