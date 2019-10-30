@@ -7,9 +7,7 @@ import {Post} from '../../entity/post'
 import * as R from 'ramda'
 
 export async function like(store: MetadataStore, ep: EntityFactory, input: LikeInput) {
-  // FIXME: like 가 이미 존재할 시 에는 unlike 가 동작해야한다.
   const {data, user} = input
-
   if (!user) {
     throw new Error('user is required')
   }
@@ -17,11 +15,12 @@ export async function like(store: MetadataStore, ep: EntityFactory, input: LikeI
     throw new Error('user.userId is required')
   }
 
+  // like 가 이미 존재할 시 에는 unlike 가 동작해야한다.
   /* FIXME:
    *  getLike 시와 createLike 시에 input이 같으니 이를 공통으로 빼려고 했는데
    *  incompatible이랑 entity 관련 에러로 처리 못함...
    */
-  const isExist = await store.getLike({
+  const likeInfos = await store.getLike({
     data: {
       targetId: data.hk,
       entity: EEntity.Post,
@@ -29,10 +28,16 @@ export async function like(store: MetadataStore, ep: EntityFactory, input: LikeI
     },
     user: user
   })
-  if (isExist) {
-    console.log('already exists')
-    // TODO: unlike 처리
-    return
+  console.log({likeInfos})
+  const likeInfo = likeInfos.items[0]
+  if (likeInfo !== undefined) {
+    console.log('like already exists')
+    return Promise
+      .all([
+        store.removeLike({data: likeInfo}),
+        store.unlikePost({data: data}),
+      ])
+      .then<Post>(R.view(R.lensIndex(1)))
   }
 
   const like = ep.createLike({

@@ -5,5 +5,5 @@ export enum EIndexName {
   Comment = 'postId-createdAt-index',
   Replies = 'replies',
   ByUser = 'by-user',
-  Like = 'like',
+  RkLike = 'rk-like-index',
 }

@@ -196,10 +196,10 @@ module.exports = {
           },
         },
         {
-          'IndexName'            : 'like-index',
+          'IndexName'            : 'rk-like-index',
           'KeySchema'            : [
             {
-              'AttributeName': 'hk',
+              'AttributeName': 'rk',
               'KeyType'      : 'HASH'
             },
             {

@@ -24,6 +24,7 @@ import {UpdateCommentReplyInput, updateReply} from './update-reply'
 import {RemoveCommentReplyInput, removeReply} from './remove-reply'
 import {addLike, AddLikeInput} from './add-like'
 import {getLike, GetLikeInput} from './get-like'
+import {removeLike} from './remove-like'
 
 export class MetadataStore {
   constructor(private operator: DynamoDBInput) {
@@ -92,6 +93,10 @@ export class MetadataStore {
 
   addLike(input: AddLikeInput) {
     return addLike(this.operator, input)
+  }
+
+  removeLike(input: AddLikeInput) {
+    return removeLike(this.operator, input)
   }
 
   likeComment(input: LikeCommentInput) {
