@@ -12,16 +12,11 @@ export async function getLike(operator: DynamoDBInput, params: GetLikeInput) {
     TableName: tableName,
     Key: {
       rk: EEntity.Like,
-      like: [user.userId, entity, targetId].join('#'),
+      like: [user.id, entity, targetId].join('#'),
     },
   })
-
   console.log({response})
-  if (response) {
-    return true
-  } else {
-    return false
-  }
+  return Boolean(response)
 }
 
 export type GetLikeInput = {

@@ -56,7 +56,7 @@ describe('unit', () => {
             data: post,
             user: member_a,
           })
-          console.table({response})
+          console.log({response})
           const nextPost = await api.post.read({data: post})
           expect(nextPost.likes).toEqual(1)
         })
