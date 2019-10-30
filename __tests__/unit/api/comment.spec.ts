@@ -4,17 +4,12 @@ import {Comment} from '../../../src/entity/comment'
 import {bucketName, ddbClient, s3Client, tableName} from '../../env'
 import {EPriority} from '../../../src/entity/enum'
 import {EValidationErrorMessage} from '../../../src/entity/error'
-import {member_a} from '../../__data__/user'
+import {member_a, member_f} from '../../__data__/user'
 
 describe('unit', () => {
   describe('api', () => {
     describe('comment', () => {
       const api = createApi({ddbClient, s3Client, tableName, bucketName})
-      const member = {
-        userId: 'member',
-        ip: '0.0.0.0',
-      }
-
       let post: Post
       let comment: Comment
 
@@ -25,7 +20,7 @@ describe('unit', () => {
             title: 'title',
             category: 'news',
           },
-          user: member,
+          user: member_f,
         })
         comment = await api.comment.create({
           data: {
@@ -33,7 +28,7 @@ describe('unit', () => {
             content: 'init data',
             priority: EPriority.Normal,
           },
-          user: member,
+          user: member_f,
         })
       })
 
@@ -86,7 +81,8 @@ describe('unit', () => {
           const likedComment = await api.comment.like({
             data: comment,
             user: {
-              userId: 'userId',
+              id: 'userId',
+              name: 'k',
               ip: '0.0.0.0',
             }
           })

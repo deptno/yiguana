@@ -1,12 +1,12 @@
 export type User = Member|NonMember
 type Metadata = {
   ip: string
+  name: string
 }
 export type Member = Metadata & {
-  userId: string
+  id: string
 }
 export type NonMember = Metadata & {
-  name: string
   pw: string
 }
 

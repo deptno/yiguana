@@ -20,8 +20,8 @@ export function createComment(params: CreateCommentInput): Comment {
     createdAt,
   }
 
-  if (user && 'userId' in user) {
-    comment.userId = user.userId
+  if ('id' in user) {
+    comment.userId = user.id
   }
 
   return comment
@@ -29,7 +29,7 @@ export function createComment(params: CreateCommentInput): Comment {
 
 export type CreateCommentInput = {
   data: CommentUserInput
-  user?: User
+  user: User
 }
 export interface Comment extends YiguanaDocument {
   children: number

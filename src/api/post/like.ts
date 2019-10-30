@@ -10,6 +10,13 @@ export async function like(store: MetadataStore, ep: EntityFactory, input: LikeI
   // FIXME: like 가 이미 존재할 시 에는 unlike 가 동작해야한다.
   const {data, user} = input
 
+  if (!user) {
+    throw new Error('user is required')
+  }
+  if (!('id' in user)) {
+    throw new Error('user.userId is required')
+  }
+
   /* FIXME:
    *  getLike 시와 createLike 시에 input이 같으니 이를 공통으로 빼려고 했는데
    *  incompatible이랑 entity 관련 에러로 처리 못함...
@@ -27,13 +34,6 @@ export async function like(store: MetadataStore, ep: EntityFactory, input: LikeI
     // TODO: unlike 처리
     return
   }
-
-//  if (!user) {
-//    throw new Error('user is required')
-//  }
-//  if (!('userId' in user)) {
-//    throw new Error('user.userId is required')
-//  }
 
   const like = ep.createLike({
     data: {

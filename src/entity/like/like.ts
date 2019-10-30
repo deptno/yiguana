@@ -10,7 +10,7 @@ export function createLike(params: CreateLikeInput): Like {
   const like: Like = {
     hk: uuid(),
     rk: EEntity.Like,
-    like: [user.userId, entity, targetId].join('#'),
+    like: [user.id, entity, targetId].join('#'),
     createdAt
   }
   return like
