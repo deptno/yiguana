@@ -16,29 +16,31 @@ export const Editor: FunctionComponent<Props> = props => {
     const title = e.target.elements.title.value.trim()
     const content = editor.getText()
 
-    if (!name) {
-      e.target.elements.name.focus()
-      return alert('빈 이름')
-    }
-    if (!pw) {
-      e.target.elements.pw.focus()
-      return alert('빈 비밀번호')
+    if (!member) {
+      if (!name) {
+        e.target.elements.name.focus()
+        return alert('빈 이름')
+      }
+      if (!pw) {
+        e.target.elements.pw.focus()
+        return alert('빈 비밀번호')
+      }
     }
     if (!title) {
       e.target.elements.title.focus()
       return alert('빈 제목')
     }
 
+    const userData = member
+      ? user
+      : {name, pw}
     const body = JSON.stringify({
       data: {
         category,
         title,
         content,
       },
-      user: {
-        name,
-        pw,
-      },
+      user: userData,
     })
 
     fetch('api/post', {
@@ -59,13 +61,12 @@ export const Editor: FunctionComponent<Props> = props => {
   return (
     <form className="black-80 mv3" onSubmit={R.compose(save, R.tap(e => e.preventDefault()))}>
       <style jsx>
-        { /* language=CSS */ `
+        {/* language=CSS */ `
             input[type="text"]:disabled, input[type="password"]:disabled {
                 background: #dddddd;
             }
         `}
       </style>
-
       <h3>{getUserName()}</h3>
       <div className="flex justify-between">
         <div className="flex-auto mh2">
