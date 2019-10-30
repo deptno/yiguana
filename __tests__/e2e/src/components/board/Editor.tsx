@@ -1,12 +1,14 @@
-import React, {FunctionComponent, useEffect, useRef, useState} from 'react'
+import React, {FunctionComponent, useContext, useEffect, useMemo, useRef, useState} from 'react'
 import * as Q from 'quill'
 import {LineSubmitButton} from './LineSubmitButton'
 import * as R from 'ramda'
 import {getUserName, isMember} from '../../lib/storage/user'
+import {StorageContext} from '../../context/StorageContext'
 
 export const Editor: FunctionComponent<Props> = props => {
   const ref = useRef()
   const [editor, setEditor] = useState<Q.Quill>()
+  const {user} = useContext(StorageContext)
   const save = (e) => {
     const name = e.target.elements.name.value.trim()
     const pw = e.target.elements.pw.value
@@ -52,9 +54,17 @@ export const Editor: FunctionComponent<Props> = props => {
       setEditor(new Quill(ref.current, {theme: 'snow'}))
     }
   }, [ref])
+  const member = useMemo(() => isMember(user), [user])
 
   return (
     <form className="black-80 mv3" onSubmit={R.compose(save, R.tap(e => e.preventDefault()))}>
+      <style jsx>
+        { /* language=CSS */ `
+            input[type="text"]:disabled, input[type="password"]:disabled {
+                background: #dddddd;
+            }
+        `}
+      </style>
 
       <h3>{getUserName()}</h3>
       <div className="flex justify-between">
@@ -65,7 +75,7 @@ export const Editor: FunctionComponent<Props> = props => {
             className="input-reset ba b--black-20 pa2 mb2 db w-100"
             type="text"
             aria-describedby="name"
-            disabled={isMember()}
+            disabled={member}
           />
         </div>
         <div className="flex-auto mh2">
@@ -75,7 +85,7 @@ export const Editor: FunctionComponent<Props> = props => {
             className="input-reset ba b--black-20 pa2 mb2 db w-100"
             type="password"
             aria-describedby="password"
-            disabled={isMember()}
+            disabled={member}
           />
         </div>
       </div>

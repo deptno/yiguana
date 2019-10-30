@@ -3,9 +3,13 @@ export const get = (key: string) => {
     return localStorage.getItem(key)
   }
 }
-export const set = (key: string, value) => {
+export const set = (key: string, newValue) => {
   if (typeof localStorage !== 'undefined') {
-    localStorage.setItem(key, value)
-    window.dispatchEvent(new Event('storage'))
+    localStorage.setItem(key, newValue)
+    window.dispatchEvent(new StorageEvent('storage', {
+      key,
+      newValue,
+      oldValue: get(key),
+    }))
   }
 }
