@@ -25,9 +25,8 @@ export const getUserName = () => {
     return user.name
   }
 }
-export const isMember = () => {
-  const user = getUser()
-
+export const isMember = (user) => {
+  console.log('member', user)
   if (user) {
     if (user['id']) {
       return true

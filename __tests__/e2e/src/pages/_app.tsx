@@ -6,7 +6,7 @@ import {StorageContext} from '../context/StorageContext'
 
 export default class extends App {
   state = {
-    storage: typeof localStorage !== 'undefined' ? localStorage : {},
+    storage: {user: null},
   }
 
   render() {
@@ -45,6 +45,11 @@ export default class extends App {
   }
 
   onStorageUpdate = (e) => {
-    this.setState({storage: {...localStorage}})
+    this.setState({
+      storage: {
+        ...localStorage,
+        [e.key]: JSON.parse(e.newValue),
+      },
+    })
   }
 }

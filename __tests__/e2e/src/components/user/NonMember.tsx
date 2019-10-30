@@ -2,9 +2,11 @@ import React, {FunctionComponent} from 'react'
 import {NonMember as TNonMember} from '../../../../../src/entity/user'
 
 export const NonMember: FunctionComponent<Props> = props => {
+  const {user} = props
+
   return (
     <label>
-      <input type="radio" name="user" value={props.user.name} onChange={props.onChange}/> 비회원 {props.user.name}
+      <input type="radio" name="user" value={user.name} onChange={() => props.onChange(user)}/> 비회원 {user.name}
     </label>
   )
 }

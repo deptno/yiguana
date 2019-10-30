@@ -13,14 +13,13 @@ const nonMembers = users.filter<TNonMember>(R.compose(R.isNil, R.prop('id')))
 
 export const UserSelector: FunctionComponent<Props> = props => {
   const storage = useContext(StorageContext)
-  const handleRadioChange = (e) => setUser(e.target.value)
 
   return (
     <div className="pa3 flex-column">
       <div className="flex flex-column">
         {JSON.stringify(R.prop('user', storage))}
-        {members.map(user => <Member key={user.id} user={user} onChange={handleRadioChange}/>)}
-        {nonMembers.map(user => <NonMember key={user.name} user={user} onChange={handleRadioChange}/>)}
+        {members.map(user => <Member key={user.id} user={user} onChange={setUser}/>)}
+        {nonMembers.map(user => <NonMember key={user.name} user={user} onChange={setUser}/>)}
       </div>
     </div>
   )
