@@ -4,7 +4,7 @@ import {Like} from '../../entity/like'
 export function removeLike(operator: DynamoDBInput, params: RemoveLikeInput) {
   const {dynamodb, tableName} = operator
   const {data} = params
-  const {hk, rk, like, createdAt} = data
+  const {hk, rk} = data
 
   return dynamodb.del(
     {
@@ -19,5 +19,5 @@ export function removeLike(operator: DynamoDBInput, params: RemoveLikeInput) {
 }
 
 export type RemoveLikeInput = {
-  data: Like
+  data: Pick<Like, 'hk'|'rk'>
 }

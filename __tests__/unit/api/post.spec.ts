@@ -52,7 +52,7 @@ describe('unit', () => {
           expect(items.length).toEqual(1)
           const [post] = items
           expect(post.likes).toEqual(0)
-          const response = await api.post.like({
+          await api.post.like({
             data: post,
             user: member_a,
           })
@@ -64,18 +64,26 @@ describe('unit', () => {
           expect(items.length).toEqual(1)
           const [post] = items
           expect(post.likes).toEqual(1)
-          const response1 = await api.post.like({
+
+          await api.post.like({
             data: post,
             user: member_b,
           })
+          const firstPost = await api.post.read({data: post})
+          expect(firstPost.likes).toEqual(2)
+          const {items: before} = await api.post.list({})
+          console.table(before)
+
           console.debug('like post 1회 수행하여 like가 이미 존재할 시 unlike 동작')
-          const response2 = await api.post.like({
+          await api.post.like({
             data: post,
             user: member_b,
           })
-          const nextPost = await api.post.read({data: post})
+          const secondPost = await api.post.read({data: post})
           console.debug('member_b의 좋아요는 취소가 되고 member_a가 좋아요 했던 것만 남아서 1이 기대값')
-          expect(nextPost.likes).toEqual(1)
+          expect(secondPost.likes).toEqual(1)
+          const {items: after} = await api.post.list({})
+          console.table(after)
         })
         it.todo(`unlike
 좋아요를 취소하기 위해서는 자신이 좋아요를 눌렀던 것인지에 대한 정보가 필요')

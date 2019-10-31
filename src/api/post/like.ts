@@ -24,7 +24,6 @@ export async function like(store: MetadataStore, ep: EntityFactory, input: LikeI
     data: {
       targetId: data.hk,
       entity: EEntity.Post,
-      createdAt: new Date().toISOString(), // 사실 조회할 때에는 불필요한데
     },
     user: user
   })
