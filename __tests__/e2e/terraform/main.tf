@@ -14,6 +14,10 @@ resource aws_dynamodb_table yiguana {
     type = "S"
   }
   attribute {
+    name = "like"
+    type = "S"
+  }
+  attribute {
     name = "rk"
     type = "S"
   }
@@ -42,49 +46,51 @@ resource aws_dynamodb_table yiguana {
     type = "S"
   }
   attribute {
-    name = "rk"
-    type = "S"
-  }
-  attribute {
     name = "userId"
     type = "S"
   }
 
   global_secondary_index {
-    name = "by-user"
-    hash_key = "userId"
-    range_key = "order"
-    projection_type = "ALL"
-  }
-  global_secondary_index {
-    name = "userId-order-index"
-    hash_key = "userId"
-    range_key = "category"
-    projection_type = "ALL"
-  }
-  global_secondary_index {
-    name = "rk-category-index"
-    hash_key = "rk"
-    range_key = "category"
-    projection_type = "ALL"
-  }
-  global_secondary_index {
-    name = "postId-order-index"
-    hash_key = "postId"
-    range_key = "order"
-    projection_type = "ALL"
-  }
-  global_secondary_index {
-    name = "postId-createdAt-index"
-    hash_key = "postId"
-    range_key = "createdAt"
-    projection_type = "ALL"
-  }
-  global_secondary_index {
-    name = "replies"
     hash_key = "commentId"
-    range_key = "order"
+    name = "replies"
     projection_type = "ALL"
+    range_key = "order"
+  }
+  global_secondary_index {
+    hash_key = "postId"
+    name = "postId-createdAt-index"
+    projection_type = "ALL"
+    range_key = "createdAt"
+  }
+  global_secondary_index {
+    hash_key = "postId"
+    name = "postId-order-index"
+    projection_type = "ALL"
+    range_key = "order"
+  }
+  global_secondary_index {
+    hash_key = "rk"
+    name = "rk-category-index"
+    projection_type = "ALL"
+    range_key = "category"
+  }
+  global_secondary_index {
+    hash_key = "rk"
+    name = "rk-like-index"
+    projection_type = "ALL"
+    range_key = "like"
+  }
+  global_secondary_index {
+    hash_key = "userId"
+    name = "by-user"
+    projection_type = "ALL"
+    range_key = "order"
+  }
+  global_secondary_index {
+    hash_key = "userId"
+    name = "userId-order-index"
+    projection_type = "ALL"
+    range_key = "category"
   }
 }
 
