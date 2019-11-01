@@ -3,7 +3,7 @@ import {EEntity} from '../../entity/enum'
 import {Member} from '../../entity/user'
 import {LikeInput} from '../../entity/like/user-input'
 import {Like} from '../../entity/like'
-import {EIndexName} from '../../entity/dynamodb/enum'
+import {EIndexName} from '../../dynamodb/yiguana-index'
 
 export async function getLike<T = Like>(operator: DynamoDBInput, params: GetLikeInput) {
   const {dynamodb, tableName} = operator

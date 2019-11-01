@@ -1,6 +1,5 @@
 import {YiguanaDocument} from '../../dynamodb/yiguana-document'
 import {Member} from '../user'
-import {uuid} from '../../lib/uuid'
 import {LikeInput} from './user-input'
 import {EEntity} from '../enum'
 
@@ -8,10 +7,10 @@ export function createLike(params: CreateLikeInput): Like {
   const {user, data} = params
   const {entity, targetId, createdAt} = data
   const like: Like = {
-    hk: uuid(),
+    hk: [targetId, user.id].join('#'),
     rk: EEntity.Like,
     like: [user.id, entity, targetId].join('#'),
-    createdAt
+    createdAt,
   }
   return like
 }
