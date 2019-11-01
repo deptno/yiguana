@@ -9,15 +9,12 @@ import * as R from 'ramda'
 export async function like(store: MetadataStore, ep: EntityFactory, input: LikeInput) {
   const {data, user} = input
 
-  const likeInfos = await store.getLike({
+  const likeInfo = await store.getLike({
     data: {
       targetId: data.hk,
-      entity: EEntity.Comment,
     },
     user: user
   })
-  console.log({likeInfos})
-  const likeInfo = likeInfos.items[0]
   if (likeInfo !== undefined) {
     console.log('like already exists')
     return Promise

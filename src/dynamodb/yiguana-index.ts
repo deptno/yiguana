@@ -21,9 +21,3 @@ export enum EIndexName {
   ByUser = 'by-user',
   RkLike = 'rk-like-index',
 }
-
-export const rkCategoryIndex = new YiguanaIndex<{ a: number }, {b: number}>(
-  EIndexName.RkCategory,
-  util.createKey(['a'], {a: v => parseInt(v)}),
-)
-

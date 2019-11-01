@@ -20,16 +20,14 @@ export async function like(store: MetadataStore, ep: EntityFactory, input: LikeI
    *  getLike 시와 createLike 시에 input이 같으니 이를 공통으로 빼려고 했는데
    *  incompatible이랑 entity 관련 에러로 처리 못함...
    */
-  const {items} = await store.getLike({
+  const likeInfo = await store.getLike({
     data: {
       targetId: data.hk,
-      entity: EEntity.Post,
     },
     user: user
   })
-  console.log(items.length)
 
-  const [likeInfo] = items
+  console.log({likeInfo})
   if (likeInfo) {
     console.log(JSON.stringify({likeInfo}, null, 2))
     console.log('like already exists')
