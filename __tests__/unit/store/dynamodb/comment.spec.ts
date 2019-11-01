@@ -192,9 +192,7 @@ describe('unit', function () {
           describe('unlikeComment', function() {
             it('unlikeComment', async () => {
               const {items: before} = await comments(opDdb, {postId: commentedPost.hk})
-              const isUnliked = await unlikeComment(opDdb, {hk: before[0].hk})
-              expect(isUnliked).toEqual(true)
-
+              await unlikeComment(opDdb, {data: before[0]})
               const {items: after} = await comments(opDdb, {postId: commentedPost.hk})
               expect(after[0].likes).toEqual(before[0].likes - 1)
 
