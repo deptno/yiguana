@@ -3,8 +3,7 @@ import {EntityFactory} from '../../entity'
 import {YiguanaDocumentHash} from '../../dynamodb/yiguana-document'
 import {Member} from '../../entity/user'
 import {EEntity} from '../../entity/enum'
-import {Post} from '../../entity/post'
-import {Comment} from '../../entity/comment'
+import {Reply} from '../../entity/reply'
 import * as R from 'ramda'
 
 export async function like(store: MetadataStore, ep: EntityFactory, input: LikeInput) {
@@ -26,7 +25,7 @@ export async function like(store: MetadataStore, ep: EntityFactory, input: LikeI
         store.removeLike({data: likeInfo}),
         store.unlikeReply({data: data}),
       ])
-      .then<Post>(R.view(R.lensIndex(1)))
+      .then<Reply>(R.view(R.lensIndex(1)))
   }
 
   const like = ep.createLike({
@@ -43,7 +42,7 @@ export async function like(store: MetadataStore, ep: EntityFactory, input: LikeI
       store.addLike({data: like}),
       store.likeReply({data}),
     ])
-    .then<Comment>(R.view(R.lensIndex(1)))
+    .then<Reply>(R.view(R.lensIndex(1)))
 }
 
 export type LikeInput = {

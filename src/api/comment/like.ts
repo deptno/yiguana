@@ -5,7 +5,6 @@ import {EEntity} from '../../entity/enum'
 import {Member} from '../../entity/user'
 import {Comment} from '../../entity/comment'
 import * as R from 'ramda'
-import {Post} from '../../entity/post'
 
 export async function like(store: MetadataStore, ep: EntityFactory, input: LikeInput) {
   const {data, user} = input
@@ -26,7 +25,7 @@ export async function like(store: MetadataStore, ep: EntityFactory, input: LikeI
         store.removeLike({data: likeInfo}),
         store.unlikeComment({data: data}),
       ])
-      .then<Post>(R.view(R.lensIndex(1)))
+      .then<Comment>(R.view(R.lensIndex(1)))
   }
 
   const like = ep.createLike({
