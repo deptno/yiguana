@@ -10,7 +10,10 @@ import {replyComment} from '../../../../src/store/dynamodb/reply-comment'
 import {comments} from '../../../../src/store/dynamodb/comments'
 import {updateReply} from '../../../../src/store/dynamodb/update-reply'
 import {removeReply} from '../../../../src/store/dynamodb/remove-reply'
-import {non_member_a} from '../../../__data__/user'
+import {member_e, non_member_a} from '../../../__data__/user'
+import {createLike} from '../../../../src/entity/like'
+import {addLike} from '../../../../src/store/dynamodb/add-like'
+import {likeReply} from '../../../../src/store/dynamodb/like-reply'
 
 describe('unit', function () {
   describe('store', function () {
@@ -82,6 +85,29 @@ describe('unit', function () {
             })
             const {items: after} = await replies(opDdb, {commentId: repliedComment.hk})
             console.table(after) // expect 비교군이 생각이 안 나고 일단 로그로 확인하라
+          })
+          it('like reply', async() => {
+            const {items: commentItems} = await comments(opDdb, {postId: commentedPost.hk})
+            const repliedComment = commentItems.find(c => c.hk === commentId)!
+
+            const {items: replyItems} = await replies(opDdb, {commentId: repliedComment.hk})
+            const targetReply = replyItems[0]
+            expect(targetReply).not.toEqual(undefined)
+
+            const like = createLike({
+              data: {
+                entity: EEntity.Reply,
+                targetId: targetReply.hk,
+                createdAt: new Date().toISOString()
+              },
+              user: member_e,
+            })
+            const saved = await addLike(opDdb, {data: like})
+            console.log({saved})
+
+            const likedReply = await likeReply(opDdb, {data: targetReply})
+            expect(likedReply.hk).toEqual(targetReply.hk)
+            expect(likedReply.likes).toEqual(targetReply.likes + 1)
           })
           it('remove reply', async() => {
             const {items: commentItems} = await comments(opDdb, {postId: commentedPost.hk})

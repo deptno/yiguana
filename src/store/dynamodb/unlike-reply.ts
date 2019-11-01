@@ -1,8 +1,9 @@
 import {DynamoDBInput} from '../../entity/input/dynamodb'
-import {EEntity} from '../../entity/enum'
+import {Post} from '../../entity/post'
 import {YiguanaDocumentHash} from '../../dynamodb/yiguana-document'
+import {EEntity} from '../../entity/enum'
 
-export async function unlikeComment(operator: DynamoDBInput, params: UnlikeCommentInput) {
+export async function unlikeReply(operator: DynamoDBInput, params: UnlikeReplyInput) {
   const {dynamodb, tableName} = operator
   const {data} = params
   const {hk} = data
@@ -12,7 +13,7 @@ export async function unlikeComment(operator: DynamoDBInput, params: UnlikeComme
     TableName                : tableName,
     Key                      : {
       hk,
-      rk: EEntity.Comment
+      rk: EEntity.Reply
     },
     UpdateExpression         : 'SET #v = #v - :v',
     ExpressionAttributeNames : {
@@ -22,10 +23,10 @@ export async function unlikeComment(operator: DynamoDBInput, params: UnlikeComme
       ':v': 1
     }
   })
-  if (response)
-    return response.Attributes as Comment
+  if (response) {
+    return response.Attributes as Post
+  }
 }
-
-export type UnlikeCommentInput = {
+export type UnlikeReplyInput = {
   data: YiguanaDocumentHash
 }
