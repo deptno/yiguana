@@ -5,14 +5,18 @@ export const NonMember: FunctionComponent<Props> = props => {
   const {user, defaultChecked} = props
 
   return (
-    <label>
+    <label className="w4">
       <input
+        className="mr1"
         type="radio"
         name="user"
         value={user.name}
         onChange={() => props.onChange(user)}
         defaultChecked={defaultChecked}
-      /> 비회원 {user.name}
+      />
+      <span>
+        {user.name}({user.pw})
+      </span>
     </label>
   )
 }

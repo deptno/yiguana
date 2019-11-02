@@ -51,10 +51,11 @@ export default class extends App {
   }
 
   onStorageUpdate = (e: StorageEvent) => {
+    const {ip, ...value} = JSON.parse(e.newValue)
     this.setState({
       storage: {
         ...localStorage,
-        [e.key]: JSON.parse(e.newValue),
+        [e.key]: value
       },
     })
   }
