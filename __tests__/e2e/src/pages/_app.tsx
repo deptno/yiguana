@@ -4,6 +4,7 @@ import Head from 'next/dist/next-server/lib/head'
 import {UserSelector} from '../components/user/UserSelector'
 import {StorageContext} from '../context/StorageContext'
 import {set} from '../lib/storage/storage'
+import Link from 'next/link'
 
 export default class extends App {
   state = {
@@ -31,6 +32,13 @@ export default class extends App {
         </Head>
         <div>
           <UserSelector/>
+          <nav className="pt3">
+            <ul className="list lh-copy flex">
+              <li><Link href="/"><a className="link black hover-white hover-bg-blue br1 pa1 mr3">보드</a></Link></li>
+              <li><Link href="/my-page"><a className="link black hover-white hover-bg-blue br1 pa1 mr3">마이페이지</a></Link></li>
+              <li><Link href="/admin"><a className="link black hover-white hover-bg-blue br1 pa1 mr3">관리자</a></Link></li>
+            </ul>
+          </nav>
           <Component {...pageProps} />
         </div>
       </StorageContext.Provider>

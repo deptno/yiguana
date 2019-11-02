@@ -15,31 +15,34 @@ export const UserSelector: FunctionComponent<Props> = props => {
   const {user: currentUser} = useContext(StorageContext)
 
   return (
-    <div className="pa3 flex-column bg-black-05">
-      <pre className="mv0 pv0 lh-copy">선택된 유저 정보: {JSON.stringify(currentUser)}</pre>
-      <div className="flex">
-        <span className="w4">회원 name(id)</span>
-        {members.map(user =>
-          <Member
-            key={user.id}
-            user={user}
-            onChange={setUser}
-            defaultChecked={R.o(R.equals(user.id), R.prop('id'), currentUser)}
-          />,
-        )}
+    <>
+      <div className="ph3 pv2 flex-column bg-near-white fixed w-100">
+        <pre className="mv0 pv0 lh-copy">선택된 유저 정보: {JSON.stringify(currentUser)}</pre>
+        <div className="flex">
+          <span className="w4">회원 name(id)</span>
+          {members.map(user =>
+            <Member
+              key={user.id}
+              user={user}
+              onChange={setUser}
+              defaultChecked={R.o(R.equals(user.id), R.prop('id'), currentUser)}
+            />,
+          )}
+        </div>
+        <div className="flex">
+          <span className="w4">비회원 name(pw)</span>
+          {nonMembers.map(user =>
+            <NonMember
+              key={user.name}
+              user={user}
+              onChange={setUser}
+              defaultChecked={R.o(R.equals(user.name), R.prop('name'), currentUser)}
+            />,
+          )}
+        </div>
       </div>
-      <div className="flex">
-        <span className="w4">비회원 name(pw)</span>
-        {nonMembers.map(user =>
-          <NonMember
-            key={user.name}
-            user={user}
-            onChange={setUser}
-            defaultChecked={R.o(R.equals(user.name), R.prop('name'), currentUser)}
-          />,
-        )}
-      </div>
-    </div>
+      <div className="h3 mv2"/>
+    </>
   )
 }
 
