@@ -24,6 +24,7 @@ export const Post: FunctionComponent<Props> = props => {
 
   const like = () => {
     api(`/api/post/${hk}/like`, {method: 'post'})
+      .then(R.tap(console.log))
       .then(setPost)
       .catch(alert)
   }
@@ -60,12 +61,10 @@ export const Post: FunctionComponent<Props> = props => {
       </pre>
       <div className="justify-center mv3 lh-copy flex">
         <a className="pa2 link near-black dib white bg-hot-pink mh2 nowrap pointer hover-bg-blue" onClick={like}>
-          <i className="far fa-thumbs-up"/>
-          <span className="ml2"> {likes}</span>
+          <span className="ml2">공감 {likes}</span>
         </a>
         <a className="pa2 link near-black dib white bg-hot-pink mh2 nowrap w-auto pointer hover-bg-blue">
-          <i className="far fa-bookmark"/>
-          <span className="dn di-ns ml2">북마크</span>
+          <span className="dn di-ns ml2">스크랩 (미구현)</span>
         </a>
       </div>
     </main>

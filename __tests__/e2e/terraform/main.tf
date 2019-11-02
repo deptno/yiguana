@@ -92,6 +92,12 @@ resource aws_dynamodb_table yiguana {
     projection_type = "ALL"
     range_key = "category"
   }
+  global_secondary_index {
+    hash_key = "userId"
+    range_key = "like"
+    name = "userLike"
+    projection_type = "ALL"
+  }
 }
 
 resource aws_s3_bucket yiguana {

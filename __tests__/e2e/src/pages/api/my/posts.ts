@@ -12,17 +12,15 @@ export default (req: NextApiRequest, res: NextApiResponse) => {
   if (!user) {
     throw new Error('unauthorized user')
   }
-  const {category, like, nextToken} = req.query as Record<string, string>
+  const {category, like, nextToken} = req.query as Record<string, any>
   const {id: userId} = user
 
-  if (like) {
-    console.log('like')
-  }
   yiguana.post
     .list({
       exclusiveStartKey: util.parseToken(nextToken, SALT),
       category,
       userId,
+      like
     })
     .then((response: PaginationResult<Post>) => {
       const {items, lastEvaluatedKey} = response

@@ -16,6 +16,7 @@ export function createLike(params: CreateLikeInput): Like {
     userId,
     entity,
     targetId,
+    createdAt
   })
 
   console.log(

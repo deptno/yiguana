@@ -13,6 +13,7 @@ import {AddCommentReplyInput, addReply} from './add-reply'
 import {commentPost, CommentPostInput} from './comment-post'
 import {replies, RepliesInput} from './replies'
 import {postsByUserId, PostsByUserIdInput} from './posts-by-user-id'
+import {postsByUserLike, PostsByUserLikeInput} from './posts-by-user-like'
 import {post, PostInput} from './post'
 import {DynamoDBInput} from '../../entity/input/dynamodb'
 import {commentsByUserId, CommentsByUserIdInput} from './comments-by-user-id'
@@ -43,6 +44,10 @@ export class MetadataStore {
 
   postsByUserId(input: PostsByUserIdInput) {
     return postsByUserId(this.operator, input)
+  }
+
+  postsByUserLike(input: PostsByUserLikeInput) {
+    return postsByUserLike(this.operator, input)
   }
 
   addPost(input: AddPostInput) {
