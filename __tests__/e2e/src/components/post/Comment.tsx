@@ -12,7 +12,13 @@ export const Comment: FunctionComponent<Props> = props => {
   const [showReplies, setShowReplies] = useState(false)
   const [showWriter, setShowWriter] = useState(false)
   const ref = useRef<RepliesHandle>()
-
+  const onCreate = () => {
+    if (ref.current) {
+      ref.current.getComments()
+    } else {
+      setShowReplies(true)
+    }
+  }
   return (
     <li className="comment mv2 f6 flex">
       <figure className="dn db-ns mv0 ml0 mr2">
@@ -31,33 +37,28 @@ export const Comment: FunctionComponent<Props> = props => {
               <i className="mh1 pv1 far fa-clock black-60"/>{formatDistanceToNow(parseISO(createdAt), {locale})} 전
             </span>
             ﹒
-            <span>아이피</span>
+            <span>아이피(미구현)</span>
             ﹒
             <a className="pointer" onClick={() => onLike(hk)}>
-              추천({likes})
+              공감({likes})
             </a>
             ﹒
             <span>
-            <del>비추천(0)</del>
-          </span>
+            {showReplies
+              ? <a className="pointer" onClick={() => setShowReplies(false)}>답글 감추기</a>
+              : <a className="pointer" onClick={() => setShowReplies(true)}>답글({children}) 보기</a>}
+            </span>
             ﹒
-            <span>
-          {showReplies
-            ? <a className="pointer" onClick={() => setShowReplies(false)}>답글 감추기</a>
-            : <a className="pointer" onClick={() => setShowReplies(true)}>답글({children}) 보기</a>
-          }
-          </span>
-            ﹒
-            <span>
             <a className="pointer" onClick={() => setShowWriter(!showWriter)}>답글 작성</a>
-          </span>
+            ﹒
+            <span className="red">신고(미구현)</span>
           </div>
         </header>
         <main className="pa2 bg-white br2 br--bottom">
           <pre className="ma0 pa2" dangerouslySetInnerHTML={{__html: content}}/>
         </main>
-        {showWriter && <ReplyWriter commentId={hk} onCreate={() => ref.current.getComments()}/>}
-        {showReplies && <Replies ref={ref} commentId={hk}/>}
+        {showWriter && <ReplyWriter commentId={hk} onCreate={onCreate}/>}
+        {!showReplies && <Replies ref={ref} commentId={hk}/>}
       </div>
     </li>
   )

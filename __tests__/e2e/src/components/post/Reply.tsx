@@ -32,7 +32,6 @@ export const Reply: FunctionComponent<Props> = props => {
           </span>
             ﹒
             <span>
-            <i className="far fa-thumbs-down"/> 비추천
           </span>
           </div>
         </header>

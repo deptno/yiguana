@@ -21,11 +21,8 @@ const RepliesRefComponent: RefForwardingComponent<RepliesHandle, Props> = (props
 
   return (
     <div className="pa2 flex flex-column lh-copy bg-near-white br2">
-      <div className="ph2 ph3-ns pv3 bg-white flex flex-column b--hot-pink bt bw1">
+      <div className="ph2 ph3-ns pv1 bg-white flex flex-column">
         <div className="flex bg-white mv2">
-          <h2 className="ma0 f5">
-            <i className="far fa-comment-dots"/> 답글 ({items.length})
-          </h2>
           <div className="pointer hover-hot-pink mh2 ml-auto" onClick={getComments}>
             <i className="fas fa-sync-alt"/> 새 답글 확인
           </div>
