@@ -7,12 +7,10 @@ import {util} from '@deptno/dynamodb'
 
 export default handler({
   async get(req, res) {
-    const {category, nextToken} = req.query as Record<string, string>
-
     yiguana.post
       .list({
-        category,
-        exclusiveStartKey: util.parseToken(nextToken, SALT),
+        category: '',
+        exclusiveStartKey: util.parseToken(req.query.nextToken as string, SALT)
       })
       .then((response: PaginationResult<Post>) => {
         const {items, lastEvaluatedKey} = response

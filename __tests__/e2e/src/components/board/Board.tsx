@@ -1,33 +1,13 @@
-import React, {FunctionComponent, useCallback, useEffect, useMemo, useState} from 'react'
+import React, {FunctionComponent, useCallback, useEffect, useMemo} from 'react'
 import {BoardItem} from './BoardItem'
 import {BoardItemHeader} from './BoardItemHeader'
 import {LineButton} from './LineButton'
-import * as qs from 'querystring'
-import {api} from '../../pages/api/lib/api'
 
 export const Board: FunctionComponent<Props> = props => {
-  const [{items, nextToken}, setResponse] = useState({items: [], nextToken: undefined})
-  const [token, setToken] = useState<string>()
-  const getPosts = (nextToken?) => {
-    setToken(nextToken)
-
-    const url = ['api/posts']
-
-    if (nextToken) {
-      url.push(qs.stringify({nextToken}))
-    }
-    api(url.join('?'))
-      .then(setResponse)
-      .catch(alert)
-  }
-  const getCurrentPosts = useCallback(() => getPosts(token), [token])
-  const getNextPosts = useCallback(() => getPosts(nextToken), [nextToken])
-  const buttonText = useMemo(
-    () => nextToken
-      ? '더 보기'
-      : '처음으로',
-    [nextToken],
-  )
+  const {items, token, nextToken, getter} = props
+  const getCurrentPosts = useCallback(() => getter(token), [token])
+  const getNextPosts = useCallback(() => getter(nextToken), [nextToken])
+  const buttonText = useMemo(() => nextToken ? '더 보기' : '처음으로', [nextToken])
 
   useEffect(getNextPosts, [])
 
@@ -49,4 +29,9 @@ export const Board: FunctionComponent<Props> = props => {
   )
 }
 
-type Props = {}
+type Props = {
+  items: any[]
+  token: string
+  nextToken: string
+  getter(token: string): void
+}

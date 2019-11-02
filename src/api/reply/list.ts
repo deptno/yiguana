@@ -6,4 +6,6 @@ export async function list(store: MetadataStore, ep: EntityFactory, input: ListI
   return store.replies(input)
 }
 
-export type ListInput = RepliesInput
+export type ListInput = RepliesInput & {
+  userId?: string
+}
