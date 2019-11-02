@@ -38,7 +38,7 @@ export const Comment: FunctionComponent<Props> = props => {
             </a>
             ﹒
             <span>
-            <a>비추천(0)</a>
+            <del>비추천(0)</del>
           </span>
             ﹒
             <span>
