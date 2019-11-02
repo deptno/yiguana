@@ -36,9 +36,9 @@ export class CommentApi {
   }
 
   // @deprecated
-//  unlike(input: UnlikeInput) {
-//    return unlike(this.store, this.ep, input)
-//  }
+  unlike(input: UnlikeInput) {
+    return unlike(this.store, this.ep, input)
+  }
 
 //  view(input: ViewInput) {
 //    return view(this.store, this.ep, input)
