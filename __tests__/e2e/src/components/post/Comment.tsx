@@ -39,9 +39,7 @@ export const Comment: FunctionComponent<Props> = props => {
             ﹒
             <span>아이피(미구현)</span>
             ﹒
-            <a className="pointer" onClick={() => onLike(hk)}>
-              공감({likes})
-            </a>
+            <a className="pointer" onClick={() => onLike(hk)}>공감({likes})</a>
             ﹒
             <span>
             {showReplies

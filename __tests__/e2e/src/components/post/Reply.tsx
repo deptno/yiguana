@@ -4,7 +4,7 @@ import {formatDistanceToNow, parseISO} from 'date-fns'
 import {Reply as TReply} from '../../../../../src/entity/reply'
 
 export const Reply: FunctionComponent<Props> = props => {
-  const {data} = props
+  const {data, onLike} = props
   const {hk, rk, content, createdAt, likes, order} = data
 
   return (
@@ -25,14 +25,13 @@ export const Reply: FunctionComponent<Props> = props => {
               <i className="mh1 pv1 far fa-clock black-60"/>{formatDistanceToNow(parseISO(createdAt), {locale})} 전
             </span>
             ﹒
-            <span>아이피</span>
+            <span>아이피(미구현)</span>
             ﹒
-            <span>
-            <i className="far fa-thumbs-up"/> {likes}
-          </span>
+            <a className="pointer" onClick={() => onLike(hk)}>공감({likes})</a>
             ﹒
-            <span>
-          </span>
+            <span>언급(미구현)</span>
+            ﹒
+            <span className="red">신고(미구현)</span>
           </div>
         </header>
         <main className="pa2 bg-white br2 br--bottom">
@@ -46,4 +45,5 @@ export const Reply: FunctionComponent<Props> = props => {
 type Props = {
   parent?: boolean
   data: TReply
+  onLike(id: string): void
 }

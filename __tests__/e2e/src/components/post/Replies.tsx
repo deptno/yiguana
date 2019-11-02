@@ -15,6 +15,21 @@ const RepliesRefComponent: RefForwardingComponent<RepliesHandle, Props> = (props
         .catch(alert)
     }
   }, [commentId])
+  const like = (id) => {
+    api<TReply>(`/api/reply/${id}/like`, {method: 'post'})
+      .then(reply => {
+        setResponse({
+          items: items.map(c => {
+            if (c.hk === reply.hk) {
+              return reply
+            }
+            return c
+          }),
+          nextToken
+        })
+      })
+      .catch(alert)
+  }
 
   useEffect(getComments, [commentId])
   useImperativeHandle(ref, () => ({getComments}), [commentId])
@@ -27,7 +42,7 @@ const RepliesRefComponent: RefForwardingComponent<RepliesHandle, Props> = (props
             <i className="fas fa-sync-alt"/> 새 답글 확인
           </div>
         </div>
-        {items.map(reply => <Reply key={reply.hk} data={reply}/>)}
+        {items.map(reply => <Reply key={reply.hk} data={reply} onLike={like}/>)}
       </div>
     </div>
   )
