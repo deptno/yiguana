@@ -2,22 +2,25 @@ import {handler} from '../../lib/handler'
 import {yiguana} from '../../lib/yiguana'
 import * as R from 'ramda'
 import {member_a} from '../../../../../../__data__/user'
+import {EAuthorizeErrorCode, isMember} from '../../lib/authorize'
+import {Member} from '../../../../../../../src/entity/user'
 
 export default handler({
-  post(req, res) {
-    // FIXME: 회원만 가능
+  post(req, res, user: Member) {
+    if (!isMember(user)) {
+      return res
+        .status(403)
+        .send({error: EAuthorizeErrorCode.forbidden})
+    }
+
     const hk = req.query.hk as string
-    const ip = req.connection.remoteAddress
 
     yiguana.comment
       .like({
         data: {
           hk,
         },
-        user: {
-          ip,
-          ...member_a,
-        },
+        user,
       })
       .then(R.tap(console.log))
       .then(res.json)

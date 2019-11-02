@@ -1,22 +1,22 @@
 import {handler} from '../../lib/handler'
 import {yiguana} from '../../lib/yiguana'
 import * as R from 'ramda'
-import {authorize} from '../../lib/authorize'
+import {EAuthorizeErrorCode, isMember} from '../../lib/authorize'
+import {Member} from '../../../../../../../src/entity/user'
 
 export default handler({
-  post(req, res) {
-    const user = authorize(req, res)
-    if (!user) {
-      return
+  post(req, res, user: Member) {
+    if (!isMember(user)) {
+      return res
+        .status(403)
+        .send({error: EAuthorizeErrorCode.forbidden})
     }
-
     const hk = req.query.hk as string
-    const ip = req.connection.remoteAddress
 
     yiguana.post
       .like({
         data: {
-          hk
+          hk,
         },
         user: user,
       })

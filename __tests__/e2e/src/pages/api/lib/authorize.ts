@@ -1,4 +1,5 @@
 import {NextApiRequest, NextApiResponse} from 'next'
+import {User} from '../../../../../../src/entity/user'
 
 export function authorize(req: NextApiRequest, res: NextApiResponse) {
   try {
@@ -19,7 +20,14 @@ export function authorize(req: NextApiRequest, res: NextApiResponse) {
     }
   }
 }
-
+export function isMember(user: User) {
+  if (user) {
+    if ('id' in user) {
+      return true
+    }
+  }
+  return false
+}
 function getUser(authorization) {
   if (!authorization) {
     throw new Error(EAuthorizeErrorCode.unauthorized)
