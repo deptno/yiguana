@@ -12,14 +12,28 @@ const members = users.filter<TMember>(R.compose(R.complement(R.isNil), R.prop('i
 const nonMembers = users.filter<TNonMember>(R.compose(R.isNil, R.prop('id')))
 
 export const UserSelector: FunctionComponent<Props> = props => {
-  const storage = useContext(StorageContext)
+  const {user: currentUser} = useContext(StorageContext)
 
   return (
     <div className="pa3 flex-column">
       <div className="flex flex-column">
-        {JSON.stringify(R.prop('user', storage))}
-        {members.map(user => <Member key={user.id} user={user} onChange={setUser}/>)}
-        {nonMembers.map(user => <NonMember key={user.name} user={user} onChange={setUser}/>)}
+        {JSON.stringify(currentUser)}
+        {members.map(user =>
+          <Member
+            key={user.id}
+            user={user}
+            onChange={setUser}
+            defaultChecked={R.o(R.equals(user.id), R.prop('id'), currentUser)}
+          />,
+        )}
+        {nonMembers.map(user =>
+          <NonMember
+            key={user.name}
+            user={user}
+            onChange={setUser}
+            defaultChecked={R.o(R.equals(user.name), R.prop('name'), currentUser)}
+          />,
+        )}
       </div>
     </div>
   )

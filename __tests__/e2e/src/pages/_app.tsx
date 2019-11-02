@@ -3,6 +3,7 @@ import App from 'next/app'
 import Head from 'next/dist/next-server/lib/head'
 import {UserSelector} from '../components/user/UserSelector'
 import {StorageContext} from '../context/StorageContext'
+import {set} from '../lib/storage/storage'
 
 export default class extends App {
   state = {
@@ -38,6 +39,11 @@ export default class extends App {
 
   componentDidMount() {
     window.addEventListener('storage', this.onStorageUpdate)
+
+    const user = localStorage.getItem('user')
+    if (user) {
+      set('user', user)
+    }
   }
 
   componentWillUnmount(): void {
@@ -45,9 +51,6 @@ export default class extends App {
   }
 
   onStorageUpdate = (e: StorageEvent) => {
-    if (e.key === 'user') {
-      console.log('user', e.newValue)
-    }
     this.setState({
       storage: {
         ...localStorage,
