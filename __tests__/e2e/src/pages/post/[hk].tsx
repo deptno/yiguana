@@ -6,6 +6,7 @@ import {useRouter} from 'next/router'
 import * as R from 'ramda'
 import {LineLink} from '../../components/board/LineLink'
 import {Post} from '../../components/post/Post'
+import {api} from '../api/lib/api'
 
 const PostPage: NextPage<Props> = props => {
   const {query} = useRouter()
@@ -13,10 +14,10 @@ const PostPage: NextPage<Props> = props => {
   const [post, setPost] = useState<TPost>()
   const getPost = useCallback(() => {
     if (postId) {
-      fetch(`/api/post/${postId}`)
-        .then(response => response.json())
+      api(`/api/post/${postId}`)
         .then(R.tap(console.log))
         .then(setPost)
+        .catch(alert)
     }
   }, [postId])
   const setPostLikes = useCallback(

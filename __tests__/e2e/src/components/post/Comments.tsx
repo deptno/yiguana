@@ -3,16 +3,17 @@ import {Comment as CommentComponent} from './Comment'
 import {Comment} from '../../../../../src/entity/comment'
 import * as R from 'ramda'
 import {CommentWriter} from '../board/CommentWriter'
+import {api} from '../../pages/api/lib/api'
 
 export const Comments: FunctionComponent<Props> = props => {
   const {postId} = props
   const [{items, nextToken}, setResponse] = useState({items: [] as Comment[], nextToken: undefined})
   const getComments = useCallback(() => {
     if (postId) {
-      fetch(`/api/post/${postId}/comments`)
-        .then(response => response.json())
+      api(`/api/post/${postId}/comments`)
         .then(R.tap(R.compose(console.table, R.prop('items'))))
         .then(setResponse)
+        .catch(alert)
     }
   }, [postId])
 

@@ -1,24 +1,23 @@
 import {handler} from '../../lib/handler'
 import {yiguana} from '../../lib/yiguana'
 import * as R from 'ramda'
-import {authorize} from '../../lib/authorize'
+import {member_a} from '../../../../../../__data__/user'
 
 export default handler({
   post(req, res) {
-    const user = authorize(req, res)
-    if (!user) {
-      return
-    }
-
+    // FIXME: 회원만 가능
     const hk = req.query.hk as string
     const ip = req.connection.remoteAddress
 
-    yiguana.post
+    yiguana.comment
       .like({
         data: {
-          hk
+          hk,
         },
-        user: user,
+        user: {
+          ip,
+          ...member_a,
+        },
       })
       .then(R.tap(console.log))
       .then(res.json)

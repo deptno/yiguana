@@ -4,6 +4,7 @@ import {LineSubmitButton} from './LineSubmitButton'
 import * as R from 'ramda'
 import {getUserName, isMember} from '../../lib/storage/user'
 import {StorageContext} from '../../context/StorageContext'
+import {api} from '../../pages/api/lib/api'
 
 export const Editor: FunctionComponent<Props> = props => {
   const ref = useRef()
@@ -43,12 +44,13 @@ export const Editor: FunctionComponent<Props> = props => {
       user: userData,
     })
 
-    fetch('api/post', {
-      method: 'post',
-      body,
-    })
-      .then(response => response.json())
+    api(
+      'api/post', {
+        method: 'post',
+        body,
+      })
       .then(console.log)
+      .catch(alert)
   }
 
   useEffect(() => {

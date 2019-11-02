@@ -44,7 +44,10 @@ export default class extends App {
     window.removeEventListener('storage', this.onStorageUpdate)
   }
 
-  onStorageUpdate = (e) => {
+  onStorageUpdate = (e: StorageEvent) => {
+    if (e.key === 'user') {
+      console.log('user', e.newValue)
+    }
     this.setState({
       storage: {
         ...localStorage,

@@ -1,12 +1,13 @@
 import React, {FunctionComponent, useCallback, useState} from 'react'
 import * as R from 'ramda'
+import {api} from '../../pages/api/lib/api'
 
 export const ReplyWriter: FunctionComponent<Props> = props => {
   const {commentId, onCreate} = props
   const [content, setContent] = useState('')
   const handleChange = useCallback(R.compose(setContent, R.path(['target', 'value'])), [commentId])
   const saveComment = () => {
-    fetch(
+    api(
       `/api/comment/${commentId}/reply`,
       {
         method: 'post',
@@ -14,8 +15,8 @@ export const ReplyWriter: FunctionComponent<Props> = props => {
           content,
         }),
       })
-      .then(response => response.json())
       .then(onCreate)
+      .catch(alert)
   }
 
   return (

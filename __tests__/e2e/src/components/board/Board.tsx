@@ -3,6 +3,7 @@ import {BoardItem} from './BoardItem'
 import {BoardItemHeader} from './BoardItemHeader'
 import {LineButton} from './LineButton'
 import * as qs from 'querystring'
+import {api} from '../../pages/api/lib/api'
 
 export const Board: FunctionComponent<Props> = props => {
   const [{items, nextToken}, setResponse] = useState({items: [], nextToken: undefined})
@@ -15,9 +16,9 @@ export const Board: FunctionComponent<Props> = props => {
     if (nextToken) {
       url.push(qs.stringify({nextToken}))
     }
-    fetch(url.join('?'))
-      .then(res => res.json())
+    api(url.join('?'))
       .then(setResponse)
+      .catch(alert)
   }
   const getCurrentPosts = useCallback(() => getPosts(token), [token])
   const getNextPosts = useCallback(() => getPosts(nextToken), [nextToken])

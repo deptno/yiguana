@@ -4,6 +4,7 @@ import {formatDistanceToNow, parseISO} from 'date-fns'
 import {Post as TPost} from '../../../../../src/entity/post'
 import * as R from 'ramda'
 import {StorageContext} from '../../context/StorageContext'
+import {api} from '../../pages/api/lib/api'
 
 export const Post: FunctionComponent<Props> = props => {
   const {data, setPost} = props
@@ -22,10 +23,9 @@ export const Post: FunctionComponent<Props> = props => {
   }, [user])
 
   const like = () => {
-    fetch(`/api/post/${hk}/like`, {method: 'post'})
-      .then<TPost>(response => response.json())
-      .then(R.tap(console.log))
+    api(`/api/post/${hk}/like`, {method: 'post'})
       .then(setPost)
+      .catch(alert)
   }
 
   return (

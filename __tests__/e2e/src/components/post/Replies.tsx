@@ -2,16 +2,17 @@ import React, {forwardRef, RefForwardingComponent, useCallback, useEffect, useIm
 import {Reply as TReply} from '../../../../../src/entity/reply'
 import * as R from 'ramda'
 import {Reply} from './Reply'
+import {api} from '../../pages/api/lib/api'
 
 const RepliesRefComponent: RefForwardingComponent<RepliesHandle, Props> = (props, ref) => {
   const {commentId} = props
   const [{items, nextToken}, setResponse] = useState({items: [] as TReply[], nextToken: undefined})
   const getComments = useCallback(() => {
     if (commentId) {
-      fetch(`/api/comment/${commentId}/replies`)
-        .then(response => response.json())
+      api(`/api/comment/${commentId}/replies`)
         .then(R.tap(R.compose(console.table, R.prop('items'))))
         .then(setResponse)
+        .catch(alert)
     }
   }, [commentId])
 

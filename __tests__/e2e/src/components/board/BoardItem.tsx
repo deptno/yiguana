@@ -3,16 +3,17 @@ import {Post} from '../../../../../src/entity/post'
 import {format, parseISO} from 'date-fns'
 import * as R from 'ramda'
 import Link from 'next/link'
+import {api} from '../../pages/api/lib/api'
 
 export const BoardItem: FunctionComponent<Props> = props => {
   const {item, no} = props
   const del = useCallback((e) => {
     e.stopPropagation()
 
-    fetch(`api/post/${item.hk}`, {method: 'delete'})
-      .then(response => response.text())
+    api(`api/post/${item.hk}`, {method: 'delete'})
       .then(console.log)
       .then(props.onDelete)
+      .catch(alert)
   }, [item])
 
   return (
