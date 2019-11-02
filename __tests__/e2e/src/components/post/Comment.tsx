@@ -4,9 +4,10 @@ import {formatDistanceToNow, parseISO} from 'date-fns'
 import {Comment as TComment} from '../../../../../src/entity/comment'
 import {Replies, RepliesHandle} from './Replies'
 import {ReplyWriter} from '../board/ReplyWriter'
+import {api} from '../../pages/api/lib/api'
 
 export const Comment: FunctionComponent<Props> = props => {
-  const {data} = props
+  const {data, onLike} = props
   const {hk, rk, postId, content, userId, createdAt, updatedAt, priority, children, likes, order} = data
   const [showReplies, setShowReplies] = useState(false)
   const [showWriter, setShowWriter] = useState(false)
@@ -32,22 +33,22 @@ export const Comment: FunctionComponent<Props> = props => {
             ﹒
             <span>아이피</span>
             ﹒
+            <a className="pointer" onClick={() => onLike(hk)}>
+              추천({likes})
+            </a>
+            ﹒
             <span>
-            <i className="far fa-thumbs-up"/> {likes}
+            <a>비추천(0)</a>
           </span>
             ﹒
-          <span>
-            <i className="far fa-thumbs-down"/> 비추천
-          </span>
-            ﹒
-          <span>
+            <span>
           {showReplies
             ? <a className="pointer" onClick={() => setShowReplies(false)}>답글 감추기</a>
             : <a className="pointer" onClick={() => setShowReplies(true)}>답글({children}) 보기</a>
           }
           </span>
             ﹒
-          <span>
+            <span>
             <a className="pointer" onClick={() => setShowWriter(!showWriter)}>답글 작성</a>
           </span>
           </div>
@@ -56,7 +57,7 @@ export const Comment: FunctionComponent<Props> = props => {
           <pre className="ma0 pa2" dangerouslySetInnerHTML={{__html: content}}/>
         </main>
         {showWriter && <ReplyWriter commentId={hk} onCreate={() => ref.current.getComments()}/>}
-        {showReplies && <Replies ref={ref} commentId={hk} />}
+        {showReplies && <Replies ref={ref} commentId={hk}/>}
       </div>
     </li>
   )
@@ -64,4 +65,5 @@ export const Comment: FunctionComponent<Props> = props => {
 
 type Props = {
   data: TComment
+  onLike(id: string): void
 }

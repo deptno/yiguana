@@ -16,6 +16,21 @@ export const Comments: FunctionComponent<Props> = props => {
         .catch(alert)
     }
   }, [postId])
+  const like = (id) => {
+    api<Comment>(`/api/comment/${id}/like`, {method: 'post'})
+      .then(comment => {
+        setResponse({
+          items: items.map(c => {
+            if (c.hk === comment.hk) {
+              return comment
+            }
+            return c
+          }),
+          nextToken
+        })
+      })
+      .catch(alert)
+  }
 
   useEffect(getComments, [postId])
 
@@ -32,7 +47,7 @@ export const Comments: FunctionComponent<Props> = props => {
           <li className="pointer hover-hot-pink" onClick={getComments}>
             <i className="fas fa-sync-alt"/> 새 댓글 확인
           </li>
-          {items.map(comment => <CommentComponent key={comment.hk} data={comment}/>)}
+          {items.map(comment => <CommentComponent key={comment.hk} data={comment} onLike={like}/>)}
         </ul>
       </div>
     </>

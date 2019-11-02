@@ -46,9 +46,12 @@ export const Post: FunctionComponent<Props> = props => {
            작성자: {userId} (유저 이름 || 유저 아이디)
           </span>
       </div>
-      <div className="ph3 lh-copy bg-gray white tr">
-        작성자 메뉴 공간, 수정, 삭제 등 {isAuthor ? '작성자' : '권한없음'}
-      </div>
+      {isAuthor && (
+        <div className="ph3 lh-copy bg-gray white tr flex flex-column">
+          <span>수정하기(미구현)</span>
+          <span>삭제하기(미구현)</span>
+        </div>
+      )}
       <pre className="pa3 pre-wrap overflow-x-scroll f7 bg-black-10 ba b--dashed">
         {JSON.stringify(data, null, 2)}
       </pre>
