@@ -40,9 +40,10 @@ export class PostApi {
     return like(this.ms, this.ef, input)
   }
 
-  unlike(input: UnlikeInput) {
-    return unlike(this.ms, this.ef, input)
-  }
+  // @deprecated
+//  unlike(input: UnlikeInput) {
+//    return unlike(this.ms, this.ef, input)
+//  }
 
   view(input: ViewInput) {
     return view(this.ms, this.cs, this.ef, input)
