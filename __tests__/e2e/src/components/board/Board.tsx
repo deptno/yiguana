@@ -4,12 +4,12 @@ import {BoardItemHeader} from './BoardItemHeader'
 import {LineButton} from './LineButton'
 
 export const Board: FunctionComponent<Props> = props => {
-  const {items, token, nextToken, getter} = props
-  const getCurrentPosts = useCallback(() => getter(token), [token])
-  const getNextPosts = useCallback(() => getter(nextToken), [nextToken])
-  const buttonText = useMemo(() => nextToken ? '더 보기' : '처음으로', [nextToken])
+  const {items, token, nextToken, getter, category} = props
+  const getCurrentPosts = useCallback(() => getter(token), [token, category])
+  const getNextPosts = useCallback(() => getter(nextToken), [nextToken, category])
+  const buttonText = useMemo(() => nextToken ? '더 보기' : '처음으로', [nextToken, category])
 
-  useEffect(getNextPosts, [])
+  useEffect(getNextPosts, [category])
 
   return (
     <div className="">
@@ -33,5 +33,6 @@ type Props = {
   items: any[]
   token: string
   nextToken: string
+  category: string
   getter(token: string): void
 }
