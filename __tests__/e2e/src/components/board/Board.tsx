@@ -33,6 +33,6 @@ type Props = {
   items: any[]
   token: string
   nextToken: string
-  category: string
+  category?: string
   getter(token: string): void
 }
