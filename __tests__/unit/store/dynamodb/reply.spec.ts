@@ -5,15 +5,16 @@ import {EEntity} from '../../../../src/entity/enum'
 import {replies} from '../../../../src/store/dynamodb/replies'
 import {opDdb} from '../../../env'
 import {addReply} from '../../../../src/store/dynamodb/add-reply'
-import {createReply, Reply} from '../../../../src/entity/reply/reply'
+import {createReply} from '../../../../src/entity/reply/reply'
 import {replyComment} from '../../../../src/store/dynamodb/reply-comment'
 import {comments} from '../../../../src/store/dynamodb/comments'
 import {updateReply} from '../../../../src/store/dynamodb/update-reply'
 import {removeReply} from '../../../../src/store/dynamodb/remove-reply'
-import {member_e, non_member_a} from '../../../__data__/user'
+import {member_a, member_e, non_member_a} from '../../../__data__/user'
 import {createLike} from '../../../../src/entity/like'
 import {addLike} from '../../../../src/store/dynamodb/add-like'
 import {likeReply} from '../../../../src/store/dynamodb/like-reply'
+import {repliesByUserId} from '../../../../src/store/dynamodb/replies-by-user-id'
 
 describe('unit', function () {
   describe('store', function () {
@@ -76,7 +77,7 @@ describe('unit', function () {
             expect(targetReply).not.toEqual(undefined)
 
             const content = 'updated reply content'
-            const isUpdated = await updateReply(opDdb, {
+            await updateReply(opDdb, {
               data: {
                 hk: targetReply.hk,
                 commentId,
@@ -108,6 +109,33 @@ describe('unit', function () {
             const likedReply = await likeReply(opDdb, {data: targetReply})
             expect(likedReply.hk).toEqual(targetReply.hk)
             expect(likedReply.likes).toEqual(targetReply.likes + 1)
+          })
+          // a 유저의 답글 조회 -> 답글 추가 -> 답글 재조회
+          it('repliesByUserId: 답글 리스트 a', async() => {
+            const {items} = await repliesByUserId(opDdb, {userId: member_a.id})
+            console.debug('reply 리스트 userId')
+            console.table(items)
+            expect(items.length).toEqual(0)
+          })
+          it('회원 a 답글 추가 -> 답글 리스트 a (재조회)', async () => {
+            console.debug('회원 답글 추가')
+            const reply = createReply({
+              data: {
+                commentId,
+                content: 'a gun reply',
+                createdAt: new Date().toISOString(),
+              },
+              user: member_a,
+            })
+            const replied  = await addReply(opDdb, {data: reply})
+            console.table([reply, replied])
+            expect(replied).toEqual(reply)
+
+            console.log('답글 리스트 a (재조회)')
+            const {items} = await repliesByUserId(opDdb, {userId: member_a.id})
+            console.debug('답글 리스트 a')
+            console.table(items)
+            expect(items.length).toEqual(1)
           })
           it('remove reply', async() => {
             const {items: commentItems} = await comments(opDdb, {postId: commentedPost.hk})
