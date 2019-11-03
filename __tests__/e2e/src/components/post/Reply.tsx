@@ -37,6 +37,7 @@ export const Reply: FunctionComponent<Props> = props => {
         <main className="pa2 bg-white br2 br--bottom">
           <pre className="ma0 pa2" dangerouslySetInnerHTML={{__html: content}}/>
         </main>
+        <pre className="debug">{JSON.stringify(data, null, 2)}</pre>
       </div>
     </div>
   )

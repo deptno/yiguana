@@ -9,6 +9,7 @@ import Link from 'next/link'
 export default class extends App {
   state = {
     storage: {user: null},
+    debug: 'unchecked'
   }
 
   render() {
@@ -16,6 +17,13 @@ export default class extends App {
 
     return (
       <StorageContext.Provider value={this.state.storage}>
+        <style jsx global>
+          {/* language=css */ `
+pre.debug {
+    display: ${this.state.debug === 'checked' ? 'block' : 'none'};
+}
+          `}
+        </style>
         <Head>
           <link
             rel="stylesheet"
@@ -31,14 +39,40 @@ export default class extends App {
           <script src="https://cdn.quilljs.com/1.3.6/quill.js"/>
         </Head>
         <div>
-          <UserSelector/>
-          <nav className="pt3">
-            <ul className="list lh-copy flex">
-              <li><Link href="/"><a className="link black hover-white hover-bg-blue br1 pa1 mr3">보드</a></Link></li>
-              <li><Link href="/my-page"><a className="link black hover-white hover-bg-blue br1 pa1 mr3">마이페이지</a></Link></li>
-              <li><Link href="/admin"><a className="link black hover-white hover-bg-blue br1 pa1 mr3">관리자</a></Link></li>
-            </ul>
-          </nav>
+          <div className="ph3 flex-column bg-near-white fixed w-100 bb">
+            <UserSelector/>
+            <nav className="">
+              <ul className="list lh-copy flex">
+                <li>
+                  <Link href="/">
+                    <a className="link black hover-white hover-bg-blue br1 pa1 mr3 ba">
+                      보드
+                    </a>
+                  </Link>
+                </li>
+                <li>
+                  <Link href="/my-page">
+                    <a className="link black hover-white hover-bg-blue br1 pa1 mr3 ba">
+                      마이페이지
+                    </a>
+                  </Link>
+                </li>
+                <li>
+                  <Link href="/admin">
+                    <a className="link black hover-white hover-bg-blue br1 pa1 mr3 ba">
+                      관리자
+                    </a>
+                  </Link>
+                </li>
+                <li>
+                  <label>
+                    <input type="checkbox" value={this.state.debug} onChange={this.onDebugUpdate}/> 디버그
+                  </label>
+                </li>
+              </ul>
+            </nav>
+          </div>
+          <div className="h4 mv2"/>
           <Component {...pageProps} />
         </div>
       </StorageContext.Provider>
@@ -63,8 +97,16 @@ export default class extends App {
     this.setState({
       storage: {
         ...localStorage,
-        [e.key]: value
+        [e.key]: value,
       },
+    })
+  }
+
+  onDebugUpdate = () => {
+    this.setState({
+      debug: this.state.debug === 'checked'
+        ? 'unchecked'
+        : 'checked'
     })
   }
 }

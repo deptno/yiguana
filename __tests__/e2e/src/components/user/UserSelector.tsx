@@ -15,9 +15,8 @@ export const UserSelector: FunctionComponent<Props> = props => {
   const {user: currentUser} = useContext(StorageContext)
 
   return (
-    <>
-      <div className="ph3 pv2 flex-column bg-near-white fixed w-100">
-        <pre className="mv0 pv0 lh-copy">선택된 유저 정보: {JSON.stringify(currentUser)}</pre>
+      <div className="ph3 pv2 flex-column w-100">
+        <pre className="debug mv0 pv0 lh-copy">선택된 유저 정보: {JSON.stringify(currentUser)}</pre>
         <div className="flex">
           <span className="w4">회원 name(id)</span>
           {members.map(user =>
@@ -41,8 +40,6 @@ export const UserSelector: FunctionComponent<Props> = props => {
           )}
         </div>
       </div>
-      <div className="h3 mv2"/>
-    </>
   )
 }
 

@@ -53,7 +53,7 @@ export const Post: FunctionComponent<Props> = props => {
           <span>삭제하기(미구현)</span>
         </div>
       )}
-      <pre className="pa3 pre-wrap overflow-x-scroll f7 bg-black-10 ba b--dashed">
+      <pre className="debug pa3 pre-wrap overflow-x-scroll f7 bg-black-10 ba b--dashed">
         {JSON.stringify(data, null, 2)}
       </pre>
       <pre className="pa3 pre-wrap overflow-x-scroll f6">
