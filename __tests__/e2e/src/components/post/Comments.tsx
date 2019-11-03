@@ -37,7 +37,7 @@ export const Comments: FunctionComponent<Props> = props => {
   return (
     <>
       <div className="comment-writer mv3 ph2 ph3-ns pv3 bg-white flex flex-column mt3 pv3 b--hot-pink bt bw1">
-        <h2 className="ma0 f4">
+        <h2 className="mb2 f4">
           <i className="far fa-comment-dots"/>댓글
         </h2>
         <CommentWriter postId={postId} onCreate={getComments}/>

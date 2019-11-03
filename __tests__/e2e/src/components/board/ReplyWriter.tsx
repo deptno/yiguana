@@ -22,10 +22,9 @@ export const ReplyWriter: FunctionComponent<Props> = props => {
   return (
     <div className="b--light-gray ba br2 pa3 bg-black-05">
       <textarea className="pa2 w-100 b--transparent" rows={4} placeholder="답글 내용" onChange={handleChange}/>
-      <div className="self-end w-100 flex justify-end">
-        <a className="link pointer db near-black f5 bg-hot-pink ph2 tc ml2 mt2 nowrap w-auto white" onClick={saveComment}>
-          <i className="ph2 pv2 near-white far fa-paper-plane"/>
-          <span className="near-white dn di-l">등록</span>
+      <div className="self-end w-100 flex justify-end mt2">
+        <a className="w-100 br1 link pointer db near-black f5 bg-hot-pink ph2 tc nowrap white" onClick={saveComment}>
+          <span className="pv2 db near-white">등록</span>
         </a>
       </div>
     </div>
