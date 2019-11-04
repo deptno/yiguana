@@ -3,12 +3,16 @@ import {uuid} from '../../lib/uuid'
 import {ReplyUserInput} from './index'
 import {User} from '../user'
 import {YiguanaDocument} from '../../dynamodb/yiguana-document'
+import {keys} from '../../dynamodb/keys'
 
 export function createReply(params: CreateReplyInput): Reply {
   const {user, data} = params
   const {commentId, content, createdAt} = data
   // TODO: createdAt 의 시간 지정을 createReply 타이밍에 하는 것이 나아보임
-  const order = [EEntity.Reply, createdAt].join('#')
+  const order = keys.order.reply.stringify({
+    entity: EEntity.Reply,
+    createdAt,
+  })
   const reply: Reply = {
     hk: uuid(),
     rk: EEntity.Reply,
@@ -17,7 +21,7 @@ export function createReply(params: CreateReplyInput): Reply {
     commentId,
     content,
     createdAt,
-    order
+    order,
   }
   if ('id' in user) {
     // TODO: user 처리

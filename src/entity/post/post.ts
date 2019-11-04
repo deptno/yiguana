@@ -2,12 +2,21 @@ import {EEntity} from '../enum'
 import {PostContent} from './post-content'
 import {YiguanaDocument} from '../../dynamodb/yiguana-document'
 import {User} from '../user'
+import {keys} from '../../dynamodb/keys'
 
 export function createPost(params: CreatePostInput): Post {
   const {user, data} = params
   const createdAt = new Date().toISOString()
-  const category = [data.input.category, createdAt].join('#')
-  const order = [EEntity.Post, category].join('#')
+  const category = keys.category.post.stringify({
+    category: data.input.category,
+    createdAt,
+  })
+  const order = keys.order.post.stringify({
+    entity: EEntity.Post,
+    category: data.input.category,
+    createdAt,
+  })
+
   const post: Post = {
     hk: data.id,
     rk: EEntity.Post,
