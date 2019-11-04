@@ -3,11 +3,16 @@ import {uuid} from '../../lib/uuid'
 import {YiguanaDocument} from '../../dynamodb/yiguana-document'
 import {User} from '../user'
 import {CommentUserInput} from './user-input'
+import {keys} from '../../dynamodb/keys'
 
 export function createComment(params: CreateCommentInput): Comment {
   const {user, data} = params
   const createdAt = new Date().toISOString()
-  const order = [EEntity.Comment, data.priority, createdAt].join('#')
+  const order = keys.order.comment.stringify({
+    entity: EEntity.Comment,
+    priority: EPriority.Normal,
+    createdAt
+  })
   const comment: Comment = {
     hk: uuid(),
     rk: EEntity.Comment,

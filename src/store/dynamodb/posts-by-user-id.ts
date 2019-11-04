@@ -3,6 +3,7 @@ import {DynamoDBInput} from '../../entity/input/dynamodb'
 import {Post} from '../../entity/post'
 import {EEntity} from '../../entity/enum'
 import {EIndexName} from '../../dynamodb/yiguana-index'
+import {keys} from '../../dynamodb/keys'
 
 export function postsByUserId<T = Post>(operator: DynamoDBInput, params: PostsByUserIdInput) {
   const {tableName, dynamodb} = operator
@@ -25,7 +26,10 @@ export function postsByUserId<T = Post>(operator: DynamoDBInput, params: PostsBy
   if (category) {
     queryParams.KeyConditionExpression += ' and begins_with(#r, :r)'
     queryParams.ExpressionAttributeNames['#r'] = 'order'
-    queryParams.ExpressionAttributeValues[':r'] = [EEntity.Post, category].join('#')
+    queryParams.ExpressionAttributeValues[':r'] = keys.order.post.stringify({
+      entity: EEntity.Post,
+      category
+    })
   }
 
   return dynamodb.query<T>(queryParams)

@@ -12,21 +12,15 @@ export function createLike(params: CreateLikeInput): Like {
     targetId,
     userId,
   })
-  const like = keys.like.stringify({
+  const like = keys.like.like.stringify({
     userId,
     entity,
     targetId,
-    createdAt
+    createdAt,
   })
 
-  console.log(
-    {
-      rk: EEntity.Like,
-      hk,
-      like,
-      createdAt,
-    }
-  )
+  console.log({rk: EEntity.Like, hk, like, createdAt})
+
   return {
     rk: EEntity.Like,
     hk,

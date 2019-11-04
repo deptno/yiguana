@@ -22,10 +22,10 @@ export function postsByUserLike<T = Post>(operator: DynamoDBInput, params: Posts
       },
       ExpressionAttributeValues: {
         ':p': EEntity.Like,
-        ':r': keys.like.stringify({
+        ':r': keys.like.like.stringify({
           userId,
           entity,
-        } as any),
+        }),
       },
       ScanIndexForward: false,
       ReturnConsumedCapacity: 'TOTAL',
@@ -39,7 +39,7 @@ export function postsByUserLike<T = Post>(operator: DynamoDBInput, params: Posts
       const [items, rcu] = await dynamodb.batchGet({
         tableName,
         keysList: parsedList
-          .map(keys.like.parse)
+          .map(keys.like.like.parse)
           .map(({entity: rk, targetId: hk}) => {
             return {
               hk,
