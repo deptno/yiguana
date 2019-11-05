@@ -2,6 +2,7 @@ import {DynamoDBInput} from '../../entity/input/dynamodb'
 import {EEntity} from '../../entity/enum'
 import {EIndexName} from '../../dynamodb/yiguana-index'
 import {Reply} from '../../entity/reply'
+import {keys} from '../../dynamodb/keys'
 
 export function repliesByUserId<T = Reply>(operator: DynamoDBInput, params: RepliesByUserIdInput) {
   const {tableName, dynamodb} = operator
@@ -17,7 +18,9 @@ export function repliesByUserId<T = Reply>(operator: DynamoDBInput, params: Repl
     },
     ExpressionAttributeValues: {
       ':h': userId,
-      ':r': EEntity.Reply
+      ':r': keys.order.reply.stringify({
+        entity: EEntity.Reply,
+      })
     },
     ScanIndexForward: false,
     ReturnConsumedCapacity: 'TOTAL',
