@@ -23,6 +23,10 @@ export async function create(ms: MetadataStore, cs: ContentStore, e: EntityFacto
     data: content,
   })
 
+  // FIXME: 유저 데이터 저장 필요한데 뜬금없이? 이 위치에서 호출해도 되는 건가
+  const result = await ms.addUser({data: user})
+  console.log({result})
+
   return ms.addPost({data: post})
 }
 
