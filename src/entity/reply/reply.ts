@@ -22,6 +22,7 @@ export function createReply(params: CreateReplyInput): Reply {
     content,
     createdAt,
     order,
+    user: user,
   }
   if ('id' in user) {
     // TODO: user 처리
@@ -42,4 +43,5 @@ export interface Reply extends YiguanaDocument {
   content: string
   createdAt: string
   userId?: string // gsi.hk
+  user: Omit<User, 'id'>
 }
