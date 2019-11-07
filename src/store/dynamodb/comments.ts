@@ -8,7 +8,7 @@ export function comments<T = Comment>(operator: DynamoDBInput, params: CommentsI
 
   return dynamodb.query<T>({
     TableName: tableName,
-    IndexName: EIndexName.Comment,
+    IndexName: EIndexName.CommentsByPriorityCreated,
     KeyConditionExpression: '#p = :p',
     ExpressionAttributeNames: {
       '#p': 'postId',

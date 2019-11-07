@@ -27,10 +27,9 @@ const keyOrderPost = createKey<{ entity: EEntity, category: string, createdAt: s
     createdAt: v => v,
   },
 )
-const keyOrderComment = createKey<{ entity: EEntity, priority: EPriority, createdAt: string }>(
-  ['entity', 'priority', 'createdAt'],
+const keyOrderComment = createKey<{priority: EPriority, createdAt: string }>(
+  ['priority', 'createdAt'],
   {
-    entity: v => v as EEntity.Comment,
     priority: v => v as unknown as EPriority,
     createdAt: v => v,
   },

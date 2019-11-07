@@ -9,7 +9,6 @@ export function createComment(params: CreateCommentInput): Comment {
   const {user, data} = params
   const createdAt = new Date().toISOString()
   const order = keys.order.comment.stringify({
-    entity: EEntity.Comment,
     priority: EPriority.Normal,
     createdAt
   })

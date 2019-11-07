@@ -30,10 +30,6 @@ resource aws_dynamodb_table yiguana {
     type = "S"
   }
   attribute {
-    name = "createdAt"
-    type = "S"
-  }
-  attribute {
     name = "hk"
     type = "S"
   }
@@ -51,51 +47,33 @@ resource aws_dynamodb_table yiguana {
   }
 
   global_secondary_index {
-    hash_key = "commentId"
+    name = "byUser"
+    hash_key = "userId"
+    range_key = "order"
+    projection_type = "ALL"
+  }
+  global_secondary_index {
+    name = "postsByCategoryCreatedAt"
+    hash_key = "rk"
+    range_key = "category"
+    projection_type = "ALL"
+  }
+  global_secondary_index {
+    name = "commentsByCreated"
+    hash_key = "postId"
+    range_key = "order"
+    projection_type = "ALL"
+  }
+  global_secondary_index {
     name = "replies"
-    projection_type = "ALL"
+    hash_key = "commentId"
     range_key = "order"
-  }
-  global_secondary_index {
-    hash_key = "postId"
-    name = "postId-createdAt-index"
     projection_type = "ALL"
-    range_key = "createdAt"
   }
   global_secondary_index {
-    hash_key = "postId"
-    name = "postId-order-index"
-    projection_type = "ALL"
-    range_key = "order"
-  }
-  global_secondary_index {
-    hash_key = "rk"
-    name = "rk-category-index"
-    projection_type = "ALL"
-    range_key = "category"
-  }
-  global_secondary_index {
-    hash_key = "rk"
     name = "rk-like-index"
-    projection_type = "ALL"
+    hash_key = "rk"
     range_key = "like"
-  }
-  global_secondary_index {
-    hash_key = "userId"
-    name = "by-user"
-    projection_type = "ALL"
-    range_key = "order"
-  }
-  global_secondary_index {
-    hash_key = "userId"
-    name = "userId-order-index"
-    projection_type = "ALL"
-    range_key = "category"
-  }
-  global_secondary_index {
-    hash_key = "userId"
-    range_key = "like"
-    name = "userLike"
     projection_type = "ALL"
   }
 }
@@ -110,4 +88,6 @@ output dynamodb {
 output s3 {
   value = aws_s3_bucket.yiguana.bucket
 }
+
+
 
