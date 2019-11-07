@@ -23,6 +23,7 @@ export function createComment(params: CreateCommentInput): Comment {
     postId: data.postId,
     order,
     createdAt,
+    user: user,
   }
 
   if ('id' in user) {
@@ -43,6 +44,7 @@ export interface Comment extends YiguanaDocument {
   order: string
   postId: string
   userId?: string // gsi.hk
+  user: Omit<User, 'id'>
   updatedAt?: string
   likes: number
 //  user: User
