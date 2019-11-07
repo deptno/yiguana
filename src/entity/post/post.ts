@@ -28,6 +28,7 @@ export function createPost(params: CreatePostInput): Post {
     contentUrl: data.contentUrl,
     category,
     order,
+    user: user,
   }
   if ('id' in user) {
     post.userId = user.id
@@ -52,6 +53,7 @@ export interface Post extends YiguanaDocument {
   title: string
   contentUrl: string
   userId?: string // gsi.hk
+  user: Omit<User, 'id'>
   cover?: string
   updatedAt?: string
   content?: string
