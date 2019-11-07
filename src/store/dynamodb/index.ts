@@ -31,7 +31,6 @@ import {unlikeReply, UnlikeReplyInput} from './unlike-reply'
 import {CommentsByUserLikeInput, commentsByUserLike} from './comments-by-user-like'
 import {RepliesByUserIdInput, repliesByUserId} from './replies-by-user-id'
 import {RepliesByUserLikeInput, repliesByUserLike} from './replies-by-user-like'
-import {AddUserInput, addUser} from './add-user'
 
 export class MetadataStore {
   constructor(private operator: DynamoDBInput) {
@@ -164,10 +163,6 @@ export class MetadataStore {
 
   getLike(input: GetLikeInput) {
     return getLike(this.operator, input)
-  }
-
-  addUser(input: AddUserInput) {
-    return addUser(this.operator, input)
   }
 }
 
