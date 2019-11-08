@@ -22,19 +22,11 @@ resource aws_dynamodb_table yiguana {
     type = "S"
   }
   attribute {
-    name = "commentId"
-    type = "S"
-  }
-  attribute {
     name = "category"
     type = "S"
   }
   attribute {
     name = "hk"
-    type = "S"
-  }
-  attribute {
-    name = "order"
     type = "S"
   }
   attribute {
