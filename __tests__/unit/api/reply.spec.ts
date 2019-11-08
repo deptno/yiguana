@@ -3,6 +3,7 @@ import {Post} from '../../../src/entity/post'
 import {Comment} from '../../../src/entity/comment'
 import {bucketName, ddbClient, s3Client, tableName} from '../../env'
 import {member_a, member_b, member_f, non_member_a} from '../../__data__/user'
+import * as R from 'ramda'
 
 describe('unit', () => {
   describe('api', () => {
@@ -44,7 +45,7 @@ describe('unit', () => {
         })
         const {items} = await api.comment.list({postId: comment.postId})
         expect(items.length).toEqual(before.length + 1)
-        expect(items[0]).toEqual(reply)
+        expect(R.last(items)).toEqual(reply)
         console.table(items)
       })
 
