@@ -14,27 +14,7 @@ resource aws_dynamodb_table yiguana {
     type = "S"
   }
   attribute {
-    name = "like"
-    type = "S"
-  }
-  attribute {
     name = "rk"
-    type = "S"
-  }
-  attribute {
-    name = "commentId"
-    type = "S"
-  }
-  attribute {
-    name = "category"
-    type = "S"
-  }
-  attribute {
-    name = "hk"
-    type = "S"
-  }
-  attribute {
-    name = "order"
     type = "S"
   }
   attribute {
@@ -43,6 +23,26 @@ resource aws_dynamodb_table yiguana {
   }
   attribute {
     name = "userId"
+    type = "S"
+  }
+  attribute {
+    name = "category"
+    type = "S"
+  }
+  attribute {
+    name = "byUser"
+    type = "S"
+  }
+  attribute {
+    name = "comments"
+    type = "S"
+  }
+  attribute {
+    name = "posts"
+    type = "S"
+  }
+  attribute {
+    name = "like"
     type = "S"
   }
 
