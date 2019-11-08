@@ -4,14 +4,18 @@ import {non_member_a} from '../../../../../../__data__/user'
 
 export default handler({
   post(req, res) {
-    const commentId = req.query.hk as string
+    const hk = req.query.hk as string
     const ip = req.connection.remoteAddress
-    const {content} = JSON.parse(req.body)
+    const {content, postId, commentCreatedAt} = JSON.parse(req.body)
 
     yiguana.reply
       .create({
         data: {
-          commentId,
+          comment: {
+            hk,
+            postId,
+            createdAt: commentCreatedAt,
+          },
           content,
           createdAt: new Date().toISOString(),
         },

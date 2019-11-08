@@ -1,13 +1,15 @@
 import React, {FunctionComponent, useCallback, useEffect, useRef, useState} from 'react'
-import {Comment as CommentComponent} from './Comment'
-import {Comment} from '../../../../../src/entity/comment'
+import {Comment} from './Comment'
+import {Comment as TComment} from '../../../../../src/entity/comment'
+import {Reply as TReply} from '../../../../../src/entity/reply'
 import * as R from 'ramda'
 import {CommentWriter} from '../board/CommentWriter'
 import {api} from '../../pages/api/lib/api'
+import {Reply} from './Reply'
 
 export const Comments: FunctionComponent<Props> = props => {
   const {postId} = props
-  const [{items, nextToken}, setResponse] = useState({items: [] as Comment[], nextToken: undefined})
+  const [{items, nextToken}, setResponse] = useState({items: [] as (TComment | TReply)[], nextToken: undefined})
   const getComments = useCallback(() => {
     if (postId) {
       api(`/api/post/${postId}/comments`)
@@ -17,7 +19,7 @@ export const Comments: FunctionComponent<Props> = props => {
     }
   }, [postId])
   const like = (id) => {
-    api<Comment>(`/api/comment/${id}/like`, {method: 'post'})
+    api<TComment>(`/api/comment/${id}/like`, {method: 'post'})
       .then(comment => {
         setResponse({
           items: items.map(c => {
@@ -26,7 +28,7 @@ export const Comments: FunctionComponent<Props> = props => {
             }
             return c
           }),
-          nextToken
+          nextToken,
         })
       })
       .catch(alert)
@@ -47,7 +49,18 @@ export const Comments: FunctionComponent<Props> = props => {
           <li className="pointer hover-hot-pink" onClick={getComments}>
             <i className="fas fa-sync-alt"/> 새 댓글 확인
           </li>
-          {items.map(comment => <CommentComponent key={comment.hk} data={comment} onLike={like}/>)}
+          {items.map(commentOrReply => {
+            if ('commentId' in commentOrReply) {
+              return (
+                <li key={commentOrReply.hk} className="pl4 comment mv2 f6 flex">
+                  <div className="flex-auto flex flex-column">
+                    <Reply key={commentOrReply.hk} data={commentOrReply} onLike={like}/>
+                  </div>
+                </li>
+              )
+            }
+            return <Comment key={commentOrReply.hk} data={commentOrReply} onLike={like}/>
+          })}
         </ul>
       </div>
     </>

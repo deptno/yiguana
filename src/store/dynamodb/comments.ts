@@ -16,7 +16,6 @@ export function comments<T = Comment>(operator: DynamoDBInput, params: CommentsI
     ExpressionAttributeValues: {
       ':p': postId,
     },
-    ScanIndexForward: false,
     ReturnConsumedCapacity: 'TOTAL',
     ExclusiveStartKey: exclusiveStartKey
   })

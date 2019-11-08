@@ -3,7 +3,7 @@ import * as R from 'ramda'
 import {api} from '../../pages/api/lib/api'
 
 export const ReplyWriter: FunctionComponent<Props> = props => {
-  const {commentId, onCreate} = props
+  const {postId, commentId, commentCreatedAt, onCreate} = props
   const [content, setContent] = useState('')
   const handleChange = useCallback(R.compose(setContent, R.path(['target', 'value'])), [commentId])
   const saveComment = () => {
@@ -12,6 +12,8 @@ export const ReplyWriter: FunctionComponent<Props> = props => {
       {
         method: 'post',
         body: JSON.stringify({
+          postId,
+          commentCreatedAt,
           content,
         }),
       })
@@ -33,5 +35,8 @@ export const ReplyWriter: FunctionComponent<Props> = props => {
 
 type Props = {
   commentId: string
+  postId: string
+  commentCreatedAt: string
+
   onCreate(): void
 }

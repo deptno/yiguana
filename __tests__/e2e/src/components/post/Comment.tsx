@@ -9,14 +9,14 @@ import {api} from '../../pages/api/lib/api'
 export const Comment: FunctionComponent<Props> = props => {
   const {data, onLike} = props
   const {hk, rk, postId, content, userId, createdAt, updatedAt, children, likes, order} = data
-  const [showReplies, setShowReplies] = useState(false)
+//  const [showReplies, setShowReplies] = useState(false)
   const [showWriter, setShowWriter] = useState(false)
   const ref = useRef<RepliesHandle>()
   const onCreate = () => {
     if (ref.current) {
       ref.current.getComments()
     } else {
-      setShowReplies(true)
+//      setShowReplies(true)
     }
   }
   return (
@@ -42,9 +42,9 @@ export const Comment: FunctionComponent<Props> = props => {
             <a className="pointer" onClick={() => onLike(hk)}>공감({likes})</a>
             ﹒
             <span>
-            {showReplies
-              ? <a className="pointer" onClick={() => setShowReplies(false)}>답글 감추기</a>
-              : <a className="pointer" onClick={() => setShowReplies(true)}>답글({children}) 보기</a>}
+            {/*{showReplies*/}
+            {/*  ? <a className="pointer" onClick={() => setShowReplies(false)}>답글 감추기</a>*/}
+            {/*  : <a className="pointer" onClick={() => setShowReplies(true)}>답글({children}) 보기</a>}*/}
             </span>
             ﹒
             <a className="pointer" onClick={() => setShowWriter(!showWriter)}>답글 작성</a>
@@ -56,8 +56,8 @@ export const Comment: FunctionComponent<Props> = props => {
           <pre className="ma0 pa2" dangerouslySetInnerHTML={{__html: content}}/>
         </main>
         <pre className="debug">{JSON.stringify(data, null, 2)}</pre>
-        {showWriter && <ReplyWriter commentId={hk} onCreate={onCreate}/>}
-        {showReplies && <Replies ref={ref} commentId={hk}/>}
+        {showWriter && <ReplyWriter postId={postId} commentCreatedAt={createdAt} commentId={hk} onCreate={onCreate}/>}
+        {/*{showReplies && <Replies ref={ref} commentId={hk}/>}*/}
       </div>
     </li>
   )
