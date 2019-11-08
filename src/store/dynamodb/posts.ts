@@ -1,19 +1,20 @@
 import {Post} from '../../entity/post'
 import {DynamoDBInput} from '../../entity/input/dynamodb'
 import {EIndexName} from '../../dynamodb/yiguana-index'
+import {EEntity} from '../../entity/enum'
 
 export function posts(operator: DynamoDBInput, params: PostsInput) {
   const {tableName, dynamodb} = operator
   const {category = '', exclusiveStartKey} = params
   const queryParams = {
     TableName: tableName,
-    IndexName: EIndexName.RkCategory,
+    IndexName: EIndexName.postsByCategory,
     KeyConditionExpression: '#h = :h',
     ExpressionAttributeNames: {
       '#h': 'rk',
     },
     ExpressionAttributeValues: {
-      ':h': 'post',
+      ':h': EEntity.Post
     },
     ScanIndexForward: false,
     ReturnConsumedCapacity: 'TOTAL',

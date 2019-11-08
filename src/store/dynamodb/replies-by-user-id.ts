@@ -10,16 +10,16 @@ export function repliesByUserId<T = Reply>(operator: DynamoDBInput, params: Repl
 
   const queryParams = {
     TableName: tableName,
-    IndexName: EIndexName.ByUser,
+    IndexName: EIndexName.byUser,
     KeyConditionExpression: '#h = :h AND begins_with(#r, :r)',
     ExpressionAttributeNames: {
       '#h': 'userId',
-      '#r': 'order',
+      '#r': 'byUser',
     },
     ExpressionAttributeValues: {
       ':h': userId,
-      ':r': keys.order.reply.stringify({
-        entity: EEntity.Reply,
+      ':r': keys.byUser.stringify({
+        entity: EEntity.Comment,
       })
     },
     ScanIndexForward: false,

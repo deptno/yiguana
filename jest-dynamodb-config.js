@@ -1,9 +1,35 @@
+const createGsi = (name, hash, range) => ({
+  'IndexName'            : name,
+  'KeySchema'            : [
+    {
+      'AttributeName': hash,
+      'KeyType'      : 'HASH'
+    },
+    {
+      'AttributeName': range,
+      'KeyType'      : 'RANGE'
+    }
+  ],
+  'Projection'           : {
+    'ProjectionType': 'ALL'
+  },
+  'ProvisionedThroughput': {
+    'ReadCapacityUnits' : 1,
+    'WriteCapacityUnits': 1
+  },
+})
+
+
 module.exports = {
   tables: [
     {
       'AttributeDefinitions'  : [
         {
-          'AttributeName': 'commentId',
+          'AttributeName': 'posts',
+          'AttributeType': 'S'
+        },
+        {
+          'AttributeName': 'comments',
           'AttributeType': 'S'
         },
         {
@@ -11,7 +37,7 @@ module.exports = {
           'AttributeType': 'S'
         },
         {
-          'AttributeName': 'createdAt',
+          'AttributeName': 'byUser',
           'AttributeType': 'S'
         },
         {
@@ -51,170 +77,15 @@ module.exports = {
         }
       ],
       'ProvisionedThroughput' : {
-        'ReadCapacityUnits'     : 1,
-        'WriteCapacityUnits'    : 1
+        'ReadCapacityUnits' : 1,
+        'WriteCapacityUnits': 1
       },
       'GlobalSecondaryIndexes': [
-        {
-          'IndexName'            : 'by-user',
-          'KeySchema'            : [
-            {
-              'AttributeName': 'userId',
-              'KeyType'      : 'HASH'
-            },
-            {
-              'AttributeName': 'order',
-              'KeyType'      : 'RANGE'
-            }
-          ],
-          'Projection'           : {
-            'ProjectionType': 'ALL'
-          },
-          'ProvisionedThroughput': {
-            'ReadCapacityUnits'     : 1,
-            'WriteCapacityUnits'    : 1
-          },
-        },
-        {
-          'IndexName'            : 'userId-order-index',
-          'KeySchema'            : [
-            {
-              'AttributeName': 'userId',
-              'KeyType'      : 'HASH'
-            },
-            {
-              'AttributeName': 'category',
-              'KeyType'      : 'RANGE'
-            }
-          ],
-          'Projection'           : {
-            'ProjectionType': 'ALL'
-          },
-          'ProvisionedThroughput': {
-            'ReadCapacityUnits'     : 1,
-            'WriteCapacityUnits'    : 1
-          },
-        },
-        {
-          'IndexName'            : 'rk-category-index',
-          'KeySchema'            : [
-            {
-              'AttributeName': 'rk',
-              'KeyType'      : 'HASH'
-            },
-            {
-              'AttributeName': 'category',
-              'KeyType'      : 'RANGE'
-            }
-          ],
-          'Projection'           : {
-            'ProjectionType': 'ALL'
-          },
-          'ProvisionedThroughput': {
-            'ReadCapacityUnits'     : 1,
-            'WriteCapacityUnits'    : 1
-          },
-        },
-        {
-          'IndexName'            : 'board-order-index',
-          'KeySchema'            : [
-            {
-              'AttributeName': 'rk',
-              'KeyType'      : 'HASH'
-            },
-            {
-              'AttributeName': 'order',
-              'KeyType'      : 'RANGE'
-            }
-          ],
-          'Projection'           : {
-            'ProjectionType': 'ALL'
-          },
-          'ProvisionedThroughput': {
-            'ReadCapacityUnits'     : 1,
-            'WriteCapacityUnits'    : 1
-          },
-        },
-        {
-          'IndexName'            : 'postId-order-index',
-          'KeySchema'            : [
-            {
-              'AttributeName': 'postId',
-              'KeyType'      : 'HASH'
-            },
-            {
-              'AttributeName': 'order',
-              'KeyType'      : 'RANGE'
-            }
-          ],
-          'Projection'           : {
-            'ProjectionType': 'ALL'
-          },
-          'ProvisionedThroughput': {
-            'ReadCapacityUnits'     : 1,
-            'WriteCapacityUnits'    : 1
-          },
-        },
-        {
-          'IndexName'            : 'postId-createdAt-index',
-          'KeySchema'            : [
-            {
-              'AttributeName': 'postId',
-              'KeyType'      : 'HASH'
-            },
-            {
-              'AttributeName': 'createdAt',
-              'KeyType'      : 'RANGE'
-            }
-          ],
-          'Projection'           : {
-            'ProjectionType': 'ALL'
-          },
-          'ProvisionedThroughput': {
-            'ReadCapacityUnits'     : 1,
-            'WriteCapacityUnits'    : 1
-          },
-        },
-        {
-          'IndexName'            : 'replies',
-          'KeySchema'            : [
-            {
-              'AttributeName': 'commentId',
-              'KeyType'      : 'HASH'
-            },
-            {
-              'AttributeName': 'order',
-              'KeyType'      : 'RANGE'
-            }
-          ],
-          'Projection'           : {
-            'ProjectionType': 'ALL'
-          },
-          'ProvisionedThroughput': {
-            'ReadCapacityUnits'     : 1,
-            'WriteCapacityUnits'    : 1
-          },
-        },
-        {
-          'IndexName'            : 'rk-like-index',
-          'KeySchema'            : [
-            {
-              'AttributeName': 'rk',
-              'KeyType'      : 'HASH'
-            },
-            {
-              'AttributeName': 'like',
-              'KeyType'      : 'RANGE'
-            }
-          ],
-          'Projection'           : {
-            'ProjectionType': 'ALL'
-          },
-          'ProvisionedThroughput': {
-            'ReadCapacityUnits'     : 1,
-            'WriteCapacityUnits'    : 1
-          },
-        }
+        createGsi('byUser', 'userId', 'byUser'),
+        createGsi('posts', 'rk', 'posts'),
+        createGsi('postsByCategory', 'rk', 'category'),
+        createGsi('comments', 'postId', 'comments'),
+        createGsi('rk-like-index', 'rk', 'like'),
       ],
       'StreamSpecification'   : {
         'StreamEnabled' : true,

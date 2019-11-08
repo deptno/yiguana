@@ -57,6 +57,6 @@ export function postsByUserLike<T = Post>(operator: DynamoDBInput, params: Posts
 }
 export type PostsByUserLikeInput = {
   userId: string
-  entity?: Extract<EEntity, EEntity.Post | EEntity.Comment | EEntity.Reply>
+  entity?: Extract<EEntity, EEntity.Post | EEntity.Comment | EEntity.Comment>
   exclusiveStartKey?: Key
 }

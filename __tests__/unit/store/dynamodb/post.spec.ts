@@ -181,6 +181,8 @@ describe('unit', function () {
               const {items: before} = await postsByUserId(opDdb, {userId: member_c.id, category: 'kids'})
               const beforeItemCount = before.length
 
+              console.log('before')
+              console.table(before)
               {
                 await addPost(opDdb, {
                   data: createPost({
@@ -195,6 +197,7 @@ describe('unit', function () {
                 })
                 const {items} = await postsByUserId(opDdb, {userId: member_c.id, category: 'kids'})
                 expect(items).toHaveLength(beforeItemCount)
+                console.table(items)
               }
 
               await addPost(opDdb, {
@@ -217,12 +220,12 @@ describe('unit', function () {
                 items
                   .map(p => p.userId)
                   .every(u => u === member_c.id),
-              ).toBeTruthy()
+              ).toEqual(true)
               expect(
                 items
                   .map(p => p.category)
                   .every(c => c.startsWith('kids')),
-              ).toBeTruthy()
+              ).toEqual(true)
               expect(items.length > beforeItemCount).toEqual(true)
             })
           })
@@ -232,7 +235,6 @@ describe('unit', function () {
             it('유저 리스트 cGun -> 포스트 추가 -> 포스트 삭제 -> 유저 리스트 aGun', async () => {
               const {items: before} = await postsByUserId(opDdb, {userId: member_c.id})
               console.debug('유저 리스트 cGun')
-              console.table(before)
 
               const {items: other} = await postsByUserId(opDdb, {userId: member_a.id})
               console.debug('다른 유저 리스트 aGun')

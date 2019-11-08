@@ -1,4 +1,4 @@
-import {EEntity, EPriority} from '../enum'
+import {EEntity} from '../enum'
 import {uuid} from '../../lib/uuid'
 import {YiguanaDocument} from '../../dynamodb/yiguana-document'
 import {User} from '../user'
@@ -8,26 +8,25 @@ import {keys} from '../../dynamodb/keys'
 export function createComment(params: CreateCommentInput): Comment {
   const {user, data} = params
   const createdAt = new Date().toISOString()
-  const order = keys.order.comment.stringify({
-    entity: EEntity.Comment,
-    priority: EPriority.Normal,
-    createdAt
+  const entity = EEntity.Comment
+  const comments = keys.comments.stringify({
+    commentCreatedAt: createdAt,
   })
   const comment: Comment = {
     hk: uuid(),
-    rk: EEntity.Comment,
+    rk: entity,
     children: 0,
     likes: 0,
     content: data.content,
-    priority: data.priority,
     postId: data.postId,
-    order,
+    comments,
     createdAt,
-    user: user,
+    user,
   }
 
   if ('id' in user) {
     comment.userId = user.id
+    comment.byUser = keys.byUser.stringify({entity, createdAt})
   }
 
   return comment
@@ -40,10 +39,10 @@ export type CreateCommentInput = {
 export interface Comment extends YiguanaDocument {
   children: number
   content: string
-  priority: EPriority
-  order: string
   postId: string
   userId?: string // gsi.hk
+  byUser?: string //gsi.rk
+  comments: string // gsi.rk
   user: Omit<User, 'id'>
   updatedAt?: string
   likes: number

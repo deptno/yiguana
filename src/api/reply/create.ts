@@ -8,9 +8,9 @@ export async function create(store: MetadataStore, ep: EntityFactory, input: Cre
   return Promise
     .all([
       store.addReply({data: ep.createReply(input)}),
-      store.replyComment({
+      store.commentPost({
         data: {
-          hk: input.data.commentId,
+          hk: input.data.comment.postId
         },
       }),
     ])

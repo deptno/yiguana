@@ -10,15 +10,13 @@ export function commentsByPostId<T = Comment>(operator: DynamoDBInput, params: C
   // todo
   const queryParams = {
     TableName: tableName,
-    IndexName: EIndexName.PostOrder,
-    KeyConditionExpression: '#h = :h AND begins_with(#r, :r)',
+    IndexName: EIndexName.comments,
+    KeyConditionExpression: '#h = :h',
     ExpressionAttributeNames: {
       '#h': 'postId',
-      '#r': 'order',
     },
     ExpressionAttributeValues: {
       ':h': postId,
-      ':r': EEntity.Comment
     },
     ScanIndexForward: false,
     ReturnConsumedCapacity: 'TOTAL',

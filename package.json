@@ -8,6 +8,7 @@
   "scripts": {
     "prepare": "rimraf lib && rollup -c",
     "test": "jest --collect-coverage  --silent --verbose -i --ci",
+    "test.tsc": "tsc --noEmit",
     "test._full": "DEBUG=yiguana:* jest --verbose -i",
     "test._silent": "jest --collect-coverage  --silent -i",
     "test.bdd": "jest --silent -i --testPathPattern=/bdd",
@@ -39,16 +40,16 @@
     "@shelf/jest-dynamodb": "^1.4.1",
     "@types/aws-lambda": "^8.10.26",
     "@types/debug": "^4.1.5",
-    "@types/jest": "^24.0.13",
+    "@types/jest": "^24.0.22",
     "@types/node": "^10.14.21",
     "aws-sdk": "^2.548.0",
-    "jest": "^24.8.0",
+    "jest": "^24.9.0",
     "merge": "^1.2.1",
     "rimraf": "^3.0.0",
     "rollup": "^1.23.1",
     "rollup-plugin-node-resolve": "^5.0.4",
     "rollup-plugin-typescript2": "^0.21.2",
     "ts-jest": "^24.1.0",
-    "typescript": "^3.7.1-rc"
+    "typescript": "^3.7.2"
   }
 }

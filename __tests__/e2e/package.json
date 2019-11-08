@@ -5,7 +5,7 @@
   "main": "index.js",
   "scripts": {
     "start": "AWS_PROFILE=yiguana DEBUG=yiguana:* next",
-    "terrafrom.plan": "cd terraform && terraform plan -out=plan.out",
+    "terrafrom.plan": "cd terraform && terraform init && terraform plan -out=plan.out",
     "terrafrom.apply": "cd terraform && terraform apply plan.out",
     "test": "echo \"Error: no test specified\" && exit 1"
   },

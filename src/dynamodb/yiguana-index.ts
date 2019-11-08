@@ -13,11 +13,9 @@ class YiguanaIndex<H, R> {
 
 // TODO EIndexName 직접 참조는 지속적으로 줄이고 YiguanaIndex 를 만들어서 참조
 export enum EIndexName {
-  RkCategory = 'rk-category-index',
-  BoardOrder = 'board-order-index',
-  PostOrder = 'postId-order-index',
-  Comment = 'postId-createdAt-index',
-  Replies = 'replies',
-  ByUser = 'by-user',
+  posts = 'posts',
+  postsByCategory = 'postsByCategory',
+  comments = 'comments',
+  byUser = 'byUser',
   RkLike = 'rk-like-index',
 }

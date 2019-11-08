@@ -1,27 +1,31 @@
 import {DynamoDBInput} from '../../entity/input/dynamodb'
 import {Reply} from '../../entity/reply'
-import {EIndexName} from '../../dynamodb/yiguana-index'
+import {EIndexName} from '../../dynamodb'
+import {Comment} from '../../entity/comment'
+import {keys} from '../../dynamodb/keys'
 
 export function replies(operator: DynamoDBInput, params: RepliesInput) {
   const {dynamodb, tableName} = operator
-  const {commentId, nextToken} = params
+  const {comment, nextToken} = params
 
   return dynamodb.query<Reply>({
-    TableName                : tableName,
-    IndexName                : EIndexName.Replies,
-    KeyConditionExpression   : '#p = :p',
-    ExpressionAttributeNames : {
-      '#p': 'commentId',
+    TableName: tableName,
+    IndexName: EIndexName.comments,
+    KeyConditionExpression: '#p = :p AND begins_with(#r, :r)',
+    ExpressionAttributeNames: {
+      '#p': 'postId',
+      '#r': 'comments',
     },
     ExpressionAttributeValues: {
-      ':p': commentId,
+      ':p': comment.postId,
+      ':r': keys.comments.stringify({commentCreatedAt: comment.createdAt}) + '#',
     },
-    ScanIndexForward         : false,
-    ReturnConsumedCapacity   : 'TOTAL'
+    ScanIndexForward: false,
+    ReturnConsumedCapacity: 'TOTAL',
   })
 }
 
 export type RepliesInput = {
-  commentId: string
+  comment: Comment
   nextToken?: string
 }

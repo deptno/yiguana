@@ -16,7 +16,7 @@ export async function unlikeReply(operator: DynamoDBInput, params: UnlikeReplyIn
       TableName: tableName,
       Key: {
         hk,
-        rk: EEntity.Reply,
+        rk: EEntity.Comment,
       },
       UpdateExpression: 'SET #v = #v - :v',
       ExpressionAttributeNames: {

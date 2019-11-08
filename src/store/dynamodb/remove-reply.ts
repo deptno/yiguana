@@ -5,7 +5,7 @@ import {YiguanaDocumentHash} from '../../dynamodb/yiguana-document'
 export async function removeReply(operator: DynamoDBInput, params: RemoveCommentReplyInput) {
   const {dynamodb, tableName} = operator
   const {hk} = params
-  const rk = EEntity.Reply
+  const rk = EEntity.Comment
 
   const response = await dynamodb.update({
     TableName: tableName,

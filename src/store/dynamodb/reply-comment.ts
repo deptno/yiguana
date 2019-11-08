@@ -25,7 +25,7 @@ export function commentPostParams(operator: DynamoDBInput, params: ReplyCommentI
     TableName                : tableName,
     Key                      : {
       hk,
-      rk: EEntity.Comment,
+      rk: EEntity.Post,
     },
     UpdateExpression         : 'SET #v = #v + :v',
     ExpressionAttributeNames : {

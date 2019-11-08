@@ -1,4 +1,4 @@
-import {EEntity, EPriority} from '../../../../src/entity/enum'
+import {EEntity} from '../../../../src/entity/enum'
 import {Post} from '../../../../src/entity/post'
 import {getInitialData} from '../../../setup'
 import {opDdb} from '../../../env'
@@ -54,7 +54,6 @@ describe('unit', function () {
               data: {
                 postId: commentedPost.hk,
                 content: 'comment',
-                priority: EPriority.Normal,
               },
               user: member_e,
             })
@@ -81,7 +80,6 @@ describe('unit', function () {
               data: {
                 postId: commentedPost.hk,
                 content: 'comment',
-                priority: EPriority.Normal,
               },
               user: member_e
             })
@@ -228,7 +226,6 @@ describe('unit', function () {
               data: {
                 postId: commentedPost.hk,
                 content: 'comment',
-                priority: EPriority.Normal,
               },
               user: member_e,
             })

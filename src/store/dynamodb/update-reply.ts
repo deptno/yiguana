@@ -12,7 +12,7 @@ export function updateReply(operator: DynamoDBInput, params: UpdateCommentReplyI
       TableName: tableName,
       Key: {
         hk: data.hk,
-        rk: EEntity.Reply,
+        rk: EEntity.Comment,
       },
       UpdateExpression: 'SET #c = :c',
       ExpressionAttributeNames: {

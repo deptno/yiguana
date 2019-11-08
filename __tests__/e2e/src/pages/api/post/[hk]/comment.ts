@@ -14,7 +14,6 @@ export default handler({
         data: {
           postId,
           content,
-          priority: 50
         },
         user: {
           ...non_member_a,
