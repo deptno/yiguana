@@ -5,7 +5,7 @@ import {EEntity} from '../../../../src/entity/enum'
 import {replies} from '../../../../src/store/dynamodb/replies'
 import {opDdb} from '../../../env'
 import {addReply} from '../../../../src/store/dynamodb/add-reply'
-import {createReply} from '../../../../src/entity/reply/reply'
+import {createReply} from '../../../../src/entity/reply'
 import {replyComment} from '../../../../src/store/dynamodb/reply-comment'
 import {comments} from '../../../../src/store/dynamodb/comments'
 import {updateReply} from '../../../../src/store/dynamodb/update-reply'
@@ -37,13 +37,13 @@ describe('unit', function () {
 
         describe('replies', function () {
           it('초기 replies(0)', async () => {
-            const {items} = await replies(opDdb, {commentId})
+            const {items} = await replies(opDdb, {comment})
             expect(items.length).toEqual(0)
           })
           it('addReply -> replies(1)', async () => {
             const reply = createReply({
               data: {
-                commentId,
+                comment,
                 content: 'reply content',
                 createdAt: new Date().toISOString(),
               },
@@ -53,7 +53,7 @@ describe('unit', function () {
               data: reply,
             })
             console.log({replied})
-            const {items} = await replies(opDdb, {commentId})
+            const {items} = await replies(opDdb, {comment})
             expect(items.length).toEqual(1)
             console.table(items)
           })
@@ -62,7 +62,8 @@ describe('unit', function () {
             const repliedComment = items.find(c => c.hk === commentId)!
             expect(repliedComment.children).toEqual(0)
           })
-          it('AFTER replyComment, comment.children(1) ', async () => {
+          it.todo('replyComment 대신 commentPost 가 사용되어야 한다.')
+          xit('AFTER replyComment, comment.children(1) ', async () => {
             await replyComment(opDdb, {data: comment})
             const {items} = await comments(opDdb, {postId: commentedPost.hk})
             const repliedComment = items.find(c => c.hk === commentId)!
@@ -72,7 +73,7 @@ describe('unit', function () {
             const {items: commentItems} = await comments(opDdb, {postId: commentedPost.hk})
             const repliedComment = commentItems.find(c => c.hk === commentId)!
 
-            const {items: replyItems} = await replies(opDdb, {commentId: repliedComment.hk})
+            const {items: replyItems} = await replies(opDdb, {comment: repliedComment})
             const targetReply = replyItems[0]
             expect(targetReply).not.toEqual(undefined)
 
@@ -84,20 +85,20 @@ describe('unit', function () {
                 content,
               }
             })
-            const {items: after} = await replies(opDdb, {commentId: repliedComment.hk})
+            const {items: after} = await replies(opDdb, {comment: repliedComment})
             console.table(after) // expect 비교군이 생각이 안 나고 일단 로그로 확인하라
           })
           it('like reply', async() => {
             const {items: commentItems} = await comments(opDdb, {postId: commentedPost.hk})
             const repliedComment = commentItems.find(c => c.hk === commentId)!
 
-            const {items: replyItems} = await replies(opDdb, {commentId: repliedComment.hk})
+            const {items: replyItems} = await replies(opDdb, {comment: repliedComment})
             const targetReply = replyItems[0]
             expect(targetReply).not.toEqual(undefined)
 
             const like = createLike({
               data: {
-                entity: EEntity.Reply,
+                entity: EEntity.Comment,
                 targetId: targetReply.hk,
                 createdAt: new Date().toISOString()
               },
@@ -121,7 +122,7 @@ describe('unit', function () {
             console.debug('회원 답글 추가')
             const reply = createReply({
               data: {
-                commentId,
+                comment,
                 content: 'a gun reply',
                 createdAt: new Date().toISOString(),
               },
@@ -141,13 +142,13 @@ describe('unit', function () {
             const {items: commentItems} = await comments(opDdb, {postId: commentedPost.hk})
             const repliedComment = commentItems.find(c => c.hk === commentId)!
 
-            const {items: replyItems} = await replies(opDdb, {commentId: repliedComment.hk})
+            const {items: replyItems} = await replies(opDdb, {comment: repliedComment})
             const targetReply = replyItems[0]
             expect(targetReply).not.toEqual(undefined)
 
             const isRemoved = await removeReply(opDdb, {hk: targetReply.hk})
             expect(isRemoved).toEqual(true)
-            const {items: after} = await replies(opDdb, {commentId: repliedComment.hk})
+            const {items: after} = await replies(opDdb, {comment: repliedComment})
             console.table(after) // expect 비교군이 생각이 안 나고 일단 로그로 확인하라
           })
         })

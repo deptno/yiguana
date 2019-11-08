@@ -10,20 +10,21 @@ export function commentsByUserId<T = Comment>(operator: DynamoDBInput, params: C
 
   const queryParams = {
     TableName: tableName,
-    IndexName: EIndexName.ByUser,
-    KeyConditionExpression: '#h = :h',
+    IndexName: EIndexName.byUser,
+    KeyConditionExpression: '#h = :h AND begins_with(#r, :r)',
     ExpressionAttributeNames: {
       '#h': 'userId',
-      '#r': 'rk',
+      '#r': 'byUser',
     },
     ExpressionAttributeValues: {
       ':h': userId,
-      ':r': EEntity.Comment,
+      ':r': keys.byUser.stringify({
+        entity: EEntity.Comment,
+      }),
     },
-    FilterExpression: '#r = :r',
     ScanIndexForward: false,
     ReturnConsumedCapacity: 'TOTAL',
-    ExclusiveStartKey: exclusiveStartKey
+    ExclusiveStartKey: exclusiveStartKey,
   }
   return dynamodb.query<T>(queryParams)
 }

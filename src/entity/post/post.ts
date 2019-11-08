@@ -7,28 +7,27 @@ import {keys} from '../../dynamodb/keys'
 export function createPost(params: CreatePostInput): Post {
   const {user, data} = params
   const createdAt = new Date().toISOString()
-  const category = keys.category.post.stringify({
-    category: data.input.category,
-    createdAt,
-  })
-  const order = keys.order.post.stringify({
-    entity: EEntity.Post,
+  const entity = EEntity.Post
+  const posts = keys.posts.stringify({createdAt})
+  const byUser = keys.byUser.stringify({entity, createdAt})
+  const category = keys.category.stringify({
     category: data.input.category,
     createdAt,
   })
 
   const post: Post = {
     hk: data.id,
-    rk: EEntity.Post,
-    createdAt: createdAt,
+    rk: entity,
     views: 0,
     likes: 0,
     children: 0,
     title: data.input.title,
     contentUrl: data.contentUrl,
+    user,
+    createdAt,
+    posts,
     category,
-    order,
-    user: user,
+    byUser,
   }
   if ('id' in user) {
     post.userId = user.id
@@ -48,13 +47,14 @@ export interface Post extends YiguanaDocument {
   views: number
   likes: number
   children: number
-  category: string
-  order: string
   title: string
   contentUrl: string
-  userId?: string // gsi.hk
   user: Omit<User, 'id'>
   cover?: string
   updatedAt?: string
   content?: string
+  userId?: string // gsi.hk
+  byUser?: string // gsi.rk
+  category: string // gsi.rk
+  posts: string // gsi.rk
 }

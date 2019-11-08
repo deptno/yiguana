@@ -8,7 +8,7 @@ import {api} from '../../pages/api/lib/api'
 
 export const Comment: FunctionComponent<Props> = props => {
   const {data, onLike} = props
-  const {hk, rk, postId, content, userId, createdAt, updatedAt, priority, children, likes, order} = data
+  const {hk, rk, postId, content, userId, createdAt, updatedAt, children, likes, order} = data
   const [showReplies, setShowReplies] = useState(false)
   const [showWriter, setShowWriter] = useState(false)
   const ref = useRef<RepliesHandle>()

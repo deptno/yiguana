@@ -8,12 +8,14 @@ import * as R from 'ramda'
 
 export async function like(store: MetadataStore, ep: EntityFactory, input: LikeInput) {
   const {data, user} = input
+  console.log(1)
   const likeInfo = await store.getLike({
     data: {
       targetId: data.hk,
     },
     user: user
   })
+  console.log(2)
   if (likeInfo !== undefined) {
     console.log('like already exists')
     return Promise
@@ -27,7 +29,7 @@ export async function like(store: MetadataStore, ep: EntityFactory, input: LikeI
   const like = ep.createLike({
     data: {
       targetId: data.hk,
-      entity: EEntity.Reply,
+      entity: EEntity.Comment,
       createdAt: new Date().toISOString(),
     },
     user,

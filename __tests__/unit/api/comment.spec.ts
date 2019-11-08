@@ -2,7 +2,6 @@ import {createApi} from '../../../src/api'
 import {Post} from '../../../src/entity/post'
 import {Comment} from '../../../src/entity/comment'
 import {bucketName, ddbClient, s3Client, tableName} from '../../env'
-import {EPriority} from '../../../src/entity/enum'
 import {EValidationErrorMessage} from '../../../src/entity/error'
 import {member_a, member_b, member_f} from '../../__data__/user'
 
@@ -26,7 +25,6 @@ describe('unit', () => {
           data: {
             postId: post.hk,
             content: 'init data',
-            priority: EPriority.Normal,
           },
           user: member_f,
         })
@@ -46,7 +44,6 @@ describe('unit', () => {
               data: {
                 postId: post.hk,
                 content: 'test data',
-                priority: EPriority.Normal,
               },
               user: member_a,
             })

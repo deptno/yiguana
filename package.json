@@ -8,6 +8,7 @@
   "scripts": {
     "prepare": "rimraf lib && rollup -c",
     "test": "jest --collect-coverage  --silent --verbose -i --ci",
+    "test.tsc": "tsc --noEmit",
     "test._full": "DEBUG=yiguana:* jest --verbose -i",
     "test._silent": "jest --collect-coverage  --silent -i",
     "test.bdd": "jest --silent -i --testPathPattern=/bdd",

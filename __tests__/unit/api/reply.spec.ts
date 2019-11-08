@@ -1,4 +1,3 @@
-import {EPriority} from '../../../src/entity/enum'
 import {createApi} from '../../../src/api'
 import {Post} from '../../../src/entity/post'
 import {Comment} from '../../../src/entity/comment'
@@ -26,7 +25,6 @@ describe('unit', () => {
           data: {
             postId: post.hk,
             content: 'init data',
-            priority: EPriority.Normal,
           },
           user: member_f,
         })
@@ -34,22 +32,24 @@ describe('unit', () => {
       })
 
       it('create reply', async() => {
+        const {items: before} = await api.comment.list({postId: comment.postId})
+        expect(before.length).toEqual(1)
         const reply = await api.reply.create({
           data: {
-            commentId,
+            comment,
             content: 'reply content',
             createdAt: new Date().toISOString(),
           },
           user: non_member_a
         })
-        const {items} = await api.reply.list({commentId})
-        expect(items.length).toEqual(1)
+        const {items} = await api.comment.list({postId: comment.postId})
+        expect(items.length).toEqual(before.length + 1)
         expect(items[0]).toEqual(reply)
         console.table(items)
       })
 
       it('update reply', async() => {
-        const {items: replyItems} = await api.reply.list({commentId})
+        const {items: replyItems} = await api.reply.list({comment})
         const targetReply = replyItems[0]
         expect(targetReply).not.toEqual(undefined)
 
@@ -64,7 +64,7 @@ describe('unit', () => {
           user: member_f
         })
         expect(updatedReply).not.toEqual(targetReply)
-        const {items: after} = await api.reply.list({commentId})
+        const {items: after} = await api.reply.list({comment})
         console.table(after)
         const found = after.find(r => r.hk === targetReply.hk)!
         expect(found).toBeDefined()
@@ -72,23 +72,23 @@ describe('unit', () => {
         expect(found).toEqual(updatedReply)
       })
       it('like reply', async() => {
-        const {items: before} = await api.reply.list({commentId})
+        const {items: before} = await api.reply.list({comment})
         expect(before[0]).not.toEqual(undefined)
 
         await api.reply.like({
           data: before[0],
           user: member_a,
         })
-        const {items: after} = await api.reply.list({commentId})
+        const {items: after} = await api.reply.list({comment})
         expect(after[0].likes).toEqual(before[0].likes + 1)
       })
       it('like comment + like comment => cancel like reply', async () => {
-        const {items: first} = await api.reply.list({commentId})
+        const {items: first} = await api.reply.list({comment})
         await api.reply.like({
           data: first[0],
           user: member_b,
         })
-        const {items: second} = await api.reply.list({commentId})
+        const {items: second} = await api.reply.list({comment})
         expect(second[0].likes).toEqual(first[0].likes + 1)
 
         console.debug('like post 1회 수행하여 like가 이미 존재할 시 unlike 동작')
@@ -96,12 +96,12 @@ describe('unit', () => {
           data: second[0],
           user: member_b,
         })
-        const {items: third} = await api.reply.list({commentId})
+        const {items: third} = await api.reply.list({comment})
         expect(third[0].likes).toEqual(second[0].likes - 1)
       })
 
       it('remove reply', async() => {
-        const {items: replyItems} = await api.reply.list({commentId})
+        const {items: replyItems} = await api.reply.list({comment})
         const [targetReply] = replyItems
         expect(targetReply).not.toEqual(undefined)
 
@@ -110,7 +110,7 @@ describe('unit', () => {
           hk: targetReply.hk
         })
         expect(isRemoved).toEqual(true)
-        const {items: after} = await api.reply.list({commentId})
+        const {items: after} = await api.reply.list({comment})
         console.table(after)
         const found = after.find(r => r.hk === targetReply.hk)!
         expect(found).toBeDefined()

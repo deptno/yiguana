@@ -8,7 +8,7 @@ export function posts(operator: DynamoDBInput, params: PostsInput) {
   const {category = '', exclusiveStartKey} = params
   const queryParams = {
     TableName: tableName,
-    IndexName: EIndexName.PostsByCategoryCreatedAt,
+    IndexName: EIndexName.postsByCategory,
     KeyConditionExpression: '#h = :h',
     ExpressionAttributeNames: {
       '#h': 'rk',

@@ -25,7 +25,11 @@ module.exports = {
     {
       'AttributeDefinitions'  : [
         {
-          'AttributeName': 'commentId',
+          'AttributeName': 'posts',
+          'AttributeType': 'S'
+        },
+        {
+          'AttributeName': 'comments',
           'AttributeType': 'S'
         },
         {
@@ -33,7 +37,7 @@ module.exports = {
           'AttributeType': 'S'
         },
         {
-          'AttributeName': 'createdAt',
+          'AttributeName': 'byUser',
           'AttributeType': 'S'
         },
         {
@@ -77,10 +81,10 @@ module.exports = {
         'WriteCapacityUnits': 1
       },
       'GlobalSecondaryIndexes': [
-        createGsi('byUser', 'userId', 'order'),
-        createGsi('postsByCategoryCreatedAt', 'rk', 'category'),
-        createGsi('commentsByCreated', 'postId', 'order'),
-        createGsi('replies', 'commentId', 'order'),
+        createGsi('byUser', 'userId', 'byUser'),
+        createGsi('posts', 'rk', 'posts'),
+        createGsi('postsByCategory', 'rk', 'category'),
+        createGsi('comments', 'postId', 'comments'),
         createGsi('rk-like-index', 'rk', 'like'),
       ],
       'StreamSpecification'   : {

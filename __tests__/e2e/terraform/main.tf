@@ -53,20 +53,14 @@ resource aws_dynamodb_table yiguana {
     projection_type = "ALL"
   }
   global_secondary_index {
-    name = "postsByCategoryCreatedAt"
+    name = "postsByCategory"
     hash_key = "rk"
     range_key = "category"
     projection_type = "ALL"
   }
   global_secondary_index {
-    name = "commentsByCreated"
+    name = "comments"
     hash_key = "postId"
-    range_key = "order"
-    projection_type = "ALL"
-  }
-  global_secondary_index {
-    name = "replies"
-    hash_key = "commentId"
     range_key = "order"
     projection_type = "ALL"
   }

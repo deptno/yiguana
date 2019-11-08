@@ -8,7 +8,7 @@ export function likeReply(operator: DynamoDBInput, input: LikeReplyInput) {
   const {dynamodb, tableName} = operator
   const {data} = input
   const {hk} = data
-  const rk = EEntity.Reply
+  const rk = EEntity.Comment
 
   return dynamodb
     .update({

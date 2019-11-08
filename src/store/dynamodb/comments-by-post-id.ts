@@ -10,7 +10,7 @@ export function commentsByPostId<T = Comment>(operator: DynamoDBInput, params: C
   // todo
   const queryParams = {
     TableName: tableName,
-    IndexName: EIndexName.CommentsByPriorityCreated,
+    IndexName: EIndexName.comments,
     KeyConditionExpression: '#h = :h',
     ExpressionAttributeNames: {
       '#h': 'postId',

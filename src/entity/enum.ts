@@ -1,7 +1,6 @@
 export enum EEntity {
   Post = 'post',
   Comment = 'comment',
-  Reply = 'reply',
   Like = 'like',
 }
 export enum EPriority {

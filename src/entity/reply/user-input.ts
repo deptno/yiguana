@@ -1,5 +1,7 @@
+import {Comment} from '../comment'
+
 export type ReplyUserInput = {
-  commentId: string
+  comment: Pick<Comment, 'hk'|'createdAt'|'postId'>
   content: string
   createdAt: string
 }

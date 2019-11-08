@@ -9,7 +9,7 @@ export async function list(store: MetadataStore, ep: EntityFactory, input: ListI
     if (input.like) {
       return store.repliesByUserLike({
         userId: input.userId,
-        entity: EEntity.Reply
+        entity: EEntity.Comment
       })
     }
     return store.repliesByUserId(input as RepliesByUserIdInput)
