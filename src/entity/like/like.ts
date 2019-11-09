@@ -1,39 +1,44 @@
 import {YiguanaDocument} from '../../dynamodb/yiguana-document'
-import {Member} from '../user'
+import {Member, User} from '../user'
 import {LikeInput} from './user-input'
 import {EEntity} from '../enum'
 import {keys} from '../../dynamodb/keys'
+import {Post} from '../post'
+import {Comment} from '../comment'
 
 export function createLike(params: CreateLikeInput): Like {
   const {user, data} = params
   const {entity, targetId, createdAt} = data
-  const {id: userId} = user
-  const hk = keys.hk.like.stringify({
-    targetId,
+  const {id: userId, ...userOmitId} = user
+  const hk = targetId
+  const rk = keys.rk.like.stringify({
+    entity: EEntity.Like,
+    target: entity,
     userId,
   })
-  const like = keys.like.like.stringify({
-    userId,
-    entity,
-    targetId,
-    createdAt,
+  const byUser = keys.byUser.stringify({
+    entity: EEntity.Like,
+    createdAt
   })
-
-  console.log({rk: EEntity.Like, hk, like, createdAt})
 
   return {
-    rk: EEntity.Like,
     hk,
-    like,
+    rk,
+    userId,
+    byUser,
     createdAt,
+    user: userOmitId,
   }
 }
 
 export type CreateLikeInput = {
-  data: LikeInput
+  data: LikeInput & {
+    data: Post|Comment
+  }
   user: Member
 }
 export interface Like extends YiguanaDocument {
-  rk: EEntity.Like
-  like: string
+  userId: string
+  byUser: string
+  user: Omit<User, 'id'>
 }

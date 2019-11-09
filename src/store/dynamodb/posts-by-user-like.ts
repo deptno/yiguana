@@ -6,57 +6,44 @@ import {EIndexName} from '../../dynamodb/yiguana-index'
 import {keys} from '../../dynamodb/keys'
 import * as R from 'ramda'
 import {Like} from '../../entity/like'
+import {DocumentClient} from 'aws-sdk/clients/dynamodb'
 
 export function postsByUserLike<T = Post>(operator: DynamoDBInput, params: PostsByUserLikeInput) {
   const {tableName, dynamodb} = operator
   const {entity, exclusiveStartKey, userId} = params
-
-  return dynamodb
-    .query<Like>({
-      TableName: tableName,
-      IndexName: EIndexName.RkLike,
-      KeyConditionExpression: '#p = :p and begins_with(#r, :r)',
-      ExpressionAttributeNames: {
-        '#p': 'rk',
-        '#r': 'like',
-      },
-      ExpressionAttributeValues: {
-        ':p': EEntity.Like,
-        ':r': keys.like.like.stringify({
-          userId,
-          entity,
-        }),
-      },
-      ScanIndexForward: false,
-      ReturnConsumedCapacity: 'TOTAL',
-      ExclusiveStartKey: exclusiveStartKey,
-      Limit: 10,
+  const byUser = keys.byUser.stringify({
+    entity: EEntity.Like,
+  })
+  const input: DocumentClient.QueryInput = {
+    TableName: tableName,
+    IndexName: EIndexName.byUser,
+    KeyConditionExpression: '#p = :p and begins_with(#r, :r)',
+    ExpressionAttributeNames: {
+      '#p': 'userId',
+      '#r': 'byUser',
+    },
+    ExpressionAttributeValues: {
+      ':p': userId,
+      ':r': byUser,
+    },
+    ScanIndexForward: false,
+    ReturnConsumedCapacity: 'TOTAL',
+    ExclusiveStartKey: exclusiveStartKey,
+    Limit: 10,
+  }
+  if (entity) {
+    input.ExpressionAttributeNames!['#e'] = 'rk'
+    input.ExpressionAttributeValues![':e'] = keys.rk.like.stringify({
+      entity: EEntity.Like,
+      target: entity
     })
-    .then(async response => {
-      // TODO: 테스트 데이터때문에 데이터 중복이 존재한다. 실제로는 존재할 수 없을 것으로 생각된다.
+    input.FilterExpression = 'begins_with(#e, :e)'
+  }
 
-      const parsedList = Array.from(new Set(response.items.map(l => l.like)))
-      const [items, rcu] = await dynamodb.batchGet({
-        tableName,
-        keysList: parsedList
-          .map(keys.like.like.parse)
-          .map(({entity: rk, targetId: hk}) => {
-            return {
-              hk,
-              rk
-            }
-          }),
-      })
-
-      return {
-        ...response,
-        items: items as T[],
-      }
-    })
-    .then(R.tap(console.log))
+  return dynamodb.query<Like>(input)
 }
 export type PostsByUserLikeInput = {
   userId: string
-  entity?: Extract<EEntity, EEntity.Post | EEntity.Comment | EEntity.Comment>
+  entity?: Extract<EEntity, EEntity.Post | EEntity.Comment>
   exclusiveStartKey?: Key
 }

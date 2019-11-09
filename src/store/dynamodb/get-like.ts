@@ -8,9 +8,11 @@ import {EEntity} from '../../entity/enum'
 export async function getLike<T = Like>(operator: DynamoDBInput, params: GetLikeInput) {
   const {dynamodb, tableName} = operator
   const {user, data} = params
-  const {targetId} = data
-  const hk = keys.hk.like.stringify({
-    targetId,
+  const {targetId, entity} = data
+  const hk = targetId
+  const rk = keys.rk.like.stringify({
+    entity: EEntity.Like,
+    target: entity,
     userId: user.id,
   })
 
@@ -18,12 +20,12 @@ export async function getLike<T = Like>(operator: DynamoDBInput, params: GetLike
     TableName: tableName,
     Key: {
       hk,
-      rk: EEntity.Like
+      rk,
     },
   })
 }
 
 export type GetLikeInput = {
-  data: Pick<LikeInput, 'targetId'>
+  data: Omit<LikeInput, 'createdAt'>
   user: Member
 }
