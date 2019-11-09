@@ -14,7 +14,7 @@ export async function removePost(operator: DynamoDBInput, params: RemovePostInpu
     },
     UpdateExpression: [
       'SET dCategory = category, deleted = :d',
-      'REMOVE category'
+      'REMOVE category, posts',
     ].join(' '),
     ExpressionAttributeValues: {
       ':d': true

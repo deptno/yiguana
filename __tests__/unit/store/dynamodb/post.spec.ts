@@ -28,7 +28,7 @@ describe('unit', function () {
         describe('posts', function () {
           it.todo('시간순 리스트, 우선순위 글에 대한 테스트')
           it('시간순 리스트', async () => {
-            const {items} = await posts(opDdb, {category: 'news'})
+            const {items} = await posts(opDdb, {})
             console.debug('시간순 리스트')
             console.table(items)
 

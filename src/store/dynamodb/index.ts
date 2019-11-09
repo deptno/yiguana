@@ -1,4 +1,4 @@
-import {posts, PostsInput} from './posts'
+import {postsByCategory, PostsByCategoryInput} from './posts-by-category'
 import {addPost, AddPostInput} from './add-post'
 import {updatePost, UpdatePostInput} from './update-post'
 import {removePost, RemovePostInput} from './remove-post'
@@ -31,6 +31,7 @@ import {unlikeReply, UnlikeReplyInput} from './unlike-reply'
 import {CommentsByUserLikeInput, commentsByUserLike} from './comments-by-user-like'
 import {RepliesByUserIdInput, repliesByUserId} from './replies-by-user-id'
 import {RepliesByUserLikeInput, repliesByUserLike} from './replies-by-user-like'
+import {posts, PostsInput} from './posts'
 
 export class MetadataStore {
   constructor(private operator: DynamoDBInput) {
@@ -43,6 +44,10 @@ export class MetadataStore {
 
   posts(input: PostsInput) {
     return posts(this.operator, input)
+  }
+
+  postsByCategory(input: PostsByCategoryInput) {
+    return postsByCategory(this.operator, input)
   }
 
   postsByUserId(input: PostsByUserIdInput) {
