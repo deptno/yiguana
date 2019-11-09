@@ -1,6 +1,5 @@
 import {opDdb, opS3} from './env'
 import {Post} from '../src/entity/post'
-import {posts} from '../src/store/dynamodb/posts'
 import {addPost} from '../src/store/dynamodb/add-post'
 import * as R from 'ramda'
 import {createComment} from '../src/entity/comment'
@@ -10,6 +9,7 @@ import {YiguanaDocument} from '../src/dynamodb'
 import {ContentStore} from '../src/store/s3'
 import {EntityFactory} from '../src/entity'
 import {member_a, member_b, member_c, member_d, non_member_a} from './__data__/user'
+import {posts} from '../src/store/dynamodb/posts'
 
 export const getInitialData = async () => {
   await clearData()
@@ -30,20 +30,22 @@ export const getInitialData = async () => {
   expect(postContentNews.contentUrl).toBeDefined()
   expect(postContentNews.input).toBeDefined()
 
-  const {items} = await posts(opDdb, {category: ''})
+  const {items} = await posts(opDdb, {})
   expect(items).toHaveLength(0)
 
   const setup = (posts: Post[]) => posts
     .map<Post>((post, i) => {
+      let createdAt = new Date(Date.now() - 864000000 * i).toISOString()
       return {
         ...post,
         hk: i.toString().padStart(4, '0'),
-        createdAt: new Date(Date.now() - 864000000 * i).toISOString(),
+        createdAt,
         category: post.category
           .split('#')
           .slice(0, 2)
-          .concat(new Date(Date.now() - 864000000 * i).toISOString())
+          .concat(createdAt)
           .join('#'),
+        posts: createdAt
       }
     })
 
