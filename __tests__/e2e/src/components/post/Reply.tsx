@@ -5,7 +5,8 @@ import {Reply as TReply} from '../../../../../src/entity/reply'
 
 export const Reply: FunctionComponent<Props> = props => {
   const {data, onLike} = props
-  const {hk, rk, content, createdAt, likes, order} = data
+  const {hk, rk, content, createdAt, likes, user} = data
+  const {ip, name} = user
 
   return (
     <div className="comment mv2 f6 flex">
@@ -25,7 +26,7 @@ export const Reply: FunctionComponent<Props> = props => {
               <i className="mh1 pv1 far fa-clock black-60"/>{formatDistanceToNow(parseISO(createdAt), {locale})} 전
             </span>
             ﹒
-            <span>아이피(미구현)</span>
+            <span>{ip}</span>
             ﹒
             <a className="pointer" onClick={() => onLike(hk)}>공감({likes})</a>
             ﹒

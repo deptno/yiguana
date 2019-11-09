@@ -39,16 +39,16 @@ export const Comments: FunctionComponent<Props> = props => {
   return (
     <>
       <div className="comment-writer mv3 ph2 ph3-ns pv3 bg-white flex flex-column mt3 pv3 b--hot-pink bt bw1">
-        <h2 className="mb2 f4">
-          <i className="far fa-comment-dots"/>댓글
-        </h2>
         <CommentWriter postId={postId} onCreate={getComments}/>
       </div>
       <div className="mh2 mv3 flex flex-column">
-        <ul className="list ph0">
-          <li className="pointer hover-hot-pink" onClick={getComments}>
+        <span className="mb2">
+          <i className="far fa-comment-dots"/>댓글
+          <small className="mh2">
             <i className="fas fa-sync-alt"/> 새 댓글 확인
-          </li>
+          </small>
+        </span>
+        <ul className="list ph0">
           {items.map(commentOrReply => {
             if ('commentId' in commentOrReply) {
               return (
@@ -59,7 +59,7 @@ export const Comments: FunctionComponent<Props> = props => {
                 </li>
               )
             }
-            return <Comment key={commentOrReply.hk} data={commentOrReply} onLike={like}/>
+            return <Comment key={commentOrReply.hk} data={commentOrReply} onLike={like} onCreate={getComments}/>
           })}
         </ul>
       </div>
