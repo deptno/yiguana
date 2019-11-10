@@ -36,6 +36,7 @@ import {comment, CommentInput} from './comment'
 import {report, ReportInput} from './report'
 import {increaseReportAgg, IncreaseReportAggInput} from './increase-report-agg'
 import {decreaseReportAgg, DecreaseReportAggInput} from './decrease-report-agg'
+import {reports, ReportsInput} from './reports'
 
 export class MetadataStore {
   constructor(private operator: DynamoDBInput) {
@@ -178,6 +179,10 @@ export class MetadataStore {
   // @deprecated
   getLike(input: GetLikeInput) {
     return getLike(this.operator, input)
+  }
+
+  reports(input: ReportsInput) {
+    return reports(this.operator, input)
   }
 
   report(input: ReportInput) {

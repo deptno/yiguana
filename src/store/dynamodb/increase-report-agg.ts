@@ -10,6 +10,7 @@ export function increaseReportAgg(operator: DynamoDBInput, params: IncreaseRepor
   const {data} = params
   const {hk} = data
 
+  //FIXME: updatedAt 은 관례상 인자로 받아야한다. decrease 도 마찬가지 로직
   return dynamodb
     .update({
       TableName: tableName,
@@ -20,12 +21,16 @@ export function increaseReportAgg(operator: DynamoDBInput, params: IncreaseRepor
           target: data.rk // EEntity.Post|EEntity.Comment 인 것이 보장되어야 한다.
         }),
       },
-      UpdateExpression: 'SET #v = #v + :v',
+      UpdateExpression: 'SET #v = #v + :v, #u = :u, #c = if_not_exists(#c, :c)',
       ExpressionAttributeNames: {
         '#v': 'reported',
+        '#u': 'reports',
+        '#c': 'createdAt',
       },
       ExpressionAttributeValues: {
         ':v': 1,
+        ':c': 'createdAt',
+        ':u': new Date().toISOString()
       },
       ReturnValues: 'ALL_NEW',
     })

@@ -1,5 +1,4 @@
 import {DynamoDbKey} from '@deptno/dynamodb/dist/key'
-import {util} from '@deptno/dynamodb'
 
 class YiguanaIndex<H, R> {
   constructor(
@@ -17,5 +16,6 @@ export enum EIndexName {
   postsByCategory = 'postsByCategory',
   comments = 'comments',
   byUser = 'byUser',
+  reports = 'reports',
   RkLike = 'rk-like-index',
 }
