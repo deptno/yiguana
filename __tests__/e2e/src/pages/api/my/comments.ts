@@ -12,17 +12,17 @@ export default (req: NextApiRequest, res: NextApiResponse) => {
   if (!user) {
     throw new Error('unauthorized user')
   }
-  const {category, nextToken} = req.query as Record<string, string>
+  const {like, nextToken} = req.query as Record<string, string>
   const {id: userId} = user
 
   yiguana.user.comment
     .list({
       userId,
+      like: Boolean(like),
       exclusiveStartKey: util.parseToken(nextToken, SALT),
     })
     .then((response: PaginationResult<Comment>) => {
       const {items, lastEvaluatedKey} = response
-      console.log({response})
 
       return {
         items,

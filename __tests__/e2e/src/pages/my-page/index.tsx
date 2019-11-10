@@ -2,8 +2,8 @@ import React from 'react'
 import {NextPage} from 'next'
 import {UserPosts} from '../../components/board/UserPosts'
 import {UserComments} from '../../components/board/UserComments'
-import {UserReplies} from '../../components/board/UserReplies'
 import {UserLikePosts} from '../../components/board/UserLikePosts'
+import {UserLikeComments} from '../../components/board/UserLikeComments'
 
 const MyPage: NextPage<Props> = props => {
   return (
@@ -13,16 +13,17 @@ const MyPage: NextPage<Props> = props => {
         <UserLikePosts />
       </div>
       <div>
+        내가 공감 표시한 코멘트
+        <UserLikeComments/>
+      </div>
+      <hr/>
+      <div>
         내가 작성한 글들
         <UserPosts/>
       </div>
       <div>
         내가 작성한 코멘트
         <UserComments/>
-      </div>
-      <div>
-        내가 작성한 답글들(클리앙은 코멘트로 둘이 합쳐져있음)
-        <UserReplies/>
       </div>
     </div>
   )
