@@ -1,6 +1,5 @@
 import {MetadataStore} from '../../store/dynamodb'
 import {EntityFactory} from '../../entity'
-import {like, LikeInput} from './like'
 import {list, ListInput} from './list'
 import {create, CreateInput} from './create'
 import {update, UpdateInput} from './update'
@@ -34,14 +33,6 @@ export class ReplyApi {
   del(input: DelInput) {
     return del(this.store, this.ef, input)
   }
-
-//  like(input: LikeInput) {
-//    return like(this.store, this.ef, input)
-//  }
-
-//  unlike(input: UnlikeInput) {
-//    return unlike(this.store, this.ep, input)
-//  }
 
   view(input: ViewInput) {
     return view(this.store, this.ef, input)

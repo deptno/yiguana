@@ -5,7 +5,7 @@ import {RepliesByUserIdInput} from '../../../store/dynamodb/replies-by-user-id'
 import {RepliesInput} from '../../../store/dynamodb/replies'
 
 export async function list(store: MetadataStore, ep: EntityFactory, input: ListInput) {
-  if (input.like) {
+  if ('like' in input) {
     return store.repliesByUserLike({
       userId: input.userId,
       entity: EEntity.Comment,
