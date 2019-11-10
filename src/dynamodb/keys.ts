@@ -20,7 +20,14 @@ export const keys = {
         target: v => v,
         userId: v => v
       }
-    )
+    ),
+    reportAgg: createKey<{entity: EEntity.ReportAgg, target: Omit<EEntity, EEntity.Like|EEntity.Report>}>(
+      ['entity', 'target'],
+      {
+        entity: v => v,
+        target: v => v,
+      }
+    ),
   },
   hk: {
     like: createKey<{ targetId: string, userId: string }>(

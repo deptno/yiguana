@@ -34,6 +34,8 @@ import {repliesByUserLike, RepliesByUserLikeInput} from './replies-by-user-like'
 import {posts, PostsInput} from './posts'
 import {comment, CommentInput} from './comment'
 import {report, ReportInput} from './report'
+import {increaseReportAgg, IncreaseReportAggInput} from './increase-report-agg'
+import {decreaseReportAgg, DecreaseReportAggInput} from './decrease-report-agg'
 
 export class MetadataStore {
   constructor(private operator: DynamoDBInput) {
@@ -172,12 +174,22 @@ export class MetadataStore {
     return remove(this.operator, input)
   }
 
+  // 일단 유지한다. upsert 로직이 결국 원본 객체를 필요로해서 의미가 많이 퇴색되었기 때문
+  // @deprecated
   getLike(input: GetLikeInput) {
     return getLike(this.operator, input)
   }
 
   report(input: ReportInput) {
     return report(this.operator, input)
+  }
+
+  increaseReportCount(input: IncreaseReportAggInput) {
+    return increaseReportAgg(this.operator, input)
+  }
+
+  decreaseReportCount(input: DecreaseReportAggInput) {
+    return decreaseReportAgg(this.operator, input)
   }
 }
 

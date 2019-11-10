@@ -3,6 +3,7 @@ import {EntityFactory} from '../../../entity'
 import {Member} from '../../../entity/user'
 import {Post} from '../../../entity/post'
 import * as R from 'ramda'
+import {ReportAgg} from '../../../entity/report/report-agg'
 
 export async function report(store: MetadataStore, ef: EntityFactory, input: ReportInput) {
   const {data: {content, data, createdAt}, user} = input
@@ -25,16 +26,15 @@ export async function report(store: MetadataStore, ef: EntityFactory, input: Rep
   })
 
   if (report) {
-    //TODO: upsert report 의 count 객체 count + 1
-    return store.report({data: report})
+    return store.increaseReportCount({data: report})
   }
 
   return Promise
     .all([
       store.remove({data}),
-      //TODO: report 의 count 객체 count - 1
+      store.decreaseReportCount({data: report})
     ])
-    .then<Post>(R.view(R.lensIndex(1)))
+    .then<ReportAgg>(R.view(R.lensIndex(1)))
 }
 
 export type ReportInput = {
