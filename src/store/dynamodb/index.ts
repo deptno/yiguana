@@ -1,3 +1,4 @@
+import {DynamoDBInput} from '../../entity/input/dynamodb'
 import {postsByCategory, PostsByCategoryInput} from './posts-by-category'
 import {addPost, AddPostInput} from './add-post'
 import {updatePost, UpdatePostInput} from './update-post'
@@ -9,30 +10,30 @@ import {remove, RemoveInput} from './remove'
 import {addComment, AddCommentInput} from './add-comment'
 import {comments, CommentsInput} from './comments'
 import {removeComment, RemoveCommentInput} from './remove-comment'
-import {AddCommentReplyInput, addReply} from './add-reply'
+import {addReply, AddCommentReplyInput} from './add-reply'
 import {commentPost, CommentPostInput} from './comment-post'
 import {replies, RepliesInput} from './replies'
 import {postsByUserId, PostsByUserIdInput} from './posts-by-user-id'
 import {postsByUserLike, PostsByUserLikeInput} from './posts-by-user-like'
 import {post, PostInput} from './post'
-import {DynamoDBInput} from '../../entity/input/dynamodb'
 import {commentsByUserId, CommentsByUserIdInput} from './comments-by-user-id'
 import {updateComment, UpdateCommentInput} from './update-comment'
 import {likeComment, LikeCommentInput} from './like-comment'
 import {unlikeComment, UnlikeCommentInput} from './unlike-comment'
 import {replyComment, ReplyCommentInput} from './reply-comment'
-import {UpdateCommentReplyInput, updateReply} from './update-reply'
-import {RemoveCommentReplyInput, removeReply} from './remove-reply'
+import {updateReply, UpdateCommentReplyInput} from './update-reply'
+import {removeReply, RemoveCommentReplyInput} from './remove-reply'
 import {addLike, AddLikeInput} from './add-like'
 import {getLike, GetLikeInput} from './get-like'
 import {removeLike, RemoveLikeInput} from './remove-like'
 import {likeReply, LikeReplyInput} from './like-reply'
 import {unlikeReply, UnlikeReplyInput} from './unlike-reply'
-import {CommentsByUserLikeInput, commentsByUserLike} from './comments-by-user-like'
-import {RepliesByUserIdInput, repliesByUserId} from './replies-by-user-id'
-import {RepliesByUserLikeInput, repliesByUserLike} from './replies-by-user-like'
+import {commentsByUserLike, CommentsByUserLikeInput} from './comments-by-user-like'
+import {repliesByUserId, RepliesByUserIdInput} from './replies-by-user-id'
+import {repliesByUserLike, RepliesByUserLikeInput} from './replies-by-user-like'
 import {posts, PostsInput} from './posts'
 import {comment, CommentInput} from './comment'
+import {report, ReportInput} from './report'
 
 export class MetadataStore {
   constructor(private operator: DynamoDBInput) {
@@ -173,6 +174,10 @@ export class MetadataStore {
 
   getLike(input: GetLikeInput) {
     return getLike(this.operator, input)
+  }
+
+  report(input: ReportInput) {
+    return report(this.operator, input)
   }
 }
 
