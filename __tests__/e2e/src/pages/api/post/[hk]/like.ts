@@ -1,6 +1,5 @@
 import {handler} from '../../lib/handler'
 import {yiguana} from '../../lib/yiguana'
-import * as R from 'ramda'
 import {EAuthorizeErrorCode, isMember} from '../../lib/authorize'
 import {Member} from '../../../../../../../src/entity/user'
 
@@ -12,16 +11,20 @@ export default handler({
         .send({error: EAuthorizeErrorCode.forbidden})
     }
     const hk = req.query.hk as string
+    const createdAt = new Date().toISOString()
 
     yiguana.post
-      .like({
-        data: {
-          hk,
-        },
-        user: user,
-      })
-      .then(R.tap(console.log))
-      .then(res.json)
-      .catch(e => res.status(400).json({e}))
+      .read({data: {hk}})
+      .then(data => yiguana.user.post
+        .like({
+          data: {
+            data,
+            createdAt,
+          },
+          user,
+        })
+        .then(res.json),
+      )
+      .catch(e => res.status(400).json({e: e.message}))
   },
 })

@@ -4,6 +4,16 @@ import {EEntity} from '../entity/enum'
 const {createKey} = util
 
 export const keys = {
+  rk: {
+    like: createKey<{entity: EEntity.Like, target: Omit<EEntity, EEntity.Like>, userId: string}>(
+      ['entity', 'target', 'userId'],
+      {
+        entity: v => v,
+        target: v => v,
+        userId: v => v
+      }
+    )
+  },
   hk: {
     like: createKey<{ targetId: string, userId: string }>(
       ['targetId', 'userId'],

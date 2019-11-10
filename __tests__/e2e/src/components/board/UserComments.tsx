@@ -13,22 +13,19 @@ export const UserComments: FunctionComponent<Props> = props => {
     setToken(nextToken)
 
     const url = ['api/my/comments']
+    const params: any = {}
 
     if (nextToken) {
-      url.push(qs.stringify({nextToken}))
+      params.nextToken = nextToken
     }
+
+    url.push(qs.stringify(params))
     api(url.join('?'))
       .then(setResponse)
       .catch(alert)
   }
 
-  console.table(items)
-  useEffect(() => {
-    getComments()
-  }, [])
-//  return <Board items={items} token={token} nextToken={nextToken} getter={getPosts}/>
-
-  return <span>[GSI 미구현으로 보임]</span>
+  return <Board items={items} token={token} nextToken={nextToken} getter={getComments}/>
 }
 
 type Props = {

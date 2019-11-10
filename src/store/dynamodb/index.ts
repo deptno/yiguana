@@ -25,13 +25,14 @@ import {UpdateCommentReplyInput, updateReply} from './update-reply'
 import {RemoveCommentReplyInput, removeReply} from './remove-reply'
 import {addLike, AddLikeInput} from './add-like'
 import {getLike, GetLikeInput} from './get-like'
-import {removeLike} from './remove-like'
+import {removeLike, RemoveLikeInput} from './remove-like'
 import {likeReply, LikeReplyInput} from './like-reply'
 import {unlikeReply, UnlikeReplyInput} from './unlike-reply'
 import {CommentsByUserLikeInput, commentsByUserLike} from './comments-by-user-like'
 import {RepliesByUserIdInput, repliesByUserId} from './replies-by-user-id'
 import {RepliesByUserLikeInput, repliesByUserLike} from './replies-by-user-like'
 import {posts, PostsInput} from './posts'
+import {comment, CommentInput} from './comment'
 
 export class MetadataStore {
   constructor(private operator: DynamoDBInput) {
@@ -86,6 +87,10 @@ export class MetadataStore {
     return commentPost(this.operator, input)
   }
 
+  comment(input: CommentInput) {
+    return comment(this.operator, input)
+  }
+
   comments(input: CommentsInput) {
     return comments(this.operator, input)
   }
@@ -114,7 +119,7 @@ export class MetadataStore {
     return addLike(this.operator, input)
   }
 
-  removeLike(input: AddLikeInput) {
+  removeLike(input: RemoveLikeInput) {
     return removeLike(this.operator, input)
   }
 

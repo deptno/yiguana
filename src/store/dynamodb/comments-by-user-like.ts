@@ -1,60 +1,15 @@
-import {Key} from 'readline'
 import {DynamoDBInput} from '../../entity/input/dynamodb'
 import {EEntity} from '../../entity/enum'
-import {EIndexName} from '../../dynamodb/yiguana-index'
-import {keys} from '../../dynamodb/keys'
-import * as R from 'ramda'
-import {Like} from '../../entity/like'
 import {Comment} from '../../entity/comment'
+import {_likesByUser, QueryByUserLike} from './_likes-by-user'
 
-export function commentsByUserLike<T = Comment>(operator: DynamoDBInput, params: CommentsByUserLikeInput) {
-  const {tableName, dynamodb} = operator
-  const {entity, exclusiveStartKey, userId} = params
-
-  return dynamodb
-    .query<Like>({
-      TableName: tableName,
-      IndexName: EIndexName.RkLike,
-      KeyConditionExpression: '#p = :p and begins_with(#r, :r)',
-      ExpressionAttributeNames: {
-        '#p': 'rk',
-        '#r': 'like',
-      },
-      ExpressionAttributeValues: {
-        ':p': EEntity.Like,
-        ':r': keys.like.like.stringify({
-          userId,
-          entity,
-        }),
-      },
-      ScanIndexForward: false,
-      ReturnConsumedCapacity: 'TOTAL',
-      ExclusiveStartKey: exclusiveStartKey,
-      Limit: 10,
-    })
-    .then(async response => {
-      const parsedList = Array.from(new Set(response.items.map(l => l.like)))
-      const [items, rcu] = await dynamodb.batchGet({
-        tableName,
-        keysList: parsedList
-          .map(keys.like.like.parse)
-          .map(({entity: rk, targetId: hk}) => {
-            return {
-              hk,
-              rk
-            }
-          }),
-      })
-
+export function commentsByUserLike(operator: DynamoDBInput, params: CommentsByUserLikeInput) {
+  return _likesByUser<Comment>(operator, {...params, entity: EEntity.Comment})
+    .then(response => {
       return {
         ...response,
-        items: items as T[],
+        items: response.items.map(t => t.data as Comment)
       }
     })
-    .then(R.tap(console.log))
 }
-export type CommentsByUserLikeInput = {
-  userId: string
-  entity?: Extract<EEntity, EEntity.Post | EEntity.Comment | EEntity.Comment>
-  exclusiveStartKey?: Key
-}
+export type CommentsByUserLikeInput = Omit<QueryByUserLike<EEntity.Comment>, 'entity'>

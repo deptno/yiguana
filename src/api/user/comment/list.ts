@@ -1,29 +1,23 @@
 import {MetadataStore} from '../../../store/dynamodb'
 import {EntityFactory} from '../../../entity'
-import {EEntity} from '../../../entity/enum'
 import {CommentsInput} from '../../../store/dynamodb/comments'
 
 export async function list(store: MetadataStore, ef: EntityFactory, input: ListInput) {
-  if ('userId' in input) {
-    const {userId, exclusiveStartKey} = input
-    if (userId && input.like) {
-      return store.commentsByUserLike({
-        userId,
-        entity: EEntity.Comment
-      })
-    }
-    return store.commentsByUserId({
-      userId: userId!,
+  const {userId, like, exclusiveStartKey} = input
+
+  if (like) {
+    return store.commentsByUserLike({
+      userId,
       exclusiveStartKey,
     })
   }
+  return store.commentsByUserId({
+    userId,
+    exclusiveStartKey,
+  })
 }
 
-export type ListInput = CommentsInput
-  | (
-  {
-    postId?: string
-    userId?: string
-    like?: boolean
-  } & Omit<CommentsInput, 'postId'>
-  )
+export type ListInput = Pick<CommentsInput, 'exclusiveStartKey'> & {
+  userId: string
+  like?: boolean
+}

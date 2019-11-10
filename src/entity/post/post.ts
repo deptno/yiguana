@@ -44,6 +44,7 @@ export type CreatePostInput = {
   user: User
 }
 export interface Post extends YiguanaDocument {
+  rk: EEntity.Post
   views: number
   likes: number
   children: number
