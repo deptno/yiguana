@@ -1,7 +1,5 @@
 import {MetadataStore} from '../../store/dynamodb'
 import {EntityFactory} from '../../entity'
-import {like, LikeInput} from './like'
-import {unlike, UnlikeInput} from './unlike'
 import {list, ListInput} from './list'
 import {create, CreateInput} from './create'
 import {update, UpdateInput} from './update'
@@ -31,14 +29,14 @@ export class CommentApi {
     return del(this.store, this.ef, input)
   }
 
-  like(input: LikeInput) {
-    return like(this.store, this.ef, input)
-  }
-
-  // @deprecated
-  unlike(input: UnlikeInput) {
-    return unlike(this.store, this.ef, input)
-  }
+//  like(input: LikeInput) {
+//    return like(this.store, this.ef, input)
+//  }
+//
+//  // @deprecated
+//  unlike(input: UnlikeInput) {
+//    return unlike(this.store, this.ef, input)
+//  }
 
 //  view(input: ViewInput) {
 //    return view(this.store, this.ep, input)
