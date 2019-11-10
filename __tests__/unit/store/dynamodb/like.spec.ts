@@ -8,6 +8,7 @@ import {createLike} from '../../../../src/entity/like'
 import {addLike} from '../../../../src/store/dynamodb/add-like'
 import {postsByUserLike} from '../../../../src/store/dynamodb/posts-by-user-like'
 import {commentsByUserLike} from '../../../../src/store/dynamodb/comments-by-user-like'
+import {removeLike} from '../../../../src/store/dynamodb/remove-like'
 
 describe('unit', function () {
   describe('store', function () {
@@ -95,6 +96,14 @@ describe('unit', function () {
             console.table(items)
             expect(items.length).toEqual(2)
           })
+          it('12. removeLike(User(a))', async () => {
+            const result = await removeLike(opDdb, {data, userId})
+            console.log({result})
+          })
+          it('13. postsByUserLike(User(a)) === Post(1): 엔티티 필터', async () => {
+            const {items} = await postsByUserLike(opDdb, {userId})
+            expect(items.length).toEqual(1)
+          })
         })
 
         describe('commentsByUserLike', function () {
@@ -176,7 +185,6 @@ describe('unit', function () {
           })
           xit('11. commentsByUserLike(User(a)) === Comment(2): 엔티티 필터', async () => {
             const {items} = await commentsByUserLike(opDdb, {userId})
-            console.table(items)
             expect(items.length).toEqual(2)
           })
         })

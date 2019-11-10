@@ -98,8 +98,7 @@ describe('unit', function () {
 
             const like = createLike({
               data: {
-                entity: EEntity.Comment,
-                targetId: targetReply.hk,
+                data: targetReply as unknown as Comment,
                 createdAt: new Date().toISOString()
               },
               user: member_e,

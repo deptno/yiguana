@@ -72,7 +72,7 @@ describe('unit', () => {
         expect(found.content).toEqual(content)
         expect(found).toEqual(updatedReply)
       })
-      it('like reply', async() => {
+      xit('like reply', async() => {
         const {items: before} = await api.reply.list({comment})
         expect(before[0]).not.toEqual(undefined)
 
@@ -83,7 +83,7 @@ describe('unit', () => {
         const {items: after} = await api.reply.list({comment})
         expect(after[0].likes).toEqual(before[0].likes + 1)
       })
-      it('like comment + like comment => cancel like reply', async () => {
+      xit('like comment + like comment => cancel like reply', async () => {
         const {items: first} = await api.reply.list({comment})
         await api.reply.like({
           data: first[0],

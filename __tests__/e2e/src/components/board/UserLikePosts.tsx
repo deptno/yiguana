@@ -13,8 +13,8 @@ export const UserLikePosts: FunctionComponent<Props> = props => {
     setToken(nextToken)
 
     const url = ['api/my/posts']
-
     const params: any = {like: true}
+
     if (nextToken) {
       params.nextToken = nextToken
     }

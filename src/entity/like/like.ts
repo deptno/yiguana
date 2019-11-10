@@ -6,7 +6,7 @@ import {keys} from '../../dynamodb/keys'
 import {Post} from '../post'
 import {Comment} from '../comment'
 
-export function createLike(params: CreateLikeInput): Like {
+export function createLike<T extends Post | Comment>(params: CreateLikeInput<T>): Like {
   const {user, data: {data, createdAt}} = params
   const {hk: targetId, rk: target} = data
   const {id: userId, ...userOmitId} = user
@@ -26,9 +26,9 @@ export function createLike(params: CreateLikeInput): Like {
   }
 }
 
-export type CreateLikeInput = {
+export type CreateLikeInput<T extends Post | Comment> = {
   data: Pick<LikeInput, 'createdAt'> & {
-    data: Post | Comment
+    data: T
   }
   user: Member
 }

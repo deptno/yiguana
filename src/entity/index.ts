@@ -1,5 +1,5 @@
-import {createPost, CreatePostInput} from './post'
-import {createComment, CreateCommentInput} from './comment'
+import {createPost, CreatePostInput, Post} from './post'
+import {Comment, createComment, CreateCommentInput} from './comment'
 import {createReply, CreateReplyInput} from './reply'
 import {createLike, CreateLikeInput} from './like'
 
@@ -13,7 +13,7 @@ export class EntityFactory {
   createReply(input: CreateReplyInput) {
     return createReply(input)
   }
-  createLike(input: CreateLikeInput) {
-    return createLike(input)
+  createLike<T extends Post | Comment>(input: CreateLikeInput<T>) {
+    return createLike<T>(input)
   }
 }

@@ -103,9 +103,9 @@ describe('unit', function () {
               const {items: before} = await posts(opDdb, {})
               const like = createLike({
                 data: {
-                  entity: EEntity.Post,
-                  targetId: before[0].hk,
+                  data: before[0],
                   createdAt: new Date().toISOString()
+
                 },
                 user: member_e
               })

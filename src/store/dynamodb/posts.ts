@@ -1,6 +1,6 @@
 import {Post} from '../../entity/post'
 import {DynamoDBInput} from '../../entity/input/dynamodb'
-import {EIndexName} from '../../dynamodb/yiguana-index'
+import {EIndexName} from '../../dynamodb'
 import {EEntity} from '../../entity/enum'
 
 export function posts(operator: DynamoDBInput, params: PostsInput) {

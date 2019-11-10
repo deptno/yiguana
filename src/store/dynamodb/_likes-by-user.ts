@@ -8,7 +8,7 @@ import {DocumentClient} from 'aws-sdk/clients/dynamodb'
 import {Post} from '../../entity/post'
 import {Comment} from '../../entity/comment'
 
-export function _queryByUserLike<T extends Post|Comment>(operator: DynamoDBInput, params: QueryByUserLike<T['rk']>) {
+export function _likesByUser<T extends Post|Comment>(operator: DynamoDBInput, params: QueryByUserLike<T['rk']>) {
   const {tableName, dynamodb} = operator
   const {entity, exclusiveStartKey, userId} = params
   const byUser = keys.byUser.stringify({

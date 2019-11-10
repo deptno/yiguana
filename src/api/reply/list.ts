@@ -10,7 +10,7 @@ export async function list(store: MetadataStore, ep: EntityFactory, input: ListI
       return store.repliesByUserLike({
         userId: input.userId,
         entity: EEntity.Comment
-      })
+      }) as any
     }
     return store.repliesByUserId(input as RepliesByUserIdInput)
   }
