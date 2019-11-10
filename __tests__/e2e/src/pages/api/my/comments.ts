@@ -15,7 +15,7 @@ export default (req: NextApiRequest, res: NextApiResponse) => {
   const {category, nextToken} = req.query as Record<string, string>
   const {id: userId} = user
 
-  yiguana.comment
+  yiguana.user.comment
     .list({
       userId,
       exclusiveStartKey: util.parseToken(nextToken, SALT),

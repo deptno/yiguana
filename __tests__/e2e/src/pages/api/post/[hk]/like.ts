@@ -1,6 +1,5 @@
 import {handler} from '../../lib/handler'
 import {yiguana} from '../../lib/yiguana'
-import * as R from 'ramda'
 import {EAuthorizeErrorCode, isMember} from '../../lib/authorize'
 import {Member} from '../../../../../../../src/entity/user'
 
@@ -14,8 +13,9 @@ export default handler({
     const hk = req.query.hk as string
     const createdAt = new Date().toISOString()
 
-    yiguana.post.read({data: {hk}})
-      .then(data => yiguana.post
+    yiguana.post
+      .read({data: {hk}})
+      .then(data => yiguana.user.post
         .like({
           data: {
             data,

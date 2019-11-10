@@ -1,11 +1,11 @@
 import {MetadataStore} from '../../store/dynamodb'
-import {Post} from '../../entity/post'
 import {EntityFactory} from '../../entity'
-import {PaginationResult} from '@deptno/dynamodb/dist/api'
-import {PostInput} from '../../store/dynamodb/post'
+import {CommentUpdateUserInput} from '../../entity/comment'
 
-export async function read(store: MetadataStore, ep: EntityFactory, input: PostInput) {
-  return store.post(input)
+export async function read(store: MetadataStore, ep: EntityFactory, input: ReadInput) {
+  return store.comment(input.data)
 }
 
-export type ApiGetPost = (input: PostInput) => Promise<PaginationResult<Post>>
+export type ReadInput  = {
+  data: CommentUpdateUserInput
+}

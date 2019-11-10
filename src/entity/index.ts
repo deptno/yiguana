@@ -3,6 +3,9 @@ import {Comment, createComment, CreateCommentInput} from './comment'
 import {createReply, CreateReplyInput} from './reply'
 import {createLike, CreateLikeInput} from './like'
 
+export {Post} from './post'
+export {Comment} from './comment'
+
 export class EntityFactory {
   createPost(input: CreatePostInput) {
     return createPost(input)
