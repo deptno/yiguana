@@ -12,16 +12,19 @@ export default handler({
         .send({error: EAuthorizeErrorCode.forbidden})
     }
     const hk = req.query.hk as string
+    const createdAt = new Date().toISOString()
 
-    yiguana.post
-      .like({
-        data: {
-          hk,
-        },
-        user: user,
-      })
-      .then(R.tap(console.log))
-      .then(res.json)
-      .catch(e => res.status(400).json({e}))
+    yiguana.post.read({data: {hk}})
+      .then(data => yiguana.post
+        .like({
+          data: {
+            data,
+            createdAt,
+          },
+          user,
+        })
+        .then(res.json),
+      )
+      .catch(e => res.status(400).json({e: e.message}))
   },
 })

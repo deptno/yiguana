@@ -25,9 +25,7 @@ export async function like(store: MetadataStore, ep: EntityFactory, input: LikeI
 
   if (like) {
     console.log('like + 1', like)
-    await store.likePost({data: data})
-
-    return like
+    return store.likePost({data: data})
   }
   console.log('like - 1', like, data)
 
