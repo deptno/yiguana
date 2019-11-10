@@ -12,6 +12,7 @@ export default handler({
     }
 
     const hk = req.query.hk as string
+    const ip = req.connection.remoteAddress
     const createdAt = new Date().toISOString()
 
     yiguana.comment
@@ -22,7 +23,10 @@ export default handler({
             data,
             createdAt,
           },
-          user,
+          user: {
+            ...user,
+            ip
+          },
         })
         .then(res.json),
       )
