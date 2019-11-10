@@ -1,7 +1,6 @@
 import {MetadataStore} from '../../store/dynamodb'
 import {EntityFactory} from '../../entity'
 import {CommentsInput} from '../../store/dynamodb/comments'
-import {EEntity} from '../../entity/enum'
 
 export async function list(store: MetadataStore, ep: EntityFactory, input: ListInput) {
   if ('userId' in input) {
@@ -9,7 +8,6 @@ export async function list(store: MetadataStore, ep: EntityFactory, input: ListI
     if (userId && input.like) {
       return store.commentsByUserLike({
         userId,
-        entity: EEntity.Comment
       })
     }
     return store.commentsByUserId({
