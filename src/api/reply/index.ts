@@ -7,20 +7,20 @@ import {update, UpdateInput} from './update'
 import {del, DelInput} from './del'
 import {view, ViewInput} from './view'
 
-export function createReplyApi(store: MetadataStore, ep: EntityFactory) {
-  return new ReplyApi(store, ep)
+export function createReplyApi(store: MetadataStore, ef: EntityFactory) {
+  return new ReplyApi(store, ef)
 }
 
 export class ReplyApi {
-  constructor(private store: MetadataStore, private ep: EntityFactory) {
+  constructor(private store: MetadataStore, private ef: EntityFactory) {
   }
 
   list(input: ListInput) {
-    return list(this.store, this.ep, input)
+    return list(this.store, this.ef, input)
   }
 
   create(input: CreateInput) {
-    return create(this.store, this.ep, input)
+    return create(this.store, this.ef, input)
   }
 
 //  read(input: ReadInput) {
@@ -28,15 +28,15 @@ export class ReplyApi {
 //  }
 
   update(input: UpdateInput) {
-    return update(this.store, this.ep, input)
+    return update(this.store, this.ef, input)
   }
 
   del(input: DelInput) {
-    return del(this.store, this.ep, input)
+    return del(this.store, this.ef, input)
   }
 
   like(input: LikeInput) {
-    return like(this.store, this.ep, input)
+    return like(this.store, this.ef, input)
   }
 
 //  unlike(input: UnlikeInput) {
@@ -44,6 +44,6 @@ export class ReplyApi {
 //  }
 
   view(input: ViewInput) {
-    return view(this.store, this.ep, input)
+    return view(this.store, this.ef, input)
   }
 }
