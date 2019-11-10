@@ -55,35 +55,6 @@ describe('unit', () => {
           expect(items.length).toEqual(1)
           console.table(after)
         })
-
-        it('like reply', async() => {
-          const {items: before} = await api.reply.list({comment})
-          expect(before[0]).not.toEqual(undefined)
-
-          await api.user.reply.like({
-            data: before[0],
-            user: member_a,
-          })
-          const {items: after} = await api.reply.list({comment})
-          expect(after[0].likes).toEqual(before[0].likes + 1)
-        })
-        it('like comment + like comment => cancel like reply', async () => {
-          const {items: first} = await api.reply.list({comment})
-          await api.user.reply.like({
-            data: first[0],
-            user: member_b,
-          })
-          const {items: second} = await api.reply.list({comment})
-          expect(second[0].likes).toEqual(first[0].likes + 1)
-
-          console.debug('like post 1회 수행하여 like가 이미 존재할 시 unlike 동작')
-          await api.user.reply.like({
-            data: second[0],
-            user: member_b,
-          })
-          const {items: third} = await api.reply.list({comment})
-          expect(third[0].likes).toEqual(second[0].likes - 1)
-        })
       })
     })
   })

@@ -39,7 +39,10 @@ describe('unit', () => {
           const [post] = items
           expect(post.likes).toEqual(0)
           await api.user.post.like({
-            data: post,
+            data: {
+              data: post,
+              createdAt: new Date().toISOString()
+            },
             user: member_a,
           })
           const nextPost = await api.post.read({data: post})
@@ -52,7 +55,10 @@ describe('unit', () => {
           expect(post.likes).toEqual(1)
 
           await api.user.post.like({
-            data: post,
+            data: {
+              data: post,
+              createdAt: new Date().toISOString()
+            },
             user: member_b,
           })
           const firstPost = await api.post.read({data: post})
@@ -62,7 +68,10 @@ describe('unit', () => {
 
           console.debug('like post 1회 수행하여 like가 이미 존재할 시 unlike 동작')
           await api.user.post.like({
-            data: post,
+            data: {
+              data: post,
+              createdAt: new Date().toISOString()
+            },
             user: member_b,
           })
           const secondPost = await api.post.read({data: post})

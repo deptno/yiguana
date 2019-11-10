@@ -1,7 +1,7 @@
-import {MetadataStore} from '../../store/dynamodb'
-import {EntityFactory} from '../../entity'
-import {Member} from '../../entity/user'
-import {Post} from '../../entity/post'
+import {MetadataStore} from '../../../store/dynamodb'
+import {EntityFactory} from '../../../entity'
+import {Member} from '../../../entity/user'
+import {Post} from '../../../entity/post'
 import * as R from 'ramda'
 
 export async function like(store: MetadataStore, ep: EntityFactory, input: LikeInput) {
