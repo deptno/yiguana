@@ -7,6 +7,7 @@ import {EntityFactory} from '../entity'
 import {PostApi} from './post'
 import {CommentApi} from './comment'
 import {ReplyApi} from './reply'
+import {UserPostApi} from './user/post'
 import {MetadataStore} from '../store/dynamodb'
 
 export function createApi(params: CreateInput) {
@@ -21,6 +22,7 @@ export function createApi(params: CreateInput) {
     post: new PostApi(metadataStore, contentStore, ef),
     comment: new CommentApi(metadataStore, ef),
     reply: new ReplyApi(metadataStore, ef),
+    userPost: new UserPostApi(metadataStore, ef),
   }
 }
 
