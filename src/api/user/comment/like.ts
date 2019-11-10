@@ -24,12 +24,8 @@ export async function like(store: MetadataStore, ep: EntityFactory, input: LikeI
   })
 
   if (like) {
-    console.log('like + 1', like)
-    await store.likeComment({data: data})
-
-    return like
+    return store.likeComment({data: data})
   }
-  console.log('like - 1', like, data)
 
   return Promise
     .all([

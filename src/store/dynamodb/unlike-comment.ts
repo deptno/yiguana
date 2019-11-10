@@ -17,12 +17,12 @@ export async function unlikeComment(operator: DynamoDBInput, params: UnlikeComme
         hk,
         rk: EEntity.Comment,
       },
-      UpdateExpression: 'SET #v = #v - :v',
+      UpdateExpression: 'SET #v = #v + :v',
       ExpressionAttributeNames: {
         '#v': 'likes',
       },
       ExpressionAttributeValues: {
-        ':v': 1,
+        ':v': -1,
       },
     })
     .then<Comment>(R.prop('Attributes'))

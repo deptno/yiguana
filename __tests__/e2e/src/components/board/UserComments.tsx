@@ -1,10 +1,7 @@
-import React, {FunctionComponent, useCallback, useEffect, useMemo, useState} from 'react'
-import {BoardItem} from './BoardItem'
-import {BoardItemHeader} from './BoardItemHeader'
-import {LineButton} from './LineButton'
-import * as qs from "querystring"
+import React, {FunctionComponent, useState} from 'react'
+import * as qs from 'querystring'
 import {api} from '../../pages/api/lib/api'
-import {Board} from './Board'
+import {MyComments} from '../post/MyComments'
 
 export const UserComments: FunctionComponent<Props> = props => {
   const [{items, nextToken}, setResponse] = useState({items: [], nextToken: undefined})
@@ -25,7 +22,7 @@ export const UserComments: FunctionComponent<Props> = props => {
       .catch(alert)
   }
 
-  return <Board items={items} token={token} nextToken={nextToken} getter={getComments}/>
+  return <MyComments items={items} token={token} nextToken={nextToken} getter={getComments}/>
 }
 
 type Props = {
