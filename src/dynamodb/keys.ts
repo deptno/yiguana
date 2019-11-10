@@ -12,6 +12,14 @@ export const keys = {
         target: v => v,
         userId: v => v
       }
+    ),
+    report: createKey<{entity: EEntity.Report, target: Omit<EEntity, EEntity.Like|EEntity.Report>, userId: string}>(
+      ['entity', 'target', 'userId'],
+      {
+        entity: v => v,
+        target: v => v,
+        userId: v => v
+      }
     )
   },
   hk: {
