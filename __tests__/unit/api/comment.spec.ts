@@ -82,7 +82,7 @@ describe('unit', () => {
           const {items: before} = await api.comment.list({
             postId: post.hk,
           })
-          await api.comment.like({
+          await api.user.comment.like({
             data: before[0],
             user: member_f,
           })
@@ -95,7 +95,7 @@ describe('unit', () => {
           const {items: first} = await api.comment.list({
             postId: post.hk,
           })
-          await api.comment.like({
+          await api.user.comment.like({
             data: first[0],
             user: member_b,
           })
@@ -105,7 +105,7 @@ describe('unit', () => {
           expect(second[0].likes).toEqual(first[0].likes + 1)
 
           console.debug('like post 1회 수행하여 like가 이미 존재할 시 unlike 동작')
-          await api.comment.like({
+          await api.user.comment.like({
             data: second[0],
             user: member_b,
           })
@@ -118,7 +118,7 @@ describe('unit', () => {
           const {items: before} = await api.comment.list({
             postId: post.hk,
           })
-          await api.comment.unlike({
+          await api.user.comment.unlike({
             data: before[0],
           })
           const {items: after} = await api.comment.list({

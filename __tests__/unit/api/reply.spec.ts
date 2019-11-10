@@ -76,7 +76,7 @@ describe('unit', () => {
         const {items: before} = await api.reply.list({comment})
         expect(before[0]).not.toEqual(undefined)
 
-        await api.reply.like({
+        await api.user.reply.like({
           data: before[0],
           user: member_a,
         })
@@ -85,7 +85,7 @@ describe('unit', () => {
       })
       it('like comment + like comment => cancel like reply', async () => {
         const {items: first} = await api.reply.list({comment})
-        await api.reply.like({
+        await api.user.reply.like({
           data: first[0],
           user: member_b,
         })
@@ -93,7 +93,7 @@ describe('unit', () => {
         expect(second[0].likes).toEqual(first[0].likes + 1)
 
         console.debug('like post 1회 수행하여 like가 이미 존재할 시 unlike 동작')
-        await api.reply.like({
+        await api.user.reply.like({
           data: second[0],
           user: member_b,
         })

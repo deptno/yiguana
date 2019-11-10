@@ -52,7 +52,7 @@ describe('unit', () => {
           expect(items.length).toEqual(1)
           const [post] = items
           expect(post.likes).toEqual(0)
-          await api.userPost.like({
+          await api.user.post.like({
             data: post,
             user: member_a,
           })
@@ -65,7 +65,7 @@ describe('unit', () => {
           const [post] = items
           expect(post.likes).toEqual(1)
 
-          await api.userPost.like({
+          await api.user.post.like({
             data: post,
             user: member_b,
           })
@@ -75,7 +75,7 @@ describe('unit', () => {
           console.table(before)
 
           console.debug('like post 1회 수행하여 like가 이미 존재할 시 unlike 동작')
-          await api.userPost.like({
+          await api.user.post.like({
             data: post,
             user: member_b,
           })
@@ -98,7 +98,7 @@ describe('unit', () => {
           expect(items.length).toEqual(1)
           const [post] = items
           expect(post.likes).toEqual(1)
-          await api.userPost.unlike({data: post})
+          await api.user.post.unlike({data: post})
           const nextPost = await api.post.read({data: post})
           expect(nextPost.likes).toEqual(0)
         })

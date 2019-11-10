@@ -35,9 +35,9 @@ export class ReplyApi {
     return del(this.store, this.ef, input)
   }
 
-  like(input: LikeInput) {
-    return like(this.store, this.ef, input)
-  }
+//  like(input: LikeInput) {
+//    return like(this.store, this.ef, input)
+//  }
 
 //  unlike(input: UnlikeInput) {
 //    return unlike(this.store, this.ep, input)
