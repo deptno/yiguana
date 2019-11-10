@@ -5,8 +5,6 @@ import {read, ReadInput} from './read'
 import {update, UpdateInput} from './update'
 import {del, DelInput} from './del'
 import {view, ViewInput} from './view'
-import {like, LikeInput} from './like'
-import {unlike, UnlikeInput} from './unlike'
 import {MetadataStore} from '../../store/dynamodb'
 import {ContentStore} from '../../store/s3'
 
@@ -34,15 +32,6 @@ export class PostApi {
 
   del(input: DelInput) {
     return del(this.ms, this.ef, input)
-  }
-
-  like(input: LikeInput) {
-    return like(this.ms, this.ef, input)
-  }
-
-  // @deprecated
-  unlike(input: UnlikeInput) {
-    return unlike(this.ms, this.ef, input)
   }
 
   view(input: ViewInput) {
