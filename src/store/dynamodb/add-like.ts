@@ -32,7 +32,6 @@ export function addLike(operator: DynamoDBInput, params: AddLikeInput) {
       ConditionExpression: 'attribute_not_exists(#h)',
       ReturnValues: 'ALL_NEW',
     })
-    .then<Like>(R.tap(console.log))
     .then<Like>(R.prop('Attributes'))
 }
 

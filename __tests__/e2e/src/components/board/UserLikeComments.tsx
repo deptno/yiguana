@@ -2,6 +2,8 @@ import React, {FunctionComponent, useState} from 'react'
 import * as qs from 'querystring'
 import {api} from '../../pages/api/lib/api'
 import {Board} from './Board'
+import {Comments} from '../post/Comments'
+import {MyComments} from '../post/MyComments'
 
 export const UserLikeComments: FunctionComponent<Props> = props => {
   const [{items, nextToken}, setResponse] = useState({items: [], nextToken: undefined})
@@ -22,8 +24,7 @@ export const UserLikeComments: FunctionComponent<Props> = props => {
       .catch(alert)
   }
 
-//  return <Board items={items} token={token} nextToken={nextToken} getter={getComments}/>
-  return null
+  return <MyComments items={items} token={token} nextToken={nextToken} getter={getComments}/>
 }
 
 type Props = {}

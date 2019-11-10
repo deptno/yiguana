@@ -29,6 +29,6 @@ export default (req: NextApiRequest, res: NextApiResponse) => {
         nextToken: util.createToken(lastEvaluatedKey, SALT),
       }
     })
-    .then(JSON.stringify)
-    .then(res.send)
+    .then(res.json)
+    .catch(e => res.status(500).json(e.message))
 }
