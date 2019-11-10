@@ -14,7 +14,7 @@ export async function list(store: MetadataStore, ep: EntityFactory, input: ListI
   return store.repliesByUserId(input as RepliesByUserIdInput)
 }
 
-export type ListInput = RepliesInput & {
+export type ListInput = RepliesInput | {
   userId: string
   like?: boolean
 }
