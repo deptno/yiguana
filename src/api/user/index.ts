@@ -5,11 +5,10 @@ import {UserCommentApi} from './comment'
 import {UserReplyApi} from './reply'
 
 export class UserApi {
+  post = new UserPostApi(this.ms, this.ef)
+  comment = new UserCommentApi(this.ms, this.ef)
+  reply = new UserReplyApi(this.ms, this.ef)
+
   constructor(private ms: MetadataStore, private ef: EntityFactory) {
   }
-
-  // FIXME: UserPostApi, UserCommentApi, UserReplyApi 다 가져와야 하고 ms, ef는 어떻게 넘기지
-  post: UserPostApi
-  comment: UserCommentApi
-  reply: UserReplyApi
 }

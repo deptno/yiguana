@@ -29,15 +29,6 @@ export class CommentApi {
     return del(this.store, this.ef, input)
   }
 
-//  like(input: LikeInput) {
-//    return like(this.store, this.ef, input)
-//  }
-//
-//  // @deprecated
-//  unlike(input: UnlikeInput) {
-//    return unlike(this.store, this.ef, input)
-//  }
-
 //  view(input: ViewInput) {
 //    return view(this.store, this.ep, input)
 //  }
