@@ -9,7 +9,6 @@ export async function list(store: MetadataStore, ef: EntityFactory, input: ListI
     if (userId && input.like) {
       return store.commentsByUserLike({
         userId,
-        entity: EEntity.Comment
       })
     }
     return store.commentsByUserId({
