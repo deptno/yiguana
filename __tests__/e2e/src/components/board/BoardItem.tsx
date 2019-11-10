@@ -23,7 +23,7 @@ export const BoardItem: FunctionComponent<Props> = props => {
       >
         <div className="flex w-100 pointer mv0 pv0 lh-copy ">
           <span className="w-10 dn db-ns">{no}</span>
-          <span className="w-20 dn db-ns">{R.head(item.category.split('#'))}</span>
+          <span className="w-20 dn db-ns">{R.head(item.deleted? item.dCategory.split('#') : item.category.split('#'))}</span>
           <span className="w-100 pl2 cut-text tl">{item.title}</span>
           <span className="w-10 dn db-ns tc">{item.userId}</span>
           <span className="w-10 dn db-ns">{format(parseISO(item.createdAt), 'MM/dd hh:mm')}</span>
