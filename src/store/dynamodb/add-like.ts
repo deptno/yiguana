@@ -7,7 +7,7 @@ export function addLike(operator: DynamoDBInput, params: AddLikeInput) {
   const {data} = params
 
   return dynamodb
-    .update({
+    .update<Like>({
       TableName: tableName,
       Key: {
         hk: data.hk,
@@ -30,7 +30,7 @@ export function addLike(operator: DynamoDBInput, params: AddLikeInput) {
       ConditionExpression: 'attribute_not_exists(#h)',
       ReturnValues: 'ALL_NEW',
     })
-    .then(R.prop('Attributes'))
+    .then<Like>(R.prop('Attributes'))
 }
 
 export type AddLikeInput = {

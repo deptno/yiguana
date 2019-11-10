@@ -7,19 +7,13 @@ import {Post} from '../post'
 import {Comment} from '../comment'
 
 export function createLike(params: CreateLikeInput): Like {
-  const {user, data} = params
-  const {entity, targetId, createdAt} = data
+  const {user, data: {data, createdAt}} = params
+  const {hk: targetId, rk: target} = data
   const {id: userId, ...userOmitId} = user
+  const entity = EEntity.Like
   const hk = targetId
-  const rk = keys.rk.like.stringify({
-    entity: EEntity.Like,
-    target: entity,
-    userId,
-  })
-  const byUser = keys.byUser.stringify({
-    entity: EEntity.Like,
-    createdAt
-  })
+  const rk = keys.rk.like.stringify({entity, target, userId})
+  const byUser = keys.byUser.stringify({entity, createdAt})
 
   return {
     hk,
@@ -28,12 +22,13 @@ export function createLike(params: CreateLikeInput): Like {
     byUser,
     createdAt,
     user: userOmitId,
+    data
   }
 }
 
 export type CreateLikeInput = {
-  data: LikeInput & {
-    data: Post|Comment
+  data: Pick<LikeInput, 'createdAt'> & {
+    data: Post | Comment
   }
   user: Member
 }
@@ -41,4 +36,5 @@ export interface Like extends YiguanaDocument {
   userId: string
   byUser: string
   user: Omit<User, 'id'>
+  data: Post|Comment
 }

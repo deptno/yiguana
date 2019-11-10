@@ -37,6 +37,7 @@ export type CreateCommentInput = {
   user: User
 }
 export interface Comment extends YiguanaDocument {
+  rk: EEntity.Comment
   children: number
   content: string
   postId: string

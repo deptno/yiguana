@@ -1,6 +1,5 @@
 import {MetadataStore} from '../../store/dynamodb'
 import {EntityFactory} from '../../entity'
-import {YiguanaDocumentHash} from '../../dynamodb/yiguana-document'
 import {EEntity} from '../../entity/enum'
 import {Member} from '../../entity/user'
 import {Post} from '../../entity/post'
@@ -42,9 +41,8 @@ export async function like(store: MetadataStore, ep: EntityFactory, input: LikeI
 
   const like = ep.createLike({
     data: {
-      targetId: data.hk,
-      entity: EEntity.Post,
       createdAt: new Date().toISOString(),
+      data: data
     },
     user,
   })
@@ -58,6 +56,6 @@ export async function like(store: MetadataStore, ep: EntityFactory, input: LikeI
 }
 
 export type LikeInput = {
-  data: YiguanaDocumentHash
+  data: Post
   user: Member
 }
