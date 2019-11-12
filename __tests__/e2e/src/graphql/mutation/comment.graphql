@@ -1,0 +1,7 @@
+mutation comment($postId: String = "ucZC6ATBkqjC2WpLb1rwJS", $content: String = "hello"){
+  comment(postId: $postId, content: $content) {
+    content
+    hk
+    rk
+  }
+}

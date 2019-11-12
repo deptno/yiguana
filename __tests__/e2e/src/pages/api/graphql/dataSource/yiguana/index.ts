@@ -6,7 +6,7 @@ import {SALT} from '../../../lib/token'
 export class Yiguana extends DataSource {
   posts(args: ListArgument<typeof yiguana.post.list>) {
     return yiguana.post
-      .list(preHook(args))
+      .list(preHook(kebabCategory(args)))
       .then(postHook)
   }
   post(args: ListArgument<typeof yiguana.post.view>) {
@@ -27,6 +27,15 @@ export class Yiguana extends DataSource {
   }
 }
 
+const kebabCategory = (arg?) => {
+  if (arg.category) {
+    return {
+      ...arg,
+      category: arg.category.replace(/_/g, '-')
+    }
+  }
+  return arg
+}
 const preHook = (arg?) => {
   console.log('arg', arg)
   const {nextToken, ...rest} = arg

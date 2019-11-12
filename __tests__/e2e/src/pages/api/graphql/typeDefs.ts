@@ -40,6 +40,8 @@ export const typeDefs = gql`
   
   enum Category {
     news
+    create_channel
+    
   }
   
   ###
