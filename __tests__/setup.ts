@@ -8,7 +8,7 @@ import {commentPost} from '../src/store/dynamodb/comment-post'
 import {YiguanaDocument} from '../src/dynamodb'
 import {ContentStore} from '../src/store/s3'
 import {EntityFactory} from '../src/entity'
-import {member_a, member_b, member_c, member_d, non_member_a} from './__data__/user'
+import {member_a, member_b, member_c, member_d, non_member_a, member_e} from './__data__/user'
 import {posts} from '../src/store/dynamodb/posts'
 
 export const getInitialData = async () => {
@@ -65,18 +65,31 @@ export const getInitialData = async () => {
   )
   expect(postDocs).toEqual(postList)
 
-  const comment = createComment({
+  const commentByUserD = createComment({
     data: {
       postId: postList[0].hk,
-      content: 'test data',
+      content: 'test data, post 0, user d',
     },
     user: member_d,
   })
   await addComment(opDdb, {
-    data: comment,
+    data: commentByUserD,
   })
   await commentPost(opDdb, {
     data: postList[0],
+  })
+  const commentByUserE = createComment({
+    data: {
+      postId: postList[1].hk,
+      content: 'test data, post 1, user e',
+    },
+    user: member_e,
+  })
+  await addComment(opDdb, {
+    data: commentByUserE,
+  })
+  await commentPost(opDdb, {
+    data: postList[1],
   })
   const initialData = await opDdb.dynamodb.scan<YiguanaDocument>({TableName: opDdb.tableName})
 

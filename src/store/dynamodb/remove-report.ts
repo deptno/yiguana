@@ -4,8 +4,7 @@ import {EEntity} from '../../entity/enum'
 import {Post} from '../../entity/post'
 import {Comment} from '../../entity/comment'
 
-//TODO: remove 로 따로 빼라 필요가 있음
-export function removeLike(operator: DynamoDBInput, params: RemoveLikeInput) {
+export function removeReport(operator: DynamoDBInput, params: RemoveReportInput) {
   const {dynamodb, tableName} = operator
   const {data, userId} = params
 
@@ -14,8 +13,8 @@ export function removeLike(operator: DynamoDBInput, params: RemoveLikeInput) {
       TableName: tableName,
       Key: {
         hk: data.hk,
-        rk: keys.rk.like.stringify({
-          entity: EEntity.Like,
+        rk: keys.rk.report.stringify({
+          entity: EEntity.Report,
           target: data.rk,
           userId: userId
         }),
@@ -25,7 +24,7 @@ export function removeLike(operator: DynamoDBInput, params: RemoveLikeInput) {
   )
 }
 
-export type RemoveLikeInput = {
+export type RemoveReportInput = {
   data: Pick<Post|Comment, 'hk'|'rk'>
   userId: string
 }

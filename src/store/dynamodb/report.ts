@@ -1,5 +1,4 @@
 import {DynamoDBInput} from '../../entity/input/dynamodb'
-import {Like} from '../../entity/like'
 import {Report} from '../../entity/report'
 import * as R from 'ramda'
 
@@ -8,7 +7,7 @@ export function report(operator: DynamoDBInput, params: ReportInput) {
   const {data} = params
 
   return dynamodb
-    .update<Like>({
+    .update<Report>({
       TableName: tableName,
       Key: {
         hk: data.hk,

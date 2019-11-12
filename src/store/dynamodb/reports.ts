@@ -1,8 +1,8 @@
-import {Post} from '../../entity/post'
 import {DynamoDBInput} from '../../entity/input/dynamodb'
 import {EIndexName} from '../../dynamodb'
 import {EEntity} from '../../entity/enum'
 import {keys} from '../../dynamodb/keys'
+import {Report} from '../../entity/report'
 
 export function reports(operator: DynamoDBInput, params: ReportsInput) {
   const {tableName, dynamodb} = operator
@@ -25,7 +25,7 @@ export function reports(operator: DynamoDBInput, params: ReportsInput) {
     Limit: 50
   }
 
-  return dynamodb.query<Post>(queryParams)
+  return dynamodb.query<Report>(queryParams)
 }
 
 export type ReportsInput = {
