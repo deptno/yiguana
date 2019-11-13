@@ -10,7 +10,7 @@ import {replyComment} from '../../../../src/store/dynamodb/reply-comment'
 import {comments} from '../../../../src/store/dynamodb/comments'
 import {updateReply} from '../../../../src/store/dynamodb/update-reply'
 import {removeReply} from '../../../../src/store/dynamodb/remove-reply'
-import {member_a, member_e, non_member_a} from '../../../__data__/user'
+import {member_a, member_f, non_member_a} from '../../../__data__/user'
 import {createLike} from '../../../../src/entity/like'
 import {addLike} from '../../../../src/store/dynamodb/add-like'
 import {likeReply} from '../../../../src/store/dynamodb/like-reply'
@@ -101,7 +101,7 @@ describe('unit', function () {
                 data: targetReply as unknown as Comment,
                 createdAt: new Date().toISOString()
               },
-              user: member_e,
+              user: member_f,
             })
             const saved = await addLike(opDdb, {data: like})
             console.log({saved})
