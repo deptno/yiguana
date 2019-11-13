@@ -6,10 +6,12 @@ export const typeDefs = gql`
     mutation: Mutation
   }
   type Query {
-    # 헬로우
     posts(category: Category, cursor: String): PostList!
     post(hk: String!): Post
     comments(postId: String!, cursor: String): CommentList!
+
+    myPosts(cursor: String, like: Boolean): PostList!
+    myComments(cursor: String, like: Boolean): CommentList!
   }
 
   type PostList {
@@ -26,7 +28,7 @@ export const typeDefs = gql`
     children: Int!
     category: String
     createdAt: String
-    
+
     content: String
   }
   type CommentList {
@@ -38,16 +40,29 @@ export const typeDefs = gql`
     hk: String!
     rk: String!
     content: String
+    postId: String
+    userId: String
+    createdAt: String
+    updatedAt: String
+    children: Int
+    likes: Int
+    user: User
   }
-  
+  type User {
+    ip: String!
+    name: String!
+    id: String
+    pw: String
+  }
+
   enum Category {
     news
     create_channel
-    
+
   }
-  
+
   ###
-  
+
   type Mutation {
     post(title: String, content: String): Post
     comment(postId: String!, content: String!): Comment

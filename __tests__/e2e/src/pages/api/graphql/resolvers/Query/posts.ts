@@ -3,7 +3,7 @@ import {Context} from '../../types'
 
 export const posts: GraphQLFieldResolver<any, Context, Args> = (source, args, context) => {
   console.log(args, context.user)
-  return context.dataSources.yiguana.posts(args)
+  return context.dataSources.public.posts(args)
 }
 
 type Args = {

@@ -3,7 +3,7 @@ import {yiguana} from '../../../lib/yiguana'
 import {util} from '@deptno/dynamodb'
 import {SALT} from '../../../lib/token'
 
-export class Yiguana extends DataSource {
+export class Public extends DataSource {
   posts(args: ListArgument<typeof yiguana.post.list>) {
     return yiguana.post
       .list(preHook(kebabCategory(args)))
@@ -24,6 +24,19 @@ export class Yiguana extends DataSource {
   }
   writeComment(args: Argument<typeof yiguana.comment.create>) {
     return yiguana.comment.create(args)
+  }
+}
+export class Private extends DataSource {
+  posts(args: ListArgument<typeof yiguana.user.post.list>) {
+    return yiguana.user.post
+      .list(preHook(kebabCategory(args)))
+      .then(postHook)
+  }
+
+  comments(args: ListArgument<typeof yiguana.user.comment.list>) {
+    return yiguana.user.comment
+      .list(preHook(args))
+      .then(postHook)
   }
 }
 

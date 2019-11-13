@@ -1,36 +1,43 @@
-import React, {FunctionComponent, useCallback, useEffect, useMemo, useState} from 'react'
-import {BoardItem} from './BoardItem'
-import {BoardItemHeader} from './BoardItemHeader'
+import React, {FunctionComponent, useEffect, useMemo} from 'react'
 import {LineButton} from './LineButton'
-import * as qs from 'querystring'
-import {api} from '../../pages/api/lib/api'
 import {Board} from './Board'
-import {CategoryBoard} from './CategoryBoard'
+import {useLazyQuery} from '@apollo/react-hooks'
+import gql from 'graphql-tag'
 
 export const UserLikePosts: FunctionComponent<Props> = props => {
-  const [{items, cursor}, setResponse] = useState({items: [], cursor: undefined})
-  const [token, setToken] = useState<string>()
-  const getPosts = (cursor?) => {
-    setToken(cursor)
-
-    const url = ['api/my/posts']
-    const params: any = {like: true}
-
-    if (cursor) {
-      params.cursor = cursor
+  const [query, {data}] = useLazyQuery<Q, A>(gql`
+    query posts($cursor: String) {
+      myPosts(cursor: $cursor, like: true) {
+        items {
+          hk
+          rk
+          category
+          title
+          content
+          children
+          likes
+          views
+          createdAt
+        }
+      }
     }
-
-    url.push(qs.stringify(params))
-    api(url.join('?'))
-      .then(setResponse)
-      .catch(alert)
+  `)
+  const {items = [], cursor} = data?.myPosts ?? {}
+  const buttonText = useMemo(() => cursor ? '더 보기' : '처음으로', [cursor])
+  const fetch = () => {
+    query({variables: {cursor}})
   }
+
+  useEffect(fetch, [cursor])
 
   return (
     <div className="pl0 flex-column justify-center items-center list mv0">
       <Board items={items}/>
+      <LineButton onClick={fetch}>{buttonText}</LineButton>
     </div>
   )
 }
 
 type Props = {}
+type Q = { myPosts: { items: any[], cursor? } }
+type A = { cursor? }

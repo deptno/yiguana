@@ -1,30 +1,51 @@
-import React, {FunctionComponent, useState} from 'react'
+import React, {FunctionComponent, useEffect, useMemo, useState} from 'react'
 import * as qs from 'querystring'
 import {api} from '../../pages/api/lib/api'
 import {MyComments} from '../post/MyComments'
+import {useLazyQuery} from '@apollo/react-hooks'
+import {LineButton} from './LineButton'
+import gql from 'graphql-tag'
 
 export const UserComments: FunctionComponent<Props> = props => {
-  const [{items, cursor}, setResponse] = useState({items: [], cursor: undefined})
-  const [token, setToken] = useState<string>()
-  const getComments = (cursor?) => {
-    setToken(cursor)
-
-    const url = ['api/my/comments']
-    const params: any = {}
-
-    if (cursor) {
-      params.cursor = cursor
+  const [query, {data}] = useLazyQuery<Q, A>(gql`
+    query posts($cursor: String) {
+      myComments(cursor: $cursor) {
+        items {
+          hk
+          rk
+          content
+          children
+          likes
+          createdAt
+          updatedAt
+          postId
+          user {
+            id
+            name
+            ip
+            pw
+          }
+          userId
+        }
+      }
     }
-
-    url.push(qs.stringify(params))
-    api(url.join('?'))
-      .then(setResponse)
-      .catch(alert)
+  `)
+  const {items = [], cursor} = data?.myComments ?? {}
+  const buttonText = useMemo(() => cursor ? '더 보기' : '처음으로', [cursor])
+  const fetch = () => {
+    query({variables: {cursor}})
   }
 
-  return <MyComments items={items} token={token} cursor={cursor} getter={getComments}/>
+  useEffect(fetch, [cursor])
+
+  return (
+    <div className="pl0 flex-column justify-center items-center list mv0">
+      <MyComments items={items}/>
+      <LineButton onClick={fetch}>{buttonText}</LineButton>
+    </div>
+  )
 }
 
-type Props = {
-
-}
+type Props = {}
+type Q = { myComments: { items: any[], cursor? } }
+type A = { cursor? }

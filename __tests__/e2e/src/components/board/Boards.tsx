@@ -28,7 +28,7 @@ export const Boards: FunctionComponent<Props> = props => {
   const handleCategoryChange = (e) => setCategory(e.target.value)
   const fetch = () => {
     if (category) {
-      return query({variables: {category}})
+      return query({variables: {category, cursor}})
     }
     query()
   }

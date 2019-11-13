@@ -7,12 +7,21 @@ import fetch from 'isomorphic-unfetch'
 const cache = new InMemoryCache()
 const uri = '/api/graphql'
 const link = setContext((_, {headers}) => {
-  return {
-    headers: {
-      ...headers,
-      authorization: localStorage.user,
-    },
+  const {user} = localStorage
+  if (user) {
+    if (JSON.parse(user).id) {
+      return {
+        headers: {
+          ...headers,
+          authorization: localStorage.user,
+        },
+      }
+    }
   }
-}).concat(createHttpLink({uri, fetch}))
+  return {
+    headers,
+  }
+}).
+concat(createHttpLink({uri, fetch}))
 
 export const client = new ApolloClient({link, cache})
