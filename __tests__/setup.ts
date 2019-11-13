@@ -8,7 +8,7 @@ import {commentPost} from '../src/store/dynamodb/comment-post'
 import {YiguanaDocument} from '../src/dynamodb'
 import {ContentStore} from '../src/store/s3'
 import {EntityFactory} from '../src/entity'
-import {member_a, member_b, member_c, member_d, non_member_a, member_e} from './__data__/user'
+import {member_a, member_b, member_c, member_d, non_member_a, member_f} from './__data__/user'
 import {posts} from '../src/store/dynamodb/posts'
 
 export const getInitialData = async () => {
@@ -78,15 +78,15 @@ export const getInitialData = async () => {
   await commentPost(opDdb, {
     data: postList[0],
   })
-  const commentByUserE = createComment({
+  const commentByUserF = createComment({
     data: {
       postId: postList[1].hk,
       content: 'test data, post 1, user e',
     },
-    user: member_e,
+    user: member_f,
   })
   await addComment(opDdb, {
-    data: commentByUserE,
+    data: commentByUserF,
   })
   await commentPost(opDdb, {
     data: postList[1],
