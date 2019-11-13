@@ -7,14 +7,14 @@ export const typeDefs = gql`
   }
   type Query {
     # 헬로우
-    posts(category: Category, nextToken: String): PostList!
+    posts(category: Category, cursor: String): PostList!
     post(hk: String!): Post
-    comments(postId: String!, nextToken: String): CommentList!
+    comments(postId: String!, cursor: String): CommentList!
   }
 
   type PostList {
     items: [Post]!
-    nextToken: String
+    cursor: String
     firstResult: Boolean
   }
   type Post {
@@ -24,12 +24,14 @@ export const typeDefs = gql`
     likes: Int!
     views: Int!
     children: Int!
+    category: String
+    createdAt: String
     
     content: String
   }
   type CommentList {
     items: [Comment]!
-    nextToken: String
+    cursor: String
     firstResult: Boolean
   }
   type Comment {

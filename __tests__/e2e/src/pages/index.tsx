@@ -4,6 +4,7 @@ import {Editor} from '../components/board/Editor'
 import {Boards} from '../components/board/Boards'
 
 const IndexPage: NextPage<Props> = props => {
+
   return (
     <div className="pa3 flex-column">
       <Editor/>

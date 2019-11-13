@@ -2,11 +2,11 @@ import {GraphQLFieldResolver} from 'graphql'
 import {Context} from '../../types'
 
 export const posts: GraphQLFieldResolver<any, Context, Args> = (source, args, context) => {
-  console.log(args)
+  console.log(args, context.user)
   return context.dataSources.yiguana.posts(args)
 }
 
 type Args = {
   category?: string
-  nextToken?: string
+  cursor?: string
 }

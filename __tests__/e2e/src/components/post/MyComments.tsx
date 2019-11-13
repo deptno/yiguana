@@ -13,9 +13,9 @@ import Link from 'next/link'
 
 export const MyComments: FunctionComponent<Props> = props => {
 
-  const {items, token, nextToken, getter} = props
-  const getNextItems = useCallback(() => getter(nextToken), [nextToken])
-  const buttonText = useMemo(() => nextToken ? '더 보기' : '처음으로', [nextToken])
+  const {items, token, cursor, getter} = props
+  const getNextItems = useCallback(() => getter(cursor), [cursor])
+  const buttonText = useMemo(() => cursor ? '더 보기' : '처음으로', [cursor])
 
   useEffect(getNextItems, [])
 
@@ -63,7 +63,7 @@ export const MyComments: FunctionComponent<Props> = props => {
 type Props = {
   items: any[]
   token: string
-  nextToken: string
+  cursor: string
   category?: string
   getter(token: string): void
 }

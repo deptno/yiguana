@@ -6,16 +6,16 @@ import {Comments} from '../post/Comments'
 import {MyComments} from '../post/MyComments'
 
 export const UserLikeComments: FunctionComponent<Props> = props => {
-  const [{items, nextToken}, setResponse] = useState({items: [], nextToken: undefined})
+  const [{items, cursor}, setResponse] = useState({items: [], cursor: undefined})
   const [token, setToken] = useState<string>()
-  const getComments = (nextToken?) => {
-    setToken(nextToken)
+  const getComments = (cursor?) => {
+    setToken(cursor)
 
     const url = ['api/my/comments']
     const params: any = {like: true}
 
-    if (nextToken) {
-      params.nextToken = nextToken
+    if (cursor) {
+      params.cursor = cursor
     }
 
     url.push(qs.stringify(params))
@@ -24,7 +24,7 @@ export const UserLikeComments: FunctionComponent<Props> = props => {
       .catch(alert)
   }
 
-  return <MyComments items={items} token={token} nextToken={nextToken} getter={getComments}/>
+  return <MyComments items={items} token={token} cursor={cursor} getter={getComments}/>
 }
 
 type Props = {}

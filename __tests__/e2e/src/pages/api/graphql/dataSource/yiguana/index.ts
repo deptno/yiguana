@@ -38,8 +38,8 @@ const kebabCategory = (arg?) => {
 }
 const preHook = (arg?) => {
   console.log('arg', arg)
-  const {nextToken, ...rest} = arg
-  const exclusiveStartKey = util.parseToken(nextToken, SALT)
+  const {cursor, ...rest} = arg
+  const exclusiveStartKey = util.parseToken(cursor, SALT)
 
   return {
     exclusiveStartKey,
@@ -48,15 +48,15 @@ const preHook = (arg?) => {
 }
 const postHook = (params?) => {
   const {lastEvaluatedKey, ...rest} = params
-  const nextToken = util.parseToken(lastEvaluatedKey, SALT)
+  const cursor = util.parseToken(lastEvaluatedKey, SALT)
 
-  return {nextToken, ...rest}
+  return {cursor, ...rest}
 }
 
 type Argument<F extends Function> = F extends (first: infer A) => any
   ? A
   : never;
 type ListArgument<F extends Function> = F extends (first: infer A) => any
-  ? Omit<A, 'exclusiveStartKey'> & { nextToken?: string }
+  ? Omit<A, 'exclusiveStartKey'> & { cursor?: string }
   : never;
 

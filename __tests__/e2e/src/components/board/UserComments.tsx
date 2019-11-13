@@ -4,16 +4,16 @@ import {api} from '../../pages/api/lib/api'
 import {MyComments} from '../post/MyComments'
 
 export const UserComments: FunctionComponent<Props> = props => {
-  const [{items, nextToken}, setResponse] = useState({items: [], nextToken: undefined})
+  const [{items, cursor}, setResponse] = useState({items: [], cursor: undefined})
   const [token, setToken] = useState<string>()
-  const getComments = (nextToken?) => {
-    setToken(nextToken)
+  const getComments = (cursor?) => {
+    setToken(cursor)
 
     const url = ['api/my/comments']
     const params: any = {}
 
-    if (nextToken) {
-      params.nextToken = nextToken
+    if (cursor) {
+      params.cursor = cursor
     }
 
     url.push(qs.stringify(params))
@@ -22,7 +22,7 @@ export const UserComments: FunctionComponent<Props> = props => {
       .catch(alert)
   }
 
-  return <MyComments items={items} token={token} nextToken={nextToken} getter={getComments}/>
+  return <MyComments items={items} token={token} cursor={cursor} getter={getComments}/>
 }
 
 type Props = {

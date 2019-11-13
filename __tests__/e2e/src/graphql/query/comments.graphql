@@ -5,7 +5,7 @@ query comments($PostId: String = "ucZC6ATBkqjC2WpLb1rwJS") {
       rk
       content
     }
-    nextToken
+    cursor
     firstResult
   }
 }

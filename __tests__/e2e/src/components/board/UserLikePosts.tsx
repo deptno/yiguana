@@ -5,18 +5,19 @@ import {LineButton} from './LineButton'
 import * as qs from 'querystring'
 import {api} from '../../pages/api/lib/api'
 import {Board} from './Board'
+import {CategoryBoard} from './CategoryBoard'
 
 export const UserLikePosts: FunctionComponent<Props> = props => {
-  const [{items, nextToken}, setResponse] = useState({items: [], nextToken: undefined})
+  const [{items, cursor}, setResponse] = useState({items: [], cursor: undefined})
   const [token, setToken] = useState<string>()
-  const getPosts = (nextToken?) => {
-    setToken(nextToken)
+  const getPosts = (cursor?) => {
+    setToken(cursor)
 
     const url = ['api/my/posts']
     const params: any = {like: true}
 
-    if (nextToken) {
-      params.nextToken = nextToken
+    if (cursor) {
+      params.cursor = cursor
     }
 
     url.push(qs.stringify(params))
@@ -25,7 +26,11 @@ export const UserLikePosts: FunctionComponent<Props> = props => {
       .catch(alert)
   }
 
-  return <Board items={items} token={token} nextToken={nextToken} getter={getPosts}/>
+  return (
+    <div className="pl0 flex-column justify-center items-center list mv0">
+      <Board items={items}/>
+    </div>
+  )
 }
 
 type Props = {}

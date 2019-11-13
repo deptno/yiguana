@@ -9,7 +9,7 @@ import {Reply} from './Reply'
 
 export const Comments: FunctionComponent<Props> = props => {
   const {postId} = props
-  const [{items, nextToken}, setResponse] = useState({items: [] as (TComment | TReply)[], nextToken: undefined})
+  const [{items, cursor}, setResponse] = useState({items: [] as (TComment | TReply)[], cursor: undefined})
   const getComments = useCallback(() => {
     if (postId) {
       api(`/api/post/${postId}/comments`)
@@ -28,7 +28,7 @@ export const Comments: FunctionComponent<Props> = props => {
             }
             return c
           }),
-          nextToken,
+          cursor,
         })
       })
       .catch(alert)

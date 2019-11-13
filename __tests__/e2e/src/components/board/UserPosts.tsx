@@ -7,22 +7,22 @@ import {api} from '../../pages/api/lib/api'
 import {Board} from './Board'
 
 export const UserPosts: FunctionComponent<Props> = props => {
-  const [{items, nextToken}, setResponse] = useState({items: [], nextToken: undefined})
+  const [{items, cursor}, setResponse] = useState({items: [], cursor: undefined})
   const [token, setToken] = useState<string>()
-  const getPosts = (nextToken?) => {
-    setToken(nextToken)
+  const getPosts = (cursor?) => {
+    setToken(cursor)
 
     const url = ['api/my/posts']
 
-    if (nextToken) {
-      url.push(qs.stringify({nextToken}))
+    if (cursor) {
+      url.push(qs.stringify({cursor}))
     }
     api(url.join('?'))
       .then(setResponse)
       .catch(alert)
   }
 
-  return <Board items={items} token={token} nextToken={nextToken} getter={getPosts}/>
+  return <Board items={items} token={token} cursor={cursor} getter={getPosts}/>
 }
 
 type Props = {

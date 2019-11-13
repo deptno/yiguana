@@ -10,7 +10,7 @@ query {
       children
       content
     }
-    nextToken
+    cursor
     firstResult
   }
 }

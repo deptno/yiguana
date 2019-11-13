@@ -1,3 +1,7 @@
 export const context = ({req}) => {
-  return
+  if (req.headers.authorization) {
+    return {
+      user: JSON.parse(req.headers.authorization)
+    }
+  }
 }
