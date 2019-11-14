@@ -21,13 +21,14 @@ export function increaseReportAgg(operator: DynamoDBInput, params: IncreaseRepor
           target: data.rk // EEntity.Post|EEntity.Comment 인 것이 보장되어야 한다.
         }),
       },
-      UpdateExpression: 'SET #v = #v + :v, #u = :u, #c = if_not_exists(#c, :c)',
+      UpdateExpression: 'SET #v = if_not_exists(#v, :z) + :v, #u = :u, #c = if_not_exists(#c, :c)',
       ExpressionAttributeNames: {
         '#v': 'reported',
         '#u': 'reports',
         '#c': 'createdAt',
       },
       ExpressionAttributeValues: {
+        ':z': 0,
         ':v': 1,
         ':c': 'createdAt',
         ':u': new Date().toISOString()
