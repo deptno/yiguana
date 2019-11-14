@@ -10,6 +10,7 @@ import {createReport} from '../../../../src/entity/report'
 import {addReport} from '../../../../src/store/dynamodb/add-report'
 import {commentsByUserReport} from '../../../../src/store/dynamodb/comments-by-user-report'
 import {removeReport} from '../../../../src/store/dynamodb/remove-report'
+import {increaseReportAgg} from '../../../../src/store/dynamodb/increase-report-agg'
 
 describe('unit', function () {
   describe('store', function () {
@@ -46,6 +47,10 @@ describe('unit', function () {
             console.log({report})
             const added = await addReport(opDdb, {data: report})
             expect(report).toMatchObject(added)
+
+            // TODO: reportAgg 테스트 중
+            const count = await increaseReportAgg(opDdb, {data})
+            console.log({count})
           })
           it('03. postsByUserReport(User(a)) === 1', async () => {
             const {items} = await postsByUserReport(opDdb, {userId})
