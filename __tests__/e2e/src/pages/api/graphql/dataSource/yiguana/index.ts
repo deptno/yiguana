@@ -33,10 +33,18 @@ export class Private extends DataSource {
       .then(postHook)
   }
 
+  deletePost(args: ListArgument<typeof yiguana.post.del>) {
+    return yiguana.post.del(args)
+  }
+
   comments(args: ListArgument<typeof yiguana.user.comment.list>) {
     return yiguana.user.comment
       .list(preHook(args))
       .then(postHook)
+  }
+
+  deleteComment(args: ListArgument<typeof yiguana.comment.del>) {
+    return yiguana.comment.del(args)
   }
 }
 

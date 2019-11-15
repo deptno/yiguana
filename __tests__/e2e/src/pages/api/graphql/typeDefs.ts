@@ -66,5 +66,8 @@ export const typeDefs = gql`
   type Mutation {
     post(title: String, content: String): Post
     comment(postId: String!, content: String!): Comment
+
+    deletePost(postId: String!): Comment
+    deleteComment(CommentId: String!): Comment
   }
 `
