@@ -32,18 +32,8 @@ describe('unit', function () {
           commentedPost = postList[4]
           commentList = data.filter(d => d.rk === EEntity.Comment) as Comment[]
 
-          /* 의도:
-           * 기존에는 setup에서 만드는 코멘트가 하나여서 인덱스 0으로 하드코딩해서 가져와도 문제가 없었으나,
-           * 이제 setup에서 만드는 코멘트가 2개이고 (report에서 코멘트 0과 1을 각각 신고하는 시나리오 때문에 추가)
-           * 따라서 postList에서 가져온 코멘트 정보와 commentList에서 가져온 코멘트 정보가 같음을 체크해서 comment 설정 필요
-           * FIXME: 아주 기초인 for 문 방식으로 추출했는데 이 보다 가벼운 더 나은 방법이 있을 것 같으니 수정을 부탁
-           */
-//          comment = commentList[0]
-          for (let i = 0; i < commentList.length; i++) {
-            if (commentList[i].postId === commentedPost.hk) {
-              comment = commentList[i]
-            }
-          }
+          comment = commentList.find(c => c.postId === commentedPost.hk)!
+          expect(comment).toBeDefined()
           commentId = comment.hk
         }))
 
