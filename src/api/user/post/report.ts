@@ -2,8 +2,6 @@ import {MetadataStore} from '../../../store/dynamodb'
 import {EntityFactory} from '../../../entity'
 import {Member} from '../../../entity/user'
 import {Post} from '../../../entity/post'
-import * as R from 'ramda'
-import {ReportAgg} from '../../../entity/report/report-agg'
 
 export async function report(store: MetadataStore, ef: EntityFactory, input: ReportInput) {
   const {data: {content, data, createdAt}, user} = input
@@ -28,13 +26,6 @@ export async function report(store: MetadataStore, ef: EntityFactory, input: Rep
   if (report) {
     return store.increaseReportCount({data: report})
   }
-
-  return Promise
-    .all([
-      store.remove({data}),
-      store.decreaseReportCount({data: report})
-    ])
-    .then<ReportAgg>(R.view(R.lensIndex(1)))
 }
 
 export type ReportInput = {

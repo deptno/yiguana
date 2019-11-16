@@ -45,12 +45,14 @@ describe('unit', function () {
               user,
             })
             console.log({report})
+
             const added = await addReport(opDdb, {data: report})
             expect(report).toMatchObject(added)
-
-            // TODO: reportAgg 테스트 중
-            const count = await increaseReportAgg(opDdb, {data})
-            console.log({count})
+            if (added) {
+              const count = await increaseReportAgg(opDdb, {data})
+              console.log({count})
+              expect(count.reported).toEqual(1)
+            }
           })
           it('03. postsByUserReport(User(a)) === 1', async () => {
             const {items} = await postsByUserReport(opDdb, {userId})
@@ -63,9 +65,16 @@ describe('unit', function () {
               user,
             })
             console.log({report})
+
             const notAdded = await addReport(opDdb, {data: report})
             expect(report).toBeDefined()
             expect(notAdded).not.toBeDefined()
+            // 사실 여기에선 조건문 집입을 안할 거라 불필요한 테스트이나, addReport는 항상 increaseReportAgg를 동반해야 하므로 같이 써주는 것
+            if (notAdded) { // addReport 짝꿍으로 항상 increaseReportAgg 함수를 실행하는데 add 성공인 경우에만 increase
+              const count = await increaseReportAgg(opDdb, {data})
+              console.log({count})
+              expect(count.reported).toEqual(1)
+            }
           })
           it('05. postsByUserReport(User(a)) === 1: 입력 실패로 수 동일', async () => {
             const {items} = await postsByUserReport(opDdb, {userId})
@@ -79,8 +88,14 @@ describe('unit', function () {
               user,
             })
             console.log({report})
+
             const added = await addReport(opDdb, {data: report})
             expect(report).toMatchObject(added)
+            if (added) {
+              const count = await increaseReportAgg(opDdb, {data})
+              console.log({count})
+              expect(count.reported).toEqual(1)
+            }
           })
           it('07. User(b)가 Post(0) 신고', async () => {
             const content = 'user b, post 0, 1st report'
@@ -91,6 +106,11 @@ describe('unit', function () {
             console.log({report})
             const added = await addReport(opDdb, {data: report})
             expect(report).toMatchObject(added)
+            if (added) {
+              const count = await increaseReportAgg(opDdb, {data})
+              console.log({count})
+              expect(count.reported).toEqual(2)
+            }
           })
           it('08. postsByUserReport(User(b)) === 1', async () => {
             const {items} = await postsByUserReport(opDdb, {userId: member_b.id})
@@ -150,6 +170,11 @@ describe('unit', function () {
             console.log({report})
             const added = await addReport(opDdb, {data: report})
             expect(report).toMatchObject(added)
+            if (added) {
+              const count = await increaseReportAgg(opDdb, {data: report.data})
+              console.log({count})
+              expect(count.reported).toEqual(1)
+            }
           })
           it('03. commentsByUserReport(User(a)) === 1', async () => {
             const {items} = await commentsByUserReport(opDdb, {userId})
@@ -165,6 +190,11 @@ describe('unit', function () {
             const notAdded = await addReport(opDdb, {data: report})
             expect(report).toBeDefined()
             expect(notAdded).not.toBeDefined()
+            if (notAdded) {
+              const count = await increaseReportAgg(opDdb, {data: report.data})
+              console.log({count})
+              expect(count.reported).toEqual(1)
+            }
           })
           it('05. commentsByUserReport(User(a)) === 1: 입력 실패로 수 동일', async () => {
             const {items} = await commentsByUserReport(opDdb, {userId})
@@ -181,6 +211,11 @@ describe('unit', function () {
             console.log({report})
             const added = await addReport(opDdb, {data: report})
             expect(report).toMatchObject(added)
+            if (added) {
+              const count = await increaseReportAgg(opDdb, {data: report.data})
+              console.log({count})
+              expect(count.reported).toEqual(1)
+            }
           })
           it('07. User(b)가 Comment(0) 신고', async () => {
             const content = 'user b, comment 0, 1st report'
@@ -191,6 +226,11 @@ describe('unit', function () {
             console.log({report})
             const added = await addReport(opDdb, {data: report})
             expect(report).toMatchObject(added)
+            if (added) {
+              const count = await increaseReportAgg(opDdb, {data: report.data})
+              console.log({count})
+              expect(count.reported).toEqual(2)
+            }
           })
           it('08. commentsByUserReport(User(b)) === 1', async () => {
             const {items} = await commentsByUserReport(opDdb, {userId: member_b.id})

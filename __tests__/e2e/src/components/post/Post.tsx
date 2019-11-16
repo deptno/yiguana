@@ -28,6 +28,12 @@ export const Post: FunctionComponent<Props> = props => {
       .then(setPost)
       .catch(alert)
   }
+  const report = () => {
+    api(`/api/post/${hk}/report`, {method: 'post'})
+      .then(R.tap(console.log))
+      .then(setPost)
+      .catch(alert)
+  }
 
   return (
     <main className="b--light-gray bl bb br">
@@ -60,6 +66,9 @@ export const Post: FunctionComponent<Props> = props => {
         {data.content}
       </pre>
       <div className="justify-center mv3 lh-copy flex">
+        <a className="pa2 link near-black dib white bg-hot-pink mh2 nowrap pointer hover-bg-blue" onClick={report}>
+          <span className="ml2">신고</span>
+        </a>
         <a className="pa2 link near-black dib white bg-hot-pink mh2 nowrap pointer hover-bg-blue" onClick={like}>
           <span className="ml2">공감 {likes}</span>
         </a>
