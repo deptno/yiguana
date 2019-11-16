@@ -1,10 +1,11 @@
-import React, {FunctionComponent, useContext, useMemo} from 'react'
+import React, {FunctionComponent, useContext, useMemo, useState} from 'react'
 import locale from 'date-fns/locale/ko'
 import {formatDistanceToNow, parseISO} from 'date-fns'
 import {Post as TPost} from '../../../../../src/entity/post'
 import * as R from 'ramda'
 import {StorageContext} from '../../context/StorageContext'
 import {api} from '../../pages/api/lib/api'
+import {BlockRequest} from '../BlockRequest'
 
 export const Post: FunctionComponent<Props> = props => {
   const {data, setPost} = props
@@ -21,6 +22,7 @@ export const Post: FunctionComponent<Props> = props => {
     }
     return false
   }, [user])
+  const [showBr, setShowBr] = useState(false)
 
   const like = () => {
     api(`/api/post/${hk}/like`, {method: 'post'})
@@ -66,7 +68,10 @@ export const Post: FunctionComponent<Props> = props => {
         {data.content}
       </pre>
       <div className="justify-center mv3 lh-copy flex">
-        <a className="pa2 link near-black dib white bg-hot-pink mh2 nowrap pointer hover-bg-blue" onClick={report}>
+        <a
+          className="pa2 link near-black dib white bg-hot-pink mh2 nowrap pointer hover-bg-blue"
+          onClick={() => setShowBr(!showBr)}
+        >
           <span className="ml2">신고</span>
         </a>
         <a className="pa2 link near-black dib white bg-hot-pink mh2 nowrap pointer hover-bg-blue" onClick={like}>
@@ -76,6 +81,7 @@ export const Post: FunctionComponent<Props> = props => {
           <span className="dn di-ns ml2">스크랩 (미구현)</span>
         </a>
       </div>
+      {showBr && <BlockRequest/>}
     </main>
   )
 }
