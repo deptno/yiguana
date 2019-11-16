@@ -29,7 +29,7 @@ export const typeDefs = gql`
     category: String
     createdAt: String
     content: String
-    
+
     dCategory: String
     deleted: Boolean
   }
@@ -50,7 +50,7 @@ export const typeDefs = gql`
     likes: Int
     user: User
     commentId: String
-    
+
     deleted: Boolean
   }
   type User {
@@ -67,10 +67,17 @@ export const typeDefs = gql`
 
   ###
   type Mutation {
-    post(title: String, content: String): Post
+    post(data: PostMutationInput!, user: NotMemberInput): Post
     comment(postId: String!, content: String!): Comment
 
     deletePost(postId: String!): Comment
     deleteComment(commentId: String!): Comment
+  }
+  input PostMutationInput {
+    category: String!, title: String!, content: String!
+  }
+  input NotMemberInput {
+    name: String!
+    pw: String!
   }
 `

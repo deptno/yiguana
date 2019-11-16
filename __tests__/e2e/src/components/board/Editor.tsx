@@ -4,12 +4,32 @@ import {LineSubmitButton} from './LineSubmitButton'
 import * as R from 'ramda'
 import {getUserName, isMember} from '../../lib/storage/user'
 import {StorageContext} from '../../context/StorageContext'
-import {api} from '../../pages/api/lib/api'
+import {useMutation} from '@apollo/react-hooks'
+import gql from 'graphql-tag'
 
 export const Editor: FunctionComponent<Props> = props => {
   const ref = useRef()
   const [editor, setEditor] = useState<Q.Quill>()
   const {user} = useContext(StorageContext)
+  const [postMutation] = useMutation(gql`
+    mutation ($data: PostMutationInput!, $notMember: NotMemberInput) {
+      post(data: $data, user: $notMember) {
+        hk
+        rk
+        title
+        likes
+        views
+        children
+        category
+        createdAt
+        content
+
+        dCategory
+        deleted
+      }
+    }
+  `)
+
   const save = (e) => {
     const name = e.target.elements.name.value.trim()
     const pw = e.target.elements.pw.value
@@ -31,25 +51,22 @@ export const Editor: FunctionComponent<Props> = props => {
       e.target.elements.title.focus()
       return alert('빈 제목')
     }
-
     const userData = member
-      ? user
+      ? undefined
       : {name, pw}
-    const body = JSON.stringify({
-      data: {
-        category,
-        title,
-        content,
-      },
-      user: userData,
-    })
 
-    api(
-      'api/post', {
-        method: 'post',
-        body,
-      })
-      .then(console.log)
+    console.log(member, userData)
+
+    postMutation({
+      variables: {
+        data: {
+          category,
+          title,
+          content,
+        },
+        user: userData,
+      }
+    })
       .catch(alert)
   }
 
@@ -58,7 +75,7 @@ export const Editor: FunctionComponent<Props> = props => {
       setEditor(new Quill(ref.current, {theme: 'snow'}))
     }
   }, [ref])
-  const member = useMemo(() => isMember(user), [user])
+  const member = isMember(user)
 
   return (
     <form className="black-80 mv3" onSubmit={R.compose(save, R.tap(e => e.preventDefault()))}>

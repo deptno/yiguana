@@ -2,10 +2,11 @@ import {GraphQLFieldResolver} from 'graphql'
 import {Context} from '../../types'
 
 export const post: GraphQLFieldResolver<any, Context, any> = (source, args, context) => {
-  const {cursor, ...data} = args
+  console.log(args, context)
+  const {data, user} = args
 
-  return context.dataSources.public.post({
+  return context.dataSources.public.writePost({
     data,
-    cursor
+    user: context.user ?? user
   })
 }
