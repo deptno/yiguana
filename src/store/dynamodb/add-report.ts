@@ -1,19 +1,19 @@
 import {DynamoDBInput} from '../../entity/input/dynamodb'
-import {Like} from '../../entity/like'
+import {Report} from '../../entity/report'
 import * as R from 'ramda'
 
-export function addLike(operator: DynamoDBInput, params: AddLikeInput) {
+export function addReport(operator: DynamoDBInput, params: AddReportInput) {
   const {dynamodb, tableName} = operator
   const {data} = params
 
   return dynamodb
-    .update<Like>({
+    .update<Report>({
       TableName: tableName,
       Key: {
         hk: data.hk,
         rk: data.rk,
       },
-      UpdateExpression: 'SET #uid = :uid, #b = :b, #c = :c, #u = :u, #d = :d',
+      UpdateExpression: 'SET #uid = :uid, #b = :b, #c = :c, #u = :u, #d = :d, #co = :co',
       ExpressionAttributeNames: {
         '#h': 'hk',
         '#uid': 'userId',
@@ -21,6 +21,7 @@ export function addLike(operator: DynamoDBInput, params: AddLikeInput) {
         '#c': 'createdAt',
         '#u': 'user',
         '#d': 'data',
+        '#co': 'content',
       },
       ExpressionAttributeValues: {
         ':uid': data.userId,
@@ -28,13 +29,14 @@ export function addLike(operator: DynamoDBInput, params: AddLikeInput) {
         ':c': data.createdAt,
         ':u': data.user,
         ':d': data.data,
+        ':co': data.content,
       },
       ConditionExpression: 'attribute_not_exists(#h)',
       ReturnValues: 'ALL_NEW',
     })
-    .then<Like>(R.prop('Attributes'))
+    .then<Report>(R.prop('Attributes'))
 }
 
-export type AddLikeInput = {
-  data: Like
+export type AddReportInput = {
+  data: Report
 }

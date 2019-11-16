@@ -41,10 +41,6 @@ resource aws_dynamodb_table yiguana {
     name = "posts"
     type = "S"
   }
-  attribute {
-    name = "like"
-    type = "S"
-  }
 
   global_secondary_index {
     name = "byUser"
@@ -71,9 +67,9 @@ resource aws_dynamodb_table yiguana {
     projection_type = "ALL"
   }
   global_secondary_index {
-    name = "rk-like-index"
+    name = "reports"
     hash_key = "rk"
-    range_key = "like"
+    range_key = "reports"
     projection_type = "ALL"
   }
 }

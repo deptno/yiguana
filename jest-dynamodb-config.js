@@ -61,7 +61,7 @@ module.exports = {
           'AttributeType': 'S'
         },
         {
-          'AttributeName': 'like',
+          'AttributeName': 'reports',
           'AttributeType': 'S'
         }
       ],
@@ -85,7 +85,7 @@ module.exports = {
         createGsi('posts', 'rk', 'posts'),
         createGsi('postsByCategory', 'rk', 'category'),
         createGsi('comments', 'postId', 'comments'),
-        createGsi('rk-like-index', 'rk', 'like'),
+        createGsi('reports', 'rk', 'reports'),
       ],
       'StreamSpecification'   : {
         'StreamEnabled' : true,

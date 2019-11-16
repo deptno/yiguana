@@ -1,8 +1,10 @@
-import React, {FunctionComponent, useEffect, useState} from 'react'
+import React, {FunctionComponent, useCallback, useEffect, useRef, useState} from 'react'
 import {Comment} from './Comment'
 import {Comment as TComment} from '../../../../../src/entity/comment'
 import {Reply as TReply} from '../../../../../src/entity/reply'
+import * as R from 'ramda'
 import {CommentWriter} from '../board/CommentWriter'
+import {api} from '../../pages/api/lib/api'
 import {Reply} from './Reply'
 import {useLazyQuery, useMutation} from '@apollo/react-hooks'
 import gql from 'graphql-tag'
@@ -64,6 +66,10 @@ export const Comments: FunctionComponent<Props> = props => {
       }
     }
   `)
+  const report = (id) => {
+    api<TComment>(`/api/comment/${id}/report`, {method: 'post'})
+      .catch(alert)
+  }
 
   useEffect(getComments, [postId])
   useEffect(() => {
@@ -119,7 +125,8 @@ export const Comments: FunctionComponent<Props> = props => {
                 key={commentOrReply.hk}
                 data={commentOrReply as TComment}
                 onLike={like}
-                onCreate={refetch}
+                onCreate={getComments}
+                onReport={report}
               />
             )
           })}

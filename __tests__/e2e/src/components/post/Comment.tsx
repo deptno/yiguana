@@ -10,7 +10,7 @@ import cx from 'classnames'
 import gql from 'graphql-tag'
 
 export const Comment: FunctionComponent<Props> = props => {
-  const {data, onLike, onCreate} = props
+  const {data, onLike, onCreate, onReport} = props
   const {hk, rk, postId, content, userId, createdAt, updatedAt = createdAt, children, likes, user, deleted} = data
   const {name, ip} = user
   const [showWriter, setShowWriter] = useState(false)
@@ -82,4 +82,5 @@ type Props = {
   data: TComment
   onLike(id: string): void
   onCreate(): void
+  onReport(id: string): void
 }

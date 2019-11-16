@@ -1,8 +1,11 @@
-import React, {FunctionComponent, useContext, useEffect, useMemo} from 'react'
+import React, {FunctionComponent, useContext, useEffect, useMemo, useState} from 'react'
 import locale from 'date-fns/locale/ko'
 import {formatDistanceToNow, parseISO} from 'date-fns'
 import {Post as TPost} from '../../../../../src/entity/post'
+import * as R from 'ramda'
 import {StorageContext} from '../../context/StorageContext'
+import {api} from '../../pages/api/lib/api'
+import {BlockRequest} from '../BlockRequest'
 import {useMutation} from '@apollo/react-hooks'
 import gql from 'graphql-tag'
 
@@ -22,6 +25,8 @@ export const Post: FunctionComponent<Props> = props => {
     }
     return true
   }, [user])
+  const [showBr, setShowBr] = useState(false)
+
   const [likeMutation, {data: liked}] = useMutation(gql`
     mutation ($hk: String!) {
       likePost(hk: $hk) {
@@ -45,10 +50,15 @@ export const Post: FunctionComponent<Props> = props => {
   }
   useEffect(() => {
     if (liked) {
-      console.log({liked})
       setPost(liked.likePost)
     }
   }, [liked])
+  const report = () => {
+    api(`/api/post/${hk}/report`, {method: 'post'})
+      .then(R.tap(console.log))
+      .then(setPost)
+      .catch(alert)
+  }
 
   return (
     <main className="b--light-gray bl bb br">
@@ -81,6 +91,12 @@ export const Post: FunctionComponent<Props> = props => {
         {data.content}
       </pre>
       <div className="justify-center mv3 lh-copy flex">
+        <a
+          className="pa2 link near-black dib white bg-hot-pink mh2 nowrap pointer hover-bg-blue"
+          onClick={() => setShowBr(!showBr)}
+        >
+          <span className="ml2">신고</span>
+        </a>
         <a className="pa2 link near-black dib white bg-hot-pink mh2 nowrap pointer hover-bg-blue" onClick={like}>
           <span className="ml2">공감 {likes}</span>
         </a>
@@ -88,6 +104,7 @@ export const Post: FunctionComponent<Props> = props => {
           <span className="dn di-ns ml2">스크랩 (미구현)</span>
         </a>
       </div>
+      {showBr && <BlockRequest/>}
     </main>
   )
 }
