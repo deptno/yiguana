@@ -6,18 +6,34 @@ import {useRouter} from 'next/router'
 import * as R from 'ramda'
 import {LineLink} from '../../components/board/LineLink'
 import {Post} from '../../components/post/Post'
-import {api} from '../api/lib/api'
+import {useLazyQuery} from '@apollo/react-hooks'
+import gql from 'graphql-tag'
 
 const PostPage: NextPage<Props> = props => {
   const {query} = useRouter()
   const postId = query.hk as string
   const [post, setPost] = useState<TPost>()
+  const [getPostQuery, {data, loading}] = useLazyQuery(gql`
+    query ($postId: String!) {
+      post(hk: $postId) {
+        hk
+        rk
+        title
+        likes
+        views
+        children
+        category
+        createdAt
+        content
+        userId
+
+        dCategory
+        deleted
+      }
+    }`)
   const getPost = useCallback(() => {
     if (postId) {
-      api(`/api/post/${postId}`)
-        .then(R.tap(console.log))
-        .then(setPost)
-        .catch(alert)
+      getPostQuery({variables: {postId}})
     }
   }, [postId])
   const setPostLikes = useCallback(
@@ -31,6 +47,11 @@ const PostPage: NextPage<Props> = props => {
   )
 
   useEffect(getPost, [postId])
+  useEffect(() => {
+    if (data) {
+      setPost(data.post)
+    }
+  }, [data])
 
   return (
     <div className="pa3 flex-column">

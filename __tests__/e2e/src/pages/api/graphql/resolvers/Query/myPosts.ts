@@ -3,7 +3,7 @@ import {Context} from '../../types'
 import {AuthenticationError} from 'apollo-server-errors'
 
 export const myPosts: GraphQLFieldResolver<any, Context, Args> = (source, args, context) => {
-  console.log('mhPosts')
+  console.log('myPosts', args, context.user)
   if (!context.user) {
     throw new AuthenticationError('You must be logged in')
   }

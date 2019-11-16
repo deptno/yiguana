@@ -29,7 +29,8 @@ export const typeDefs = gql`
     category: String
     createdAt: String
     content: String
-    
+    userId: String
+
     dCategory: String
     deleted: Boolean
   }
@@ -49,7 +50,8 @@ export const typeDefs = gql`
     children: Int
     likes: Int
     user: User
-    
+    commentId: String
+
     deleted: Boolean
   }
   type User {
@@ -64,13 +66,35 @@ export const typeDefs = gql`
     create_channel
   }
 
-  ###
-
+  ### mutation
   type Mutation {
-    post(title: String, content: String): Post
-    comment(postId: String!, content: String!): Comment
+    post(data: PostMutationInput!, user: NotMemberInput): Post
+    comment(data: CommentMutationInput!, user: NotMemberInput): Comment
+    reply(data: ReplyMutationInput!, user: NotMemberInput): Comment
 
+    likePost(hk: String!): Post
+    likeComment(hk: String!): Comment
+    
     deletePost(postId: String!): Comment
-    deleteComment(CommentId: String!): Comment
+    deleteComment(commentId: String!): Comment
+  }
+  
+  ### input
+  input PostMutationInput {
+    category: String!, title: String!, content: String!
+  }
+  input CommentMutationInput {
+    postId: String!
+    content: String!
+    commentCreatedAt: String
+  }
+  input ReplyMutationInput {
+    postId: String!
+    content: String!
+    commentId: String!
+  }
+  input NotMemberInput {
+    name: String!
+    pw: String!
   }
 `

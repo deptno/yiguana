@@ -1,4 +1,4 @@
-import React, {FunctionComponent, useContext, useMemo, useState} from 'react'
+import React, {FunctionComponent, useContext, useEffect, useMemo, useState} from 'react'
 import locale from 'date-fns/locale/ko'
 import {formatDistanceToNow, parseISO} from 'date-fns'
 import {Post as TPost} from '../../../../../src/entity/post'
@@ -6,6 +6,8 @@ import * as R from 'ramda'
 import {StorageContext} from '../../context/StorageContext'
 import {api} from '../../pages/api/lib/api'
 import {BlockRequest} from '../BlockRequest'
+import {useMutation} from '@apollo/react-hooks'
+import gql from 'graphql-tag'
 
 export const Post: FunctionComponent<Props> = props => {
   const {data, setPost} = props
@@ -14,22 +16,43 @@ export const Post: FunctionComponent<Props> = props => {
   }
   const {user} = useContext(StorageContext)
   const {hk, rk, title, contentUrl, userId, createdAt, updatedAt, children, views, likes, order} = data
-  const isAuthor = useMemo(() => {
+  const editable = useMemo(() => {
     if (user) {
       if ('id' in user) {
         return user.id === userId
       }
+      return true
     }
-    return false
+    return true
   }, [user])
   const [showBr, setShowBr] = useState(false)
 
+  const [likeMutation, {data: liked}] = useMutation(gql`
+    mutation ($hk: String!) {
+      likePost(hk: $hk) {
+        category
+        children
+        content
+        createdAt
+        dCategory
+        deleted
+        hk
+        likes
+        rk
+        title
+        views
+        userId
+      }
+    }
+  `)
   const like = () => {
-    api(`/api/post/${hk}/like`, {method: 'post'})
-      .then(R.tap(console.log))
-      .then(setPost)
-      .catch(alert)
+    likeMutation({variables: {hk}}).catch(console.error)
   }
+  useEffect(() => {
+    if (liked) {
+      setPost(liked.likePost)
+    }
+  }, [liked])
   const report = () => {
     api(`/api/post/${hk}/report`, {method: 'post'})
       .then(R.tap(console.log))
@@ -52,10 +75,10 @@ export const Post: FunctionComponent<Props> = props => {
       </header>
       <div className="ph3 lh-copy flex bg-light-gray hover-bg-light-pink">
           <span>
-           작성자: {userId} (유저 이름 || 유저 아이디)
+           작성자: {user.name}({userId ?? '비회원'})
           </span>
       </div>
-      {isAuthor && (
+      {editable && (
         <div className="ph3 lh-copy bg-gray white tr flex flex-column">
           <span>수정하기(미구현)</span>
           <span>삭제하기(미구현)</span>

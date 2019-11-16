@@ -1,21 +1,30 @@
 import React, {FunctionComponent, useCallback, useState} from 'react'
 import * as R from 'ramda'
-import {api} from '../../pages/api/lib/api'
+import {useMutation} from '@apollo/react-hooks'
+import gql from 'graphql-tag'
 
 export const CommentWriter: FunctionComponent<Props> = props => {
   const {postId, onCreate} = props
   const [content, setContent] = useState('')
   const handleChange = useCallback(R.compose(setContent, R.path(['target', 'value'])), [postId])
+  const [saveCommentMutation] = useMutation(gql`
+    mutation ($data: CommentMutationInput!, $user: NotMemberInput) {
+      comment(data: $data, user: $user) {
+        hk
+      }
+    }
+  `)
   const saveComment = () => {
-    api(
-      `/api/post/${postId}/comment`,
-      {
-        method: 'post',
-        body: JSON.stringify({
+    // TODO: 비회원 댓글 지원
+    // TODO: commentCreatedAt 서버에서 처리해야함
+    saveCommentMutation({
+      variables: {
+        data: {
+          postId,
           content,
-        }),
-      })
-      .then(console.log)
+        },
+      },
+    })
       .then(onCreate)
       .catch(alert)
   }
@@ -33,6 +42,6 @@ export const CommentWriter: FunctionComponent<Props> = props => {
 }
 
 type Props = {
-  postId
+  postId: string
   onCreate(): void
 }
