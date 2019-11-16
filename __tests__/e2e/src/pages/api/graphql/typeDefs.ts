@@ -28,8 +28,10 @@ export const typeDefs = gql`
     children: Int!
     category: String
     createdAt: String
-
     content: String
+    
+    dCategory: String
+    deleted: Boolean
   }
   type CommentList {
     items: [Comment]!
@@ -47,6 +49,8 @@ export const typeDefs = gql`
     children: Int
     likes: Int
     user: User
+    
+    deleted: Boolean
   }
   type User {
     ip: String!
@@ -58,7 +62,6 @@ export const typeDefs = gql`
   enum Category {
     news
     create_channel
-
   }
 
   ###
