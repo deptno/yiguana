@@ -6,7 +6,6 @@ import {replies} from '../../../../src/store/dynamodb/replies'
 import {opDdb} from '../../../env'
 import {addReply} from '../../../../src/store/dynamodb/add-reply'
 import {createReply} from '../../../../src/entity/reply'
-import {replyComment} from '../../../../src/store/dynamodb/reply-comment'
 import {comments} from '../../../../src/store/dynamodb/comments'
 import {updateReply} from '../../../../src/store/dynamodb/update-reply'
 import {removeReply} from '../../../../src/store/dynamodb/remove-reply'
@@ -63,13 +62,6 @@ describe('unit', function () {
             const {items} = await comments(opDdb, {postId: commentedPost.hk})
             const repliedComment = items.find(c => c.hk === commentId)!
             expect(repliedComment.children).toEqual(0)
-          })
-          it.todo('replyComment 대신 commentPost 가 사용되어야 한다.')
-          xit('AFTER replyComment, comment.children(1) ', async () => {
-            await replyComment(opDdb, {data: comment})
-            const {items} = await comments(opDdb, {postId: commentedPost.hk})
-            const repliedComment = items.find(c => c.hk === commentId)!
-            expect(repliedComment.children).toEqual(1)
           })
           it('update reply', async() => {
             const {items: commentItems} = await comments(opDdb, {postId: commentedPost.hk})

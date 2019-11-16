@@ -19,7 +19,6 @@ export async function create(store: MetadataStore, ep: EntityFactory, input: Cre
       }),
     ])
     .then<Comment>(head)
-
 }
 
 export type CreateInput = {
