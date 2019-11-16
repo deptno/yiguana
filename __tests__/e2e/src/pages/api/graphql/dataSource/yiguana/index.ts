@@ -9,9 +9,11 @@ export class Public extends DataSource {
       .list(preListHook(kebabCategory(args)))
       .then(postListHook)
   }
+
   post(args: ListArgument<typeof yiguana.post.view>) {
     return yiguana.post.view(args)
   }
+
   comments(args: ListArgument<typeof yiguana.comment.list>) {
     return yiguana.comment
       .list(preListHook(args))
@@ -22,6 +24,7 @@ export class Public extends DataSource {
   writePost(args: Argument<typeof yiguana.post.create>) {
     return yiguana.post.create(args)
   }
+
   writeComment(args: Argument<typeof yiguana.comment.create>) {
     return yiguana.comment.create(args)
   }
@@ -33,8 +36,22 @@ export class Private extends DataSource {
       .then(postListHook)
   }
 
-  likePost(args: ListArgument<typeof yiguana.user.post.like>) {
-    return yiguana.user.post.like(args)
+  likePost({data: {hk}, user}) {
+    const createdAt = new Date().toISOString()
+
+    return yiguana.post.read({data: {hk}})
+      .then(data => {
+        if (!data) {
+          throw new Error('unknown comment')
+        }
+        return yiguana.user.post.like({
+          data: {
+            data,
+            createdAt,
+          },
+          user,
+        })
+      })
   }
 
   deletePost(args: ListArgument<typeof yiguana.post.del>) {
@@ -47,8 +64,22 @@ export class Private extends DataSource {
       .then(postListHook)
   }
 
-  likeComment(args: ListArgument<typeof yiguana.user.comment.like>) {
-    return yiguana.user.comment.like(args)
+  likeComment({data: {hk}, user}) {
+    const createdAt = new Date().toISOString()
+
+    return yiguana.comment.read({data: {hk}})
+      .then(data => {
+        if (!data) {
+          throw new Error('unknown comment')
+        }
+        return yiguana.user.comment.like({
+          data: {
+            data,
+            createdAt,
+          },
+          user,
+        })
+      })
   }
 
   deleteComment(args: ListArgument<typeof yiguana.comment.del>) {
@@ -60,13 +91,12 @@ const kebabCategory = (arg?) => {
   if (arg.category) {
     return {
       ...arg,
-      category: arg.category.replace(/_/g, '-')
+      category: arg.category.replace(/_/g, '-'),
     }
   }
   return arg
 }
 const preListHook = (arg?) => {
-  console.log('arg', arg)
   const {cursor, ...rest} = arg
   const exclusiveStartKey = util.parseToken(cursor, SALT)
 

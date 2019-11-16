@@ -13,13 +13,14 @@ export const Post: FunctionComponent<Props> = props => {
   }
   const {user} = useContext(StorageContext)
   const {hk, rk, title, contentUrl, userId, createdAt, updatedAt, children, views, likes, order} = data
-  const isAuthor = useMemo(() => {
+  const editable = useMemo(() => {
     if (user) {
       if ('id' in user) {
         return user.id === userId
       }
+      return true
     }
-    return false
+    return true
   }, [user])
   const [likeMutation, {data: liked}] = useMutation(gql`
     mutation ($hk: String!) {
@@ -38,7 +39,7 @@ export const Post: FunctionComponent<Props> = props => {
       }
     }
   `)
-  const like = (hk) => {
+  const like = () => {
     likeMutation({variables: {hk}}).catch(console.error)
   }
   useEffect(() => {
@@ -63,10 +64,10 @@ export const Post: FunctionComponent<Props> = props => {
       </header>
       <div className="ph3 lh-copy flex bg-light-gray hover-bg-light-pink">
           <span>
-           작성자: {userId} (유저 이름 || 유저 아이디)
+           작성자: {user.name}({userId ?? '비회원'})
           </span>
       </div>
-      {isAuthor && (
+      {editable && (
         <div className="ph3 lh-copy bg-gray white tr flex flex-column">
           <span>수정하기(미구현)</span>
           <span>삭제하기(미구현)</span>

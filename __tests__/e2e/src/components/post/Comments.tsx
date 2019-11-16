@@ -73,10 +73,11 @@ export const Comments: FunctionComponent<Props> = props => {
   }
   useEffect(() => {
     if (liked) {
+      console.log({liked})
       setResponse({
         items: items.map(c => {
-          if (c.hk === liked.hk) {
-            return liked
+          if (c.hk === liked.likeComment.hk) {
+            return liked.likeComment
           }
           return c
         }),
