@@ -6,16 +6,16 @@ import {SALT} from '../../../lib/token'
 export class Public extends DataSource {
   posts(args: ListArgument<typeof yiguana.post.list>) {
     return yiguana.post
-      .list(preHook(kebabCategory(args)))
-      .then(postHook)
+      .list(preListHook(kebabCategory(args)))
+      .then(postListHook)
   }
   post(args: ListArgument<typeof yiguana.post.view>) {
     return yiguana.post.view(args)
   }
   comments(args: ListArgument<typeof yiguana.comment.list>) {
     return yiguana.comment
-      .list(preHook(args))
-      .then(postHook)
+      .list(preListHook(args))
+      .then(postListHook)
   }
 
 
@@ -29,8 +29,8 @@ export class Public extends DataSource {
 export class Private extends DataSource {
   posts(args: ListArgument<typeof yiguana.user.post.list>) {
     return yiguana.user.post
-      .list(preHook(kebabCategory(args)))
-      .then(postHook)
+      .list(preListHook(kebabCategory(args)))
+      .then(postListHook)
   }
 
   deletePost(args: ListArgument<typeof yiguana.post.del>) {
@@ -39,8 +39,8 @@ export class Private extends DataSource {
 
   comments(args: ListArgument<typeof yiguana.user.comment.list>) {
     return yiguana.user.comment
-      .list(preHook(args))
-      .then(postHook)
+      .list(preListHook(args))
+      .then(postListHook)
   }
 
   deleteComment(args: ListArgument<typeof yiguana.comment.del>) {
@@ -57,7 +57,7 @@ const kebabCategory = (arg?) => {
   }
   return arg
 }
-const preHook = (arg?) => {
+const preListHook = (arg?) => {
   console.log('arg', arg)
   const {cursor, ...rest} = arg
   const exclusiveStartKey = util.parseToken(cursor, SALT)
@@ -67,7 +67,7 @@ const preHook = (arg?) => {
     ...rest,
   }
 }
-const postHook = (params?) => {
+const postListHook = (params?) => {
   const {lastEvaluatedKey, ...rest} = params
   const cursor = util.parseToken(lastEvaluatedKey, SALT)
 

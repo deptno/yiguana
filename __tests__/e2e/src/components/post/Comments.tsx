@@ -6,18 +6,39 @@ import * as R from 'ramda'
 import {CommentWriter} from '../board/CommentWriter'
 import {api} from '../../pages/api/lib/api'
 import {Reply} from './Reply'
+import {useLazyQuery} from '@apollo/react-hooks'
+import gql from 'graphql-tag'
 
 export const Comments: FunctionComponent<Props> = props => {
   const {postId} = props
   const [{items, cursor}, setResponse] = useState({items: [] as (TComment | TReply)[], cursor: undefined})
-  const getComments = useCallback(() => {
-    if (postId) {
-      api(`/api/post/${postId}/comments`)
-        .then(R.tap(R.compose(console.table, R.prop('items'))))
-        .then(setResponse)
-        .catch(alert)
+  const [getCommentsQuery, {data}] = useLazyQuery(gql`
+    query ($postId: String!, $cursor: String) {
+      comments(postId: $postId, cursor: $cursor) {
+        items {
+          hk
+          rk
+          content
+          postId
+          userId
+          createdAt
+          updatedAt
+          children
+          likes
+          user {
+            id
+            ip
+            name
+            pw
+          }
+          commentId
+          deleted
+        } cursor
+        firstResult
+      }
     }
-  }, [postId])
+  `)
+  const getComments = () => getCommentsQuery({variables: {postId}})
   const like = (id) => {
     api<TComment>(`/api/comment/${id}/like`, {method: 'post'})
       .then(comment => {
@@ -35,6 +56,11 @@ export const Comments: FunctionComponent<Props> = props => {
   }
 
   useEffect(getComments, [postId])
+  useEffect(() => {
+    if (data) {
+      setResponse(data.comments)
+    }
+  }, [data])
 
   return (
     <>
@@ -47,16 +73,23 @@ export const Comments: FunctionComponent<Props> = props => {
         </span>
         <ul className="list ph0">
           {items.map(commentOrReply => {
-            if ('commentId' in commentOrReply) {
+            if ((commentOrReply as TReply).commentId) {
               return (
                 <li key={commentOrReply.hk} className="pl4 comment mv2 f6 flex">
                   <div className="flex-auto flex flex-column">
-                    <Reply key={commentOrReply.hk} data={commentOrReply} onLike={like}/>
+                    <Reply key={commentOrReply.hk} data={commentOrReply as TReply} onLike={like} onDelete={getComments}/>
                   </div>
                 </li>
               )
             }
-            return <Comment key={commentOrReply.hk} data={commentOrReply} onLike={like} onCreate={getComments}/>
+            return (
+              <Comment
+                key={commentOrReply.hk}
+                data={commentOrReply as TComment}
+                onLike={like}
+                onCreate={getComments}
+              />
+            )
           })}
         </ul>
       </div>

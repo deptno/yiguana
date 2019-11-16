@@ -49,6 +49,7 @@ export const typeDefs = gql`
     children: Int
     likes: Int
     user: User
+    commentId: String
     
     deleted: Boolean
   }
@@ -65,12 +66,11 @@ export const typeDefs = gql`
   }
 
   ###
-
   type Mutation {
     post(title: String, content: String): Post
     comment(postId: String!, content: String!): Comment
 
     deletePost(postId: String!): Comment
-    deleteComment(CommentId: String!): Comment
+    deleteComment(commentId: String!): Comment
   }
 `

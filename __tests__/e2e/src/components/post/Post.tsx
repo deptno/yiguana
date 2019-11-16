@@ -23,6 +23,7 @@ export const Post: FunctionComponent<Props> = props => {
   }, [user])
 
   const like = () => {
+    // TODO: apply graphql
     api(`/api/post/${hk}/like`, {method: 'post'})
       .then(R.tap(console.log))
       .then(setPost)

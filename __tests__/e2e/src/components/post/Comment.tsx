@@ -1,18 +1,39 @@
-import React, {FunctionComponent, useContext, useState} from 'react'
+import React, {FunctionComponent, useCallback, useContext, useMemo, useState} from 'react'
 import locale from 'date-fns/locale/ko'
 import {formatDistanceToNow, parseISO} from 'date-fns'
 import {Comment as TComment} from '../../../../../src/entity/comment'
 import {ReplyWriter} from '../board/ReplyWriter'
 import {StorageContext} from '../../context/StorageContext'
 import {Member} from '../../../../../src/entity/user'
+import { useMutation } from '@apollo/react-hooks'
+import cx from 'classnames'
+import gql from 'graphql-tag'
 
 export const Comment: FunctionComponent<Props> = props => {
   const {data, onLike, onCreate} = props
-  const {hk, rk, postId, content, userId, createdAt, updatedAt = createdAt, children, likes, user} = data
+  const {hk, rk, postId, content, userId, createdAt, updatedAt = createdAt, children, likes, user, deleted} = data
   const {name, ip} = user
   const [showWriter, setShowWriter] = useState(false)
   const context = useContext(StorageContext)
-  const isAuthor = (context.user as Member)?.id === userId
+  const deletable = useMemo(() => {
+    if ('id' in context.user) {
+      return (context.user as Member)?.id === userId
+    }
+    return true
+  }, [context.user])
+  const [deleteComment] = useMutation(gql`
+    mutation ($commentId: String!) {
+      deleteComment(commentId: $commentId) {
+        hk
+      }
+    }
+  `)
+  const del = useCallback((e) => {
+    e.stopPropagation()
+    if (confirm('Do you want to delete this comment?')) {
+      deleteComment({variables: {commentId: hk}}).then(onCreate)
+    }
+  }, [hk])
 
   return (
     <li className="comment mv2 f6 flex">
@@ -24,23 +45,27 @@ export const Comment: FunctionComponent<Props> = props => {
           height={40}
         />
       </figure>
-      <div className="flex-auto flex flex-column">
+      <div className={cx('flex-auto flex flex-column', {'black-30': deleted})}>
         <header className="pa2 flex lh-copy bg-near-white br2 br--top">
           <strong className="">{name} 님</strong>
           <div className="ml-auto">
             <span>
-              <i className="mh1 pv1 far fa-clock black-60"/>{formatDistanceToNow(parseISO(updatedAt), {locale})} 전
+              <i className="mh1 pv1 far fa-clock black-60"/>{formatDistanceToNow(parseISO(updatedAt ?? createdAt), {locale})} 전
             </span>
             ﹒
             <span>{ip}</span>
-            ﹒
-            <a className="pointer" onClick={() => onLike(hk)}>공감({likes})</a>
-            ﹒
-            <a className="pointer" onClick={() => setShowWriter(!showWriter)}>답글 작성</a>
-            ﹒
-            <span className="red">신고(미구현)</span>
-            ﹒
-            {isAuthor && <span className="red">삭제(미구현)</span>}
+            {!deleted && (
+              <>
+                ﹒
+                <a className="pointer" onClick={() => onLike(hk)}>공감({likes})</a>
+                ﹒
+                <a className="pointer" onClick={() => setShowWriter(!showWriter)}>답글 작성</a>
+                ﹒
+                <span className="red">신고(미구현)</span>
+                ﹒
+                {deletable && <a className="red pointer" onClick={del}>삭제</a>}
+              </>
+            )}
           </div>
         </header>
         <main className="pa2 bg-white br2 br--bottom">
