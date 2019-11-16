@@ -55,8 +55,6 @@ export const Editor: FunctionComponent<Props> = props => {
       ? undefined
       : {name, pw}
 
-    console.log(member, userData)
-
     postMutation({
       variables: {
         data: {

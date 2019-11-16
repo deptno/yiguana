@@ -36,6 +36,7 @@ export const Post: FunctionComponent<Props> = props => {
         rk
         title
         views
+        userId
       }
     }
   `)

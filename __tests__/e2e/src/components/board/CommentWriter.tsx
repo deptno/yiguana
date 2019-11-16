@@ -8,14 +8,23 @@ export const CommentWriter: FunctionComponent<Props> = props => {
   const [content, setContent] = useState('')
   const handleChange = useCallback(R.compose(setContent, R.path(['target', 'value'])), [postId])
   const [saveCommentMutation] = useMutation(gql`
-    mutation ($postId: String!, $content: String!) {
-      comment(postId: $postId, content: $content) {
+    mutation ($data: CommentMutationInput!, $user: NotMemberInput) {
+      comment(data: $data, user: $user) {
         hk
       }
     }
   `)
   const saveComment = () => {
-    saveCommentMutation({variables: {postId, content}})
+    // TODO: 비회원 댓글 지원
+    // TODO: commentCreatedAt 서버에서 처리해야함
+    saveCommentMutation({
+      variables: {
+        data: {
+          postId,
+          content,
+        },
+      },
+    })
       .then(onCreate)
       .catch(alert)
   }
@@ -33,6 +42,6 @@ export const CommentWriter: FunctionComponent<Props> = props => {
 }
 
 type Props = {
-  postId
+  postId: string
   onCreate(): void
 }

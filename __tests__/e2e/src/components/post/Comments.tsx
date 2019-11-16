@@ -36,7 +36,11 @@ export const Comments: FunctionComponent<Props> = props => {
       }
     }
   `)
-  const getComments = () => getCommentsQuery({variables: {postId}})
+  const getComments = () => {
+    if (postId) {
+      getCommentsQuery({variables: {postId}})
+    }
+  }
   const [likeMutation, {data: liked}] = useMutation(gql`
     mutation ($hk: String!) {
       likeComment(hk: $hk) {

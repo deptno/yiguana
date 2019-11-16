@@ -15,6 +15,8 @@ export const ReplyWriter: FunctionComponent<Props> = props => {
     }
   `)
   const saveComment = () => {
+    // TODO: 비회원 댓글 지원
+    // TODO: commentCreatedAt 서버에서 처리해야함
     commentMutation({
       variables: {
         data: {

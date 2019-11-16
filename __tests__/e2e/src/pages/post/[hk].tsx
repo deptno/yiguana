@@ -25,6 +25,7 @@ const PostPage: NextPage<Props> = props => {
         category
         createdAt
         content
+        userId
 
         dCategory
         deleted
