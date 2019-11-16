@@ -70,6 +70,7 @@ export const typeDefs = gql`
   type Mutation {
     post(data: PostMutationInput!, user: NotMemberInput): Post
     comment(data: CommentMutationInput!, user: NotMemberInput): Comment
+    reply(data: ReplyMutationInput!, user: NotMemberInput): Comment
 
     likePost(hk: String!): Post
     likeComment(hk: String!): Comment
@@ -86,6 +87,11 @@ export const typeDefs = gql`
     postId: String!
     content: String!
     commentCreatedAt: String
+  }
+  input ReplyMutationInput {
+    postId: String!
+    content: String!
+    commentId: String!
   }
   input NotMemberInput {
     name: String!

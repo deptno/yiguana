@@ -10,7 +10,7 @@ import gql from 'graphql-tag'
 export const Comments: FunctionComponent<Props> = props => {
   const {postId} = props
   const [{items, cursor}, setResponse] = useState({items: [] as (TComment | TReply)[], cursor: undefined})
-  const [getCommentsQuery, {data}] = useLazyQuery(gql`
+  const [getCommentsQuery, {data, refetch}] = useLazyQuery(gql`
     query ($postId: String!, $cursor: String) {
       comments(postId: $postId, cursor: $cursor) {
         items {
@@ -73,11 +73,10 @@ export const Comments: FunctionComponent<Props> = props => {
   }, [data])
 
   const like = (hk) => {
-    likeMutation({variables: {hk}}).catch(console.error)
+    likeMutation({variables: {hk}}).catch(alert)
   }
   useEffect(() => {
     if (liked) {
-      console.log({liked})
       setResponse({
         items: items.map(c => {
           if (c.hk === liked.likeComment.hk) {
@@ -105,8 +104,12 @@ export const Comments: FunctionComponent<Props> = props => {
               return (
                 <li key={commentOrReply.hk} className="pl4 comment mv2 f6 flex">
                   <div className="flex-auto flex flex-column">
-                    <Reply key={commentOrReply.hk} data={commentOrReply as TReply} onLike={like}
-                           onDelete={getComments}/>
+                    <Reply
+                      key={commentOrReply.hk}
+                      data={commentOrReply as TReply}
+                      onLike={like}
+                      onDelete={refetch}
+                    />
                   </div>
                 </li>
               )
@@ -116,14 +119,14 @@ export const Comments: FunctionComponent<Props> = props => {
                 key={commentOrReply.hk}
                 data={commentOrReply as TComment}
                 onLike={like}
-                onCreate={getComments}
+                onCreate={refetch}
               />
             )
           })}
         </ul>
       </div>
       <div className="comment-writer mv3 ph2 ph3-ns pv3 bg-white flex flex-column mt3 pv3 b--hot-pink bt bw1">
-        <CommentWriter postId={postId} onCreate={getComments}/>
+        <CommentWriter postId={postId} onCreate={refetch}/>
       </div>
     </>
   )

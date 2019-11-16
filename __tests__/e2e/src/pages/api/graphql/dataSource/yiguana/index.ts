@@ -28,6 +28,10 @@ export class Public extends DataSource {
   writeComment(args: Argument<typeof yiguana.comment.create>) {
     return yiguana.comment.create(args)
   }
+
+  writeReply(args: Argument<typeof yiguana.reply.create>) {
+    return yiguana.reply.create(args)
+  }
 }
 export class Private extends DataSource {
   posts(args: ListArgument<typeof yiguana.user.post.list>) {
