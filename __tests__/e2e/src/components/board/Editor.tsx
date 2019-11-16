@@ -12,8 +12,8 @@ export const Editor: FunctionComponent<Props> = props => {
   const [editor, setEditor] = useState<Q.Quill>()
   const {user} = useContext(StorageContext)
   const [postMutation] = useMutation(gql`
-    mutation ($data: PostMutationInput!, $notMember: NotMemberInput) {
-      post(data: $data, user: $notMember) {
+    mutation ($data: PostMutationInput!, $user: NotMemberInput) {
+      post(data: $data, user: $user) {
         hk
         rk
         title

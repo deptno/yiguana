@@ -1,13 +1,16 @@
 import {GraphQLFieldResolver} from 'graphql'
 import {Context} from '../../types'
 
-export const post: GraphQLFieldResolver<any, Context, any> = (source, args, context) => {
+export const post: GraphQLFieldResolver<any, Context> = (source, args, context) => {
   console.log('post', args, context.user)
 
-  const {data, user} = args
+  const user = context.user ?? args.user
+  if (!user) {
+    throw new Error('user must be provided')
+  }
 
   return context.dataSources.public.writePost({
-    data,
-    user: context.user ?? user
+    data: args.data,
+    user
   })
 }
