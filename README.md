@@ -10,6 +10,6 @@ Yiguana-sdk,
 DEBUG=yiguana:*
 DEBUG=yiguana:api:*
 DEBUG=yiguana:store:*
-DEBUG=yiguana:store:s3:*
-DEBUG=yiguana:store:ddb:*
+DEBUG=yiguana:store:s3
+DEBUG=yiguana:store:ddb
 ```

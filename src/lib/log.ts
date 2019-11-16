@@ -10,7 +10,3 @@ export const logApiPost = logApi.extend('post')
 export const logApiComment = logApi.extend('comment')
 export const logApiReply = logApi.extend('reply')
 
-export const logStorePost = logStoreDdb.extend('post')
-export const logStoreComment = logStoreDdb.extend('comment')
-export const logStoreReply = logStoreDdb.extend('reply')
-
