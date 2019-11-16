@@ -1,12 +1,16 @@
-import React, {FunctionComponent} from 'react'
+import React, {FunctionComponent, useContext} from 'react'
 import locale from 'date-fns/locale/ko'
 import {formatDistanceToNow, parseISO} from 'date-fns'
 import {Reply as TReply} from '../../../../../src/entity/reply'
+import {StorageContext} from '../../context/StorageContext'
+import {Member} from '../../../../../src/entity/user'
 
 export const Reply: FunctionComponent<Props> = props => {
   const {data, onLike} = props
-  const {hk, rk, content, createdAt, likes, user} = data
+  const {hk, rk, content, createdAt, likes, user, userId} = data
   const {ip, name} = user
+  const context = useContext(StorageContext)
+  const isAuthor = (context.user as Member)?.id === userId
 
   return (
     <div className="comment mv2 f6 flex">
@@ -33,6 +37,8 @@ export const Reply: FunctionComponent<Props> = props => {
             <span>언급(미구현)</span>
             ﹒
             <span className="red">신고(미구현)</span>
+            ﹒
+            {isAuthor && <span className="red">삭제(미구현)</span>}
           </div>
         </header>
         <main className="pa2 bg-white br2 br--bottom">

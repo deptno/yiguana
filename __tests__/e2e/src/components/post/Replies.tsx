@@ -6,7 +6,7 @@ import {api} from '../../pages/api/lib/api'
 
 const RepliesRefComponent: RefForwardingComponent<RepliesHandle, Props> = (props, ref) => {
   const {commentId} = props
-  const [{items, nextToken}, setResponse] = useState({items: [] as TReply[], nextToken: undefined})
+  const [{items, cursor}, setResponse] = useState({items: [] as TReply[], cursor: undefined})
   const getComments = useCallback(() => {
     if (commentId) {
       api(`/api/comment/${commentId}/replies`)
@@ -25,7 +25,7 @@ const RepliesRefComponent: RefForwardingComponent<RepliesHandle, Props> = (props
             }
             return c
           }),
-          nextToken
+          cursor
         })
       })
       .catch(alert)

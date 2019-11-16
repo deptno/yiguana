@@ -1,4 +1,4 @@
-import React, {FunctionComponent, useCallback, useEffect, useRef, useState} from 'react'
+import React, {FunctionComponent, useCallback, useEffect, useState} from 'react'
 import {Comment} from './Comment'
 import {Comment as TComment} from '../../../../../src/entity/comment'
 import {Reply as TReply} from '../../../../../src/entity/reply'
@@ -9,7 +9,7 @@ import {Reply} from './Reply'
 
 export const Comments: FunctionComponent<Props> = props => {
   const {postId} = props
-  const [{items, nextToken}, setResponse] = useState({items: [] as (TComment | TReply)[], nextToken: undefined})
+  const [{items, cursor}, setResponse] = useState({items: [] as (TComment | TReply)[], cursor: undefined})
   const getComments = useCallback(() => {
     if (postId) {
       api(`/api/post/${postId}/comments`)
@@ -28,9 +28,13 @@ export const Comments: FunctionComponent<Props> = props => {
             }
             return c
           }),
-          nextToken,
+          cursor,
         })
       })
+      .catch(alert)
+  }
+  const report = (id) => {
+    api<TComment>(`/api/comment/${id}/report`, {method: 'post'})
       .catch(alert)
   }
 
@@ -56,7 +60,7 @@ export const Comments: FunctionComponent<Props> = props => {
                 </li>
               )
             }
-            return <Comment key={commentOrReply.hk} data={commentOrReply} onLike={like} onCreate={getComments}/>
+            return <Comment key={commentOrReply.hk} data={commentOrReply} onLike={like} onCreate={getComments} onReport={report}/>
           })}
         </ul>
       </div>

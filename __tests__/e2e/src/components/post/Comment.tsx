@@ -1,14 +1,19 @@
-import React, {FunctionComponent, useState} from 'react'
+import React, {FunctionComponent, useContext, useState} from 'react'
 import locale from 'date-fns/locale/ko'
 import {formatDistanceToNow, parseISO} from 'date-fns'
 import {Comment as TComment} from '../../../../../src/entity/comment'
 import {ReplyWriter} from '../board/ReplyWriter'
+import {StorageContext} from '../../context/StorageContext'
+import {Member} from '../../../../../src/entity/user'
 
 export const Comment: FunctionComponent<Props> = props => {
-  const {data, onLike, onCreate} = props
+  const {data, onLike, onCreate, onReport} = props
   const {hk, rk, postId, content, userId, createdAt, updatedAt = createdAt, children, likes, user} = data
   const {name, ip} = user
   const [showWriter, setShowWriter] = useState(false)
+  const context = useContext(StorageContext)
+  const isAuthor = (context.user as Member)?.id === userId
+
   return (
     <li className="comment mv2 f6 flex">
       <figure className="dn db-ns mv0 ml0 mr2">
@@ -33,7 +38,9 @@ export const Comment: FunctionComponent<Props> = props => {
             ﹒
             <a className="pointer" onClick={() => setShowWriter(!showWriter)}>답글 작성</a>
             ﹒
-            <span className="red">신고(미구현)</span>
+            <a className="pointer" onClick={() => onReport(hk)}>신고</a>
+            ﹒
+            {isAuthor && <span className="red">삭제(미구현)</span>}
           </div>
         </header>
         <main className="pa2 bg-white br2 br--bottom">
@@ -50,4 +57,5 @@ type Props = {
   data: TComment
   onLike(id: string): void
   onCreate(): void
+  onReport(id: string): void
 }

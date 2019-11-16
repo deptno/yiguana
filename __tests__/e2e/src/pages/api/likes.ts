@@ -10,14 +10,14 @@ export default handler({
     yiguana.post
       .list({
         category: '',
-        exclusiveStartKey: util.parseToken(req.query.nextToken as string, SALT)
+        exclusiveStartKey: util.parseToken(req.query.cursor as string, SALT)
       })
       .then((response: PaginationResult<Post>) => {
         const {items, lastEvaluatedKey} = response
 
         return {
           items,
-          nextToken: util.createToken(lastEvaluatedKey, SALT),
+          cursor: util.createToken(lastEvaluatedKey, SALT),
         }
       })
       .then(JSON.stringify)

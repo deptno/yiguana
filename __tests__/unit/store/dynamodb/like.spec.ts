@@ -153,7 +153,7 @@ describe('unit', function () {
             console.table(items)
             expect(items.length).toEqual(1)
           })
-          xit('06. User(a)가 Comment(1) 에 공감', async () => {
+          it('06. User(a)가 Comment(1) 에 공감', async () => {
             const data = commentList[1]
             const like = createLike({
               data: {createdAt, data},
@@ -174,7 +174,7 @@ describe('unit', function () {
             const {items} = await commentsByUserLike(opDdb, {userId: member_b.id})
             expect(items.length).toEqual(1)
           })
-          xit('09. commentsByUserLike(User(a)) === 2', async () => {
+          it('09. commentsByUserLike(User(a)) === 2', async () => {
             const {items} = await commentsByUserLike(opDdb, {userId})
             console.table(items)
             expect(items.length).toEqual(2)
@@ -183,12 +183,11 @@ describe('unit', function () {
             const {items} = await postsByUserLike(opDdb, {userId})
             expect(items.length).toEqual(0)
           })
-          xit('11. commentsByUserLike(User(a)) === Comment(2): 엔티티 필터', async () => {
+          it('11. commentsByUserLike(User(a)) === Comment(2): 엔티티 필터', async () => {
             const {items} = await commentsByUserLike(opDdb, {userId})
             expect(items.length).toEqual(2)
           })
         })
-
       })
     })
   })

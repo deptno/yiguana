@@ -1,6 +1,4 @@
 import {DynamoDBInput} from '../../entity/input/dynamodb'
-import {Like} from '../../entity/like'
-import {YiguanaDocumentHashRange} from '../../dynamodb'
 import {keys} from '../../dynamodb/keys'
 import {EEntity} from '../../entity/enum'
 import {Post} from '../../entity/post'

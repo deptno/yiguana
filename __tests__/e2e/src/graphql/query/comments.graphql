@@ -1,0 +1,11 @@
+query comments($PostId: String = "ucZC6ATBkqjC2WpLb1rwJS") {
+  comments(postId: $PostId) {
+    items {
+      hk
+      rk
+      content
+    }
+    cursor
+    firstResult
+  }
+}
