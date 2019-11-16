@@ -7,15 +7,15 @@ import {api} from '../../pages/api/lib/api'
 import {Board} from './Board'
 
 export const UserReplies: FunctionComponent<Props> = props => {
-  const [{items, nextToken}, setResponse] = useState({items: [], nextToken: undefined})
+  const [{items, cursor}, setResponse] = useState({items: [], cursor: undefined})
   const [token, setToken] = useState<string>()
-  const getReplies = (nextToken?) => {
-    setToken(nextToken)
+  const getReplies = (cursor?) => {
+    setToken(cursor)
 
     const url = ['api/my/replies']
 
-    if (nextToken) {
-      url.push(qs.stringify({nextToken}))
+    if (cursor) {
+      url.push(qs.stringify({cursor}))
     }
     api(url.join('?'))
       .then(setResponse)
@@ -28,7 +28,7 @@ export const UserReplies: FunctionComponent<Props> = props => {
       getReplies()
     }
   }, [])
-//  return <Board items={items} token={token} nextToken={nextToken} getter={getPosts}/>
+//  return <Board items={items} token={token} cursor={cursor} getter={getPosts}/>
 
   return <span>[후순위 미구현, 구현 미결정]</span>
 }

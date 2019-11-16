@@ -1,0 +1,16 @@
+query {
+  posts(category: news) {
+    items {
+      hk
+      rk
+      title
+      children
+      likes
+      views
+      children
+      content
+    }
+    cursor
+    firstResult
+  }
+}

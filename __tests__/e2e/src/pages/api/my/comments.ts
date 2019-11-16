@@ -12,23 +12,23 @@ export default (req: NextApiRequest, res: NextApiResponse) => {
   if (!user) {
     throw new Error('unauthorized user')
   }
-  const {like, nextToken} = req.query as Record<string, string>
+  const {like, cursor} = req.query as Record<string, string>
   const {id: userId} = user
 
   yiguana.user.comment
     .list({
       userId,
       like: Boolean(like),
-      exclusiveStartKey: util.parseToken(nextToken, SALT),
+      exclusiveStartKey: util.parseToken(cursor, SALT),
     })
     .then((response: PaginationResult<Comment>) => {
       const {items, lastEvaluatedKey} = response
 
       return {
         items,
-        nextToken: util.createToken(lastEvaluatedKey, SALT),
+        cursor: util.createToken(lastEvaluatedKey, SALT),
       }
     })
-    .then(JSON.stringify)
-    .then(res.send)
+    .then(res.json)
+    .catch(e => res.status(500).json(e.message))
 }

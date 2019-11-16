@@ -1,9 +1,8 @@
 import {handler} from '../../lib/handler'
 import {yiguana} from '../../lib/yiguana'
-import {non_member_a} from '../../../../../../__data__/user'
 
 export default handler({
-  post(req, res) {
+  post(req, res, user) {
     const hk = req.query.hk as string
     const ip = req.connection.remoteAddress
     const {content, postId, commentCreatedAt} = JSON.parse(req.body)
@@ -20,9 +19,8 @@ export default handler({
           createdAt: new Date().toISOString(),
         },
         user: {
-          ...non_member_a,
-          ip,
-
+          ...user,
+          ip
         },
       })
       .then(JSON.stringify)

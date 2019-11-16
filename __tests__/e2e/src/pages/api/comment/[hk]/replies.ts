@@ -17,7 +17,7 @@ export default handler({
 
         return {
           items,
-          nextToken: util.createToken(lastEvaluatedKey, SALT),
+          cursor: util.createToken(lastEvaluatedKey, SALT),
         }
       })
       .then(R.tap(R.compose(console.table, R.prop('items'))))

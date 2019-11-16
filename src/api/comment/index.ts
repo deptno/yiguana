@@ -4,7 +4,7 @@ import {list, ListInput} from './list'
 import {create, CreateInput} from './create'
 import {update, UpdateInput} from './update'
 import {del, DelInput} from './del'
-import {read, ReadInput} from '../post/read'
+import {read, ReadInput} from './read'
 
 export class CommentApi {
   constructor(private store: MetadataStore, private ef: EntityFactory) {

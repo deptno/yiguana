@@ -12,12 +12,12 @@ export default (req: NextApiRequest, res: NextApiResponse) => {
   if (!user) {
     throw new Error('unauthorized user')
   }
-  const {category, like, nextToken} = req.query as Record<string, any>
+  const {category, like, cursor} = req.query as Record<string, any>
   const {id: userId} = user
 
   yiguana.user.post
     .list({
-      exclusiveStartKey: util.parseToken(nextToken, SALT),
+      exclusiveStartKey: util.parseToken(cursor, SALT),
       userId,
       like
     })
@@ -26,7 +26,7 @@ export default (req: NextApiRequest, res: NextApiResponse) => {
 
       return {
         items,
-        nextToken: util.createToken(lastEvaluatedKey, SALT),
+        cursor: util.createToken(lastEvaluatedKey, SALT),
       }
     })
     .then(JSON.stringify)
