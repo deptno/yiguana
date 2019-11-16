@@ -6,7 +6,6 @@ import {useRouter} from 'next/router'
 import * as R from 'ramda'
 import {LineLink} from '../../components/board/LineLink'
 import {Post} from '../../components/post/Post'
-import {api} from '../api/lib/api'
 import {useLazyQuery} from '@apollo/react-hooks'
 import gql from 'graphql-tag'
 

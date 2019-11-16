@@ -1,22 +1,29 @@
 import React, {FunctionComponent, useCallback, useState} from 'react'
 import * as R from 'ramda'
-import {api} from '../../pages/api/lib/api'
+import gql from 'graphql-tag'
+import {useMutation} from '@apollo/react-hooks'
 
 export const ReplyWriter: FunctionComponent<Props> = props => {
   const {postId, commentId, commentCreatedAt, onCreate} = props
   const [content, setContent] = useState('')
   const handleChange = useCallback(R.compose(setContent, R.path(['target', 'value'])), [commentId])
+  const [commentMutation] = useMutation(gql`
+    mutation ($data: CommentMutationInput!, $user: NotMemberInput) {
+      comment(data: $data, user: $user) {
+        hk
+      }
+    }
+  `)
   const saveComment = () => {
-    api(
-      `/api/comment/${commentId}/reply`,
-      {
-        method: 'post',
-        body: JSON.stringify({
+    commentMutation({
+      variables: {
+        data: {
           postId,
           commentCreatedAt,
           content,
-        }),
-      })
+        }
+      }
+    })
       .then(onCreate)
       .catch(alert)
   }

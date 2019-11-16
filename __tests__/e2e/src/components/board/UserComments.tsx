@@ -1,6 +1,4 @@
 import React, {FunctionComponent, useEffect, useMemo, useState} from 'react'
-import * as qs from 'querystring'
-import {api} from '../../pages/api/lib/api'
 import {MyComments} from '../post/MyComments'
 import {useLazyQuery} from '@apollo/react-hooks'
 import {LineButton} from './LineButton'
