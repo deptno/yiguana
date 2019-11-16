@@ -1,6 +1,6 @@
 import {Private, Public} from './yiguana'
 
-export const dataSources = (a,b,c) => {
+export const dataSources = () => {
   return {
     public: new Public(),
     private: new Private()

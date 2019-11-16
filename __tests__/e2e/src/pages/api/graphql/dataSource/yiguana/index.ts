@@ -33,6 +33,10 @@ export class Private extends DataSource {
       .then(postListHook)
   }
 
+  likePost(args: ListArgument<typeof yiguana.user.post.like>) {
+    return yiguana.user.post.like(args)
+  }
+
   deletePost(args: ListArgument<typeof yiguana.post.del>) {
     return yiguana.post.del(args)
   }
@@ -41,6 +45,10 @@ export class Private extends DataSource {
     return yiguana.user.comment
       .list(preListHook(args))
       .then(postListHook)
+  }
+
+  likeComment(args: ListArgument<typeof yiguana.user.comment.like>) {
+    return yiguana.user.comment.like(args)
   }
 
   deleteComment(args: ListArgument<typeof yiguana.comment.del>) {

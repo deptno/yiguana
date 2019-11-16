@@ -1,12 +1,10 @@
-import React, {FunctionComponent, useCallback, useEffect, useRef, useState} from 'react'
+import React, {FunctionComponent, useEffect, useState} from 'react'
 import {Comment} from './Comment'
 import {Comment as TComment} from '../../../../../src/entity/comment'
 import {Reply as TReply} from '../../../../../src/entity/reply'
-import * as R from 'ramda'
 import {CommentWriter} from '../board/CommentWriter'
-import {api} from '../../pages/api/lib/api'
 import {Reply} from './Reply'
-import {useLazyQuery} from '@apollo/react-hooks'
+import {useLazyQuery, useMutation} from '@apollo/react-hooks'
 import gql from 'graphql-tag'
 
 export const Comments: FunctionComponent<Props> = props => {
@@ -39,21 +37,29 @@ export const Comments: FunctionComponent<Props> = props => {
     }
   `)
   const getComments = () => getCommentsQuery({variables: {postId}})
-  const like = (id) => {
-    api<TComment>(`/api/comment/${id}/like`, {method: 'post'})
-      .then(comment => {
-        setResponse({
-          items: items.map(c => {
-            if (c.hk === comment.hk) {
-              return comment
-            }
-            return c
-          }),
-          cursor,
-        })
-      })
-      .catch(alert)
-  }
+  const [likeMutation, {data: liked}] = useMutation(gql`
+    mutation ($hk: String!) {
+      likeComment(hk: $hk) {
+        children
+        commentId
+        content
+        createdAt
+        deleted
+        hk
+        likes
+        postId
+        rk
+        updatedAt
+        user {
+          id
+          ip
+          name
+          pw
+        }
+        userId
+      }
+    }
+  `)
 
   useEffect(getComments, [postId])
   useEffect(() => {
@@ -61,6 +67,23 @@ export const Comments: FunctionComponent<Props> = props => {
       setResponse(data.comments)
     }
   }, [data])
+
+  const like = (hk) => {
+    likeMutation({variables: {hk}}).catch(console.error)
+  }
+  useEffect(() => {
+    if (liked) {
+      setResponse({
+        items: items.map(c => {
+          if (c.hk === liked.hk) {
+            return liked
+          }
+          return c
+        }),
+        cursor,
+      })
+    }
+  }, [liked])
 
   return (
     <>
@@ -77,7 +100,8 @@ export const Comments: FunctionComponent<Props> = props => {
               return (
                 <li key={commentOrReply.hk} className="pl4 comment mv2 f6 flex">
                   <div className="flex-auto flex flex-column">
-                    <Reply key={commentOrReply.hk} data={commentOrReply as TReply} onLike={like} onDelete={getComments}/>
+                    <Reply key={commentOrReply.hk} data={commentOrReply as TReply} onLike={like}
+                           onDelete={getComments}/>
                   </div>
                 </li>
               )

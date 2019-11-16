@@ -1,10 +1,10 @@
-import React, {FunctionComponent, useContext, useMemo} from 'react'
+import React, {FunctionComponent, useContext, useEffect, useMemo} from 'react'
 import locale from 'date-fns/locale/ko'
 import {formatDistanceToNow, parseISO} from 'date-fns'
 import {Post as TPost} from '../../../../../src/entity/post'
-import * as R from 'ramda'
 import {StorageContext} from '../../context/StorageContext'
-import {api} from '../../pages/api/lib/api'
+import {useMutation} from '@apollo/react-hooks'
+import gql from 'graphql-tag'
 
 export const Post: FunctionComponent<Props> = props => {
   const {data, setPost} = props
@@ -21,14 +21,32 @@ export const Post: FunctionComponent<Props> = props => {
     }
     return false
   }, [user])
-
-  const like = () => {
-    // TODO: apply graphql
-    api(`/api/post/${hk}/like`, {method: 'post'})
-      .then(R.tap(console.log))
-      .then(setPost)
-      .catch(alert)
+  const [likeMutation, {data: liked}] = useMutation(gql`
+    mutation ($hk: String!) {
+      likePost(hk: $hk) {
+        category
+        children
+        content
+        createdAt
+        dCategory
+        deleted
+        hk
+        likes
+        rk
+        title
+        views
+      }
+    }
+  `)
+  const like = (hk) => {
+    likeMutation({variables: {hk}}).catch(console.error)
   }
+  useEffect(() => {
+    if (liked) {
+      console.log({liked})
+      setPost(liked.likePost)
+    }
+  }, [liked])
 
   return (
     <main className="b--light-gray bl bb br">
