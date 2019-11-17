@@ -4,7 +4,7 @@ import {LineSubmitButton} from './LineSubmitButton'
 import * as R from 'ramda'
 import {getUserName, isMember} from '../../lib/storage/user'
 import {StorageContext} from '../../context/StorageContext'
-import {useMutation} from '@apollo/react-hooks'
+import {useLazyQuery, useMutation} from '@apollo/react-hooks'
 import gql from 'graphql-tag'
 
 export const Editor: FunctionComponent<Props> = props => {
@@ -29,6 +29,14 @@ export const Editor: FunctionComponent<Props> = props => {
       }
     }
   `)
+  const [getUploadUrlQuery, {data}] = useLazyQuery(gql`
+    query ($key: String!) {
+      uploadUrl(key: $key)
+    }
+  `)
+  useEffect(() => {
+    console.log('data', data)
+  }, [data])
 
   const save = (e) => {
     const name = e.target.elements.name.value.trim()
@@ -86,9 +94,15 @@ export const Editor: FunctionComponent<Props> = props => {
         input.onchange = function(this: HTMLInputElement) {
           console.log(this)
           const fd = new FormData()
-          const [file, ...rest] = Array.from(this.files)
+          const [file] = Array.from(this.files)
           console.log(this.files)
           fd.append('image', file)
+
+          getUploadUrlQuery({
+            variables: {
+              key: file.name
+            }
+          })
         }
       })
 

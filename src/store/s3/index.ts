@@ -2,6 +2,7 @@ import {S3Input} from '../../entity/input/s3'
 import {getPostContentUnSafe, GetPostContentUnSafeInput} from './get-post-content'
 import {createPostContentUnSafe, CreatePostContentUnSafeInput} from './create-post-content'
 import {logStoreS3} from '../../lib/log'
+import {getUploadUrl, GetUploadUrlInput} from './get-upload-url'
 
 export class ContentStore {
   constructor(private operator: S3Input) {
@@ -16,5 +17,10 @@ export class ContentStore {
   read(input: GetPostContentUnSafeInput) {
     logStoreS3('read', input)
     return getPostContentUnSafe(this.operator, input)
+  }
+
+  getUploadUrl(input: GetUploadUrlInput) {
+    logStoreS3('getUploadUrl', input)
+    return getUploadUrl(this.operator, input)
   }
 }

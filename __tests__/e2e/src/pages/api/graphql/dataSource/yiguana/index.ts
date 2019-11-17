@@ -41,6 +41,10 @@ export class Public extends DataSource {
   writeReply(args: Argument<typeof yiguana.reply.create>) {
     return yiguana.reply.create(args)
   }
+
+  getUploadUrl(args: Argument<typeof yiguana.common.createUploadUrl>) {
+    return yiguana.common.createUploadUrl(args)
+  }
 }
 export class Private extends DataSource {
   posts(args: ListArgument<typeof yiguana.user.post.list>) {
