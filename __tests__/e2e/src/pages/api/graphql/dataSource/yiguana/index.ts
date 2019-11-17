@@ -4,6 +4,10 @@ import {util} from '@deptno/dynamodb'
 import {SALT} from '../../../lib/token'
 
 export class Public extends DataSource {
+  get(args: ListArgument<typeof yiguana.administrator.get>) {
+    return yiguana.administrator.get(args)
+  }
+
   posts(args: ListArgument<typeof yiguana.post.list>) {
     return yiguana.post
       .list(preListHook(kebabCategory(args)))
@@ -20,6 +24,11 @@ export class Public extends DataSource {
       .then(postListHook)
   }
 
+  reports(args: ListArgument<typeof yiguana.administrator.report.list>) {
+    return yiguana.administrator.report
+      .list(preListHook(args))
+      .then(postListHook)
+  }
 
   writePost(args: Argument<typeof yiguana.post.create>) {
     return yiguana.post.create(args)
@@ -35,6 +44,12 @@ export class Public extends DataSource {
 }
 export class Private extends DataSource {
   posts(args: ListArgument<typeof yiguana.user.post.list>) {
+    return yiguana.user.post
+      .list(preListHook(kebabCategory(args)))
+      .then(postListHook)
+  }
+
+  reportedPosts(args: ListArgument<typeof yiguana.user.post.list>) {
     return yiguana.user.post
       .list(preListHook(kebabCategory(args)))
       .then(postListHook)
@@ -88,6 +103,10 @@ export class Private extends DataSource {
 
   deleteComment(args: ListArgument<typeof yiguana.comment.del>) {
     return yiguana.comment.del(args)
+  }
+
+  report(args: ListArgument<typeof yiguana.user.report.create>) {
+    return yiguana.user.report.create(args)
   }
 }
 

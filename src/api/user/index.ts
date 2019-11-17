@@ -3,11 +3,13 @@ import {EntityFactory} from '../../entity'
 import {UserPostApi} from './post'
 import {UserCommentApi} from './comment'
 import {UserReplyApi} from './reply'
+import {UserReportApi} from './report'
 
 export class UserApi {
   post = new UserPostApi(this.ms, this.ef)
   comment = new UserCommentApi(this.ms, this.ef)
   reply = new UserReplyApi(this.ms, this.ef)
+  report = new UserReportApi(this.ms, this.ef)
 
   constructor(private ms: MetadataStore, private ef: EntityFactory) {
   }

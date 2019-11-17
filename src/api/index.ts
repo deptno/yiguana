@@ -9,6 +9,7 @@ import {CommentApi} from './comment'
 import {ReplyApi} from './reply'
 import {UserApi} from './user'
 import {MetadataStore} from '../store/dynamodb'
+import {AdministratorApi} from './administrator'
 
 export function createApi(params: CreateInput) {
   const {ddbClient, s3Client, bucketName, tableName} = params
@@ -23,6 +24,7 @@ export function createApi(params: CreateInput) {
     comment: new CommentApi(metadataStore, ef),
     reply: new ReplyApi(metadataStore, ef),
     user: new UserApi(metadataStore, ef),
+    administrator: new AdministratorApi(metadataStore, ef),
   }
 }
 

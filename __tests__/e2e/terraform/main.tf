@@ -41,6 +41,14 @@ resource aws_dynamodb_table yiguana {
     name = "posts"
     type = "S"
   }
+  attribute {
+    name = "agg"
+    type = "S"
+  }
+  attribute {
+    name = "reports"
+    type = "S"
+  }
 
   global_secondary_index {
     name = "byUser"
@@ -68,7 +76,7 @@ resource aws_dynamodb_table yiguana {
   }
   global_secondary_index {
     name = "reports"
-    hash_key = "rk"
+    hash_key = "agg"
     range_key = "reports"
     projection_type = "ALL"
   }
@@ -84,6 +92,3 @@ output dynamodb {
 output s3 {
   value = aws_s3_bucket.yiguana.bucket
 }
-
-
-

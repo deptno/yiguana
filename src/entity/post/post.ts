@@ -9,7 +9,7 @@ export function createPost(params: CreatePostInput): Post {
   const createdAt = new Date().toISOString()
   const entity = EEntity.Post
   const posts = keys.posts.stringify({createdAt})
-  const byUser = keys.byUser.stringify({entity, createdAt})
+  const byUser = keys.byUser.post.stringify({entity, createdAt})
   const category = keys.category.stringify({
     category: data.input.category,
     createdAt,

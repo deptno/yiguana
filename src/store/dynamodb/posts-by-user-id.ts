@@ -20,7 +20,7 @@ export function postsByUserId<T = Post>(operator: DynamoDBInput, params: PostsBy
     },
     ExpressionAttributeValues: {
       ':p': userId,
-      ':r': keys.byUser.stringify({entity: EEntity.Post})
+      ':r': keys.byUser.post.stringify({entity: EEntity.Post})
     },
     ScanIndexForward: false,
     ReturnConsumedCapacity: 'TOTAL',

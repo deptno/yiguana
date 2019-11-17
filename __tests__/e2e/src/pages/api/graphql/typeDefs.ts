@@ -9,9 +9,12 @@ export const typeDefs = gql`
     posts(category: Category, cursor: String): PostList!
     post(hk: String!): Post
     comments(postId: String!, cursor: String): CommentList!
+    reports(entity: String, cursor: String): ReportList!
 
     myPosts(cursor: String, like: Boolean): PostList!
     myComments(cursor: String, like: Boolean): CommentList!
+    myReportedPosts(cursor: String): PostList!
+    myReportedComments(cursor: String): CommentList!
   }
 
   type PostList {
@@ -42,7 +45,7 @@ export const typeDefs = gql`
   type Comment {
     hk: String!
     rk: String!
-    content: String
+    content: String!
     postId: String
     userId: String
     createdAt: String
@@ -54,6 +57,20 @@ export const typeDefs = gql`
 
     deleted: Boolean
   }
+  type ReportList {
+    items: [Report]!
+    cursor: String
+    firstResult: Boolean
+  }
+  type Report {
+    hk: String!
+    rk: String!
+    agg: String!
+    reports: String!
+    reported: Int!
+    data: Reportable
+  }
+  union Reportable = Post|Comment
   type User {
     ip: String!
     name: String!
@@ -71,6 +88,7 @@ export const typeDefs = gql`
     post(data: PostMutationInput!, user: NotMemberInput): Post
     comment(data: CommentMutationInput!, user: NotMemberInput): Comment
     reply(data: ReplyMutationInput!, user: NotMemberInput): Comment
+    report(data: DocumentInput!, content: String!): Comment
 
     likePost(hk: String!): Post
     likeComment(hk: String!): Comment
@@ -96,5 +114,9 @@ export const typeDefs = gql`
   input NotMemberInput {
     name: String!
     pw: String!
+  }
+  input DocumentInput {
+    hk: String
+    rk: String
   }
 `

@@ -7,7 +7,7 @@ import {ReportAgg} from '../../entity/report/report-agg'
 
 export function decreaseReportAgg(operator: DynamoDBInput, params: DecreaseReportAggInput) {
   const {dynamodb, tableName} = operator
-  const {data} = params
+  const {data, userId} = params
   const {hk} = data
 
   return dynamodb
@@ -15,8 +15,10 @@ export function decreaseReportAgg(operator: DynamoDBInput, params: DecreaseRepor
       TableName: tableName,
       Key: {
         hk,
-        rk: keys.rk.reportAgg.stringify({
-          entity: EEntity.ReportAgg,
+        rk: keys.rk.agg.stringify({
+          agg: EEntity.Agg,
+          type: EEntity.Report,
+          userId,
           target: data.rk // EEntity.Post|EEntity.Comment 인 것이 보장되어야 한다.
         }),
       },
@@ -33,4 +35,5 @@ export function decreaseReportAgg(operator: DynamoDBInput, params: DecreaseRepor
 }
 export type DecreaseReportAggInput = {
   data: YiguanaDocumentHashRange
+  userId: string
 }

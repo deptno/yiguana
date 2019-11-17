@@ -26,7 +26,7 @@ export function createComment(params: CreateCommentInput): Comment {
 
   if ('id' in user) {
     comment.userId = user.id
-    comment.byUser = keys.byUser.stringify({entity, createdAt})
+    comment.byUser = keys.byUser.comment.stringify({entity, createdAt})
   }
 
   return comment

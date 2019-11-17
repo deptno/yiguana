@@ -3,7 +3,7 @@ export enum EEntity {
   Comment = 'comment',
   Like = 'like',
   Report = 'report',
-  ReportAgg = 'reportAgg',
+  Agg = 'agg',
 }
 export enum EPriority {
   VeryHigh = 10,
