@@ -11,6 +11,17 @@ export const myComments: GraphQLFieldResolver<any, Context, Args> = (source, arg
     ...args,
     userId: context.user.id
   })
+    .then(response => {
+      return {
+        ...response,
+        items: response.items.map(item => {
+          if (item.deleted) {
+            item.content = '삭제 처리 되었습니다.'
+          }
+          return item
+        })
+      }
+    })
 }
 
 type Args = {
