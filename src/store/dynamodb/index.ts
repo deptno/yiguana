@@ -24,6 +24,7 @@ import {updateReply, UpdateCommentReplyInput} from './update-reply'
 import {removeReply, RemoveCommentReplyInput} from './remove-reply'
 import {addLike, AddLikeInput} from './add-like'
 import {getLike, GetLikeInput} from './get-like'
+import {get, GetInput} from './get'
 import {removeLike, RemoveLikeInput} from './remove-like'
 import {likeReply, LikeReplyInput} from './like-reply'
 import {unlikeReply, UnlikeReplyInput} from './unlike-reply'
@@ -198,11 +199,6 @@ export class MetadataStore {
     return unlikeReply(this.operator, input)
   }
 
-  remove(input: RemoveInput) {
-    logStoreDdb('remove', input)
-    return remove(this.operator, input)
-  }
-
   // 일단 유지한다. upsert 로직이 결국 원본 객체를 필요로해서 의미가 많이 퇴색되었기 때문
   // @deprecated
   getLike(input: GetLikeInput) {
@@ -228,6 +224,15 @@ export class MetadataStore {
   decreaseReportCount(input: DecreaseReportAggInput) {
     logStoreDdb('decreaseReportCount', input)
     return decreaseReportAgg(this.operator, input)
+  }
+
+  get(input: GetInput) {
+    logStoreDdb('get', input)
+    return get(this.operator, input)
+  }
+  remove(input: RemoveInput) {
+    logStoreDdb('remove', input)
+    return remove(this.operator, input)
   }
 }
 

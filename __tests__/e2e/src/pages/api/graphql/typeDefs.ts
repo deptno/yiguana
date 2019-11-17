@@ -43,7 +43,7 @@ export const typeDefs = gql`
   type Comment {
     hk: String!
     rk: String!
-    content: String
+    content: String!
     postId: String
     userId: String
     createdAt: String
@@ -66,7 +66,9 @@ export const typeDefs = gql`
     agg: String!
     reports: String!
     reported: Int!
+    data: Reportable
   }
+  union Reportable = Post|Comment
   type User {
     ip: String!
     name: String!
@@ -84,6 +86,7 @@ export const typeDefs = gql`
     post(data: PostMutationInput!, user: NotMemberInput): Post
     comment(data: CommentMutationInput!, user: NotMemberInput): Comment
     reply(data: ReplyMutationInput!, user: NotMemberInput): Comment
+    report(data: DocumentInput!, content: String!): Comment
 
     likePost(hk: String!): Post
     likeComment(hk: String!): Comment
@@ -109,5 +112,9 @@ export const typeDefs = gql`
   input NotMemberInput {
     name: String!
     pw: String!
+  }
+  input DocumentInput {
+    hk: String
+    rk: String
   }
 `

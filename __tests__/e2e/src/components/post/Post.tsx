@@ -104,7 +104,7 @@ export const Post: FunctionComponent<Props> = props => {
           <span className="dn di-ns ml2">스크랩 (미구현)</span>
         </a>
       </div>
-      {showBr && <BlockRequest/>}
+      {showBr && <BlockRequest data={R.pick(['hk', 'rk'], data)}/>}
     </main>
   )
 }

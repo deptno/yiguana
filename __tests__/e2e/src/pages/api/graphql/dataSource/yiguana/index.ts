@@ -4,6 +4,10 @@ import {util} from '@deptno/dynamodb'
 import {SALT} from '../../../lib/token'
 
 export class Public extends DataSource {
+  get(args: ListArgument<typeof yiguana.administrator.get>) {
+    return yiguana.administrator.get(args)
+  }
+
   posts(args: ListArgument<typeof yiguana.post.list>) {
     return yiguana.post
       .list(preListHook(kebabCategory(args)))
@@ -93,6 +97,10 @@ export class Private extends DataSource {
 
   deleteComment(args: ListArgument<typeof yiguana.comment.del>) {
     return yiguana.comment.del(args)
+  }
+
+  report(args: ListArgument<typeof yiguana.user.report>) {
+    return yiguana.user.report(args)
   }
 }
 

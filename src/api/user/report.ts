@@ -1,7 +1,6 @@
-import {MetadataStore} from '../../../store/dynamodb'
-import {EntityFactory} from '../../../entity'
-import {Member} from '../../../entity/user'
-import {Post} from '../../../entity/post'
+import {MetadataStore} from '../../store/dynamodb'
+import {Post, Comment, EntityFactory} from '../../entity'
+import {Member} from '../../entity/user'
 
 export async function report(store: MetadataStore, ef: EntityFactory, input: ReportInput) {
   const {data: {content, data, createdAt}, user} = input
@@ -31,7 +30,7 @@ export async function report(store: MetadataStore, ef: EntityFactory, input: Rep
 export type ReportInput = {
   data: {
     content: string
-    data: Post
+    data: Post|Comment
     createdAt: string
   }
   user: Member

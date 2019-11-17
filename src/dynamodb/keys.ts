@@ -86,11 +86,11 @@ export const keys = {
       createdAt: v => v,
     },
   ),
-  agg: createKey<{ aggReport: EEntity.AggReport, entity: Extract<EEntity, EEntity.Post|EEntity.Comment>}>(
-    ['aggReport', 'entity'],
+  agg: createKey<{ type: EEntity.Report, entity: EEntity.Post|EEntity.Comment}>(
+    ['type', 'entity'],
     {
-      aggReport: v => EEntity.AggReport,
-      entity: v => v as Extract<EEntity, EEntity.Post|EEntity.Comment>,
+      type: v => EEntity.Report,
+      entity: v => v as EEntity.Post|EEntity.Comment,
     },
   ),
 }

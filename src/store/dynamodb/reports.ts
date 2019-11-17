@@ -16,7 +16,7 @@ export function reports(operator: DynamoDBInput, params: ReportsInput) {
     },
     ExpressionAttributeValues: {
       ':h': keys.agg.stringify({
-        aggReport: EEntity.AggReport,
+        type: EEntity.Report,
         entity
       }),
     },
