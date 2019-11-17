@@ -21,11 +21,13 @@ export const keys = {
         userId: v => v
       }
     ),
-    reportAgg: createKey<{entity: EEntity.ReportAgg, target: Omit<EEntity, EEntity.Like|EEntity.Report>}>(
-      ['entity', 'target'],
+    agg: createKey<{agg: EEntity.Agg, type: EEntity.Report, target: Omit<EEntity, EEntity.Like|EEntity.Report>, userId: string}>(
+      ['agg', 'type', 'target', 'userId'],
       {
-        entity: v => v,
+        agg: v => v,
+        type: v => v,
         target: v => v,
+        userId: v => v,
       }
     ),
   },
@@ -79,11 +81,51 @@ export const keys = {
       replyCreatedAt: v => v,
     },
   ),
-  byUser: createKey<{ entity: EEntity, createdAt: string }>(
-    ['entity', 'createdAt'],
+  byUser: {
+
+    post: createKey<{ entity: EEntity, createdAt: string }>(
+      ['entity', 'createdAt'],
+      {
+        entity: v => v as EEntity,
+        createdAt: v => v,
+      },
+    ),
+    comment: createKey<{ entity: EEntity, createdAt: string }>(
+      ['entity', 'createdAt'],
+      {
+        entity: v => v as EEntity,
+        createdAt: v => v,
+      },
+    ),
+
+    reply: createKey<{ entity: EEntity, createdAt: string }>(
+      ['entity', 'createdAt'],
+      {
+        entity: v => v as EEntity,
+        createdAt: v => v,
+      },
+    ),
+    like: createKey<{ entity: EEntity, createdAt: string }>(
+      ['entity', 'createdAt'],
+      {
+        entity: v => v as EEntity,
+        createdAt: v => v,
+      },
+    ),
+    report: createKey<{ entity: EEntity, target: EEntity.Post|EEntity.Comment, createdAt: string }>(
+      ['entity', 'target', 'createdAt'],
+      {
+        entity: v => v as EEntity,
+        target: v => v,
+        createdAt: v => v,
+      },
+    ),
+  },
+  agg: createKey<{ type: EEntity.Report, entity: EEntity.Post|EEntity.Comment}>(
+    ['type', 'entity'],
     {
-      entity: v => v as EEntity,
-      createdAt: v => v,
+      type: v => EEntity.Report,
+      entity: v => v as EEntity.Post|EEntity.Comment,
     },
   ),
 }

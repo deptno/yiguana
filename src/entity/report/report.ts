@@ -13,7 +13,11 @@ export function createReport<T extends Post | Comment>(params: CreateReportInput
   const entity = EEntity.Report
   const hk = targetId
   const rk = keys.rk.report.stringify({entity, target, userId})
-  const byUser = keys.byUser.stringify({entity, createdAt})
+  const byUser = keys.byUser.report.stringify({
+    entity,
+    target,
+    createdAt,
+  })
 
   return {
     hk,

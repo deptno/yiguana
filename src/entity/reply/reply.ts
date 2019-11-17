@@ -29,7 +29,7 @@ export function createReply(params: CreateReplyInput): Reply {
   if ('id' in user) {
     // TODO: user 처리
     reply.userId = user.id
-    reply.byUser = keys.byUser.stringify({entity, createdAt})
+    reply.byUser = keys.byUser.reply.stringify({entity, createdAt})
   }
 
   return reply

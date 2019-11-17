@@ -9,4 +9,13 @@ export const logStoreDdb = logStore.extend('ddb')
 export const logApiPost = logApi.extend('post')
 export const logApiComment = logApi.extend('comment')
 export const logApiReply = logApi.extend('reply')
+export const logApiAdmin = logApi.extend('administrator')
+export const logApiUser = logApi.extend('user')
+
+export const logApiAdminReport = logApiAdmin.extend('report')
+
+export const logApiUserPost = logApiUser.extend('post')
+export const logApiUserComment = logApiUser.extend('comment')
+export const logApiUserReply = logApiUser.extend('reply')
+export const logApiUserReport = logApiUser.extend('report')
 

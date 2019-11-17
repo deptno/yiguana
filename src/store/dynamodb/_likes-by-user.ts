@@ -11,7 +11,7 @@ import {Comment} from '../../entity/comment'
 export function _likesByUser<T extends Post|Comment>(operator: DynamoDBInput, params: QueryByUserLike<T['rk']>) {
   const {tableName, dynamodb} = operator
   const {entity, exclusiveStartKey, userId} = params
-  const byUser = keys.byUser.stringify({
+  const byUser = keys.byUser.like.stringify({
     entity: EEntity.Like,
   })
   const input: DocumentClient.QueryInput = {

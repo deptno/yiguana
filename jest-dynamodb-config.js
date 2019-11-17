@@ -61,6 +61,10 @@ module.exports = {
           'AttributeType': 'S'
         },
         {
+          'AttributeName': 'agg',
+          'AttributeType': 'S'
+        },
+        {
           'AttributeName': 'reports',
           'AttributeType': 'S'
         }
@@ -85,7 +89,7 @@ module.exports = {
         createGsi('posts', 'rk', 'posts'),
         createGsi('postsByCategory', 'rk', 'category'),
         createGsi('comments', 'postId', 'comments'),
-        createGsi('reports', 'rk', 'reports'),
+        createGsi('reports', 'agg', 'reports'),
       ],
       'StreamSpecification'   : {
         'StreamEnabled' : true,

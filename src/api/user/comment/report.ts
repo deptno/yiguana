@@ -25,7 +25,7 @@ export async function report(store: MetadataStore, ef: EntityFactory, input: Rep
   })
 
   if (report) {
-    return store.increaseReportCount({data: report})
+    return store.increaseReportCount(report)
   }
 }
 

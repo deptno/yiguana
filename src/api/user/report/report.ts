@@ -1,7 +1,6 @@
 import {MetadataStore} from '../../../store/dynamodb'
-import {EntityFactory} from '../../../entity'
+import {Post, Comment, EntityFactory} from '../../../entity'
 import {Member} from '../../../entity/user'
-import {Post} from '../../../entity/post'
 
 export async function report(store: MetadataStore, ef: EntityFactory, input: ReportInput) {
   const {data: {content, data, createdAt}, user} = input
@@ -24,14 +23,14 @@ export async function report(store: MetadataStore, ef: EntityFactory, input: Rep
   })
 
   if (report) {
-    return store.increaseReportCount({data: report})
+    return store.increaseReportCount(report)
   }
 }
 
 export type ReportInput = {
   data: {
     content: string
-    data: Post
+    data: Post|Comment
     createdAt: string
   }
   user: Member
