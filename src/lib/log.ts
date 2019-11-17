@@ -1,5 +1,12 @@
 import debug from 'debug'
 
-export const postLogger = debug('yiguana:post')
-export const commentLogger = debug('yiguana:comment')
-export const replyLogger = debug('yiguana:reply')
+const logApi = debug('yiguana:api')
+const logStore = debug('yiguana:store')
+
+export const logStoreS3 = logStore.extend('s3')
+export const logStoreDdb = logStore.extend('ddb')
+
+export const logApiPost = logApi.extend('post')
+export const logApiComment = logApi.extend('comment')
+export const logApiReply = logApi.extend('reply')
+

@@ -3,11 +3,11 @@ import {PostUserInput} from '../../entity/post'
 import {EntityFactory} from '../../entity'
 import {User} from '../../entity/user'
 import {EValidationErrorMessage, ValidationError} from '../../entity/error'
-import {postLogger as log} from '../../lib/log'
+import {logApiPost} from '../../lib/log'
 import {ContentStore} from '../../store/s3'
 
 export async function create(ms: MetadataStore, cs: ContentStore, e: EntityFactory, input: CreateInput) {
-  log('create %j', input)
+  logApiPost('create %j', input)
 
   validateUser(input.user)
 
@@ -29,7 +29,7 @@ export async function create(ms: MetadataStore, cs: ContentStore, e: EntityFacto
 const validateUser = (user: User) => {
   if ('id' in user) {
     // 회원
-    log('member', user.id)
+    logApiPost('member', user.id)
   } else {
     // TODO: 비회원, 비회원이 우선순위
     const {name, pw} = user
@@ -40,7 +40,7 @@ const validateUser = (user: User) => {
     if (!pw) {
       throw new ValidationError(EValidationErrorMessage.InvalidInput)
     }
-    log('not member', user.name)
+    logApiPost('not member', user.name)
   }
 }
 
