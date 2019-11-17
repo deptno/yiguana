@@ -17,4 +17,5 @@ export const logApiAdminReport = logApiAdmin.extend('report')
 export const logApiUserPost = logApiUser.extend('post')
 export const logApiUserComment = logApiUser.extend('comment')
 export const logApiUserReply = logApiUser.extend('reply')
+export const logApiUserReport = logApiUser.extend('report')
 

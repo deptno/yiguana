@@ -99,8 +99,8 @@ export class Private extends DataSource {
     return yiguana.comment.del(args)
   }
 
-  report(args: ListArgument<typeof yiguana.user.report>) {
-    return yiguana.user.report(args)
+  report(args: ListArgument<typeof yiguana.user.report.create>) {
+    return yiguana.user.report.create(args)
   }
 }
 

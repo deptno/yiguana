@@ -13,7 +13,7 @@ export function createLike<T extends Post | Comment>(params: CreateLikeInput<T>)
   const entity = EEntity.Like
   const hk = targetId
   const rk = keys.rk.like.stringify({entity, target, userId})
-  const byUser = keys.byUser.stringify({entity, createdAt})
+  const byUser = keys.byUser.like.stringify({entity, createdAt})
 
   return {
     hk,

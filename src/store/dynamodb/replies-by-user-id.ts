@@ -18,7 +18,7 @@ export function repliesByUserId<T = Reply>(operator: DynamoDBInput, params: Repl
     },
     ExpressionAttributeValues: {
       ':h': userId,
-      ':r': keys.byUser.stringify({
+      ':r': keys.byUser.reply.stringify({
         entity: EEntity.Comment,
       })
     },

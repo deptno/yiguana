@@ -89,18 +89,6 @@ describe('unit', () => {
           })
           expect(third[0].likes).toEqual(second[0].likes - 1)
         })
-        it('unlike comment', async () => {
-          const {items: before} = await api.comment.list({
-            postId: post.hk,
-          })
-          await api.user.comment.unlike({
-            data: before[0],
-          })
-          const {items: after} = await api.comment.list({
-            postId: post.hk,
-          })
-          expect(after[0].likes).toEqual(before[0].likes - 1)
-        })
       })
     })
   })

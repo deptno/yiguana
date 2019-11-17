@@ -11,7 +11,7 @@ import {Report} from '../../entity/report'
 export function _reportsByUser<T extends Post|Comment>(operator: DynamoDBInput, params: QueryByUserReport<T['rk']>) {
   const {tableName, dynamodb} = operator
   const {entity, exclusiveStartKey, userId} = params
-  const byUser = keys.byUser.stringify({
+  const byUser = keys.byUser.report.stringify({
     entity: EEntity.Report,
   })
   const input: DocumentClient.QueryInput = {
