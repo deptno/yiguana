@@ -27,11 +27,12 @@ export const CommentWriter: FunctionComponent<Props> = props => {
     })
       .then(onCreate)
       .catch(alert)
+      .finally(() => setContent(''))
   }
 
   return (
     <div className="b--light-gray ba br2 pa3 bg-black-05">
-      <textarea className="pa2 w-100 b--transparent" rows={4} placeholder="댓글 내용" onChange={handleChange}/>
+      <textarea className="pa2 w-100 b--transparent" rows={4} placeholder="댓글 내용" onChange={handleChange} value={content}/>
       <div className="self-end w-100 flex justify-end mt2">
         <a className="w-100 br1 link pointer db near-black f5 bg-hot-pink ph2 tc nowrap white" onClick={saveComment}>
           <span className="pv2 db near-white">등록</span>

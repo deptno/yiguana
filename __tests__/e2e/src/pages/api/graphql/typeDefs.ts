@@ -104,7 +104,6 @@ export const typeDefs = gql`
   input CommentMutationInput {
     postId: String!
     content: String!
-    commentCreatedAt: String
   }
   input ReplyMutationInput {
     postId: String!

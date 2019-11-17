@@ -4,12 +4,12 @@ import gql from 'graphql-tag'
 import {useMutation} from '@apollo/react-hooks'
 
 export const ReplyWriter: FunctionComponent<Props> = props => {
-  const {postId, commentId, commentCreatedAt, onCreate} = props
+  const {postId, commentId, onCreate} = props
   const [content, setContent] = useState('')
   const handleChange = useCallback(R.compose(setContent, R.path(['target', 'value'])), [commentId])
   const [commentMutation] = useMutation(gql`
-    mutation ($data: CommentMutationInput!, $user: NotMemberInput) {
-      comment(data: $data, user: $user) {
+    mutation ($data: ReplyMutationInput!, $user: NotMemberInput) {
+      reply(data: $data, user: $user) {
         hk
       }
     }
@@ -21,7 +21,7 @@ export const ReplyWriter: FunctionComponent<Props> = props => {
       variables: {
         data: {
           postId,
-          commentCreatedAt,
+          commentId,
           content,
         }
       }
@@ -45,7 +45,6 @@ export const ReplyWriter: FunctionComponent<Props> = props => {
 type Props = {
   commentId: string
   postId: string
-  commentCreatedAt: string
 
   onCreate(): void
 }

@@ -72,7 +72,7 @@ export const Comment: FunctionComponent<Props> = props => {
           <pre className="ma0 pa2" dangerouslySetInnerHTML={{__html: content}}/>
         </main>
         <pre className="debug">{JSON.stringify(data, null, 2)}</pre>
-        {showWriter && <ReplyWriter postId={postId} commentCreatedAt={createdAt} commentId={hk} onCreate={onCreate}/>}
+        {showWriter && <ReplyWriter postId={postId} commentId={hk} onCreate={onCreate}/>}
       </div>
     </li>
   )

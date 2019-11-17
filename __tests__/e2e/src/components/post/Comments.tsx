@@ -2,7 +2,6 @@ import React, {FunctionComponent, useCallback, useEffect, useRef, useState} from
 import {Comment} from './Comment'
 import {Comment as TComment} from '../../../../../src/entity/comment'
 import {Reply as TReply} from '../../../../../src/entity/reply'
-import * as R from 'ramda'
 import {CommentWriter} from '../board/CommentWriter'
 import {api} from '../../pages/api/lib/api'
 import {Reply} from './Reply'
@@ -125,7 +124,7 @@ export const Comments: FunctionComponent<Props> = props => {
                 key={commentOrReply.hk}
                 data={commentOrReply as TComment}
                 onLike={like}
-                onCreate={getComments}
+                onCreate={refetch}
                 onReport={report}
               />
             )

@@ -4,7 +4,7 @@ import {util} from '@deptno/dynamodb'
 import {SALT} from '../../../lib/token'
 
 export class Public extends DataSource {
-  get(args: ListArgument<typeof yiguana.administrator.get>) {
+  get(args: Argument<typeof yiguana.administrator.get>) {
     return yiguana.administrator.get(args)
   }
 
@@ -14,7 +14,7 @@ export class Public extends DataSource {
       .then(postListHook)
   }
 
-  post(args: ListArgument<typeof yiguana.post.view>) {
+  post(args: Argument<typeof yiguana.post.view>) {
     return yiguana.post.view(args)
   }
 
