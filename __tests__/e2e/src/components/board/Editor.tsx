@@ -1,4 +1,4 @@
-import React, {FunctionComponent, useContext, useEffect, useMemo, useRef, useState} from 'react'
+import React, {FunctionComponent, useContext, useEffect, useRef, useState} from 'react'
 import * as Q from 'quill'
 import {LineSubmitButton} from './LineSubmitButton'
 import * as R from 'ramda'
@@ -63,14 +63,37 @@ export const Editor: FunctionComponent<Props> = props => {
           content,
         },
         user: userData,
-      }
+      },
     })
       .catch(alert)
   }
 
   useEffect(() => {
     if (ref.current) {
-      setEditor(new Quill(ref.current, {theme: 'snow'}))
+      const quill = new Quill(ref.current, {
+        theme: 'snow',
+        modules: {
+          toolbar: {
+            container: [['link'], ['image']],
+          },
+        },
+      })
+      const toolbar = quill.getModule('toolbar');
+      toolbar.addHandler('image', function() {
+        const input = document.createElement('input')
+        input.setAttribute('type', 'file')
+        input.click()
+        input.onchange = function(this: HTMLInputElement) {
+          console.log(this)
+          const fd = new FormData()
+          const [file, ...rest] = Array.from(this.files)
+          console.log(this.files)
+          fd.append('image', file)
+        }
+      })
+
+
+      setEditor(quill)
     }
   }, [ref])
   const member = isMember(user)
