@@ -49,6 +49,12 @@ export class Private extends DataSource {
       .then(postListHook)
   }
 
+  reportedPosts(args: ListArgument<typeof yiguana.user.post.list>) {
+    return yiguana.user.post
+      .list(preListHook(kebabCategory(args)))
+      .then(postListHook)
+  }
+
   likePost({data: {hk}, user}) {
     const createdAt = new Date().toISOString()
 

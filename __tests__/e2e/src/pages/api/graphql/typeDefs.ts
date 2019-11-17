@@ -13,6 +13,8 @@ export const typeDefs = gql`
 
     myPosts(cursor: String, like: Boolean): PostList!
     myComments(cursor: String, like: Boolean): CommentList!
+    myReportedPosts(cursor: String): PostList!
+    myReportedComments(cursor: String): CommentList!
   }
 
   type PostList {
