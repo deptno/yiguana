@@ -9,29 +9,36 @@ export function increaseReportAgg(operator: DynamoDBInput, params: IncreaseRepor
   const {dynamodb, tableName} = operator
   const {data} = params
   const {hk} = data
-
   //FIXME: updatedAt 은 관례상 인자로 받아야한다. decrease 도 마찬가지 로직
+  const updatedAt = new Date().toISOString()
+  const agg = keys.agg.stringify({
+    aggReport: EEntity.AggReport,
+    entity: data.rk as Extract<EEntity, EEntity.Post|EEntity.Comment>,
+  })
+
   return dynamodb
     .update({
       TableName: tableName,
       Key: {
         hk,
         rk: keys.rk.reportAgg.stringify({
-          entity: EEntity.ReportAgg,
+          entity: EEntity.AggReport,
           target: data.rk // EEntity.Post|EEntity.Comment 인 것이 보장되어야 한다.
         }),
       },
-      UpdateExpression: 'SET #v = if_not_exists(#v, :z) + :v, #u = :u, #c = if_not_exists(#c, :c)',
+      UpdateExpression: 'SET #c = if_not_exists(#c, :c), #v = if_not_exists(#v, :z) + :v, #a = :a, #r = :r',
       ExpressionAttributeNames: {
-        '#v': 'reported',
-        '#u': 'reports',
         '#c': 'createdAt',
+        '#v': 'reported',
+        '#a': 'agg',
+        '#r': 'reports',
       },
       ExpressionAttributeValues: {
+        ':c': updatedAt,
         ':z': 0,
         ':v': 1,
-        ':c': 'createdAt',
-        ':u': new Date().toISOString()
+        ':a': agg,
+        ':r': updatedAt,
       },
       ReturnValues: 'ALL_NEW',
     })

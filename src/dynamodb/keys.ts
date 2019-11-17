@@ -21,7 +21,7 @@ export const keys = {
         userId: v => v
       }
     ),
-    reportAgg: createKey<{entity: EEntity.ReportAgg, target: Omit<EEntity, EEntity.Like|EEntity.Report>}>(
+    reportAgg: createKey<{entity: EEntity.AggReport, target: Omit<EEntity, EEntity.Like|EEntity.Report>}>(
       ['entity', 'target'],
       {
         entity: v => v,
@@ -84,6 +84,13 @@ export const keys = {
     {
       entity: v => v as EEntity,
       createdAt: v => v,
+    },
+  ),
+  agg: createKey<{ aggReport: EEntity.AggReport, entity: Extract<EEntity, EEntity.Post|EEntity.Comment>}>(
+    ['aggReport', 'entity'],
+    {
+      aggReport: v => EEntity.AggReport,
+      entity: v => v as Extract<EEntity, EEntity.Post|EEntity.Comment>,
     },
   ),
 }

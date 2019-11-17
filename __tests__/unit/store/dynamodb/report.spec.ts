@@ -11,6 +11,7 @@ import {addReport} from '../../../../src/store/dynamodb/add-report'
 import {commentsByUserReport} from '../../../../src/store/dynamodb/comments-by-user-report'
 import {removeReport} from '../../../../src/store/dynamodb/remove-report'
 import {increaseReportAgg} from '../../../../src/store/dynamodb/increase-report-agg'
+import {reports} from '../../../../src/store/dynamodb/reports'
 
 describe('unit', function () {
   describe('store', function () {
@@ -54,6 +55,10 @@ describe('unit', function () {
               expect(count.reported).toEqual(1)
             }
           })
+          it('031. reports() === 1', async () => {
+            const {items} = await reports(opDdb, {entity: EEntity.Post})
+            expect(items.length).toEqual(1)
+          })
           it('03. postsByUserReport(User(a)) === 1', async () => {
             const {items} = await postsByUserReport(opDdb, {userId})
             expect(items.length).toEqual(1)
@@ -75,6 +80,10 @@ describe('unit', function () {
               console.log({count})
               expect(count.reported).toEqual(1)
             }
+          })
+          it('051. reports() === 1: 입력 실패로 수 동일', async () => {
+            const {items} = await reports(opDdb, {entity: EEntity.Post})
+            expect(items.length).toEqual(1)
           })
           it('05. postsByUserReport(User(a)) === 1: 입력 실패로 수 동일', async () => {
             const {items} = await postsByUserReport(opDdb, {userId})
@@ -115,6 +124,14 @@ describe('unit', function () {
           it('08. postsByUserReport(User(b)) === 1', async () => {
             const {items} = await postsByUserReport(opDdb, {userId: member_b.id})
             expect(items.length).toEqual(1)
+          })
+          it('091. reports() === 2', async () => {
+            const {items} = await reports(opDdb, {entity: EEntity.Post})
+            expect(items.length).toEqual(2)
+            const [report, report2] = items
+            console.log({report})
+            expect(report.reported).toEqual(2)
+            expect(report2.reported).toEqual(1)
           })
           it('09. postsByUserReport(User(a)) === 2', async () => {
             const {items} = await postsByUserReport(opDdb, {userId})

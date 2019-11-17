@@ -16,7 +16,7 @@ export function decreaseReportAgg(operator: DynamoDBInput, params: DecreaseRepor
       Key: {
         hk,
         rk: keys.rk.reportAgg.stringify({
-          entity: EEntity.ReportAgg,
+          entity: EEntity.AggReport,
           target: data.rk // EEntity.Post|EEntity.Comment 인 것이 보장되어야 한다.
         }),
       },
