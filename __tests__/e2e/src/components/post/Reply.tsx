@@ -1,4 +1,4 @@
-import React, {FunctionComponent, useCallback, useContext, useMemo} from 'react'
+import React, {FunctionComponent, useCallback, useContext, useMemo, useState} from 'react'
 import locale from 'date-fns/locale/ko'
 import {formatDistanceToNow, parseISO} from 'date-fns'
 import {Reply as TReply} from '../../../../../src/entity/reply'
@@ -7,11 +7,14 @@ import {Member} from '../../../../../src/entity/user'
 import {useMutation} from '@apollo/react-hooks'
 import gql from 'graphql-tag'
 import cx from 'classnames'
+import {BlockRequest} from '../BlockRequest'
+import * as R from 'ramda'
 
 export const Reply: FunctionComponent<Props> = props => {
   const {data, onLike, onDelete} = props
   const {hk, rk, content, createdAt, likes, user, userId, deleted} = data
   const {ip, name} = user
+  const [showReporter, setShowReporter] = useState(false)
   const context = useContext(StorageContext)
   const deletable = useMemo(() => {
     if ('id' in context.user) {
@@ -59,7 +62,7 @@ export const Reply: FunctionComponent<Props> = props => {
                 ﹒
                 <span>언급(미구현)</span>
                 ﹒
-                <span className="red">신고(미구현)</span>
+                <a className="red" onClick={() => setShowReporter(!showReporter)}>신고</a>
                 ﹒
                 {deletable && <a className="red pointer" onClick={del}>삭제</a>}
               </>
@@ -70,6 +73,7 @@ export const Reply: FunctionComponent<Props> = props => {
           <pre className="ma0 pa2" dangerouslySetInnerHTML={{__html: content}}/>
         </main>
         <pre className="debug">{JSON.stringify(data, null, 2)}</pre>
+        {showReporter && <BlockRequest data={R.pick(['hk', 'rk'], data)}/>}
       </div>
     </div>
   )

@@ -5,15 +5,18 @@ import {Comment as TComment} from '../../../../../src/entity/comment'
 import {ReplyWriter} from '../board/ReplyWriter'
 import {StorageContext} from '../../context/StorageContext'
 import {Member} from '../../../../../src/entity/user'
-import { useMutation } from '@apollo/react-hooks'
+import {useMutation} from '@apollo/react-hooks'
 import cx from 'classnames'
 import gql from 'graphql-tag'
+import {BlockRequest} from '../BlockRequest'
+import * as R from 'ramda'
 
 export const Comment: FunctionComponent<Props> = props => {
   const {data, onLike, onCreate, onReport} = props
   const {hk, rk, postId, content, userId, createdAt, updatedAt = createdAt, children, likes, user, deleted} = data
   const {name, ip} = user
   const [showWriter, setShowWriter] = useState(false)
+  const [showReporter, setShowReporter] = useState(false)
   const context = useContext(StorageContext)
   const deletable = useMemo(() => {
     if ('id' in context.user) {
@@ -50,7 +53,8 @@ export const Comment: FunctionComponent<Props> = props => {
           <strong className="">{name} 님</strong>
           <div className="ml-auto">
             <span>
-              <i className="mh1 pv1 far fa-clock black-60"/>{formatDistanceToNow(parseISO(updatedAt ?? createdAt), {locale})} 전
+              <i
+                className="mh1 pv1 far fa-clock black-60"/>{formatDistanceToNow(parseISO(updatedAt ?? createdAt), {locale})} 전
             </span>
             ﹒
             <span>{ip}</span>
@@ -61,7 +65,7 @@ export const Comment: FunctionComponent<Props> = props => {
                 ﹒
                 <a className="pointer" onClick={() => setShowWriter(!showWriter)}>답글 작성</a>
                 ﹒
-                <span className="red">신고(미구현)</span>
+                <a className="red" onClick={() => setShowReporter(!showReporter)}>신고</a>
                 ﹒
                 {deletable && <a className="red pointer" onClick={del}>삭제</a>}
               </>
@@ -72,6 +76,7 @@ export const Comment: FunctionComponent<Props> = props => {
           <pre className="ma0 pa2" dangerouslySetInnerHTML={{__html: content}}/>
         </main>
         <pre className="debug">{JSON.stringify(data, null, 2)}</pre>
+        {showReporter && <BlockRequest data={R.pick(['hk', 'rk'], data)}/>}
         {showWriter && <ReplyWriter postId={postId} commentId={hk} onCreate={onCreate}/>}
       </div>
     </li>
