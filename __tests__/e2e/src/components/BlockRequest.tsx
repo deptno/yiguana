@@ -22,8 +22,6 @@ export const BlockRequest: FunctionComponent<Props> = props => {
     }
   }
 
-  console.log({result})
-
   return (
     <form className="flex flex-column" onSubmit={report}>
       신고하기

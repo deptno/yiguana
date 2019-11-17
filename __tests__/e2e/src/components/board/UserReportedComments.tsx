@@ -7,7 +7,7 @@ import gql from 'graphql-tag'
 export const UserReportedComments: FunctionComponent<Props> = props => {
   const [query, {data}] = useLazyQuery<Q, A>(gql`
     query ($cursor: String) {
-      myReportedComment(cursor: $cursor) {
+      myReportedComments(cursor: $cursor) {
         items {
           hk
           rk
