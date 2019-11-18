@@ -24,6 +24,6 @@ jobs:
       - name: plan
         run: |
           cd __tests__/e2e
-          terraform init
+          npm run terraform.init
           npm run terraform.plan
 
