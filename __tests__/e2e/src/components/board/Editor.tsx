@@ -152,7 +152,7 @@ export const Editor: FunctionComponent<Props> = props => {
             </label>
             <div className="pa2 mb2">
               <select name="category">
-                <option value="create-channel">채널등록요청</option>
+                <option value="create_channel">채널등록요청</option>
               </select>
             </div>
           </div>

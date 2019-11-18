@@ -10,7 +10,7 @@ export class Public extends DataSource {
 
   posts(args: ListArgument<typeof yiguana.post.list>) {
     return yiguana.post
-      .list(preListHook(kebabCategory(args)))
+      .list(preListHook(args))
       .then(postListHook)
   }
 
@@ -49,13 +49,13 @@ export class Public extends DataSource {
 export class Private extends DataSource {
   posts(args: ListArgument<typeof yiguana.user.post.list>) {
     return yiguana.user.post
-      .list(preListHook(kebabCategory(args)))
+      .list(preListHook(args))
       .then(postListHook)
   }
 
   reportedPosts(args: ListArgument<typeof yiguana.user.post.list>) {
     return yiguana.user.post
-      .list(preListHook(kebabCategory(args)))
+      .list(preListHook(args))
       .then(postListHook)
   }
 
@@ -114,15 +114,6 @@ export class Private extends DataSource {
   }
 }
 
-const kebabCategory = (arg?) => {
-  if (arg.category) {
-    return {
-      ...arg,
-      category: arg.category.replace(/_/g, '-'),
-    }
-  }
-  return arg
-}
 const preListHook = (arg?) => {
   const {cursor, ...rest} = arg
   const exclusiveStartKey = util.parseToken(cursor, SALT)
