@@ -5,7 +5,7 @@ on:
       - master
     paths:
       - '__tests__/e2e/terraform/**'
-
+      - '.github/workflows/*terraform.yml'
 jobs:
   update-infrastructure:
     runs-on: ubuntu-latest
@@ -24,5 +24,6 @@ jobs:
       - name: deploy
         run: |
           cd __tests__/e2e
+          terraform init
           npm run terraform.plan
           npm run terraform.apply
