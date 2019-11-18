@@ -84,6 +84,13 @@ resource aws_dynamodb_table yiguana {
 
 resource aws_s3_bucket yiguana {
   bucket = "test-yiguana"
+  cors_rule {
+    allowed_methods = ["POST"]
+    allowed_origins = [
+      "https://dev.tubemon.io",
+      "http://localhost:3000"
+    ]
+  }
 }
 
 output dynamodb {

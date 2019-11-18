@@ -1,6 +1,6 @@
 resource aws_dynamodb_table state {
-  name         = "yiguana-tfstate"
-  hash_key     = "LockID"
+  name = "yiguana-tfstate"
+  hash_key = "LockID"
   billing_mode = "PAY_PER_REQUEST"
 
   attribute {
@@ -10,6 +10,8 @@ resource aws_dynamodb_table state {
 }
 resource aws_s3_bucket state {
   bucket = "yiguana-state"
+  acl = "private"
+  force_destroy = "false"
   logging {
     target_bucket = aws_s3_bucket.log.id
   }
@@ -20,6 +22,7 @@ resource aws_s3_bucket state {
 resource aws_s3_bucket log {
   bucket = "yiguana-state-log"
   acl = "log-delivery-write"
+  force_destroy = "false"
 }
 
 terraform {
