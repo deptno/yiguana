@@ -17,10 +17,11 @@ export const getUploadUrl = (op: S3Input, input: GetUploadUrlInput) => {
   const preSignedPost = op.s3.raw.createPresignedPost({
     Bucket: op.bucketName,
     Fields: {
-      key: `upload/image/${datetime}-${uuid()}${ext}`
+      key: `${datetime}-${uuid()}${ext}`
     },
     Conditions: [
-      ['starts-with', '$Content-Type', mime],
+      ['eq', '$acl', 'public-read'], // FIXME: 실사용시엔는 옵션 제거 후 클라우드 프론트 레이에서 처리
+      ['starts-with', '$content-type', mime],
       ['content-length-range', 128, 1048579],
     ],
     Expires: 60,

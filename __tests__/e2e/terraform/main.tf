@@ -84,6 +84,7 @@ resource aws_dynamodb_table yiguana {
 
 resource aws_s3_bucket yiguana {
   bucket = "test-yiguana"
+  acl = "private"
   cors_rule {
     allowed_methods = ["POST"]
     allowed_origins = [
