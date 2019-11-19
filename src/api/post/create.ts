@@ -7,7 +7,7 @@ import {logApiPost} from '../../lib/log'
 import {ContentStore} from '../../store/s3'
 
 export async function create(ms: MetadataStore, cs: ContentStore, e: EntityFactory, input: CreateInput) {
-  logApiPost('create %j', input)
+  log('create %j', input)
 
   validateUser(input.user)
 
@@ -29,7 +29,7 @@ export async function create(ms: MetadataStore, cs: ContentStore, e: EntityFacto
 const validateUser = (user: User) => {
   if ('id' in user) {
     // 회원
-    logApiPost('member', user.id)
+    log('member', user.id)
   } else {
     // TODO: 비회원, 비회원이 우선순위
     const {name, pw} = user
@@ -40,7 +40,7 @@ const validateUser = (user: User) => {
     if (!pw) {
       throw new ValidationError(EValidationErrorMessage.InvalidInput)
     }
-    logApiPost('not member', user.name)
+    log('not member', user.name)
   }
 }
 
@@ -48,3 +48,5 @@ export type CreateInput = {
   data: PostUserInput
   user: User
 }
+
+const log = logApiPost.extend('create')
