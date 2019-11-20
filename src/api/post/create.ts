@@ -5,8 +5,9 @@ import {User} from '../../entity/user'
 import {EValidationErrorMessage, ValidationError} from '../../entity/error'
 import {logApiPost} from '../../lib/log'
 import {ContentStore} from '../../store/s3'
+import {UserApiInput} from '../../type'
 
-export async function create(ms: MetadataStore, cs: ContentStore, e: EntityFactory, input: CreateInput) {
+export async function create(ms: MetadataStore, cs: ContentStore, e: EntityFactory, input: UserApiInput<CreateInput>) {
   log('create %j', input)
 
   validateUser(input.user)
@@ -44,9 +45,6 @@ const validateUser = (user: User) => {
   }
 }
 
-export type CreateInput = {
-  data: PostUserInput
-  user: User
-}
+export type CreateInput = PostUserInput
 
 const log = logApiPost.extend('create')
