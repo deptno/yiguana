@@ -8,7 +8,6 @@ import {view, ViewInput} from './view'
 import {MetadataStore} from '../../store/dynamodb'
 import {ContentStore} from '../../store/s3'
 import {logApiPost} from '../../lib/log'
-import {ApiInput, UserApiInput} from '../../type'
 
 export class PostApi {
   constructor(private ms: MetadataStore, private cs: ContentStore, private ef: EntityFactory) {
@@ -19,29 +18,29 @@ export class PostApi {
     return list(this.ms, this.ef, input)
   }
 
-  create(input: UserApiInput<CreateInput>) {
+  create(input: CreateInput) {
     logApiPost('create', input)
     return create(this.ms, this.cs, this.ef, input)
   }
 
   // 실제로는 read 대신 view 가 사용된다 read 는 사용되지 않거나 alias 로 동작 해야 될 것으로 보임
   // @deprecated
-  read(input: ApiInput<ReadInput>) {
+  read(input: ReadInput) {
     logApiPost('read', input)
     return read(this.ms, this.ef, input)
   }
 
-  update(input: ApiInput<UpdateInput>) {
+  update(input: UpdateInput) {
     logApiPost('update', input)
     return update(this.ms, this.ef, input)
   }
 
-  del(input: UserApiInput<DelInput>) {
+  del(input: DelInput) {
     logApiPost('del', input)
     return del(this.ms, this.ef, input)
   }
 
-  view(input: ApiInput<ViewInput>) {
+  view(input: ViewInput) {
     logApiPost('view', input)
     return view(this.ms, this.cs, this.ef, input)
   }

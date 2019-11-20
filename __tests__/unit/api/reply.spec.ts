@@ -2,7 +2,7 @@ import {createApi} from '../../../src/api'
 import {Post} from '../../../src/entity/post'
 import {Comment} from '../../../src/entity/comment'
 import {bucketName, ddbClient, s3Client, tableName} from '../../env'
-import {member_a, member_b, member_f, non_member_a} from '../../__data__/user'
+import {member_f, non_member_a} from '../../__data__/user'
 import * as R from 'ramda'
 
 describe('unit', () => {
@@ -80,7 +80,7 @@ describe('unit', () => {
 
         expect(targetReply.deleted).toBeUndefined()
         const isRemoved = await api.reply.del({
-          hk: targetReply.hk
+          data: targetReply,
         })
         expect(isRemoved).toEqual(true)
         const {items: after} = await api.reply.list({comment})

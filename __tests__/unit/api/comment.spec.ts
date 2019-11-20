@@ -3,7 +3,7 @@ import {Post} from '../../../src/entity/post'
 import {Comment} from '../../../src/entity/comment'
 import {bucketName, ddbClient, s3Client, tableName} from '../../env'
 import {EValidationErrorMessage} from '../../../src/entity/error'
-import {member_a, member_b, member_f} from '../../__data__/user'
+import {member_a, member_f} from '../../__data__/user'
 
 describe('unit', () => {
   describe('api', () => {
@@ -86,7 +86,7 @@ describe('unit', () => {
           console.table(before)
 
           const targetComment = await api.comment.del({
-            hk: comment.hk,
+            data: comment,
           })
           console.table(targetComment)
 
