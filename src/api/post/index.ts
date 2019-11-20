@@ -36,7 +36,7 @@ export class PostApi {
     return update(this.ms, this.ef, input)
   }
 
-  del(input: ApiInput<DelInput>) {
+  del(input: UserApiInput<DelInput>) {
     logApiPost('del', input)
     return del(this.ms, this.ef, input)
   }
