@@ -7,7 +7,7 @@
   "types": "lib/index.d.ts",
   "scripts": {
     "prepare": "rimraf lib && rollup -c",
-    "deploy.client": "git add client/out && git commit -m gh-pages && git subtree push --prefix client/out origin gh-pages",
+    "deploy.client": "git add example/web/client/out && git commit -m gh-pages && git subtree push --prefix client/out origin gh-pages",
     "test": "jest --collect-coverage  --silent --verbose -i --ci",
     "test.tsc": "tsc --noEmit",
     "test._full": "DEBUG=yiguana:* jest --verbose -i",
