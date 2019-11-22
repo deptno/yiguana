@@ -1,0 +1,30 @@
+{
+  "name": "yiguana-example-backend",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "deploy": "AWS_PROFILE=yiguana sls deploy",
+    "remove": "AWS_PROFILE=yiguana sls remove",
+    "package": "AWS_PROFILE=yiguana sls package",
+    "log": "AWS_PROFILE=yiguana sls logs -f graphql -t",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "apollo-server-lambda": "^2.9.12"
+  },
+  "devDependencies": {
+    "@babel/plugin-proposal-nullish-coalescing-operator": "^7.4.4",
+    "@babel/plugin-proposal-optional-chaining": "^7.6.0",
+    "babel-loader": "^8.0.6",
+    "serverless": "^1.58.0",
+    "serverless-jetpack": "^0.7.0",
+    "serverless-plugin-typescript": "^1.1.9",
+    "serverless-webpack": "^5.3.1",
+    "ts-node": "^8.5.2",
+    "webpack": "^4.41.2"
+  }
+}
