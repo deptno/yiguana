@@ -36,8 +36,6 @@ export const Editor: FunctionComponent<Props> = props => {
     }
   `)
   useEffect(() => {
-    console.log('data', preSigned)
-
     if (preSigned) {
       const {fields, url} = JSON.parse(preSigned.uploadUrl)
       const formData = new FormData()
@@ -58,16 +56,16 @@ export const Editor: FunctionComponent<Props> = props => {
         .then(response => {
           if (response.status <= 400) {
             editor.insertEmbed(editor.getSelection().index, 'image', imageUrl)
+            return
           }
           return response.text()
         })
         .then(message => {
           if (message) {
             const xml = new window.DOMParser().parseFromString(message, 'text/xml')
-            console.dirxml(xml)
+            alert(xml.all[2]?.innerHTML ?? xml)
           }
         })
-        .catch(e => console.error('error', e))
     }
   }, [preSigned])
   useEffect(() => {
@@ -85,7 +83,10 @@ export const Editor: FunctionComponent<Props> = props => {
     const pw = e.target.elements.pw.value
     const category = e.target.elements.category.value
     const title = e.target.elements.title.value.trim()
-    const content = editor.getText()
+    const content = editor.root.innerHTML
+
+    console.log(editor.getContents())
+    console.log(editor.getText())
 
     if (!member) {
       if (!name) {
@@ -200,8 +201,15 @@ export const Editor: FunctionComponent<Props> = props => {
           />
         </div>
       </div>
-      <div ref={ref}/>
+      <div id="editor" ref={ref} />
       <LineSubmitButton>저장하기</LineSubmitButton>
+      <style jsx>
+        {/* language=css */ `
+            #editor {
+                height: 300px;
+            }
+        `}
+      </style>
     </form>
   )
 }
