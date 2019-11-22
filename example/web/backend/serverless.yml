@@ -1,0 +1,62 @@
+service:
+  name: yiguana-example-backend
+
+provider:
+  name: aws
+  profile: yiguana
+  stage: ${opt:stage, 'dev'}
+  region: ${opt:region, 'ap-northeast-2'}
+  timeout: 6
+  memorySize: 128
+  logRetentionInDays: 14
+  iamRoleStatements:
+    - Effect: Allow
+      Action:
+        - dynamodb:DescribeTable
+        - dynamodb:Query
+        - dynamodb:Scan
+        - dynamodb:GetItem
+        - dynamodb:PutItem
+        - dynamodb:UpdateItem
+        - dynamodb:DeleteItem
+        - dynamodb:BatchGetItem
+        - dynamodb:BatchWriteItem
+        - dynamodb:GetRecords
+        - dynamodb:GetShardIterator
+        - dynamodb:DescribeStream
+        - dynamodb:ListStreams
+      Resource: "arn:aws:dynamodb:ap-northeast-2:*:*"
+    - Effect: Allow
+      Action:
+        - lambda:InvokeFunction
+      Resource: "arn:aws:lambda:ap-northeast-2:*:*"
+    - Effect: Allow
+      Action:
+        - s3:PutObject
+        - s3:GetObject
+        - s3:GetBucketLocation
+        - s3:ListBucket
+        - s3:ListBucketMultipartUploads
+        - s3:ListMultipartUploadParts
+        - s3:AbortMultipartUpload
+        - s3:CreateBucket
+      Resource: "arn:aws:s3:::*"
+
+package:
+  individually: true
+
+plugins:
+  - serverless-webpack
+  - serverless-jetpack
+
+functions:
+  graphql:
+    handler: handler/graphql.default
+    timeout: 15
+    memorySize: 256
+    events:
+      - http:
+          path: graphql
+          method: post
+          cors: true
+          authorizer: aws_iam

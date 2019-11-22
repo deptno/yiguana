@@ -1,5 +1,5 @@
 {
-  "name": "yiguana-e2e",
+  "name": "yiguana-example-frontend",
   "version": "0.0.0",
   "description": "yiguana e2e test",
   "main": "index.js",
