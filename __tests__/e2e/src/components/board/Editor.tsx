@@ -1,15 +1,16 @@
-import React, {FunctionComponent, useContext, useEffect, useMemo, useRef, useState} from 'react'
+import React, {FunctionComponent, useContext, useEffect, useRef, useState} from 'react'
 import * as Q from 'quill'
 import {LineSubmitButton} from './LineSubmitButton'
 import * as R from 'ramda'
 import {getUserName, isMember} from '../../lib/storage/user'
 import {StorageContext} from '../../context/StorageContext'
-import {useMutation} from '@apollo/react-hooks'
+import {useLazyQuery, useMutation} from '@apollo/react-hooks'
 import gql from 'graphql-tag'
 
 export const Editor: FunctionComponent<Props> = props => {
   const ref = useRef()
   const [editor, setEditor] = useState<Q.Quill>()
+  const [file, setFile] = useState<File>()
   const {user} = useContext(StorageContext)
   const [postMutation] = useMutation(gql`
     mutation ($data: PostMutationInput!, $user: NotMemberInput) {
@@ -29,13 +30,63 @@ export const Editor: FunctionComponent<Props> = props => {
       }
     }
   `)
+  const [getUploadUrlQuery, {data: preSigned}] = useLazyQuery(gql`
+    query ($key: String!) {
+      uploadUrl(key: $key)
+    }
+  `)
+  useEffect(() => {
+    if (preSigned) {
+      const {fields, url} = JSON.parse(preSigned.uploadUrl)
+      const formData = new FormData()
+      const imageUrl = [url, fields.key].join('/')
+
+      Object
+        .entries(fields)
+        .forEach(R.apply(formData.append.bind(formData)))
+
+      formData.append('acl', 'public-read')
+      formData.append('content-type', file.type)
+      formData.append('file', file)
+
+      fetch(url, {
+        method: 'post',
+        body: formData,
+      })
+        .then(response => {
+          if (response.status <= 400) {
+            editor.insertEmbed(editor.getSelection().index, 'image', imageUrl)
+            return
+          }
+          return response.text()
+        })
+        .then(message => {
+          if (message) {
+            const xml = new window.DOMParser().parseFromString(message, 'text/xml')
+            alert(xml.all[2]?.innerHTML ?? xml)
+          }
+        })
+    }
+  }, [preSigned])
+  useEffect(() => {
+    if (file) {
+      getUploadUrlQuery({
+        variables: {
+          key: file.name,
+        },
+      })
+    }
+  }, [file])
 
   const save = (e) => {
     const name = e.target.elements.name.value.trim()
     const pw = e.target.elements.pw.value
     const category = e.target.elements.category.value
     const title = e.target.elements.title.value.trim()
-    const content = editor.getText()
+    const content = editor.root.innerHTML
+
+    console.log(editor.getContents())
+    console.log(editor.getText())
 
     if (!member) {
       if (!name) {
@@ -63,14 +114,34 @@ export const Editor: FunctionComponent<Props> = props => {
           content,
         },
         user: userData,
-      }
-    })
-      .catch(alert)
+      },
+    }).catch(alert)
   }
 
   useEffect(() => {
     if (ref.current) {
-      setEditor(new Quill(ref.current, {theme: 'snow'}))
+      const quill = new Quill(ref.current, {
+        theme: 'snow',
+        modules: {
+          toolbar: {
+            container: [['link'], ['image']],
+          },
+        },
+      })
+      const toolbar = quill.getModule('toolbar')
+      toolbar.addHandler('image', function () {
+        const input = document.createElement('input')
+        input.setAttribute('type', 'file')
+        input.click()
+        input.onchange = function (this: HTMLInputElement) {
+          if (this.files.length > 0) {
+            setFile(this.files.item(0))
+          }
+        }
+      })
+
+
+      setEditor(quill)
     }
   }, [ref])
   const member = isMember(user)
@@ -115,7 +186,7 @@ export const Editor: FunctionComponent<Props> = props => {
             </label>
             <div className="pa2 mb2">
               <select name="category">
-                <option value="create-channel">채널등록요청</option>
+                <option value="create_channel">채널등록요청</option>
               </select>
             </div>
           </div>
@@ -130,8 +201,15 @@ export const Editor: FunctionComponent<Props> = props => {
           />
         </div>
       </div>
-      <div ref={ref}/>
+      <div id="editor" ref={ref} />
       <LineSubmitButton>저장하기</LineSubmitButton>
+      <style jsx>
+        {/* language=css */ `
+            #editor {
+                height: 300px;
+            }
+        `}
+      </style>
     </form>
   )
 }

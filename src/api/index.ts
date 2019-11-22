@@ -10,6 +10,7 @@ import {ReplyApi} from './reply'
 import {UserApi} from './user'
 import {MetadataStore} from '../store/dynamodb'
 import {AdministratorApi} from './administrator'
+import {CommonApi} from './common'
 
 export function createApi(params: CreateInput) {
   const {ddbClient, s3Client, bucketName, tableName} = params
@@ -20,6 +21,7 @@ export function createApi(params: CreateInput) {
   const ef = new EntityFactory()
 
   return {
+    common: new CommonApi(metadataStore, contentStore, ef),
     post: new PostApi(metadataStore, contentStore, ef),
     comment: new CommentApi(metadataStore, ef),
     reply: new ReplyApi(metadataStore, ef),

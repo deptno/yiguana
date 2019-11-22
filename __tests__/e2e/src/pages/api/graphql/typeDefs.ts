@@ -15,6 +15,8 @@ export const typeDefs = gql`
     myComments(cursor: String, like: Boolean): CommentList!
     myReportedPosts(cursor: String): PostList!
     myReportedComments(cursor: String): CommentList!
+    
+    uploadUrl(key: String!): String
   }
 
   type PostList {

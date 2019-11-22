@@ -20,7 +20,6 @@ export const BoardItem: FunctionComponent<Props> = props => {
     deletePost({variables: {postId: item.hk}})
   }, [item])
 
-  console.log(item)
   return (
     <Link href="/post/[hk]" as={`/post/${item.hk}`}>
       <div className="lh-copy center flex flex-column items-center nowrap tc ph2 bl br bb b--black-05">

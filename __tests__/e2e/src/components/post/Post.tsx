@@ -87,9 +87,7 @@ export const Post: FunctionComponent<Props> = props => {
       <pre className="debug pa3 pre-wrap overflow-x-scroll f7 bg-black-10 ba b--dashed">
         {JSON.stringify(data, null, 2)}
       </pre>
-      <pre className="pa3 pre-wrap overflow-x-scroll f6">
-        {data.content}
-      </pre>
+      <pre className="pa3 pre-wrap overflow-x-scroll f6" dangerouslySetInnerHTML={{__html: data.content}}/>
       <div className="justify-center mv3 lh-copy flex">
         <a
           className="pa2 link near-black dib white bg-hot-pink mh2 nowrap pointer hover-bg-blue"
