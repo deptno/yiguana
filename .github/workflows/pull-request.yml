@@ -26,6 +26,5 @@ jobs:
       - uses: actions/checkout@v1
       - name: package backend
         run: |
-          ls -al
           cd example/web/backend
           npm run package
