@@ -75,7 +75,7 @@ export const Post: FunctionComponent<Props> = props => {
       </header>
       <div className="ph3 lh-copy flex bg-light-gray hover-bg-light-pink">
           <span>
-           작성자: {user.name}({userId ?? '비회원'})
+           작성자: {user?.name}({userId ?? '비회원'})
           </span>
       </div>
       {editable && (

@@ -19,8 +19,10 @@ export const Comment: FunctionComponent<Props> = props => {
   const [showReporter, setShowReporter] = useState(false)
   const context = useContext(StorageContext)
   const deletable = useMemo(() => {
-    if ('id' in context.user) {
-      return (context.user as Member)?.id === userId
+    if (context.user) {
+      if ('id' in context.user) {
+        return (context.user as Member)?.id === userId
+      }
     }
     return true
   }, [context.user])
