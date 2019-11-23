@@ -3,8 +3,11 @@ import {EntityFactory} from '../../../entity'
 import {Comment} from '../../../entity/comment'
 import * as R from 'ramda'
 import {LikeCommentApiInput} from '../../../type'
+import {logApiUserComment} from '../../../lib/log'
 
 export async function like(store: MetadataStore, ep: EntityFactory, input: LikeInput) {
+  log('like %j', input)
+
   const {data: param, user} = input
   const {data, createdAt} = param
 
@@ -38,3 +41,5 @@ export async function like(store: MetadataStore, ep: EntityFactory, input: LikeI
 }
 
 export type LikeInput = LikeCommentApiInput
+
+const log = logApiUserComment.extend('like')

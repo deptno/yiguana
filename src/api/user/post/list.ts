@@ -2,8 +2,11 @@ import {MetadataStore} from '../../../store/dynamodb'
 import {EntityFactory} from '../../../entity'
 import {PostsByUserIdInput} from '../../../store/dynamodb/posts-by-user-id'
 import {PostsInput} from '../../../store/dynamodb/posts'
+import {logApiUserPost} from '../../../lib/log'
 
 export async function list(store: MetadataStore, ef: EntityFactory, input: ListInput) {
+  log('list %j', input)
+
   if (input.like) {
     return store.postsByUserLike({
       userId: input.userId,
@@ -24,3 +27,5 @@ export type ListInput = PostsInput & {
   like?: boolean
   report?: boolean
 }
+
+const log = logApiUserPost.extend('list')

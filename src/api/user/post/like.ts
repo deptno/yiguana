@@ -1,10 +1,13 @@
 import {MetadataStore} from '../../../store/dynamodb'
 import {EntityFactory} from '../../../entity'
-import {Member} from '../../../entity/user'
 import {Post} from '../../../entity/post'
 import * as R from 'ramda'
+import {LikePostApiInput} from '../../../type'
+import {logApiUserPost} from '../../../lib/log'
 
 export async function like(store: MetadataStore, ep: EntityFactory, input: LikeInput) {
+  log('like %j', input)
+
   const {data: {data, createdAt}, user} = input
   if (!user) {
     throw new Error('user is required')
@@ -37,10 +40,6 @@ export async function like(store: MetadataStore, ep: EntityFactory, input: LikeI
     .then<Post>(R.view(R.lensIndex(1)))
 }
 
-export type LikeInput = {
-  data: {
-    data: Post
-    createdAt: string
-  }
-  user: Member
-}
+export type LikeInput = LikePostApiInput
+
+const log = logApiUserPost.extend('like')

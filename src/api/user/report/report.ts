@@ -1,8 +1,11 @@
 import {MetadataStore} from '../../../store/dynamodb'
-import {Post, Comment, EntityFactory} from '../../../entity'
-import {Member} from '../../../entity/user'
+import {EntityFactory} from '../../../entity'
+import {ReportApiInput} from '../../../type'
+import {logApiUserReply} from '../../../lib/log'
 
 export async function report(store: MetadataStore, ef: EntityFactory, input: ReportInput) {
+  log('report %j', input)
+
   const {data: {content, data, createdAt}, user} = input
   if (!user) {
     throw new Error('user is required')
@@ -27,11 +30,6 @@ export async function report(store: MetadataStore, ef: EntityFactory, input: Rep
   }
 }
 
-export type ReportInput = {
-  data: {
-    content: string
-    data: Post|Comment
-    createdAt: string
-  }
-  user: Member
-}
+export type ReportInput = ReportApiInput
+
+const log = logApiUserReply.extend('report')
