@@ -187,7 +187,20 @@ resource aws_cloudfront_distribution fe {
     ssl_support_method       = "sni-only"
   }
 }
+resource aws_route53_record a {
+  zone_id = data.aws_route53_zone.domain.zone_id
+  name = local.domain
+  type = "A"
+  alias {
+    name                   = aws_cloudfront_distribution.fe.domain_name
+    zone_id                = aws_cloudfront_distribution.fe.hosted_zone_id
+    evaluate_target_health = false
+  }
+}
 
+data aws_route53_zone domain {
+  name = "googit.co"
+}
 data aws_acm_certificate cert {
   domain   = "googit.co"
   provider = aws.virginia
