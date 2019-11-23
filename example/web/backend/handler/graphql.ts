@@ -16,4 +16,9 @@ const apolloServer = new ApolloServer({
   introspection: true,
 })
 
-export default apolloServer.createHandler()
+export default apolloServer.createHandler({
+  cors: {
+    origin: '*',
+    credentials: true
+  }
+})

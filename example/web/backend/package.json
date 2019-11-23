@@ -5,6 +5,7 @@
   "main": "index.js",
   "scripts": {
     "deploy": "AWS_PROFILE=yiguana sls deploy",
+    "deploy.f.graphql": "AWS_PROFILE=yiguana sls deploy -f graphql",
     "remove": "AWS_PROFILE=yiguana sls remove",
     "package": "AWS_PROFILE=yiguana sls package",
     "info": "AWS_PROFILE=yiguana sls info",
