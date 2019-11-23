@@ -1,0 +1,14 @@
+{
+  "name": "yiguana-example-terraform",
+  "version": "0.0.0",
+  "description": "yiguana e2e test",
+  "main": "index.js",
+  "scripts": {
+    "terraform.init": "AWS_PROFILE=yiguana terraform init",
+    "terraform.plan": "AWS_PROFILE=yiguana terraform plan -out=plan.out",
+    "terraform.apply": "AWS_PROFILE=yiguana terraform apply plan.out",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Bonggyun Lee<deptno@gmail.com>",
+  "private": true
+}
