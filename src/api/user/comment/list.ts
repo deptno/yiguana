@@ -1,8 +1,11 @@
 import {MetadataStore} from '../../../store/dynamodb'
 import {EntityFactory} from '../../../entity'
 import {CommentsInput} from '../../../store/dynamodb/comments'
+import {logApiUserComment} from '../../../lib/log'
 
 export async function list(store: MetadataStore, ef: EntityFactory, input: ListInput) {
+  log('listG %j', input)
+
   const {userId, like, exclusiveStartKey} = input
 
   if (like) {
@@ -28,3 +31,5 @@ export type ListInput = Pick<CommentsInput, 'exclusiveStartKey'> & {
   like?: boolean
   report?: boolean
 }
+
+const log = logApiUserComment.extend('list')

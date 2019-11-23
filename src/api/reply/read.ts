@@ -1,7 +1,14 @@
 import {MetadataStore} from '../../store/dynamodb'
 import {EntityFactory} from '../../entity'
-import {PostInput} from '../../store/dynamodb/post'
+import {logApiReply} from '../../lib/log'
+import {ApiInput} from '../../type'
+import {YiguanaDocumentHash} from '../../dynamodb'
 
-export async function read(store: MetadataStore, ep: EntityFactory, input: PostInput) {
-  return store.post(input)
+export async function read(store: MetadataStore, ep: EntityFactory, input: ReadInput) {
+  log('read %j', input)
+//  return store.reply(input.data)
 }
+
+export type ReadInput = ApiInput<YiguanaDocumentHash>
+
+const log = logApiReply.extend('read')

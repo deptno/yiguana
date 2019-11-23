@@ -39,9 +39,9 @@ jobs:
           npm run build
           npm run deploy.aws
           cd -
-      - name: deploy backend
-        run: |
-          cd example/web/backend
-          npm ci
-          npm run deploy
-          cd -
+#      - name: deploy backend
+#        run: |
+#          cd example/web/backend
+#          npm ci
+#          npm run deploy
+#          cd -

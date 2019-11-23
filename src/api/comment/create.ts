@@ -1,10 +1,13 @@
 import {MetadataStore} from '../../store/dynamodb'
 import {EntityFactory} from '../../entity'
-import {User} from '../../entity/user'
 import {Comment, CommentUserInput} from '../../entity/comment'
 import {head} from 'ramda'
+import {UserApiInput} from '../../type'
+import {logApiComment} from '../../lib/log'
 
 export async function create(store: MetadataStore, ep: EntityFactory, input: CreateInput) {
+  log('create %j', input)
+
   const comment = ep.createComment(input)
 
   return Promise
@@ -21,7 +24,6 @@ export async function create(store: MetadataStore, ep: EntityFactory, input: Cre
     .then<Comment>(head)
 }
 
-export type CreateInput = {
-  data: CommentUserInput
-  user: User
-}
+export type CreateInput = UserApiInput<CommentUserInput>
+
+const log = logApiComment.extend('create')

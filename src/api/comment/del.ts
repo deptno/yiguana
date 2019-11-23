@@ -1,9 +1,14 @@
 import {MetadataStore} from '../../store/dynamodb'
 import {EntityFactory} from '../../entity'
-import {YiguanaDocumentHash} from '../../dynamodb/yiguana-document'
+import {YiguanaDocumentHash} from '../../dynamodb'
+import {ApiInput} from '../../type'
+import {logApiComment} from '../../lib/log'
 
 export async function del(store: MetadataStore, ep: EntityFactory, input: DelInput) {
-  return store.removeComment(input)
+  log('del %j', input)
+  return store.removeComment({hk: input.data.hk})
 }
 
-export type DelInput = YiguanaDocumentHash
+export type DelInput = ApiInput<YiguanaDocumentHash>
+
+const log = logApiComment.extend('del')

@@ -83,8 +83,7 @@ resource aws_s3_bucket yiguana {
   cors_rule {
     allowed_methods = ["POST"]
     allowed_origins = [
-      "https://yiguana.dev.tubemon.io",
-      "https://dev.tubemon.io",
+      "https://yiguana.dev.googit.co",
       "http://localhost:3000"
     ]
   }

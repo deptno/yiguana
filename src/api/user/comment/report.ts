@@ -1,9 +1,11 @@
 import {MetadataStore} from '../../../store/dynamodb'
 import {EntityFactory} from '../../../entity'
-import {Member} from '../../../entity/user'
-import {Comment} from '../../../entity/comment'
+import {ReportApiInput} from '../../../type'
+import {logApiUserComment} from '../../../lib/log'
 
 export async function report(store: MetadataStore, ef: EntityFactory, input: ReportInput) {
+  log('report %j', input)
+
   // TODO: post 와 내용이 중복되는데 이에 대한 해결 레이어가 필요한지
   const {data: {content, data, createdAt}, user} = input
   if (!user) {
@@ -29,11 +31,6 @@ export async function report(store: MetadataStore, ef: EntityFactory, input: Rep
   }
 }
 
-export type ReportInput = {
-  data: {
-    content: string
-    data: Comment
-    createdAt: string
-  }
-  user: Member
-}
+export type ReportInput = ReportApiInput
+
+const log = logApiUserComment.extend('report')

@@ -3,8 +3,11 @@ import {EntityFactory} from '../../../entity'
 import {EEntity} from '../../../entity/enum'
 import {RepliesByUserIdInput} from '../../../store/dynamodb/replies-by-user-id'
 import {RepliesInput} from '../../../store/dynamodb/replies'
+import {logApiUserReply} from '../../../lib/log'
 
 export async function list(store: MetadataStore, ep: EntityFactory, input: ListInput) {
+  log('list %j', input)
+
   if ('like' in input) {
     return store.repliesByUserLike({
       userId: input.userId,
@@ -18,3 +21,5 @@ export type ListInput = RepliesInput | {
   userId: string
   like?: boolean
 }
+
+const log = logApiUserReply.extend('list')

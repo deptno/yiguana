@@ -7,6 +7,7 @@
     "start": "AWS_PROFILE=yiguana DEBUG=yiguana:* next",
     "build": "graphql_endpoint=https://kawnp67nw0.execute-api.ap-northeast-2.amazonaws.com/dev/api/graphql next build && next export && touch out/nojekyll",
     "deploy.aws": "aws s3 sync --profile=yiguana out s3://yiguana.dev.googit.co && aws cloudfront --profile=yiguana create-invalidation --distribution-id E23DAC8P4GSUZX --paths \"/*\"",
+    "test.tsc": "tsc --noEmit",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "Bonggyun Lee<deptno@gmail.com>",
