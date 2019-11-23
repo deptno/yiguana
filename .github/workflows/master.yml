@@ -28,14 +28,18 @@ jobs:
         env:
           AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
           AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-      - name: deploy frontend
+      - name: build yiguana
         run: |
           npm ci
           npm run prepare
+      - name: get cloudfront id
+        run: |
           cd example/web/terraform
           terraform output -json cloudfront_frontend | export CF_FE_ID=$(jq '.value')
           cd -
-          cd example/web/terraform
+      - name: deploy frontend
+        run: |
+          cd example/web/frontend
           npm ci
           npm run build
           npm run deploy.aws
