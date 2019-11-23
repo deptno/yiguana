@@ -268,8 +268,9 @@ describe('unit', function () {
           it('포스트 삭제 -> 코멘트 삭제', async () => {
             console.log('포스트 삭제')
             const {items: beforePost} = await posts(opDdb, {})
-            const isDeletedPost = await removePost(opDdb, {hk: commentedPost.hk})
-            expect(isDeletedPost).toEqual(true)
+            const removedPost = await removePost(opDdb, {hk: commentedPost.hk})
+            expect(removedPost).toBeDefined()
+            expect(removedPost.hk).toEqual(commentedPost.hk)
 
             const {items: afterPost} = await posts(opDdb, {})
             expect(afterPost.length).toEqual(beforePost.length - 1)
