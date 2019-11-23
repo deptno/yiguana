@@ -82,10 +82,7 @@ resource aws_s3_bucket yiguana {
   acl = "private"
   cors_rule {
     allowed_methods = ["POST"]
-    allowed_origins = [
-      "https://yiguana.dev.googit.co",
-      "http://localhost:3000"
-    ]
+    allowed_origins = ["https://yiguana.dev.googit.co", "http://localhost:3000"]
   }
 }
 resource aws_s3_bucket fe {
