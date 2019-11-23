@@ -16,7 +16,7 @@ jobs:
     steps:
       - name: build frontend
         run: |
-          ls
+          ls -al
           cd example/web/frontend
           npm ci
           npm run build
@@ -25,6 +25,6 @@ jobs:
     steps:
       - name: package backend
         run: |
-          ls
+          ls -al
           cd example/web/backend
           npm run package
