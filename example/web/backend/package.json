@@ -22,6 +22,7 @@
     "@babel/plugin-proposal-optional-chaining": "^7.6.0",
     "@babel/preset-env": "^7.7.4",
     "@babel/preset-typescript": "^7.7.4",
+    "apollo-server-errors": "^2.3.4",
     "babel-loader": "^8.0.6",
     "serverless": "^1.58.0",
     "serverless-jetpack": "^0.7.0",
