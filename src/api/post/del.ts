@@ -4,7 +4,7 @@ import {YiguanaDocumentHash} from '../../dynamodb'
 import {UserApiInput} from '../../type'
 import {logApiPost} from '../../lib/log'
 
-export async function del(store: MetadataStore, ep: EntityFactory, input: DelInput): Promise<boolean> {
+export async function del(store: MetadataStore, ep: EntityFactory, input: DelInput) {
   log('del %j', input)
   return store.removePost({hk: input.data.hk})
 }

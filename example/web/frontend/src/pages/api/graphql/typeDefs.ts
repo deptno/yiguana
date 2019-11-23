@@ -95,7 +95,7 @@ export const typeDefs = gql`
     likePost(hk: String!): Post
     likeComment(hk: String!): Comment
     
-    deletePost(postId: String!): Comment
+    deletePost(postId: String!): Post
     deleteComment(commentId: String!): Comment
   }
   

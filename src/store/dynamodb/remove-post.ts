@@ -1,28 +1,32 @@
 import {DynamoDBInput} from '../../entity/input/dynamodb'
+import {Post} from '../../entity'
+import * as R from 'ramda'
 
-export async function removePost(operator: DynamoDBInput, params: RemovePostInput) {
+export function removePost(operator: DynamoDBInput, params: RemovePostInput) {
   const {dynamodb, tableName} = operator
   const {hk} = params
   const rk = 'post'
-  // FIXME: update 삭제
-  const response = await dynamodb.update({
-    ReturnConsumedCapacity: 'TOTAL',
-    TableName             : tableName,
-    Key                   : {
-      hk,
-      rk
-    },
-    UpdateExpression: [
-      'SET dCategory = category, deleted = :d',
-      'REMOVE category, posts',
-    ].join(' '),
-    ExpressionAttributeValues: {
-      ':d': true
-    }
-  })
-  return Boolean(response)
+
+  return dynamodb
+    .update({
+      TableName: tableName,
+      Key: {
+        hk,
+        rk,
+      },
+      UpdateExpression: [
+        'SET dCategory = category, deleted = :d',
+        'REMOVE category, posts',
+      ].join(' '),
+      ExpressionAttributeValues: {
+        ':d': true,
+      },
+      ReturnConsumedCapacity: 'TOTAL',
+      ReturnValues: 'ALL_NEW',
+    })
+    .then<Post>(R.prop('Attributes'))
 }
-// TODO: {data: ... } 형식으로 변환
+
 export type RemovePostInput = {
   hk: string
 }
