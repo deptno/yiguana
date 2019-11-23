@@ -6,6 +6,7 @@
   "scripts": {
     "start": "AWS_PROFILE=yiguana DEBUG=yiguana:* next",
     "build": "next build && next export && touch out/nojekyll",
+    "deploy.aws": "aws s3 sync --profile=googit out s3://yiguana.dev.googit.co && aws cloudfront --profile=googit create-invalidation --distribution-id $(CF_FE_ID) --paths \"/*\"",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "Bonggyun Lee<deptno@gmail.com>",

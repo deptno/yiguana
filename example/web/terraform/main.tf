@@ -204,7 +204,7 @@ provider aws {
 }
 
 locals {
-  domain = 'yiguana.dev.googit.co'
+  domain = "yiguana.dev.googit.co"
 }
 
 output dynamodb {
@@ -212,4 +212,7 @@ output dynamodb {
 }
 output s3 {
   value = aws_s3_bucket.yiguana.bucket
+}
+output cloudfront_frontend {
+  value = aws_cloudfront_distribution.fe.id
 }

@@ -11,3 +11,18 @@ jobs:
       - run: npm ci
       - run: npm run test.tsc
       - run: npm test
+  deploy_frontend:
+    runs-on: ubuntu-latest
+    steps:
+      - name: build frontend
+        run: |
+          cd example/web/frontend
+          npm ci
+          npm run build
+  backend:
+    runs-on: ubuntu-latest
+    steps:
+      - name: package backend
+        run: |
+          cd example/web/backend
+          npm run package
