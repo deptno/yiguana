@@ -11,20 +11,19 @@ jobs:
       - run: npm ci
       - run: npm run test.tsc
       - run: npm test
-  deploy_frontend:
+  build_frontend:
     runs-on: ubuntu-latest
     steps:
+      - uses: actions/checkout@v1
       - name: build frontend
         run: |
-          pwd
-          ls -al ..
-          ls -al
           cd example/web/frontend
           npm ci
           npm run build
-  backend:
+  build_backend:
     runs-on: ubuntu-latest
     steps:
+      - uses: actions/checkout@v1
       - name: package backend
         run: |
           ls -al

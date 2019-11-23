@@ -17,6 +17,7 @@ jobs:
   deploy_frontend:
     runs-on: ubuntu-latest
     steps:
+      - uses: actions/checkout@v1
       - name: set AWS credentials
         run: |
           aws configure set region ap-northeast-2
@@ -38,6 +39,7 @@ jobs:
   deploy_backend:
     runs-on: ubuntu-latest
     steps:
+      - uses: actions/checkout@v1
       - name: set AWS credentials
         run: |
           aws configure set region ap-northeast-2
