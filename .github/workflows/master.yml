@@ -42,5 +42,6 @@ jobs:
       - name: deploy backend
         run: |
           cd example/web/backend
+          npm ci
           npm run deploy
           cd -
