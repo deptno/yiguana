@@ -14,7 +14,8 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "apollo-server-lambda": "^2.9.12"
+    "apollo-server-lambda": "^2.9.12",
+    "graphql-tag": "^2.10.1"
   },
   "devDependencies": {
     "@babel/core": "^7.7.4",
