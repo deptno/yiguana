@@ -32,13 +32,11 @@ jobs:
         run: |
           npm ci
           npm run prepare
-      - name: get cloudfront id
+      - name: deploy frontend
         run: |
           cd example/web/terraform
           terraform output -json cloudfront_frontend | export CF_FE_ID=$(jq '.value')
           cd -
-      - name: deploy frontend
-        run: |
           cd example/web/frontend
           npm ci
           npm run build
