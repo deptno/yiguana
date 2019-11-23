@@ -18,6 +18,8 @@ jobs:
       - uses: actions/checkout@v1
       - name: build frontend
         run: |
+          npm ci
+          npm run prepare
           cd example/web/frontend
           npm ci
           npm run build
@@ -27,6 +29,8 @@ jobs:
       - uses: actions/checkout@v1
       - name: package backend
         run: |
+          npm ci
+          npm run prepare
           cd example/web/backend
           npm ci
           npm run package
