@@ -16,6 +16,8 @@ jobs:
     steps:
       - name: build frontend
         run: |
+          pwd
+          ls -al ..
           ls -al
           cd example/web/frontend
           npm ci
