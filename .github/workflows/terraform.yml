@@ -23,7 +23,7 @@ jobs:
           AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
       - name: deploy
         run: |
-          cd __tests__/e2e
+          cd example/web/terraform
           npm run terraform.init
           npm run terraform.plan
           npm run terraform.apply
