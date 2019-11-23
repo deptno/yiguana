@@ -11,3 +11,22 @@ jobs:
       - run: npm ci
       - run: npm run test.tsc
       - run: npm test
+      - run: npm run prepare
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v1
+      - name: build frontend
+        run: |
+          npm ci
+          npm run prepare
+          cd example/web/frontend
+          npm ci
+          npm run build
+          cd -
+      - name: package backend
+        run: |
+          cd example/web/backend
+          npm ci
+          npm run package
+          cd -

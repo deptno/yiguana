@@ -4,8 +4,8 @@ on:
     branches:
       - master
     paths:
-      - '__tests__/e2e/terraform/**'
-
+      - 'example/web/terraform/**'
+      - '.github/workflows/*terraform.yml'
 jobs:
   update-infrastructure:
     runs-on: ubuntu-latest
@@ -23,6 +23,6 @@ jobs:
           AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
       - name: deploy
         run: |
-          cd __tests__/e2e
-          npm run terraform.plan
+          cd example/web/terraform
+          npm run terraform.init
           npm run terraform.apply
