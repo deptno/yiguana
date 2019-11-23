@@ -5,7 +5,7 @@ import {setContext} from 'apollo-link-context'
 import fetch from 'isomorphic-unfetch'
 
 const cache = new InMemoryCache()
-const uri = '/api/graphql'
+const uri = process.env.graphql_endpoint
 const link = setContext((_, {headers}) => {
   const {user} = localStorage
   if (user) {

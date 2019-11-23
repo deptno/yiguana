@@ -56,7 +56,7 @@ functions:
     memorySize: 256
     events:
       - http:
-          path: graphql
+          path: api/graphql
           method: post
           cors: true
 #          authorizer: aws_iam
