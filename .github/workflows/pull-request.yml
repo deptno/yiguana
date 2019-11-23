@@ -11,7 +11,7 @@ jobs:
       - run: npm ci
       - run: npm run test.tsc
       - run: npm test
-      - run: npm prepare
+      - run: npm run prepare
   build_frontend:
     runs-on: ubuntu-latest
     steps:
