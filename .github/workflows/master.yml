@@ -30,6 +30,7 @@ jobs:
           AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
       - name: deploy frontend
         run: |
+          npm ci
           cd example/web/terraform
           terraform output -json cloudfront_frontend | export CF_FE_ID=$(jq '.value')
           cd ../frontend
@@ -52,5 +53,6 @@ jobs:
           AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
       - name: deploy backend
         run: |
+          npm ci
           cd example/web/backend
           npm run deploy
