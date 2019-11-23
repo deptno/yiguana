@@ -6,9 +6,6 @@
   "scripts": {
     "start": "AWS_PROFILE=yiguana DEBUG=yiguana:* next",
     "build": "next build && next export && touch out/nojekyll",
-    "terraform.init": "cd terraform && AWS_PROFILE=yiguana terraform init",
-    "terraform.plan": "cd terraform && AWS_PROFILE=yiguana terraform plan -out=plan.out",
-    "terraform.apply": "cd terraform && AWS_PROFILE=yiguana terraform apply plan.out",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "Bonggyun Lee<deptno@gmail.com>",

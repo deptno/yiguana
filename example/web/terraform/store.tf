@@ -22,7 +22,7 @@ resource aws_s3_bucket state {
 resource aws_s3_bucket log {
   bucket = "yiguana-state-log"
   acl = "log-delivery-write"
-  force_destroy = "false"
+  force_destroy = false
 }
 
 terraform {
