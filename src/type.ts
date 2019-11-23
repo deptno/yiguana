@@ -1,4 +1,4 @@
-import {User} from './entity/user'
+import {User, Comment} from './entity'
 
 export type ApiInput<T> = {
   data: T
