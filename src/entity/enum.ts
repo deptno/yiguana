@@ -5,8 +5,3 @@ export enum EEntity {
   Report = 'report',
   Agg = 'agg',
 }
-export enum EPriority {
-  VeryHigh = 10,
-  High = 30,
-  Normal = 50,
-}

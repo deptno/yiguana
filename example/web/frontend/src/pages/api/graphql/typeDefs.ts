@@ -35,6 +35,7 @@ export const typeDefs = gql`
     createdAt: String
     content: String
     userId: String
+    cover: String
 
     dCategory: String
     deleted: Boolean
@@ -101,7 +102,10 @@ export const typeDefs = gql`
   
   ### input
   input PostMutationInput {
-    category: String!, title: String!, content: String!
+    category: String!
+    title: String!
+    content: String!
+    cover: String
   }
   input CommentMutationInput {
     postId: String!

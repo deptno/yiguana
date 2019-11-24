@@ -54,7 +54,8 @@ export const Editor: FunctionComponent<Props> = props => {
         body: formData,
       })
         .then(response => {
-          if (response.status <= 400) {
+          console.log(response.status)
+          if (response.status < 400) {
             editor.insertEmbed(editor.getSelection().index, 'image', imageUrl)
             return
           }
@@ -83,10 +84,8 @@ export const Editor: FunctionComponent<Props> = props => {
     const pw = e.target.elements.pw.value
     const category = e.target.elements.category.value
     const title = e.target.elements.title.value.trim()
+    const contents = editor.getContents().ops
     const content = editor.root.innerHTML
-
-    console.log(editor.getContents())
-    console.log(editor.getText())
 
     if (!member) {
       if (!name) {
@@ -102,9 +101,23 @@ export const Editor: FunctionComponent<Props> = props => {
       e.target.elements.title.focus()
       return alert('빈 제목')
     }
+    if (contents.length === 0) {
+      editor.focus()
+      return alert('빈 내용')
+    }
+
     const userData = member
       ? undefined
       : {name, pw}
+
+    console.log(editor.getContents())
+    console.log(editor.getText())
+    console.log(editor.getLines())
+
+    const [cover] = contents
+      .map(c => c.insert)
+      .map((insert = {}) => insert['image'])
+      .filter(Boolean)
 
     postMutation({
       variables: {
@@ -112,6 +125,7 @@ export const Editor: FunctionComponent<Props> = props => {
           category,
           title,
           content,
+          cover
         },
         user: userData,
       },
