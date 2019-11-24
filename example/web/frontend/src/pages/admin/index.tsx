@@ -8,7 +8,7 @@ const AdminPage: NextPage<Props> = props => {
   const [reports, setReports] = useState([])
   const {data, error} = useQuery(gql`
     query ($entity: String!, $cursor: String){
-      reports(entity: $entity, cursor: $cursor) {
+      aggReports(entity: $entity, cursor: $cursor) {
         items {
           hk
           rk
@@ -42,11 +42,8 @@ const AdminPage: NextPage<Props> = props => {
   })
 
   useEffect(() => {
-    setReports(data?.reports?.items ?? [])
-    console.log(data?.reports?.items ?? [])
+    setReports(data?.aggReports?.items ?? [])
   }, [data])
-
-  console.log({data})
 
   return (
     <div className="pa3 flex-column">

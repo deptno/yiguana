@@ -9,13 +9,13 @@ export const typeDefs = gql`
     posts(category: Category, cursor: String): PostList!
     post(hk: String!): Post
     comments(postId: String!, cursor: String): CommentList!
-    reports(entity: String, cursor: String): ReportList!
+    aggReports(entity: String!, cursor: String): AggReportList!
 
     myPosts(cursor: String, like: Boolean): PostList!
     myComments(cursor: String, like: Boolean): CommentList!
     myReportedPosts(cursor: String): PostList!
     myReportedComments(cursor: String): CommentList!
-    
+
     uploadUrl(key: String!): String
   }
 
@@ -61,12 +61,12 @@ export const typeDefs = gql`
 
     deleted: Boolean
   }
-  type ReportList {
-    items: [Report]!
+  type AggReportList {
+    items: [AggReport]!
     cursor: String
     firstResult: Boolean
   }
-  type Report {
+  type AggReport {
     hk: String!
     rk: String!
     agg: String!
@@ -95,11 +95,11 @@ export const typeDefs = gql`
 
     likePost(hk: String!): Post
     likeComment(hk: String!): Comment
-    
+
     deletePost(postId: String!): Post
     deleteComment(commentId: String!): Comment
   }
-  
+
   ### input
   input PostMutationInput {
     category: String!

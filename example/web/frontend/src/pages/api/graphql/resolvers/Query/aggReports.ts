@@ -2,11 +2,11 @@ import {GraphQLFieldResolver} from 'graphql'
 import {Context} from '../../types'
 import {EEntity} from '../../../../../../../../../src/entity/enum'
 
-export const reports: GraphQLFieldResolver<any, Context, { entity: EEntity.Post | EEntity.Comment, cursor?: string }> =
+export const aggReports: GraphQLFieldResolver<any, Context, { entity: EEntity.Post | EEntity.Comment, cursor?: string }> =
   (source, args, context) => {
     console.log('reports', args, context.user)
 
-    return context.dataSources.public.reports(args)
+    return context.dataSources.public.aggReports(args)
       .then(response => {
         return {
           ...response,
