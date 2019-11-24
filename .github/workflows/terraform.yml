@@ -25,4 +25,5 @@ jobs:
         run: |
           cd example/web/terraform
           npm run terraform.init
+          npm run terraform.plan
           npm run terraform.apply
