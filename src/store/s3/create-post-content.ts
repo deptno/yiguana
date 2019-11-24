@@ -23,8 +23,8 @@ export async function createPostContentUnSafe(op: S3Input, input: CreatePostCont
     input,
     contentUrl,
   }
-  if (input.images) {
-    postInput.cover = input.images[0]
+  if (input.cover) {
+    postInput.cover = input.cover
   }
 
   return postInput

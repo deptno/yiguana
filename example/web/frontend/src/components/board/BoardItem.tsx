@@ -30,7 +30,12 @@ export const BoardItem: FunctionComponent<Props> = props => {
               ? item.dCategory.split('#')
               : item.category.split('#'))
           }</span>
-          <span className="w-100 pl2 cut-text tl">{item.title}</span>
+          <span className="w-100 pl2 cut-text tl">
+            {item.cover
+              ? <i className="mr2 fas fa-photo-video"/>
+              : <i className="mr2 far fa-newspaper"/>}
+            {item.title}
+          </span>
           <span className="w-10 dn db-ns tc">{item.userId}</span>
           <span className="w-10 dn db-ns">{format(parseISO(item.createdAt), 'MM/dd hh:mm')}</span>
           <span className="w-10 dn db-ns">{item.likes}</span>

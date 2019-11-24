@@ -15,7 +15,7 @@ export const Post: FunctionComponent<Props> = props => {
     return null
   }
   const {user} = useContext(StorageContext)
-  const {hk, rk, title, contentUrl, userId, createdAt, updatedAt, children, views, likes, order} = data
+  const {hk, title, userId, createdAt, updatedAt, views, likes} = data
   const editable = useMemo(() => {
     if (user) {
       if ('id' in user) {
@@ -42,6 +42,7 @@ export const Post: FunctionComponent<Props> = props => {
         title
         views
         userId
+        cover
       }
     }
   `)
@@ -53,12 +54,6 @@ export const Post: FunctionComponent<Props> = props => {
       setPost(liked.likePost)
     }
   }, [liked])
-  const report = () => {
-    api(`/api/post/${hk}/report`, {method: 'post'})
-      .then(R.tap(console.log))
-      .then(setPost)
-      .catch(alert)
-  }
 
   return (
     <main className="b--light-gray bl bb br">
