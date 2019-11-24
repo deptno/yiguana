@@ -7,6 +7,7 @@ export const MentionWriter: FunctionComponent<Props> = props => {
   const {postId, commentId, refUserId, onCreate} = props
   const [content, setContent] = useState('')
   const handleChange = useCallback(R.compose(setContent, R.path(['target', 'value'])), [commentId])
+  const [ref, setRef] = useState(refUserId)
   const [commentMutation] = useMutation(gql`
     mutation ($data: ReplyMutationInput!, $user: NotMemberInput) {
       reply(data: $data, user: $user) {
@@ -30,13 +31,31 @@ export const MentionWriter: FunctionComponent<Props> = props => {
       .catch(alert)
   }
 
+  useEffect(() => {
+    const listener = (e) => {
+      if (content === '') {
+        if (e.keyCode === 8) {
+          setRef('')
+        }
+      }
+    }
+    window.addEventListener('keydown', listener)
+
+    return () => window.removeEventListener('keydown', listener)
+  }, [content])
+
   return (
-    <div className="b--light-gray ba br2 pa3 bg-black-05">
-      <textarea className="pa2 w-100 b--transparent" id="mention" rows={4} placeholder="댓글 내용" onChange={handleChange}>
-       {refUserId}
-      </textarea>
-      <div className="self-end w-100 flex justify-end mt2">
-        <a className="w-100 br1 link pointer db near-black f5 bg-hot-pink ph2 tc nowrap white" onClick={saveComment}>
+    <div className="b--light-gray ba br2 pa2 bg-black-05 flex justify-between items-center">
+      {ref && <span className="bg-gray white br2 pa2 w3 lh-copy">@{refUserId}</span>}
+      <input
+        className="mh2 pa2 w-100 ba b--black br2 bg-white"
+        id="mention"
+        placeholder="댓글 내용"
+        onChange={handleChange}
+        value={content}
+      />
+      <div className="self-end flex justify-end">
+        <a className="w-100 br2 link pointer db near-black f5 bg-hot-pink ph2 tc nowrap white" onClick={saveComment}>
           <span className="pv2 db near-white">등록</span>
         </a>
       </div>
