@@ -50,4 +50,5 @@ export interface Reply extends YiguanaDocument {
   byUser?: string // gsi.rk
   user: Omit<User, 'id'>
   comments: string
+  refUserId?: string // for mention
 }

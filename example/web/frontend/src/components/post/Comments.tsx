@@ -113,6 +113,7 @@ export const Comments: FunctionComponent<Props> = props => {
                       key={commentOrReply.hk}
                       data={commentOrReply as TReply}
                       onLike={like}
+                      onCreate={refetch}
                       onDelete={refetch}
                     />
                   </div>
