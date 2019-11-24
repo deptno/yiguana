@@ -23,7 +23,6 @@ export const BoardItem: FunctionComponent<Props> = props => {
       .catch(alert)
   }, [item])
 
-  console.log(item)
   return (
     <Link href="/post/[hk]" as={`/post/${item.hk}`}>
       <div className="lh-copy center flex flex-column items-center nowrap tc ph2 pv1 bl br bb b--black-05">
