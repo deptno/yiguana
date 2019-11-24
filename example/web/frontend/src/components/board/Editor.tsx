@@ -6,6 +6,7 @@ import {getUserName, isMember} from '../../lib/storage/user'
 import {StorageContext} from '../../context/StorageContext'
 import {useLazyQuery, useMutation} from '@apollo/react-hooks'
 import gql from 'graphql-tag'
+import Router from 'next/router'
 
 export const Editor: FunctionComponent<Props> = props => {
   const ref = useRef()
@@ -129,7 +130,9 @@ export const Editor: FunctionComponent<Props> = props => {
         },
         user: userData,
       },
-    }).catch(alert)
+    })
+      .then(() => Router.push('/'))
+      .catch(alert)
   }
 
   useEffect(() => {

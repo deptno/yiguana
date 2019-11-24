@@ -12,30 +12,30 @@ const MyPage: NextPage<Props> = props => {
     <div className="pa3 flex-column">
       내가 공감한
       <div className="flex-l">
-        <div className="w-100">
+        <div className="w-100 ph2-l">
           <UserLikePosts/>
         </div>
-        <div className="w-100">
+        <div className="w-100 ph2-l">
           <UserLikeComments/>
         </div>
       </div>
       <hr/>
       내가 작성한
       <div className="flex-l">
-        <div className="w-100">
+        <div className="w-100 ph2-l">
           <UserPosts/>
         </div>
-        <div className="w-100">
+        <div className="w-100 ph2-l">
           <UserComments/>
         </div>
       </div>
       <hr/>
       내가 신고한
       <div className="flex-l">
-        <div className="w-100">
+        <div className="w-100 ph2-l">
           <UserReportedPosts/>
         </div>
-        <div className="w-100">
+        <div className="w-100 ph2-l">
           <UserReportedComments/>
         </div>
       </div>

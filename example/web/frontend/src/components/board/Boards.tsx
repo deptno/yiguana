@@ -37,24 +37,18 @@ export const Boards: FunctionComponent<Props> = props => {
   useEffect(fetch, [category])
 
   return (
-    <div className="">
-      {boards.map(b => (
-        <label className="w4" key={b.category}>
-          <input
-            className="mr1"
-            type="radio"
-            value={b.category}
-            onChange={handleCategoryChange}
-            checked={category === b.category}
-          />
-          <span>{b.name}</span>
-        </label>
-      ))}
-
+    <div className="flex flex-column">
+      카테고리
+      <select className="mb3" value={category} onChange={handleCategoryChange}>
+        {boards.map(b => <option key={b.category} value={b.category}>{b.name}</option>)}
+      </select>
       <div className="pl0 flex-column justify-center items-center list mv0">
         <CategoryBoard category={category} items={items}/>
         <LineButton onClick={fetch}>{buttonText}</LineButton>
       </div>
+      <a href="/post" className="ml-auto link bg-white ba br2 mv2 pa2 black">
+        글 작성
+      </a>
     </div>
   )
 }
