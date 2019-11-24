@@ -170,6 +170,9 @@ export const Editor: FunctionComponent<Props> = props => {
             input[type="text"]:disabled, input[type="password"]:disabled {
                 background: #dddddd;
             }
+            .ql-container {
+              font-size: 16px;
+            }
         `}
       </style>
       <h3>{getUserName()}</h3>

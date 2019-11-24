@@ -20,7 +20,6 @@ export function increaseReportAgg(operator: DynamoDBInput, params: IncreaseRepor
           agg: EEntity.Agg,
           type: EEntity.Report,
           target: data.rk as EEntity.Post|EEntity.Comment,
-          userId,
         }),
       },
       UpdateExpression: 'SET #c = if_not_exists(#c, :c), #v = if_not_exists(#v, :z) + :v, #a = :a, #r = :r, #d = :d',

@@ -36,6 +36,7 @@ export const typeDefs = gql`
     content: String
     userId: String
     cover: String
+    user: User!
 
     dCategory: String
     deleted: Boolean
@@ -53,9 +54,9 @@ export const typeDefs = gql`
     userId: String
     createdAt: String
     updatedAt: String
-    children: Int
-    likes: Int
-    user: User
+    children: Int!
+    likes: Int!
+    user: User!
     commentId: String
 
     deleted: Boolean
@@ -71,9 +72,8 @@ export const typeDefs = gql`
     agg: String!
     reports: String!
     reported: Int!
-    data: Reportable
+    data: Post
   }
-  union Reportable = Post|Comment
   type User {
     ip: String!
     name: String!

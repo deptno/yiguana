@@ -2,20 +2,11 @@ import React, {useEffect, useState} from 'react'
 import {NextPage} from 'next'
 import {useQuery} from '@apollo/react-hooks'
 import gql from 'graphql-tag'
+import {BoardItem} from '../../components/board/BoardItem'
 
 const AdminPage: NextPage<Props> = props => {
   const [reports, setReports] = useState([])
   const {data, error} = useQuery(gql`
-    fragment A on Reportable {
-      ... on Post {
-        hk
-        content: title
-      }
-      ... on Comment {
-        hk
-        content
-      }
-    }
     query ($entity: String!, $cursor: String){
       reports(entity: $entity, cursor: $cursor) {
         items {
@@ -25,7 +16,19 @@ const AdminPage: NextPage<Props> = props => {
           reports
           reported
           data {
-            ...A
+            hk
+            rk
+            title
+            likes
+            views
+            children
+            category
+            createdAt
+            userId
+            cover
+
+            dCategory
+            deleted
           }
         }
         cursor
@@ -43,18 +46,26 @@ const AdminPage: NextPage<Props> = props => {
     console.log(data?.reports?.items ?? [])
   }, [data])
 
+  console.log({data})
+
   return (
     <div className="pa3 flex-column">
       신고받은 게시물들
-      {reports.map(x => {
+      {reports.map((rp, no) => {
         return (
-          <div key={x.hk} className="flex justify-between">
-            <span>{x.hk}</span>
-            <span>{x.rk}</span>
-            <span>{x.agg}</span>
-            <span>{x.reports}</span>
-            <span>{x.reported}</span>
-            <span>{x.data.content}</span>
+          <div key={rp.hk} className="flex flex-column pt1 ph2 pb2 ba">
+            <div className="lh-copy flex w-100 pointer mv0 pv0 lh-copy nowrap justify-between">
+              <span className="w3 dn db-ns">신고자: <i className="far fa-user-circle bg-black white pa1 br2"/> {rp.rk?.split('#')[3]}</span>
+              <span className="w3 dn db-ns">{rp.agg}</span>
+              <span className="w3 dn db-ns">{rp.reported}</span>
+              <span className="w3 dn db-ns">{rp.data.content}</span>
+            </div>
+            <div className="flex-auto">
+              <BoardItem item={rp.data} no={no} onDelete={console.log}/>
+            </div>
+            <pre className="debug pa3 pre-wrap overflow-x-scroll f7 bg-black-10 ba b--dashed">
+              {JSON.stringify(rp, null, 2)}
+            </pre>
           </div>
         )
       })}

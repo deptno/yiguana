@@ -21,13 +21,12 @@ export const keys = {
         userId: v => v
       }
     ),
-    agg: createKey<{agg: EEntity.Agg, type: EEntity.Report, target: Omit<EEntity, EEntity.Like|EEntity.Report>, userId: string}>(
-      ['agg', 'type', 'target', 'userId'],
+    agg: createKey<{agg: EEntity.Agg, type: EEntity.Report, target: Omit<EEntity, EEntity.Like|EEntity.Report>}>(
+      ['agg', 'type', 'target'],
       {
         agg: v => v,
         type: v => v,
         target: v => v,
-        userId: v => v,
       }
     ),
   },
