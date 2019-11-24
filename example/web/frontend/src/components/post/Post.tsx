@@ -12,7 +12,8 @@ import Router from 'next/router'
 export const Post: FunctionComponent<Props> = props => {
   const {data, setPost} = props
   const {user} = useContext(StorageContext)
-  const {hk, title, userId, createdAt, updatedAt, views, likes, content} = data ?? {}
+  const {hk, title, userId, createdAt, updatedAt, views, likes: originalLikes, content} = data ?? {}
+  const [likes, setLikes] = useState(originalLikes)
   const lastModifiedAt = updatedAt || createdAt
   const datetime = lastModifiedAt && formatDistanceToNow(parseISO(lastModifiedAt), {locale})
   const editable = useMemo(() => {
@@ -60,7 +61,7 @@ export const Post: FunctionComponent<Props> = props => {
   const like = () => likeMutation({variables: {hk}}).catch(alert)
   useEffect(() => {
     if (liked) {
-      setPost(liked.likePost)
+      setLikes(liked.likePost.likes)
     }
   }, [liked])
 
@@ -115,38 +116,40 @@ type Props = {
 }
 
 const CircleLoading = props => (
-    <div className="lds-circle">
-      <style jsx>{ /* language=css */ `
-.lds-circle {
-  display: inline-block;
-  transform: translateZ(1px);
-}
-.lds-circle > div {
-  display: inline-block;
-  width: 64px;
-  height: 64px;
-  margin: 8px;
-  border-radius: 50%;
-  animation: lds-circle 2.4s cubic-bezier(0, 0.2, 0.8, 1) infinite;
-}
-@keyframes lds-circle {
-  0%, 100% {
-    animation-timing-function: cubic-bezier(0.5, 0, 1, 0.5);
-  }
-  0% {
-    transform: rotateY(0deg);
-  }
-  50% {
-    transform: rotateY(1800deg);
-    animation-timing-function: cubic-bezier(0, 0.5, 0.5, 1);
-  }
-  100% {
-    transform: rotateY(3600deg);
-  }
-}
+  <div className="lds-circle">
+    <style jsx>{ /* language=css */ `
+        .lds-circle {
+            display: inline-block;
+            transform: translateZ(1px);
+        }
 
-      `}
-      </style>
-      <div className="bg-black-10 w-100 tc"/>
-    </div>
+        .lds-circle > div {
+            display: inline-block;
+            width: 64px;
+            height: 64px;
+            margin: 8px;
+            border-radius: 50%;
+            animation: lds-circle 2.4s cubic-bezier(0, 0.2, 0.8, 1) infinite;
+        }
+
+        @keyframes lds-circle {
+            0%, 100% {
+                animation-timing-function: cubic-bezier(0.5, 0, 1, 0.5);
+            }
+            0% {
+                transform: rotateY(0deg);
+            }
+            50% {
+                transform: rotateY(1800deg);
+                animation-timing-function: cubic-bezier(0, 0.5, 0.5, 1);
+            }
+            100% {
+                transform: rotateY(3600deg);
+            }
+        }
+
+    `}
+    </style>
+    <div className="bg-black-10 w-100 tc"/>
+  </div>
 )
