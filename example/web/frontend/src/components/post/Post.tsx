@@ -64,6 +64,11 @@ export const Post: FunctionComponent<Props> = props => {
       setLikes(liked.likePost.likes)
     }
   }, [liked])
+  useEffect(() => {
+    if (data) {
+      setLikes(data.likes)
+    }
+  }, [data])
 
   return (
     <main className="b--light-gray bl bb br">
