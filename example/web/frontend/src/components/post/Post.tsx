@@ -84,16 +84,13 @@ export const Post: FunctionComponent<Props> = props => {
       <pre className="pa3 pre-wrap overflow-x-scroll f6" dangerouslySetInnerHTML={{__html: data.content}}/>
       <div className="justify-center mv3 lh-copy flex">
         <a
-          className="pa2 link near-black dib white bg-hot-pink mh2 nowrap pointer hover-bg-blue"
+          className="pa2 br2 link near-black dib black ba b--black-10 black-20 mh2 nowrap pointer hover-bg-blue"
           onClick={() => setShowBr(!showBr)}
         >
-          <span className="ml2">신고</span>
+          신고
         </a>
-        <a className="pa2 link near-black dib white bg-hot-pink mh2 nowrap pointer hover-bg-blue" onClick={like}>
-          <span className="ml2">공감 {likes}</span>
-        </a>
-        <a className="pa2 link near-black dib white bg-hot-pink mh2 nowrap w-auto pointer hover-bg-blue">
-          <span className="dn di-ns ml2">스크랩 (미구현)</span>
+        <a className="pa2 br2 link near-black dib white bg-hot-pink mh2 nowrap pointer hover-bg-blue" onClick={like}>
+          <span>공감 {likes}</span>
         </a>
       </div>
       {showBr && <BlockRequest data={R.pick(['hk', 'rk'], data)}/>}
