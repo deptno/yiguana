@@ -66,10 +66,9 @@ export const Post: FunctionComponent<Props> = props => {
 
   return (
     <main className="b--light-gray bl bb br">
+      <div className="lds-dual-ring"/>
       <header className="ph3 pv2 flex b--hot-pink bt bw1 items-center">
-        <h1 className="ma0 f3">
-          {title}
-        </h1>
+        <h1 className="ma0 f3">{title}</h1>
         <span className="ml-auto">
           <i className="far fa-eye mh1"/> {views}
           .
@@ -88,6 +87,7 @@ export const Post: FunctionComponent<Props> = props => {
           <a className="ph2 br2 bg-white black link pointer" onClick={del}><i className="far fa-trash-alt"/> 삭제하기</a>
         </div>
       )}
+      {!data && <CircleLoading/>}
       <pre className="debug pa3 pre-wrap overflow-x-scroll f7 bg-black-10 ba b--dashed">
         {JSON.stringify(data, null, 2)}
       </pre>
@@ -104,6 +104,7 @@ export const Post: FunctionComponent<Props> = props => {
         </a>
       </div>
       {showBr && <BlockRequest data={R.pick(['hk', 'rk'], data)}/>}
+
     </main>
   )
 }
@@ -112,3 +113,40 @@ type Props = {
   data: TPost
   setPost(post: TPost): void
 }
+
+const CircleLoading = props => (
+    <div className="lds-circle">
+      <style jsx>{ /* language=css */ `
+.lds-circle {
+  display: inline-block;
+  transform: translateZ(1px);
+}
+.lds-circle > div {
+  display: inline-block;
+  width: 64px;
+  height: 64px;
+  margin: 8px;
+  border-radius: 50%;
+  animation: lds-circle 2.4s cubic-bezier(0, 0.2, 0.8, 1) infinite;
+}
+@keyframes lds-circle {
+  0%, 100% {
+    animation-timing-function: cubic-bezier(0.5, 0, 1, 0.5);
+  }
+  0% {
+    transform: rotateY(0deg);
+  }
+  50% {
+    transform: rotateY(1800deg);
+    animation-timing-function: cubic-bezier(0, 0.5, 0.5, 1);
+  }
+  100% {
+    transform: rotateY(3600deg);
+  }
+}
+
+      `}
+      </style>
+      <div className="bg-black-10 w-100 tc"/>
+    </div>
+)
