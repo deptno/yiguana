@@ -11,7 +11,7 @@ export const BoardItemHeader: FunctionComponent<{}> = props => {
         <span className="w-20 dn db-ns">
           <i className="fas fa-cat"/>
         </span>
-        <span className="w-100 w-50-ns flex-grow-1 pl2 cut-text">
+        <span className="w-100 w-50-ns w-50 flex-grow-1 pl2 cut-text">
           <i className="far fa-newspaper"/>
         </span>
         <span className="w-10 dn db-ns">
@@ -28,6 +28,9 @@ export const BoardItemHeader: FunctionComponent<{}> = props => {
         </span>
         <span className="w4 dn db-ns">
           <i className="far fa-clock"/>
+        </span>
+        <span className="w-10">
+          <i className="fas fa-ellipsis-h"/>
         </span>
       </li>
     </>

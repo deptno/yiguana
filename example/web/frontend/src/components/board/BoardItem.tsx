@@ -42,7 +42,7 @@ export const BoardItem: FunctionComponent<Props> = props => {
           <span className="w3 dn db-ns">{item.views}</span>
           <span className="w3">{item.children}</span>
           <span className="w4 dn db-ns">{format(parseISO(item.createdAt), 'MM/dd hh:mm')}</span>
-          {/*<span className="w-10 bg-black-05 hover-bg-black hover-yellow" onClick={del}>삭제</span>*/}
+          <span className="w-10 bg-black-05 hover-bg-black hover-yellow" onClick={del}>삭제</span>
         </div>
       </div>
     </Link>

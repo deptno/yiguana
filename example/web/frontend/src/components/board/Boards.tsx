@@ -39,8 +39,7 @@ export const Boards: FunctionComponent<Props> = props => {
 
   return (
     <div className="flex flex-column">
-      카테고리
-      <select className="mb3" value={category} onChange={handleCategoryChange}>
+      <select className="mb3 bg-black-05" value={category} onChange={handleCategoryChange}>
         {boards.map(b => <option key={b.category} value={b.category}>{b.name}</option>)}
       </select>
       <div className="pl0 flex-column justify-center items-center list mv0">
@@ -55,7 +54,7 @@ export const Boards: FunctionComponent<Props> = props => {
 }
 
 const boards = [
-  {category: '', name: '전체'},
+  {category: '', name: '전체 카테고리'},
   {category: 'news', name: '뉴스'},
   {category: 'create_channel', name: '채널 생성 요청'},
   {category: 'user', name: '유저'},

@@ -10,11 +10,10 @@ import gql from 'graphql-tag'
 
 export const Post: FunctionComponent<Props> = props => {
   const {data, setPost} = props
-  if (!data) {
-    return null
-  }
   const {user} = useContext(StorageContext)
-  const {hk, title, userId, createdAt, updatedAt, views, likes} = data
+  const {hk, title, userId, createdAt, updatedAt, views, likes, content} = data ?? {}
+  const lastModifiedAt = updatedAt || createdAt
+  const datetime = lastModifiedAt && formatDistanceToNow(parseISO(lastModifiedAt), {locale})
   const editable = useMemo(() => {
     if (user) {
       if ('id' in user) {
@@ -63,7 +62,7 @@ export const Post: FunctionComponent<Props> = props => {
         <span className="ml-auto">
           <i className="far fa-eye mh1"/> {views}
           .
-          <i className="far fa-clock mh1"/> {formatDistanceToNow(parseISO(updatedAt || createdAt), {locale})} 전
+          <i className="far fa-clock mh1"/> {datetime} 전
           .
           </span>
       </header>
@@ -81,7 +80,7 @@ export const Post: FunctionComponent<Props> = props => {
       <pre className="debug pa3 pre-wrap overflow-x-scroll f7 bg-black-10 ba b--dashed">
         {JSON.stringify(data, null, 2)}
       </pre>
-      <pre className="pa3 pre-wrap overflow-x-scroll f6" dangerouslySetInnerHTML={{__html: data.content}}/>
+      <pre className="pa3 pre-wrap overflow-x-scroll f6" dangerouslySetInnerHTML={{__html: content}}/>
       <div className="justify-center mv3 lh-copy flex">
         <a
           className="pa2 br2 link near-black dib black ba b--black-10 black-20 mh2 nowrap pointer hover-bg-blue"
