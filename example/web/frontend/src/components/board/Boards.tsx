@@ -20,6 +20,7 @@ export const Boards: FunctionComponent<Props> = props => {
           views
           createdAt
           cover
+          userId
         }
       }
     }
