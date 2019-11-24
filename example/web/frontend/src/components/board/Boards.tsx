@@ -19,6 +19,7 @@ export const Boards: FunctionComponent<Props> = props => {
           likes
           views
           createdAt
+          cover
         }
       }
     }

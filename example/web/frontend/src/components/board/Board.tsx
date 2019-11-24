@@ -1,7 +1,6 @@
-import React, {FunctionComponent, useCallback, useEffect, useMemo} from 'react'
+import React, {FunctionComponent} from 'react'
 import {BoardItem} from './BoardItem'
 import {BoardItemHeader} from './BoardItemHeader'
-import {LineButton} from './LineButton'
 
 export const Board: FunctionComponent<Props> = props => {
   const {items} = props

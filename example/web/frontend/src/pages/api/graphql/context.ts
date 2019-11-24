@@ -12,9 +12,8 @@ const lambda = event => {
   const {Authorization, authorization = Authorization} = headers
 
   if (authorization) {
-    console.log('authorization', authorization)
     const user = JSON.parse(authorization) as Member
-    console.log('user', user)
+
     return {
       user: {
         ...user,
@@ -24,7 +23,6 @@ const lambda = event => {
   }
 }
 const nextjs = req => {
-  console.log(req)
   const {Authorization, authorization = Authorization} = req.headers
 
   if (authorization) {
