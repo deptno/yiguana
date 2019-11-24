@@ -1,4 +1,4 @@
-import React, {FunctionComponent, useContext, useEffect, useMemo, useState} from 'react'
+import React, {FunctionComponent, useCallback, useContext, useEffect, useMemo, useState} from 'react'
 import locale from 'date-fns/locale/ko'
 import {formatDistanceToNow, parseISO} from 'date-fns'
 import {Post as TPost} from '../../../../../../src/entity/post'
@@ -7,6 +7,7 @@ import {StorageContext} from '../../context/StorageContext'
 import {BlockRequest} from '../BlockRequest'
 import {useMutation} from '@apollo/react-hooks'
 import gql from 'graphql-tag'
+import Router from 'next/router'
 
 export const Post: FunctionComponent<Props> = props => {
   const {data, setPost} = props
@@ -19,12 +20,10 @@ export const Post: FunctionComponent<Props> = props => {
       if ('id' in user) {
         return user.id === userId
       }
-      return true
     }
-    return true
-  }, [user])
+    return false
+  }, [user, userId])
   const [showBr, setShowBr] = useState(false)
-
   const [likeMutation, {data: liked}] = useMutation(gql`
     mutation ($hk: String!) {
       likePost(hk: $hk) {
@@ -44,9 +43,21 @@ export const Post: FunctionComponent<Props> = props => {
       }
     }
   `)
-  const like = () => {
-    likeMutation({variables: {hk}}).catch(console.error)
-  }
+  const [deletePost] = useMutation(gql`
+    mutation ($postId: String!) {
+      deletePost(postId: $postId) {
+        hk
+      }
+    }
+  `)
+  const del = useCallback((e) => {
+    if (hk) {
+      deletePost({variables: {postId: hk}})
+        .then(() => Router.push('/'))
+        .catch(alert)
+    }
+  }, [hk])
+  const like = () => likeMutation({variables: {hk}}).catch(alert)
   useEffect(() => {
     if (liked) {
       setPost(liked.likePost)
@@ -72,9 +83,9 @@ export const Post: FunctionComponent<Props> = props => {
           </span>
       </div>
       {editable && (
-        <div className="ph3 lh-copy bg-gray white tr flex flex-column">
-          <span>수정하기(미구현)</span>
-          <span>삭제하기(미구현)</span>
+        <div className="pa2 lh-copy bg-black-30 white tr flex justify-end items-center">
+          <a className="ph2 br2 bg-white black mh2 pointer" onClick={console.log}><i className="fas fa-pen"/> 수정하기</a>
+          <a className="ph2 br2 bg-white black link pointer" onClick={del}><i className="far fa-trash-alt"/> 삭제하기</a>
         </div>
       )}
       <pre className="debug pa3 pre-wrap overflow-x-scroll f7 bg-black-10 ba b--dashed">

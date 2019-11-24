@@ -5,6 +5,7 @@ import * as R from 'ramda'
 import Link from 'next/link'
 import {useMutation} from '@apollo/react-hooks'
 import gql from 'graphql-tag'
+import Router from 'next/router'
 
 export const BoardItem: FunctionComponent<Props> = props => {
   const {item, no} = props
@@ -18,6 +19,8 @@ export const BoardItem: FunctionComponent<Props> = props => {
   const del = useCallback((e) => {
     e.stopPropagation()
     deletePost({variables: {postId: item.hk}})
+      .then(() => Router.push('/'))
+      .catch(alert)
   }, [item])
 
   console.log(item)
@@ -37,7 +40,11 @@ export const BoardItem: FunctionComponent<Props> = props => {
               : <i className="mr2 far fa-newspaper"/>}
             {item.title}
           </span>
-          <span className="w-10 dn db-ns tc">{item.userId}</span>
+          <span className="w-10 dn db-ns tc">
+            {item.userId
+              ? <span className=""><i className="far fa-user-circle bg-black white pa1 br2"/> {item.userId}</span>
+              : <span className=""><i className="far fa-question-circle bg-black-05 pa1 br2"/> 비회원</span>}
+          </span>
           <span className="w3 dn db-ns">{item.likes}</span>
           <span className="w3 dn db-ns">{item.views}</span>
           <span className="w3">{item.children}</span>
