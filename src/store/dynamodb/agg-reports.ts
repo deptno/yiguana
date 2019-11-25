@@ -1,24 +1,23 @@
 import {DynamoDBInput} from '../../entity/input/dynamodb'
+import {EIndexName} from '../../dynamodb'
 import {EEntity} from '../../entity/enum'
 import {keys} from '../../dynamodb/keys'
 import {ReportAgg} from '../../entity/report/report-agg'
-import {Post, Comment} from '../../entity'
 
-export function reports(operator: DynamoDBInput, params: ReportsInput) {
+export function aggReports(operator: DynamoDBInput, params: AggReportsInput) {
   const {tableName, dynamodb} = operator
-  const {data, exclusiveStartKey} = params
+  const {entity, exclusiveStartKey} = params
   const queryParams = {
     TableName: tableName,
-    KeyConditionExpression: '#h = :h AND #r = :r',
+    IndexName: EIndexName.reports,
+    KeyConditionExpression: '#h = :h',
     ExpressionAttributeNames: {
-      '#h': 'hk',
-      '#r': 'rk',
+      '#h': 'agg',
     },
     ExpressionAttributeValues: {
-      ':h': data.hk,
-      ':r': keys.rk.report.stringify({
-        entity: EEntity.Report,
-        target: data.rk
+      ':h': keys.agg.stringify({
+        type: EEntity.Report,
+        entity
       }),
     },
     ScanIndexForward: false,
@@ -30,7 +29,7 @@ export function reports(operator: DynamoDBInput, params: ReportsInput) {
   return dynamodb.query<ReportAgg>(queryParams)
 }
 
-export type ReportsInput = {
+export type AggReportsInput = {
   exclusiveStartKey?: Exclude<any, string | number>
-  data: Pick<Post|Comment, 'hk'|'rk'>
+  entity: Extract<EEntity, EEntity.Post|EEntity.Comment>
 }

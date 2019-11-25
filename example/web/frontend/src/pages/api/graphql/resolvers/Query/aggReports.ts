@@ -4,7 +4,7 @@ import {EEntity} from '../../../../../../../../../src/entity/enum'
 
 export const aggReports: GraphQLFieldResolver<any, Context, { entity: EEntity.Post | EEntity.Comment, cursor?: string }> =
   (source, args, context) => {
-    console.log('reports', args, context.user)
+    console.log('aggReports', args, context.user)
 
     return context.dataSources.public.aggReports(args)
       .then(response => {

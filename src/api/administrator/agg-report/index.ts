@@ -1,14 +1,14 @@
 import {MetadataStore} from '../../../store/dynamodb'
 import {EntityFactory} from '../../../entity'
+import {AggReportsInput} from '../../../store/dynamodb/agg-reports'
 import {logApiAdminReport} from '../../../lib/log'
-import {ReportsInput} from '../../../store/dynamodb/reports'
 
-export class ReportApi {
+export class AggReportApi {
   constructor(private ms: MetadataStore, private ef: EntityFactory) {
   }
 
-  list(input: ReportsInput) {
+  list(input: AggReportsInput) {
     logApiAdminReport('list', input)
-    return this.ms.reports(input)
+    return this.ms.aggReports(input)
   }
 }
