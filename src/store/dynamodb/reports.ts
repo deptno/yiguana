@@ -1,23 +1,25 @@
 import {DynamoDBInput} from '../../entity/input/dynamodb'
-import {EIndexName} from '../../dynamodb'
 import {EEntity} from '../../entity/enum'
 import {keys} from '../../dynamodb/keys'
-import {ReportAgg} from '../../entity/report/report-agg'
+import {Post, Comment} from '../../entity'
+import * as R from 'ramda'
+import {Report} from '../../entity/report'
 
 export function reports(operator: DynamoDBInput, params: ReportsInput) {
   const {tableName, dynamodb} = operator
-  const {entity, exclusiveStartKey} = params
+  const {data, exclusiveStartKey} = params
   const queryParams = {
     TableName: tableName,
-    IndexName: EIndexName.reports,
-    KeyConditionExpression: '#h = :h',
+    KeyConditionExpression: '#h = :h AND begins_with(#r, :r)',
     ExpressionAttributeNames: {
-      '#h': 'agg',
+      '#h': 'hk',
+      '#r': 'rk',
     },
     ExpressionAttributeValues: {
-      ':h': keys.agg.stringify({
-        type: EEntity.Report,
-        entity
+      ':h': data.hk,
+      ':r': keys.rk.report.stringify({
+        entity: EEntity.Report,
+        target: data.rk
       }),
     },
     ScanIndexForward: false,
@@ -26,10 +28,12 @@ export function reports(operator: DynamoDBInput, params: ReportsInput) {
     Limit: 50
   }
 
-  return dynamodb.query<ReportAgg>(queryParams)
+  console.log(queryParams)
+
+  return dynamodb.query<Report>(queryParams)
 }
 
 export type ReportsInput = {
   exclusiveStartKey?: Exclude<any, string | number>
-  entity: Extract<EEntity, EEntity.Post|EEntity.Comment>
+  data: Pick<Post|Comment, 'hk'|'rk'>
 }

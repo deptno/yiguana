@@ -36,6 +36,7 @@ import {comment, CommentInput} from './comment'
 import {report, ReportInput} from './report'
 import {increaseReportAgg, IncreaseReportAggInput} from './increase-report-agg'
 import {decreaseReportAgg, DecreaseReportAggInput} from './decrease-report-agg'
+import {aggReports, AggReportsInput} from './agg-reports'
 import {reports, ReportsInput} from './reports'
 import {logStoreDdb} from '../../lib/log'
 import {postsByUserReport, PostsByUserReportInput} from './posts-by-user-report'
@@ -218,6 +219,11 @@ export class MetadataStore {
     return getLike(this.operator, input)
   }
 
+  aggReports(input: AggReportsInput) {
+    logStoreDdb('aggReports', input)
+    return aggReports(this.operator, input)
+  }
+
   reports(input: ReportsInput) {
     logStoreDdb('reports', input)
     return reports(this.operator, input)
@@ -242,6 +248,7 @@ export class MetadataStore {
     logStoreDdb('get', input)
     return get(this.operator, input)
   }
+
   remove(input: RemoveInput) {
     logStoreDdb('remove', input)
     return remove(this.operator, input)

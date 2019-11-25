@@ -3,6 +3,7 @@ import {CategoryBoard} from './CategoryBoard'
 import {useLazyQuery} from '@apollo/react-hooks'
 import gql from 'graphql-tag'
 import {LineButton} from './LineButton'
+import Link from 'next/link'
 
 export const Boards: FunctionComponent<Props> = props => {
   const [category, setCategory] = useState<string>('')
@@ -48,9 +49,11 @@ export const Boards: FunctionComponent<Props> = props => {
         <CategoryBoard category={category} items={items}/>
         <LineButton onClick={more}>{buttonText}</LineButton>
       </div>
-      <a href="/post" className="ml-auto link bg-white ba br2 mv2 pa2 black">
-        글 작성
-      </a>
+      <Link href="/post">
+        <a className="ml-auto link bg-white ba br2 mv2 pa2 black">
+          글 작성
+        </a>
+      </Link>
     </div>
   )
 }

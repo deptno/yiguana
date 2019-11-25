@@ -11,7 +11,7 @@ import {addReport} from '../../../../src/store/dynamodb/add-report'
 import {commentsByUserReport} from '../../../../src/store/dynamodb/comments-by-user-report'
 import {removeReport} from '../../../../src/store/dynamodb/remove-report'
 import {increaseReportAgg} from '../../../../src/store/dynamodb/increase-report-agg'
-import {reports} from '../../../../src/store/dynamodb/reports'
+import {aggReports} from '../../../../src/store/dynamodb/agg-reports'
 
 describe('unit', function () {
   describe('store', function () {
@@ -55,8 +55,8 @@ describe('unit', function () {
               expect(count.reported).toEqual(1)
             }
           })
-          it('031. reports() === 1', async () => {
-            const {items} = await reports(opDdb, {entity: EEntity.Post})
+          it('031. aggReports() === 1', async () => {
+            const {items} = await aggReports(opDdb, {entity: EEntity.Post})
             expect(items.length).toEqual(1)
           })
           it('03. postsByUserReport(User(a)) === 1', async () => {
@@ -64,7 +64,7 @@ describe('unit', function () {
             expect(items.length).toEqual(1)
           })
           it('04. User(a)가 Post(0) 신고: 한번더', async () => {
-            const content = 'user a, post 0, 2nd report'
+            const content = 'user a, post 0, 2nd aggReport'
             const report = createReport({
               data: {createdAt, data, content},
               user,
@@ -81,8 +81,8 @@ describe('unit', function () {
               expect(count.reported).toEqual(1)
             }
           })
-          it('051. reports() === 1: 입력 실패로 수 동일', async () => {
-            const {items} = await reports(opDdb, {entity: EEntity.Post})
+          it('051. aggReports() === 1: 입력 실패로 수 동일', async () => {
+            const {items} = await aggReports(opDdb, {entity: EEntity.Post})
             expect(items.length).toEqual(1)
           })
           it('05. postsByUserReport(User(a)) === 1: 입력 실패로 수 동일', async () => {
@@ -107,7 +107,7 @@ describe('unit', function () {
             }
           })
           it('07. User(b)가 Post(0) 신고', async () => {
-            const content = 'user b, post 0, 1st report'
+            const content = 'user b, post 0, 1st aggReport'
             const report = createReport({
               data: {createdAt, data, content},
               user: member_b,
@@ -125,8 +125,8 @@ describe('unit', function () {
             const {items} = await postsByUserReport(opDdb, {userId: member_b.id})
             expect(items.length).toEqual(1)
           })
-          it('091. reports() === 2', async () => {
-            const {items} = await reports(opDdb, {entity: EEntity.Post})
+          it('091. aggReports() === 2', async () => {
+            const {items} = await aggReports(opDdb, {entity: EEntity.Post})
             expect(items.length).toEqual(2)
             const [report, report2] = items
             console.log({report})

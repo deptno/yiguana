@@ -3,6 +3,7 @@ import {NextPage} from 'next'
 import {useQuery} from '@apollo/react-hooks'
 import gql from 'graphql-tag'
 import {BoardItem} from '../../components/board/BoardItem'
+import Link from 'next/link'
 
 const AdminPage: NextPage<Props> = props => {
   const [reports, setReports] = useState([])
@@ -50,20 +51,21 @@ const AdminPage: NextPage<Props> = props => {
       신고받은 게시물들
       {reports.map((rp, no) => {
         return (
-          <div key={rp.hk} className="flex flex-column pt1 ph2 pb2 ba">
-            <div className="lh-copy flex w-100 pointer mv0 pv0 lh-copy nowrap justify-between">
-              <span className="w3 dn db-ns">신고자: <i className="far fa-user-circle bg-black white pa1 br2"/> {rp.rk?.split('#')[3]}</span>
-              <span className="w3 dn db-ns">{rp.agg}</span>
-              <span className="w3 dn db-ns">{rp.reported}</span>
-              <span className="w3 dn db-ns">{rp.data.content}</span>
-            </div>
-            <div className="flex-auto">
-              <BoardItem item={rp.data} no={no} onDelete={console.log}/>
-            </div>
-            <pre className="debug pa3 pre-wrap overflow-x-scroll f7 bg-black-10 ba b--dashed">
+          <Link key={rp.hk} href="/admin/reports/post/[hk]" as={`/admin/reports/post/${rp.hk}`}>
+            <div className="flex flex-column pa2 ba">
+              <div className="lh-copy flex w-100 pointer mv0 pv0 lh-copy nowrap bg-gold pa2">
+                <span className="w3">{rp.agg.split('#')[1].toUpperCase()}</span>
+                <span className="w3">신고수: {rp.reported}</span>
+                <span className="ml-auto">신고 내용 보기 -></span>
+              </div>
+              <div className="flex-auto">
+                <BoardItem item={rp.data} no={no}/>
+              </div>
+              <pre className="debug pa3 pre-wrap overflow-x-scroll f7 bg-black-10 ba b--dashed">
               {JSON.stringify(rp, null, 2)}
             </pre>
-          </div>
+            </div>
+          </Link>
         )
       })}
     </div>

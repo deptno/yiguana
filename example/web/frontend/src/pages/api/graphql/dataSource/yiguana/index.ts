@@ -24,7 +24,13 @@ export class Public extends DataSource {
       .then(postListHook)
   }
 
-  aggReports(args: ListArgument<typeof yiguana.administrator.report.list>) {
+  aggReports(args: ListArgument<typeof yiguana.administrator.aggReport.list>) {
+    return yiguana.administrator.aggReport
+      .list(preListHook(args))
+      .then(postListHook)
+  }
+
+  reports(args: ListArgument<typeof yiguana.administrator.report.list>) {
     return yiguana.administrator.report
       .list(preListHook(args))
       .then(postListHook)
