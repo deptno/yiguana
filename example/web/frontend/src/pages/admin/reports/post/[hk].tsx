@@ -4,7 +4,7 @@ import {useLazyQuery} from '@apollo/react-hooks'
 import gql from 'graphql-tag'
 import {useRouter} from 'next/router'
 import Link from 'next/link'
-import {BoardItem} from '../../../components/board/BoardItem'
+import {BoardItem} from '../../../../components/board/BoardItem'
 
 const ReportsPage: NextPage<Props> = props => {
   const {query: {hk}} = useRouter()
@@ -53,18 +53,17 @@ const ReportsPage: NextPage<Props> = props => {
 
   return (
     <div className="pa3 flex-column">
-      <div className="flex-auto">
-        {data?.post && <BoardItem item={data?.post} no={0} onDelete={console.log}/>}
+      <div className="flex-auto mv2 pa2 bg-gold">
+        {data?.post && <BoardItem item={data?.post} no={0}/>}
       </div>
       신고받은 게시물들
       {data?.reports?.items.map((r, no) => {
         return (
           <Link key={`${r.hk}#${r.userId}`} href="/admin/reports/[hk]" as={`/admin/reports/${r.hk}`}>
-            <div className="flex flex-column pt1 ph2 pb2 ba">
-              <div className="lh-copy flex pointer mv0 pv0 lh-copy nowrap">
-                <span className="w5 dn db-ns">
-                  신고자: <i className="far fa-user-circle bg-black white pa1 br2"/> {r.userId}</span>
-                <span className="w-100 dn db-ns">신고내용: {r.content}</span>
+            <div className="flex flex-column pt1 ph2 pb2 ba mv1">
+              <div className="lh-copy flex pointer mv0 pv0 lh-copy nowrap items-center">
+                <span className="bg-black-05 pa2 mr2"><i className="far fa-user-circle bg-black white pa1 br2"/> {r.userId}</span>
+                <span className="w-100 ws-normal">신고내용: {r.content}</span>
               </div>
               <pre className="debug pa3 pre-wrap overflow-x-scroll f7 bg-black-10 ba b--dashed">
               {JSON.stringify(r, null, 2)}
