@@ -1,15 +1,16 @@
 import {DynamoDBInput} from '../../entity/input/dynamodb'
 import {EEntity} from '../../entity/enum'
 import {keys} from '../../dynamodb/keys'
-import {ReportAgg} from '../../entity/report/report-agg'
 import {Post, Comment} from '../../entity'
+import * as R from 'ramda'
+import {Report} from '../../entity/report'
 
 export function reports(operator: DynamoDBInput, params: ReportsInput) {
   const {tableName, dynamodb} = operator
   const {data, exclusiveStartKey} = params
   const queryParams = {
     TableName: tableName,
-    KeyConditionExpression: '#h = :h AND #r = :r',
+    KeyConditionExpression: '#h = :h AND begins_with(#r, :r)',
     ExpressionAttributeNames: {
       '#h': 'hk',
       '#r': 'rk',
@@ -27,7 +28,9 @@ export function reports(operator: DynamoDBInput, params: ReportsInput) {
     Limit: 50
   }
 
-  return dynamodb.query<ReportAgg>(queryParams)
+  console.log(queryParams)
+
+  return dynamodb.query<Report>(queryParams)
 }
 
 export type ReportsInput = {

@@ -10,6 +10,7 @@ export const typeDefs = gql`
     post(hk: String!): Post
     comments(postId: String!, cursor: String): CommentList!
     aggReports(entity: String!, cursor: String): AggReportList!
+    reports(hk: String!, rk: String!): ReportPostList!
 
     myPosts(cursor: String, like: Boolean): PostList!
     myComments(cursor: String, like: Boolean): CommentList!
@@ -72,6 +73,32 @@ export const typeDefs = gql`
     agg: String!
     reports: String!
     reported: Int!
+    data: Post
+  }
+  type ReportPostList {
+    items: [ReportPost]!
+    cursor: String
+    firstResult: Boolean
+  }
+  type ReportCommentList {
+    items: [ReportComment]!
+    cursor: String
+    firstResult: Boolean
+  }
+  type ReportPost {
+    hk: String!
+    rk: String!
+    userId: String
+    byUser: String
+    content: String!
+    user: User!
+    data: Post
+  }
+  type ReportComment {
+    userId: String
+    byUser: String
+    content: String!
+    user: User!
     data: Post
   }
   type User {
