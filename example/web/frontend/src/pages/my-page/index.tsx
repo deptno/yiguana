@@ -10,31 +10,34 @@ import {UserReportedComments} from '../../components/board/UserReportedComments'
 const MyPage: NextPage<Props> = props => {
   return (
     <div className="pa3 flex-column">
-      <div>
-        내가 공감 표시한 아이템들
-        <UserLikePosts />
-      </div>
-      <div>
-        내가 공감 표시한 코멘트
-        <UserLikeComments/>
-      </div>
-      <hr/>
-      <div>
-        내가 작성한 글들
-        <UserPosts/>
-      </div>
-      <div>
-        내가 작성한 코멘트
-        <UserComments/>
+      내가 공감한
+      <div className="flex-l">
+        <div className="w-100 ph2-l">
+          <UserLikePosts/>
+        </div>
+        <div className="w-100 ph2-l">
+          <UserLikeComments/>
+        </div>
       </div>
       <hr/>
-      <div>
-        내가 신고한 글
-        <UserReportedPosts/>
+      내가 작성한
+      <div className="flex-l">
+        <div className="w-100 ph2-l">
+          <UserPosts/>
+        </div>
+        <div className="w-100 ph2-l">
+          <UserComments/>
+        </div>
       </div>
-      <div>
-        내가 신고한 코멘트
-        <UserReportedComments/>
+      <hr/>
+      내가 신고한
+      <div className="flex-l">
+        <div className="w-100 ph2-l">
+          <UserReportedPosts/>
+        </div>
+        <div className="w-100 ph2-l">
+          <UserReportedComments/>
+        </div>
       </div>
     </div>
   )

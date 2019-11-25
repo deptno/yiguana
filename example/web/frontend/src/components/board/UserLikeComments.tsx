@@ -1,12 +1,13 @@
-import React, {FunctionComponent, useEffect, useMemo} from 'react'
+import React, {FunctionComponent, useContext, useEffect, useMemo} from 'react'
 import {Board} from './Board'
 import {MyComments} from '../post/MyComments'
 import {useLazyQuery} from '@apollo/react-hooks'
 import {LineButton} from './LineButton'
 import gql from 'graphql-tag'
+import {StorageContext} from '../../context/StorageContext'
 
 export const UserLikeComments: FunctionComponent<Props> = props => {
-  const [query, {data}] = useLazyQuery<Q, A>(gql`
+  const [query, {data, refetch}] = useLazyQuery<Q, A>(gql`
     query posts($cursor: String) {
       myComments(cursor: $cursor, like: true) {
         items {
@@ -29,6 +30,7 @@ export const UserLikeComments: FunctionComponent<Props> = props => {
       }
     }
   `)
+  const {user} = useContext(StorageContext)
   const {items = [], cursor} = data?.myComments ?? {}
   const buttonText = useMemo(() => cursor ? '더 보기' : '처음으로', [cursor])
   const fetch = () => {
@@ -36,6 +38,7 @@ export const UserLikeComments: FunctionComponent<Props> = props => {
   }
 
   useEffect(fetch, [cursor])
+  useEffect(() => void (refetch && refetch()), [user])
 
   return (
     <div className="pl0 flex-column justify-center items-center list mv0">

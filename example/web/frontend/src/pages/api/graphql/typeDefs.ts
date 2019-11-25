@@ -9,13 +9,13 @@ export const typeDefs = gql`
     posts(category: Category, cursor: String): PostList!
     post(hk: String!): Post
     comments(postId: String!, cursor: String): CommentList!
-    reports(entity: String, cursor: String): ReportList!
+    aggReports(entity: String!, cursor: String): AggReportList!
 
     myPosts(cursor: String, like: Boolean): PostList!
     myComments(cursor: String, like: Boolean): CommentList!
     myReportedPosts(cursor: String): PostList!
     myReportedComments(cursor: String): CommentList!
-    
+
     uploadUrl(key: String!): String
   }
 
@@ -36,6 +36,7 @@ export const typeDefs = gql`
     content: String
     userId: String
     cover: String
+    user: User!
 
     dCategory: String
     deleted: Boolean
@@ -53,27 +54,26 @@ export const typeDefs = gql`
     userId: String
     createdAt: String
     updatedAt: String
-    children: Int
-    likes: Int
-    user: User
+    children: Int!
+    likes: Int!
+    user: User!
     commentId: String
 
     deleted: Boolean
   }
-  type ReportList {
-    items: [Report]!
+  type AggReportList {
+    items: [AggReport]!
     cursor: String
     firstResult: Boolean
   }
-  type Report {
+  type AggReport {
     hk: String!
     rk: String!
     agg: String!
     reports: String!
     reported: Int!
-    data: Reportable
+    data: Post
   }
-  union Reportable = Post|Comment
   type User {
     ip: String!
     name: String!
@@ -95,11 +95,11 @@ export const typeDefs = gql`
 
     likePost(hk: String!): Post
     likeComment(hk: String!): Comment
-    
+
     deletePost(postId: String!): Post
     deleteComment(commentId: String!): Comment
   }
-  
+
   ### input
   input PostMutationInput {
     category: String!

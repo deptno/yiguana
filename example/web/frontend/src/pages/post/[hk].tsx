@@ -57,7 +57,7 @@ const PostPage: NextPage<Props> = props => {
     <div className="pa3 flex-column">
       <Post data={post} setPost={setPostLikes}/>
       <LineLink href="/">목록으로</LineLink>
-      <Comments postId={postId}/>
+      <Comments postId={postId} count={post?.children}/>
     </div>
   )
 }

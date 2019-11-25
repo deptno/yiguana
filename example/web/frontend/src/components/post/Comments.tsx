@@ -9,7 +9,7 @@ import {useLazyQuery, useMutation} from '@apollo/react-hooks'
 import gql from 'graphql-tag'
 
 export const Comments: FunctionComponent<Props> = props => {
-  const {postId} = props
+  const {postId, count} = props
   const [{items, cursor}, setResponse] = useState({items: [] as (TComment | TReply)[], cursor: undefined})
   const [getCommentsQuery, {data, refetch}] = useLazyQuery(gql`
     query ($postId: String!, $cursor: String) {
@@ -98,7 +98,7 @@ export const Comments: FunctionComponent<Props> = props => {
     <>
       <div className="mh2 mv3 flex flex-column">
         <span className="mb2">
-          <i className="far fa-comment-dots"/>댓글
+          <i className="mh2 far fa-comment-dots"/>댓글 ({Math.max(items.length || count || 0)})
           <small className="mh2">
             <i className="fas fa-sync-alt"/> 새 댓글 확인
           </small>
@@ -140,4 +140,5 @@ export const Comments: FunctionComponent<Props> = props => {
 
 type Props = {
   postId: string
+  count?: number
 }
