@@ -18,7 +18,6 @@ export function decreaseReportAgg(operator: DynamoDBInput, params: DecreaseRepor
         rk: keys.rk.agg.stringify({
           agg: EEntity.Agg,
           type: EEntity.Report,
-          userId,
           target: data.rk // EEntity.Post|EEntity.Comment 인 것이 보장되어야 한다.
         }),
       },

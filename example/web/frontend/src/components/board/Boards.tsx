@@ -6,7 +6,7 @@ import {LineButton} from './LineButton'
 
 export const Boards: FunctionComponent<Props> = props => {
   const [category, setCategory] = useState<string>('')
-  const [query, {data}] = useLazyQuery<Q, A>(gql`
+  const [query, {data, refetch}] = useLazyQuery<Q, A>(gql`
     query posts($category: Category, $cursor: String) {
       posts(category: $category, cursor: $cursor) {
         items {
@@ -20,12 +20,12 @@ export const Boards: FunctionComponent<Props> = props => {
           views
           createdAt
           cover
+          userId
         }
       }
     }
   `)
   const {items = [], cursor} = data?.posts ?? {}
-  const buttonText = useMemo(() => cursor ? '더 보기' : '처음으로', [cursor, category])
   const handleCategoryChange = (e) => setCategory(e.target.value)
   const fetch = () => {
     if (category) {
@@ -33,34 +33,30 @@ export const Boards: FunctionComponent<Props> = props => {
     }
     query()
   }
+  const [buttonText, more] = cursor
+    ? ['더 보기', fetch]
+    : ['새 글 확인', () => refetch()]
 
   useEffect(fetch, [category])
 
   return (
-    <div className="">
-      {boards.map(b => (
-        <label className="w4" key={b.category}>
-          <input
-            className="mr1"
-            type="radio"
-            value={b.category}
-            onChange={handleCategoryChange}
-            checked={category === b.category}
-          />
-          <span>{b.name}</span>
-        </label>
-      ))}
-
+    <div className="flex flex-column">
+      <select className="mb3 bg-black-05" value={category} onChange={handleCategoryChange}>
+        {boards.map(b => <option key={b.category} value={b.category}>{b.name}</option>)}
+      </select>
       <div className="pl0 flex-column justify-center items-center list mv0">
         <CategoryBoard category={category} items={items}/>
-        <LineButton onClick={fetch}>{buttonText}</LineButton>
+        <LineButton onClick={more}>{buttonText}</LineButton>
       </div>
+      <a href="/post" className="ml-auto link bg-white ba br2 mv2 pa2 black">
+        글 작성
+      </a>
     </div>
   )
 }
 
 const boards = [
-  {category: '', name: '전체'},
+  {category: '', name: '전체 카테고리'},
   {category: 'news', name: '뉴스'},
   {category: 'create_channel', name: '채널 생성 요청'},
   {category: 'user', name: '유저'},
