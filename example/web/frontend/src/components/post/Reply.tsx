@@ -78,7 +78,7 @@ export const Reply: FunctionComponent<Props> = props => {
         </main>
         <pre className="debug">{JSON.stringify(data, null, 2)}</pre>
         {showReporter && <BlockRequest data={R.pick(['hk', 'rk'], data)}/>}
-        {showWriter && <MentionWriter postId={postId} commentId={hk} refUserId={name} onCreate={onCreate}/>}
+        {showWriter && <MentionWriter postId={postId} commentId={hk} refUserName={name} onCreate={onCreate}/>}
       </div>
     </div>
   )

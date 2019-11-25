@@ -4,10 +4,10 @@ import gql from 'graphql-tag'
 import {useMutation} from '@apollo/react-hooks'
 
 export const MentionWriter: FunctionComponent<Props> = props => {
-  const {postId, commentId, refUserId, onCreate} = props
+  const {postId, commentId, refUserName, onCreate} = props
   const [content, setContent] = useState('')
   const handleChange = useCallback(R.compose(setContent, R.path(['target', 'value'])), [commentId])
-  const [ref, setRef] = useState(refUserId)
+  const [ref, setRef] = useState(refUserName)
   const [commentMutation] = useMutation(gql`
     mutation ($data: ReplyMutationInput!, $user: NotMemberInput) {
       reply(data: $data, user: $user) {
@@ -24,6 +24,7 @@ export const MentionWriter: FunctionComponent<Props> = props => {
           postId,
           commentId,
           content,
+          refUserName,
         },
       },
     })
@@ -46,7 +47,7 @@ export const MentionWriter: FunctionComponent<Props> = props => {
 
   return (
     <div className="b--light-gray ba br2 pa2 bg-black-05 flex justify-between items-center">
-      {ref && <span className="bg-gray white br2 pa2 w3 lh-copy">@{refUserId}</span>}
+      {ref && <span className="bg-gray white br2 pa2 w3 lh-copy">@{refUserName}</span>}
       <input
         className="mh2 pa2 w-100 ba b--black br2 bg-white"
         id="mention"
@@ -66,7 +67,7 @@ export const MentionWriter: FunctionComponent<Props> = props => {
 type Props = {
   commentId: string
   postId: string
-  refUserId: string
+  refUserName: string
 
   onCreate(): void
 }

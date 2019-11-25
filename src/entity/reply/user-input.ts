@@ -4,6 +4,7 @@ export type ReplyUserInput = {
   comment: Pick<Comment, 'hk'|'createdAt'|'postId'>
   content: string
   createdAt: string
+  refUserName?: string
 }
 
 export type ReplyUpdateUserInput = {
