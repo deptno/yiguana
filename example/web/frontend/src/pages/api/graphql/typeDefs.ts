@@ -54,7 +54,7 @@ export const typeDefs = gql`
     userId: String
     createdAt: String
     updatedAt: String
-    children: Int!
+    children: Int
     likes: Int!
     user: User!
     commentId: String
