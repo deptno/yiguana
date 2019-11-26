@@ -4,13 +4,14 @@ import {useLazyQuery} from '@apollo/react-hooks'
 import gql from 'graphql-tag'
 import {useRouter} from 'next/router'
 import Link from 'next/link'
-import {BoardItem} from '../../../../components/board/BoardItem'
+import {Comment} from '../../../../components/post/Comment'
 
-const ReportsPostPage: NextPage<Props> = props => {
+const ReportsCommentPage: NextPage<Props> = props => {
   const {query: {hk}} = useRouter()
+  // FIXME: comment 를 개별로 가져올 수 없음
   const [fetch, {data, error}] = useLazyQuery(gql`
     query ($hk: String!, $rk: String!) {
-      post(hk: $hk) {
+      comment(hk: $hk) {
         hk
         rk
         title
@@ -54,7 +55,7 @@ const ReportsPostPage: NextPage<Props> = props => {
   return (
     <div className="pa3 flex-column">
       <div className="flex-auto mv2 pa2 bg-gold">
-        {data?.post && <BoardItem item={data?.post} no={0}/>}
+        {data?.comment && <Comment data={data.comment} onCreate={console.log} onLike={console.log} onReport={console.log}/>}
       </div>
       신고받은 게시물들
       {data?.reports?.items.map((r, no) => {
@@ -75,6 +76,6 @@ const ReportsPostPage: NextPage<Props> = props => {
     </div>
   )
 }
-export default ReportsPostPage
+export default ReportsCommentPage
 
 type Props = {}
