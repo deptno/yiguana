@@ -5,6 +5,7 @@ import gql from 'graphql-tag'
 import {useRouter} from 'next/router'
 import Link from 'next/link'
 import {Comment} from '../../../../components/post/Comment'
+import {BoardItem} from '../../../../components/board/BoardItem'
 
 const ReportsCommentPage: NextPage<Props> = props => {
   const {query: {hk}} = useRouter()
@@ -14,24 +15,42 @@ const ReportsCommentPage: NextPage<Props> = props => {
       comment(hk: $hk) {
         hk
         rk
-        title
-        likes
-        views
-        children
-        category
-        createdAt
+        content
+        postId
         userId
-        cover
-
-        dCategory
+        createdAt
+        updatedAt
+        children
+        likes
+        user {
+          id
+          ip
+          name
+          pw
+        }
+        commentId
         deleted
+        post {
+          hk
+          rk
+          title
+          likes
+          views
+          children
+          category
+          createdAt
+          userId
+          cover
+
+          dCategory
+          deleted
+        }
       }
       reports(hk: $hk, rk: $rk) {
         items {
           hk
           userId
           content
-
         }
         firstResult
         cursor
@@ -44,7 +63,7 @@ const ReportsCommentPage: NextPage<Props> = props => {
       fetch({
         variables: {
           hk,
-          rk: 'post',
+          rk: 'comment',
         },
       })
     }
@@ -54,10 +73,13 @@ const ReportsCommentPage: NextPage<Props> = props => {
 
   return (
     <div className="pa3 flex-column">
-      <div className="flex-auto mv2 pa2 bg-gold">
+      신고받은 게시물들
+      <div className="flex-auto pa2 bg-gold">
+        {data?.comment?.post && <BoardItem item={data.comment.post} no={0}/>}
+      </div>
+      <div className="flex-auto mv2 pa2 bg-light-yellow">
         {data?.comment && <Comment data={data.comment} onCreate={console.log} onLike={console.log} onReport={console.log}/>}
       </div>
-      신고받은 게시물들
       {data?.reports?.items.map((r, no) => {
         return (
           <Link key={`${r.hk}#${r.userId}`} href="/admin/reports/[hk]" as={`/admin/reports/${r.hk}`}>

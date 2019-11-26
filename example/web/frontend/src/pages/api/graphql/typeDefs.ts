@@ -5,10 +5,12 @@ export const typeDefs = gql`
     query: Query
     mutation: Mutation
   }
+  
   type Query {
     posts(category: Category, cursor: String): PostList!
     post(hk: String!): Post
     comments(postId: String!, cursor: String): CommentList!
+    comment(hk: String!): Comment!
     aggReportsOfPost(cursor: String): AggReportPostList!
     aggReportsOfComment(cursor: String): AggReportCommentList!
     reports(hk: String!, rk: String!): ReportPostList!
@@ -20,7 +22,6 @@ export const typeDefs = gql`
 
     uploadUrl(key: String!): String
   }
-
   type PostList {
     items: [Post]!
     cursor: String
@@ -63,6 +64,8 @@ export const typeDefs = gql`
 
     deleted: Boolean
     refUserName: String
+    
+    post: Post
   }
   type AggReportPostList {
     items: [AggReportPost]!

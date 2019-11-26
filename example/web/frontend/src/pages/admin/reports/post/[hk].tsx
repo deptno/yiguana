@@ -30,7 +30,6 @@ const ReportsPostPage: NextPage<Props> = props => {
           hk
           userId
           content
-
         }
         firstResult
         cursor
