@@ -3,6 +3,7 @@ export * from './post'
 export * from './comments'
 export * from './aggReportsOfPost'
 export * from './aggReportsOfComment'
+export * from './reports'
 
 export * from './myPosts'
 export * from './myComments'

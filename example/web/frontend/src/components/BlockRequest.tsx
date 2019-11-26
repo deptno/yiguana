@@ -25,9 +25,7 @@ export const BlockRequest: FunctionComponent<Props> = props => {
   return (
     <form className="flex flex-column" onSubmit={report}>
       신고하기
-      <textarea name="reason">
-
-     </textarea>
+      <textarea name="reason"/>
       <button className="pa2 link near-black dib white bg-hot-pink mh2 nowrap pointer hover-bg-blue">
         <span className="ml2">신고</span>
       </button>

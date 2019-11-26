@@ -11,6 +11,7 @@ export const typeDefs = gql`
     comments(postId: String!, cursor: String): CommentList!
     aggReportsOfPost(cursor: String): AggReportPostList!
     aggReportsOfComment(cursor: String): AggReportCommentList!
+    reports(hk: String!, rk: String!): ReportPostList!
 
     myPosts(cursor: String, like: Boolean): PostList!
     myComments(cursor: String, like: Boolean): CommentList!
@@ -55,12 +56,13 @@ export const typeDefs = gql`
     userId: String
     createdAt: String
     updatedAt: String
-    children: Int!
+    children: Int
     likes: Int!
     user: User!
     commentId: String
 
     deleted: Boolean
+    refUserName: String
   }
   type AggReportPostList {
     items: [AggReportPost]!
@@ -87,6 +89,32 @@ export const typeDefs = gql`
     reports: String!
     reported: Int!
     data: Comment
+  }
+  type ReportPostList {
+    items: [ReportPost]!
+    cursor: String
+    firstResult: Boolean
+  }
+  type ReportCommentList {
+    items: [ReportComment]!
+    cursor: String
+    firstResult: Boolean
+  }
+  type ReportPost {
+    hk: String!
+    rk: String!
+    userId: String
+    byUser: String
+    content: String!
+    user: User!
+    data: Post
+  }
+  type ReportComment {
+    userId: String
+    byUser: String
+    content: String!
+    user: User!
+    data: Post
   }
   type User {
     ip: String!
@@ -129,6 +157,7 @@ export const typeDefs = gql`
     postId: String!
     content: String!
     commentId: String!
+    refUserName: String
   }
   input NotMemberInput {
     name: String!

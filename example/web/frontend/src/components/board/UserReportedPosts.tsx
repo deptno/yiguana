@@ -34,7 +34,7 @@ export const UserReportedPosts: FunctionComponent<Props> = props => {
     query({variables: {cursor}})
   }
 
-  useEffect(fetch, [cursor])
+  useEffect(fetch, [])
   useEffect(() => void (refetch && refetch()), [user])
 
   return (

@@ -7,7 +7,7 @@ import {keys} from '../../dynamodb/keys'
 
 export function createReply(params: CreateReplyInput): Reply {
   const {user, data} = params
-  const {comment, content, createdAt} = data
+  const {comment, content, createdAt, refUserName} = data
   const entity = EEntity.Comment
   // TODO: createdAt 의 시간 지정을 createReply 타이밍에 하는 것이 나아보임
   const comments = keys.comments.stringify({
@@ -25,6 +25,7 @@ export function createReply(params: CreateReplyInput): Reply {
     createdAt,
     comments,
     user,
+    refUserName,
   }
   if ('id' in user) {
     // TODO: user 처리
@@ -50,4 +51,5 @@ export interface Reply extends YiguanaDocument {
   byUser?: string // gsi.rk
   user: Omit<User, 'id'>
   comments: string
+  refUserName?: string // for mention
 }

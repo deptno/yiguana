@@ -20,7 +20,8 @@ export const reply: GraphQLFieldResolver<any, Context, any> = async (source, arg
     data: {
       content: args.data.content,
       createdAt: new Date().toISOString(),
-      comment
+      refUserName: args.data.refUserName, // FIXME: 동작은 정상인데 여기에 빨간 줄이 뜨는 이유는? ReplyUserInput에 타입 맞춰줬는데
+      comment,
     },
     user,
   })
