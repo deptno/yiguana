@@ -2,7 +2,8 @@ import {GraphQLFieldResolver} from 'graphql'
 import {Context} from '../../types'
 
 export const uploadUrl: GraphQLFieldResolver<any, Context, Args> = (source, args, context) => {
-  console.log('uploadUrl', args, context.user)
+  const user = context.getUser()
+  console.log('uploadUrl', args, user)
 
   return context.dataSources.public.getUploadUrl(args)
 }

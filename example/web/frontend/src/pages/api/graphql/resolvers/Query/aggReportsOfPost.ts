@@ -4,7 +4,8 @@ import {EEntity} from '../../../../../../../../../lib/entity/enum'
 
 export const aggReportsOfPost: GraphQLFieldResolver<any, Context, { entity: EEntity.Post | EEntity.Comment, cursor?: string }> =
   (source, args, context) => {
-    console.log('aggReportsOfPost', args, context.user)
+    const user = context.getUser()
+    console.log('aggReportsOfPost', args, user)
 
     return context.dataSources.public.aggReports({
       cursor: args.cursor,
@@ -21,6 +22,5 @@ export const aggReportsOfPost: GraphQLFieldResolver<any, Context, { entity: EEnt
           }),
         }
       })
-      .catch(() => null)
       .catch(() => null)
   }

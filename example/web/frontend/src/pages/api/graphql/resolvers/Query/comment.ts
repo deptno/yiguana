@@ -2,7 +2,8 @@ import {GraphQLFieldResolver} from 'graphql'
 import {Context} from '../../types'
 
 export const comment: GraphQLFieldResolver<any, Context, any> = (source, args, context) => {
-  console.log('comment', args, context.user)
+  const user = context.getUser()
+  console.log('comment', args, user)
 
   const {cursor, ...data} = args
 

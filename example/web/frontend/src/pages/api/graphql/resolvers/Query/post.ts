@@ -2,7 +2,8 @@ import {GraphQLFieldResolver} from 'graphql'
 import {Context} from '../../types'
 
 export const post: GraphQLFieldResolver<any, Context, any> = (source, args, context) => {
-  console.log('post', args, context.user)
+  const user = context.getUser()
+  console.log('post', args, user)
 
   const {cursor, ...data} = args
 

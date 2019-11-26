@@ -3,7 +3,8 @@ import {Context} from '../../types'
 
 export const reports: GraphQLFieldResolver<any, Context> =
   (source, args, context) => {
-    console.log('reports', args, context.user)
+    const user = context.getUser()
+    console.log('reports', args, user)
 
     return context.dataSources.public.reports({
       data: {
