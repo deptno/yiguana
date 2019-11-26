@@ -9,11 +9,13 @@ import gql from 'graphql-tag'
 import cx from 'classnames'
 import {BlockRequest} from '../BlockRequest'
 import * as R from 'ramda'
+import {MentionWriter} from '../board/MentionWriter'
 
 export const Reply: FunctionComponent<Props> = props => {
-  const {data, onLike, onDelete} = props
-  const {hk, rk, content, createdAt, likes, user, userId, deleted} = data
+  const {data, onLike, onCreate, onDelete} = props
+  const {hk, rk, postId, content, createdAt, likes, user, userId, deleted} = data
   const {ip, name} = user
+  const [showWriter, setShowWriter] = useState(false)
   const [showReporter, setShowReporter] = useState(false)
   const context = useContext(StorageContext)
   const deletable = useMemo(() => {
@@ -62,7 +64,7 @@ export const Reply: FunctionComponent<Props> = props => {
                 ﹒
                 <a className="pointer" onClick={() => onLike(hk)}>공감({likes})</a>
                 ﹒
-                <span>언급(미구현)</span>
+                <a className="pointer" onClick={() => setShowWriter(!showWriter)}>언급</a>
                 ﹒
                 <a className="red" onClick={() => setShowReporter(!showReporter)}>신고</a>
                 ﹒
@@ -76,6 +78,7 @@ export const Reply: FunctionComponent<Props> = props => {
         </main>
         <pre className="debug">{JSON.stringify(data, null, 2)}</pre>
         {showReporter && <BlockRequest data={R.pick(['hk', 'rk'], data)}/>}
+        {showWriter && <MentionWriter postId={postId} commentId={hk} refUserName={name} onCreate={onCreate}/>}
       </div>
     </div>
   )
@@ -85,5 +88,6 @@ type Props = {
   parent?: boolean
   data: TReply
   onLike(id: string): void
+  onCreate(): void
   onDelete(): void
 }

@@ -61,6 +61,7 @@ export const typeDefs = gql`
     commentId: String
 
     deleted: Boolean
+    refUserName: String
   }
   type AggReportList {
     items: [AggReport]!
@@ -142,6 +143,7 @@ export const typeDefs = gql`
     postId: String!
     content: String!
     commentId: String!
+    refUserName: String
   }
   input NotMemberInput {
     name: String!
