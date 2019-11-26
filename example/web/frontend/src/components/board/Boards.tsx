@@ -22,6 +22,12 @@ export const Boards: FunctionComponent<Props> = props => {
           createdAt
           cover
           userId
+          user {
+            name
+            id
+            pw
+            ip
+          }
         }
       }
     }
