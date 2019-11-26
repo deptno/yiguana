@@ -1,11 +1,11 @@
 export const member_a = {
   id: 'a',
-  name: 'a gun',
+  name: 'jhgu',
   ip: '0.0.0.1',
 }
 export const member_b = {
   id: 'b',
-  name: 'b gun',
+  name: 'bglee',
   ip: '0.0.0.2',
 }
 export const member_c = {
@@ -20,12 +20,12 @@ export const member_d = {
 }
 export const member_e = {
   id: 'e',
-  name: 'e gun',
+  name: 'shlee',
   ip: '0.0.0.3',
 }
 export const member_f = {
   id: 'f',
-  name: 'f gun',
+  name: 'jhso',
   ip: '0.0.0.3',
 }
 export const non_member_a = {
