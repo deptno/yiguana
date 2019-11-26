@@ -1,4 +1,4 @@
-import {FunctionComponent, useCallback} from 'react'
+import React, {FunctionComponent, useCallback} from 'react'
 import {Post} from '../../../../../../src/entity/post'
 import {format, parseISO} from 'date-fns'
 import * as R from 'ramda'
@@ -42,7 +42,7 @@ export const BoardItem: FunctionComponent<Props> = props => {
           <span className="w-10 dn db-ns tc">
             {item.userId
               ? <span><i className="far fa-user-circle bg-black white pa1 br2"/> {item.userId}</span>
-              : <span><i className="far fa-question-circle bg-black-05 pa1 br2"/> 비회원</span>}
+              : <span><i className="far fa-question-circle bg-black-05 pa1 br2"/> {item.user?.name}</span>}
           </span>
           <span className="w3 dn db-ns">{item.likes}</span>
           <span className="w3 dn db-ns">{item.views}</span>
@@ -50,6 +50,9 @@ export const BoardItem: FunctionComponent<Props> = props => {
           <span className="w4 dn db-ns">{format(parseISO(item.createdAt), 'MM/dd hh:mm')}</span>
           {props.onDelete && <span className="w-10 bg-black-05 hover-bg-black hover-yellow" onClick={del}>삭제</span>}
         </div>
+        <pre className="debug pa3 pre-wrap overflow-x-scroll f7 bg-black-10 ba b--dashed tl w-100">
+          {JSON.stringify(item, null, 2)}
+        </pre>
       </div>
     </Link>
   )
