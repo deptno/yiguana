@@ -13,6 +13,16 @@ export const resolvers: GraphQLResolverMap<Context> = {
           hk: source.postId
         }
       })
+    },
+    comment(source, arg, context) {
+      if (!source.commentId) {
+        return null
+      }
+      return context.dataSources.public.comment({
+        data: {
+          hk: source.commentId
+        }
+      })
     }
   }
 }

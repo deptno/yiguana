@@ -65,6 +65,7 @@ export const typeDefs = gql`
     deleted: Boolean
     refUserName: String
     
+    comment: Comment
     post: Post
   }
   type AggReportPostList {
