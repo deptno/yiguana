@@ -67,7 +67,7 @@ export const Comment: FunctionComponent<Props> = props => {
                 ﹒
                 <a className="pointer" onClick={() => setShowWriter(!showWriter)}>답글 작성</a>
                 ﹒
-                <a className="red" onClick={() => setShowReporter(!showReporter)}>신고</a>
+                <a className="pointer red" onClick={() => setShowReporter(!showReporter)}>신고</a>
                 ﹒
                 {deletable && <a className="red pointer" onClick={del}>삭제</a>}
               </>
@@ -78,7 +78,7 @@ export const Comment: FunctionComponent<Props> = props => {
           <pre className="ma0 pa2" dangerouslySetInnerHTML={{__html: content}}/>
         </main>
         <pre className="debug">{JSON.stringify(data, null, 2)}</pre>
-        {showReporter && <BlockRequest data={R.pick(['hk', 'rk'], data)}/>}
+        {showReporter && <BlockRequest data={R.pick(['hk', 'rk'], data)} onRequest={() => setShowReporter(false)}/>}
         {showWriter && <ReplyWriter postId={postId} commentId={hk} onCreate={onCreate}/>}
       </div>
     </li>

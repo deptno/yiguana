@@ -4,7 +4,7 @@ import gql from 'graphql-tag'
 import {YiguanaDocumentHashRange} from '../../../../../src/dynamodb'
 
 export const BlockRequest: FunctionComponent<Props> = props => {
-  const {data} = props
+  const {data, onRequest} = props
   const [reportMutation, {data: result}] = useMutation(gql`
     mutation ($data: DocumentInput!, $content: String!) {
       report(data: $data, content: $content) {
@@ -18,21 +18,30 @@ export const BlockRequest: FunctionComponent<Props> = props => {
     const {value: content} = e.currentTarget.elements.namedItem('reason') as any
 
     if (data) {
-      reportMutation({variables: {data, content}}).catch(alert)
+      reportMutation({variables: {data, content}})
+        .then(onRequest)
+        .catch(alert)
     }
   }
 
   return (
-    <form className="flex flex-column" onSubmit={report}>
-      신고하기
-      <textarea name="reason"/>
-      <button className="pa2 link near-black dib white bg-hot-pink mh2 nowrap pointer hover-bg-blue">
-        <span className="ml2">신고</span>
-      </button>
+    <form className="b--light-gray ba br2 pa2 bg-light-red flex justify-between items-center" onSubmit={report}>
+      <input
+        className="mh2 pa2 w-100 ba b--black br2 bg-white"
+        name="reason"
+        placeholder="신고내용"
+      />
+      <div className="self-end flex justify-end">
+        <button className="pa2 link near-black dib blue bg-white mh2 nowrap pointer hover-bg-blue">
+          신고
+        </button>
+      </div>
     </form>
+
   )
 }
 
 type Props = {
   data: YiguanaDocumentHashRange
+  onRequest(e?): void
 }

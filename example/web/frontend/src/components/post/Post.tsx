@@ -109,7 +109,7 @@ export const Post: FunctionComponent<Props> = props => {
           <span>공감 {likes}</span>
         </a>
       </div>
-      {showBr && <BlockRequest data={R.pick(['hk', 'rk'], data)}/>}
+      {showBr && <BlockRequest data={R.pick(['hk', 'rk'], data)} onRequest={() => setShowBr(false)}/>}
 
     </main>
   )
