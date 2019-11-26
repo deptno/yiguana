@@ -9,7 +9,8 @@ export const typeDefs = gql`
     posts(category: Category, cursor: String): PostList!
     post(hk: String!): Post
     comments(postId: String!, cursor: String): CommentList!
-    aggReports(entity: String!, cursor: String): AggReportList!
+    aggReportsOfPost(cursor: String): AggReportPostList!
+    aggReportsOfComment(cursor: String): AggReportCommentList!
 
     myPosts(cursor: String, like: Boolean): PostList!
     myComments(cursor: String, like: Boolean): CommentList!
@@ -61,18 +62,31 @@ export const typeDefs = gql`
 
     deleted: Boolean
   }
-  type AggReportList {
-    items: [AggReport]!
+  type AggReportPostList {
+    items: [AggReportPost]!
     cursor: String
     firstResult: Boolean
   }
-  type AggReport {
+  type AggReportPost {
     hk: String!
     rk: String!
     agg: String!
     reports: String!
     reported: Int!
     data: Post
+  }
+  type AggReportCommentList {
+    items: [AggReportComment]!
+    cursor: String
+    firstResult: Boolean
+  }
+  type AggReportComment {
+    hk: String!
+    rk: String!
+    agg: String!
+    reports: String!
+    reported: Int!
+    data: Comment
   }
   type User {
     ip: String!

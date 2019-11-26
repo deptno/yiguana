@@ -6,9 +6,10 @@ import {BoardItem} from '../../components/board/BoardItem'
 
 const AdminPage: NextPage<Props> = props => {
   const [reports, setReports] = useState([])
+  // FIXME: Do not share $cursor
   const {data, error} = useQuery(gql`
-    query ($entity: String!, $cursor: String){
-      aggReports(entity: $entity, cursor: $cursor) {
+    query ($cursor: String){
+      aggReportsOfPost(cursor: $cursor) {
         items {
           hk
           rk
@@ -34,21 +35,43 @@ const AdminPage: NextPage<Props> = props => {
         cursor
         firstResult
       }
+      aggReportsOfComment(cursor: $cursor) {
+        items {
+          data {
+            hk
+            rk
+            content
+            postId
+            userId
+            createdAt
+            updatedAt
+            children
+            likes
+            user {
+              id
+              ip
+              name
+              pw
+            }
+            commentId
+            deleted
+          }
+        }
+        cursor
+        firstResult
+
+      }
     }
-  `, {
-    variables: {
-      entity: 'post',
-    },
-  })
+  `)
 
   useEffect(() => {
-    setReports(data?.aggReports?.items ?? [])
+    setReports(data?.aggReportsOfPost?.items ?? [])
   }, [data])
 
   return (
     <div className="pa3 flex-column">
       신고받은 게시물들
-      {reports.map((rp, no) => {
+      {(data?.aggReportsOfPost?.items ?? []).map((rp, no) => {
         return (
           <div key={rp.hk} className="flex flex-column pt1 ph2 pb2 ba">
             <div className="lh-copy flex w-100 pointer mv0 pv0 lh-copy nowrap justify-between">

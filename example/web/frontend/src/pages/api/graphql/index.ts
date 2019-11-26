@@ -1,4 +1,4 @@
-import {ApolloServer, gql, makeExecutableSchema} from 'apollo-server-micro'
+import {ApolloServer, makeExecutableSchema} from 'apollo-server-micro'
 import {typeDefs} from './typeDefs'
 import {resolvers} from './resolvers'
 import {context} from './context'
