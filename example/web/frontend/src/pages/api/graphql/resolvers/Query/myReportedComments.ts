@@ -3,13 +3,16 @@ import {Context} from '../../types'
 import {AuthenticationError} from 'apollo-server-errors'
 
 export const myReportedComments: GraphQLFieldResolver<any, Context, Args> = (source, args, context) => {
-  console.log('myReportedComments', args, context.user)
-  if (!context.user) {
+  const user = context.getUser()
+
+  console.log('myReportedComments', args, user)
+  if (!('id' in user)) {
     throw new AuthenticationError('You must be logged in')
   }
+
   return context.dataSources.private.comments({
     ...args,
-    userId: context.user.id,
+    userId: user.id,
     report: true,
   })
 }

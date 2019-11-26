@@ -11,13 +11,13 @@ export const context = (req) => {
   }
 }
 
-
 const user = ({req, event}): UserMeta|User => {
   if (event) {
     return lambda(event)
   }
   return nextjs(req)
 }
+
 const lambda = event => {
   const {headers, requestContext: {identity: {sourceIp: ip}}} = event
   const {Authorization, authorization = Authorization} = headers

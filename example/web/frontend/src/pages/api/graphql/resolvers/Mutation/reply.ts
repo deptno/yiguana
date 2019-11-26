@@ -2,9 +2,9 @@ import {GraphQLFieldResolver} from 'graphql'
 import {Context} from '../../types'
 
 export const reply: GraphQLFieldResolver<any, Context, any> = async (source, args, context) => {
-  console.log('reply', args, context.user)
+  const user = context.getUser(args.user)
+  console.log('reply', args, user)
 
-  const user = args.user ?? context.user
   if (!user) {
     throw new Error('user must be provided')
   }
@@ -20,7 +20,7 @@ export const reply: GraphQLFieldResolver<any, Context, any> = async (source, arg
     data: {
       content: args.data.content,
       createdAt: new Date().toISOString(),
-      refUserName: args.data.refUserName, // FIXME: 동작은 정상인데 여기에 빨간 줄이 뜨는 이유는? ReplyUserInput에 타입 맞춰줬는데
+      refUserName: args.data.refUserName,
       comment,
     },
     user,
