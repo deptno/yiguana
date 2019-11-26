@@ -1,12 +1,16 @@
 import {GraphQLFieldResolver} from 'graphql'
 import {Context} from '../../types'
-import {EEntity} from '../../../../../../../../../src/entity/enum'
 
-export const aggReports: GraphQLFieldResolver<any, Context, { entity: EEntity.Post | EEntity.Comment, cursor?: string }> =
+export const reports: GraphQLFieldResolver<any, Context> =
   (source, args, context) => {
-    console.log('aggReports', args, context.user)
+    console.log('reports', args, context.user)
 
-    return context.dataSources.public.aggReports(args)
+    return context.dataSources.public.reports({
+      data: {
+        hk: args.hk,
+        rk: args.rk,
+      },
+    })
       .then(response => {
         return {
           ...response,
@@ -17,5 +21,9 @@ export const aggReports: GraphQLFieldResolver<any, Context, { entity: EEntity.Po
             return item
           }),
         }
+      })
+      .then( x => {
+        console.log('xx', x)
+        return x
       })
   }
