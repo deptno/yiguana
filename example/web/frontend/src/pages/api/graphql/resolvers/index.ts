@@ -6,4 +6,23 @@ import {Context} from '../types'
 export const resolvers: GraphQLResolverMap<Context> = {
   Query,
   Mutation,
+  Comment: {
+    post(source, arg, context) {
+      return context.dataSources.public.post({
+        data: {
+          hk: source.postId
+        }
+      })
+    },
+    comment(source, arg, context) {
+      if (!source.commentId) {
+        return null
+      }
+      return context.dataSources.public.comment({
+        data: {
+          hk: source.commentId
+        }
+      })
+    }
+  }
 }

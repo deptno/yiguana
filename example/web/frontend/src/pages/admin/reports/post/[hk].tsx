@@ -6,7 +6,7 @@ import {useRouter} from 'next/router'
 import Link from 'next/link'
 import {BoardItem} from '../../../../components/board/BoardItem'
 
-const ReportsPage: NextPage<Props> = props => {
+const ReportsPostPage: NextPage<Props> = props => {
   const {query: {hk}} = useRouter()
   const [fetch, {data, error}] = useLazyQuery(gql`
     query ($hk: String!, $rk: String!) {
@@ -30,7 +30,6 @@ const ReportsPage: NextPage<Props> = props => {
           hk
           userId
           content
-
         }
         firstResult
         cursor
@@ -75,6 +74,6 @@ const ReportsPage: NextPage<Props> = props => {
     </div>
   )
 }
-export default ReportsPage
+export default ReportsPostPage
 
 type Props = {}

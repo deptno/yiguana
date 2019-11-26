@@ -24,6 +24,10 @@ export class Public extends DataSource {
       .then(postListHook)
   }
 
+  comment(args: ListArgument<typeof yiguana.comment.read>) {
+    return yiguana.comment.read(args)
+  }
+
   aggReports(args: ListArgument<typeof yiguana.administrator.aggReport.list>) {
     return yiguana.administrator.aggReport
       .list(preListHook(args))
