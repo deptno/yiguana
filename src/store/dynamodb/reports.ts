@@ -7,7 +7,7 @@ import {Report} from '../../entity/report'
 
 export function reports(operator: DynamoDBInput, params: ReportsInput) {
   const {tableName, dynamodb} = operator
-  const {data, exclusiveStartKey} = params
+  const {data, exclusiveStartKey, limit} = params
   const queryParams = {
     TableName: tableName,
     KeyConditionExpression: '#h = :h AND begins_with(#r, :r)',
@@ -25,15 +25,14 @@ export function reports(operator: DynamoDBInput, params: ReportsInput) {
     ScanIndexForward: false,
     ReturnConsumedCapacity: 'TOTAL',
     ExclusiveStartKey: exclusiveStartKey,
-    Limit: 50
+    Limit: limit
   }
-
-  console.log(queryParams)
 
   return dynamodb.query<Report>(queryParams)
 }
 
 export type ReportsInput = {
-  exclusiveStartKey?: Exclude<any, string | number>
   data: Pick<Post|Comment, 'hk'|'rk'>
+  limit?: number
+  exclusiveStartKey?: Exclude<any, string | number>
 }
