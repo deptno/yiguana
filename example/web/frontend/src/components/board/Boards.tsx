@@ -29,6 +29,8 @@ export const Boards: FunctionComponent<Props> = props => {
             ip
           }
         }
+        cursor
+        firstResult
       }
     }
   `)

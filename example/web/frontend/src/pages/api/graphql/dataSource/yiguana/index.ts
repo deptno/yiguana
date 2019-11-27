@@ -135,7 +135,7 @@ const preListHook = (arg?) => {
 }
 const postListHook = (params?) => {
   const {lastEvaluatedKey, ...rest} = params
-  const cursor = util.parseToken(lastEvaluatedKey, SALT)
+  const cursor = util.createToken(lastEvaluatedKey, SALT)
 
   return {cursor, ...rest}
 }
