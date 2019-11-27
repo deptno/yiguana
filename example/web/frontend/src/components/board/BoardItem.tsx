@@ -41,8 +41,8 @@ export const BoardItem: FunctionComponent<Props> = props => {
           </span>
           <span className="w-10 dn db-ns tc">
             {item.userId
-              ? <span><i className="far fa-user-circle bg-black white pa1 br2"/> {item.userId}</span>
-              : <span><i className="far fa-question-circle bg-black-05 pa1 br2"/> {item.user?.name}</span>}
+              ? <span><i className="far fa-user-circle bg-black white pa1 br2"/> {item.user.name}({item.userId})</span>
+              : <span><i className="far fa-question-circle bg-black-05 pa1 br2"/> {item.user.name}</span>}
           </span>
           <span className="w3 dn db-ns">{item.likes}</span>
           <span className="w3 dn db-ns">{item.views}</span>

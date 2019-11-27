@@ -61,7 +61,13 @@ const ReportsCommentPage: NextPage<Props> = props => {
           createdAt
           userId
           cover
-
+          user {
+            id
+            ip
+            name
+            pw
+          }
+          
           dCategory
           deleted
         }

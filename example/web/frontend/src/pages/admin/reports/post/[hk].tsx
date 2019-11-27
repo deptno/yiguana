@@ -21,6 +21,12 @@ const ReportsPostPage: NextPage<Props> = props => {
         createdAt
         userId
         cover
+        user {
+          id
+          ip
+          name
+          pw
+        }
 
         dCategory
         deleted
@@ -30,6 +36,12 @@ const ReportsPostPage: NextPage<Props> = props => {
           hk
           userId
           content
+          user {
+            id
+            ip
+            name
+            pw
+          }
         }
         firstResult
         cursor

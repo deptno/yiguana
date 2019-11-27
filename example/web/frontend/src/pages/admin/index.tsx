@@ -29,6 +29,12 @@ const AdminPage: NextPage<Props> = props => {
             createdAt
             userId
             cover
+            user {
+              id
+              ip
+              name
+              pw
+            }
 
             dCategory
             deleted
@@ -66,7 +72,6 @@ const AdminPage: NextPage<Props> = props => {
         }
         cursor
         firstResult
-
       }
     }
   `)
