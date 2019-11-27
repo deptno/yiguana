@@ -11,15 +11,16 @@ import Router from 'next/router'
 
 export const Post: FunctionComponent<Props> = props => {
   const {data, setPost} = props
-  const {user} = useContext(StorageContext)
-  const {hk, title, userId, createdAt, updatedAt, views, likes: originalLikes, content} = data ?? {}
+//  const {user} = useContext(StorageContext)
+  const {hk, title, userId, createdAt, updatedAt, views, likes: originalLikes, content, user} = data ?? {}
   const [likes, setLikes] = useState(originalLikes)
   const lastModifiedAt = updatedAt || createdAt
   const datetime = lastModifiedAt && formatDistanceToNow(parseISO(lastModifiedAt), {locale})
   const editable = useMemo(() => {
     if (user) {
       if ('id' in user) {
-        return user.id === userId
+        return userId
+//        return user.id === userId
       }
     }
     return false
