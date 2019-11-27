@@ -5,7 +5,7 @@ import {EEntity} from '../../entity/enum'
 
 export function postsByCategory(operator: DynamoDBInput, params: PostsByCategoryInput) {
   const {tableName, dynamodb} = operator
-  const {category = '', exclusiveStartKey} = params
+  const {exclusiveStartKey, category = '', limit = 10} = params
   const queryParams = {
     TableName: tableName,
     IndexName: EIndexName.postsByCategory,
@@ -21,7 +21,7 @@ export function postsByCategory(operator: DynamoDBInput, params: PostsByCategory
     ScanIndexForward: false,
     ReturnConsumedCapacity: 'TOTAL',
     ExclusiveStartKey: exclusiveStartKey,
-    Limit: 50
+    Limit: limit
   }
 
   return dynamodb.query<Post>(queryParams)
@@ -29,5 +29,6 @@ export function postsByCategory(operator: DynamoDBInput, params: PostsByCategory
 
 export type PostsByCategoryInput = {
   category: string
+  limit?: number
   exclusiveStartKey?: Exclude<any, string | number>
 }

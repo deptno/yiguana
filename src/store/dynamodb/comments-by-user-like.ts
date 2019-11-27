@@ -12,4 +12,4 @@ export function commentsByUserLike(operator: DynamoDBInput, params: CommentsByUs
       }
     })
 }
-export type CommentsByUserLikeInput = Omit<QueryByUserLike<EEntity.Comment>, 'entity'>
+export type CommentsByUserLikeInput = Omit<QueryByUserLike<EEntity.Comment>, 'entity'> & {limit?: number}

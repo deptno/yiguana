@@ -2,16 +2,19 @@ import {Member, NonMember, User, UserMeta} from '../../../../../../../src/entity
 
 export const context = (req) => {
   return {
-    getUser(low?: NonMember): User {
-      return {
-        ...low,
-        ...user(req),
-      }
-    },
+    getUser: getUser(req),
   }
 }
 
-const user = ({req, event}): UserMeta|User => {
+const getUser = (req) =>
+  (low?: NonMember): User => {
+    return {
+      ...low,
+      ...fromReq(req),
+    }
+  }
+
+const fromReq = ({req, event}): UserMeta | User => {
   if (event) {
     return lambda(event)
   }

@@ -10,7 +10,7 @@ import {Report} from '../../entity/report'
 
 export function _reportsByUser<T extends Post|Comment>(operator: DynamoDBInput, params: QueryByUserReport<T['rk']>) {
   const {tableName, dynamodb} = operator
-  const {entity, exclusiveStartKey, userId} = params
+  const {entity, exclusiveStartKey, userId, limit = 10} = params
   const byUser = keys.byUser.report.stringify({
     entity: EEntity.Report,
     target: entity,
@@ -30,7 +30,7 @@ export function _reportsByUser<T extends Post|Comment>(operator: DynamoDBInput, 
     ScanIndexForward: false,
     ReturnConsumedCapacity: 'TOTAL',
     ExclusiveStartKey: exclusiveStartKey,
-    Limit: 10,
+    Limit: limit,
   }
 
   return dynamodb.query<Report>(input)
@@ -38,5 +38,6 @@ export function _reportsByUser<T extends Post|Comment>(operator: DynamoDBInput, 
 export type QueryByUserReport<T extends Extract<EEntity, EEntity.Post | EEntity.Comment>> = {
   userId: string
   entity: T
+  limit?: number
   exclusiveStartKey?: Key
 }

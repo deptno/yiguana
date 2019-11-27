@@ -12,4 +12,4 @@ export function commentsByUserReport(operator: DynamoDBInput, params: CommentsBy
       }
     })
 }
-export type CommentsByUserReportInput = Omit<QueryByUserReport<EEntity.Comment>, 'entity'>
+export type CommentsByUserReportInput = Omit<QueryByUserReport<EEntity.Comment>, 'entity'> & {limit?: number}

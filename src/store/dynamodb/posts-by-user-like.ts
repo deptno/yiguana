@@ -12,4 +12,4 @@ export function postsByUserLike(operator: DynamoDBInput, params: PostsByUserLike
       }
     })
 }
-export type PostsByUserLikeInput = Omit<QueryByUserLike<EEntity.Post>, 'entity'>
+export type PostsByUserLikeInput = Omit<QueryByUserLike<EEntity.Post>, 'entity'> & {limit?: number}

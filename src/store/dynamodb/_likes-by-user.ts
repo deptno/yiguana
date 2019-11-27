@@ -10,7 +10,7 @@ import {Comment} from '../../entity/comment'
 
 export function _likesByUser<T extends Post|Comment>(operator: DynamoDBInput, params: QueryByUserLike<T['rk']>) {
   const {tableName, dynamodb} = operator
-  const {entity, exclusiveStartKey, userId} = params
+  const {entity, exclusiveStartKey, userId, limit = 10} = params
   const byUser = keys.byUser.like.stringify({
     entity: EEntity.Like,
   })
@@ -29,7 +29,7 @@ export function _likesByUser<T extends Post|Comment>(operator: DynamoDBInput, pa
     ScanIndexForward: false,
     ReturnConsumedCapacity: 'TOTAL',
     ExclusiveStartKey: exclusiveStartKey,
-    Limit: 10,
+    Limit: limit
   }
   if (entity) {
     input.ExpressionAttributeNames!['#e'] = 'rk'
@@ -45,5 +45,6 @@ export function _likesByUser<T extends Post|Comment>(operator: DynamoDBInput, pa
 export type QueryByUserLike<T extends Extract<EEntity, EEntity.Post | EEntity.Comment>> = {
   userId: string
   entity?: T
+  limit?: number
   exclusiveStartKey?: Key
 }
