@@ -6,7 +6,7 @@ import {ReportAgg} from '../../entity/report/report-agg'
 
 export function aggReports(operator: DynamoDBInput, params: AggReportsInput) {
   const {tableName, dynamodb} = operator
-  const {entity, exclusiveStartKey} = params
+  const {entity, exclusiveStartKey, limit = 10} = params
   const queryParams = {
     TableName: tableName,
     IndexName: EIndexName.reports,
@@ -23,13 +23,14 @@ export function aggReports(operator: DynamoDBInput, params: AggReportsInput) {
     ScanIndexForward: false,
     ReturnConsumedCapacity: 'TOTAL',
     ExclusiveStartKey: exclusiveStartKey,
-    Limit: 50
+    Limit: limit
   }
 
   return dynamodb.query<ReportAgg>(queryParams)
 }
 
 export type AggReportsInput = {
+  limit?: number
   exclusiveStartKey?: Exclude<any, string | number>
   entity: Extract<EEntity, EEntity.Post|EEntity.Comment>
 }
