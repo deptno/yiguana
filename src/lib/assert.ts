@@ -1,8 +1,10 @@
 import {ValidationError} from '../entity/error'
 import {Member, User} from '../entity/user'
+import {logAsserts} from './log'
 
 function asserts(condition, message?: string): asserts condition {
   if (!condition) {
+    log(message)
     throw new ValidationError(message)
   }
 }
@@ -20,3 +22,5 @@ export function assertOnlyMember(user: User): asserts user is Member {
   assertsUser(user)
   asserts('id' in user, 'login is required')
 }
+
+const log = logAsserts.extend('asserts')
