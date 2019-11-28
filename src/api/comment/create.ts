@@ -4,9 +4,12 @@ import {Comment, CommentUserInput} from '../../entity/comment'
 import {head} from 'ramda'
 import {UserApiInput} from '../../type'
 import {logApiComment} from '../../lib/log'
+import {assertNotEmptyString} from '../../lib/assert'
 
 export async function create(store: MetadataStore, ep: EntityFactory, input: CreateInput) {
   log('create %j', input)
+  assertNotEmptyString(input.data.content)
+
   const data = ep.createComment(input)
 
   return Promise
@@ -24,3 +27,4 @@ export async function create(store: MetadataStore, ep: EntityFactory, input: Cre
 export type CreateInput = UserApiInput<CommentUserInput>
 
 const log = logApiComment.extend('create')
+

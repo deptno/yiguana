@@ -1,5 +1,5 @@
 export class ValidationError extends Error {
-  constructor(message: EValidationErrorMessage) {
+  constructor(message: string = EValidationErrorMessage.InvalidInput) {
     super(message)
 
     if (Error.captureStackTrace) {
@@ -8,6 +8,7 @@ export class ValidationError extends Error {
   }
 }
 
+// TODO: use internal
 export enum EValidationErrorMessage {
   InvalidInput = 'Invalid input'
 }
