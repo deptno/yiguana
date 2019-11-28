@@ -98,7 +98,7 @@ export const Comments: FunctionComponent<Props> = props => {
     <>
       <div className="mh2 mv3 flex flex-column">
         <span className="mb2">
-          <i className="mh2 far fa-comment-dots"/>댓글 ({Math.max(items.length || count || 0)})
+          <i className="mh2 far fa-comment-dots"/>댓글 ({count ?? '...'})
           <small className="mh2">
             <i className="fas fa-sync-alt"/> 새 댓글 확인
           </small>
