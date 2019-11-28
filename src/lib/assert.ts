@@ -14,7 +14,7 @@ function assertsUser(user: User): asserts user is User {
 }
 
 export function assertNotEmptyString(value: string): asserts value is string {
-  asserts(typeof value !== 'string', 'not string')
+  asserts(typeof value === 'string', 'not string')
   asserts(value, 'empty string')
 }
 export function assertOnlyMember(user: User): asserts user is Member {
