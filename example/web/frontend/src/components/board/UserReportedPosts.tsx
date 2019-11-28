@@ -21,6 +21,12 @@ export const UserReportedPosts: FunctionComponent<Props> = props => {
           createdAt
           deleted
           dCategory
+          user {
+            name
+            id
+            ip
+            pw
+          }
         }
         firstResult
         cursor

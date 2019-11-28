@@ -21,6 +21,12 @@ export const UserLikePosts: FunctionComponent<Props> = props => {
           createdAt
           deleted
           dCategory
+          user {
+            name
+            id
+            ip
+            pw
+          }
         }
       }
     }
