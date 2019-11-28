@@ -4,7 +4,7 @@ import {EIndexName} from '../../dynamodb/yiguana-index'
 
 export function comments<T = Comment>(operator: DynamoDBInput, params: CommentsInput) {
   const {tableName, dynamodb} = operator
-  const {postId, exclusiveStartKey} = params
+  const {postId, exclusiveStartKey, limit = 10} = params
 
   return dynamodb.query<T>({
     TableName: tableName,
@@ -16,12 +16,14 @@ export function comments<T = Comment>(operator: DynamoDBInput, params: CommentsI
     ExpressionAttributeValues: {
       ':p': postId,
     },
+    Limit: limit,
     ReturnConsumedCapacity: 'TOTAL',
-    ExclusiveStartKey: exclusiveStartKey
+    ExclusiveStartKey: exclusiveStartKey,
   })
 }
 
 export type CommentsInput = {
   postId: string
+  limit?: number
   exclusiveStartKey?: Exclude<any, string | number>
 }
