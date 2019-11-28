@@ -7,11 +7,12 @@ import {api} from '../../pages/api/lib/api'
 import {Reply} from './Reply'
 import {useLazyQuery, useMutation} from '@apollo/react-hooks'
 import gql from 'graphql-tag'
+import {LineButton} from '../board/LineButton'
 
 export const Comments: FunctionComponent<Props> = props => {
   const {postId, count} = props
   const [{items, cursor}, setResponse] = useState({items: [] as (TComment | TReply)[], cursor: undefined})
-  const [getCommentsQuery, {data, refetch}] = useLazyQuery(gql`
+  const [getCommentsQuery, {data, refetch, fetchMore}] = useLazyQuery(gql`
     query ($postId: String!, $cursor: String) {
       comments(postId: $postId, cursor: $cursor) {
         items {
@@ -65,10 +66,36 @@ export const Comments: FunctionComponent<Props> = props => {
       }
     }
   `)
+  // TODO:
   const report = (id) => {
     api<TComment>(`/api/comment/${id}/report`, {method: 'post'})
       .catch(alert)
   }
+  const [buttonText, more] = cursor
+    ? ['더 보기', () => fetchMore({
+      variables: {
+        cursor
+      },
+      updateQuery: (prev, {fetchMoreResult}) => {
+        if (!fetchMoreResult) {
+          return prev
+        }
+
+        const current = {
+          comments: {
+            ...fetchMoreResult.comments,
+            items: [
+              ...prev.comments.items,
+              ...fetchMoreResult.comments.items,
+            ]
+          }
+        }
+
+        return current
+      }
+    })]
+    // TODO: 현재 커서없이 새로 시작 -> 마지막 커서로 패치를 시전해야함
+    : ['새 댓글 확인', () => refetch()]
 
   useEffect(getComments, [postId])
   useEffect(() => {
@@ -131,6 +158,7 @@ export const Comments: FunctionComponent<Props> = props => {
             )
           })}
         </ul>
+        <LineButton onClick={more}>{buttonText}</LineButton>
       </div>
       <div className="comment-writer mv3 ph2 ph3-ns pv3 bg-white flex flex-column mt3 pv3 b--hot-pink bt bw1">
         <CommentWriter postId={postId} onCreate={refetch}/>
