@@ -2,10 +2,10 @@ import {MetadataStore} from '../../store/dynamodb'
 import {PostUserInput} from '../../entity/post'
 import {EntityFactory} from '../../entity'
 import {User} from '../../entity/user'
-import {EValidationErrorMessage, ValidationError} from '../../entity/error'
 import {logApiPost} from '../../lib/log'
 import {ContentStore} from '../../store/s3'
 import {UserApiInput} from '../../type'
+import {assertsMember, assertsNotMember} from '../../lib/assert'
 
 export async function create(ms: MetadataStore, cs: ContentStore, e: EntityFactory, input: CreateInput) {
   log('create %j', input)
@@ -30,17 +30,11 @@ export async function create(ms: MetadataStore, cs: ContentStore, e: EntityFacto
 const validateUser = (user: User) => {
   if ('id' in user) {
     // 회원
+    assertsMember(user)
     log('member', user.id)
   } else {
     // TODO: 비회원, 비회원이 우선순위
-    const {name, pw} = user
-
-    if (!name) {
-      throw new ValidationError(EValidationErrorMessage.InvalidInput)
-    }
-    if (!pw) {
-      throw new ValidationError(EValidationErrorMessage.InvalidInput)
-    }
+    assertsNotMember(user)
     log('not member', user.name)
   }
 }

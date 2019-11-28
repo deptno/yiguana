@@ -4,20 +4,15 @@ import {Comment} from '../../../entity/comment'
 import * as R from 'ramda'
 import {LikeCommentApiInput} from '../../../type'
 import {logApiUserComment} from '../../../lib/log'
+import {assertsMember} from '../../../lib/assert'
 
 export async function like(store: MetadataStore, ep: EntityFactory, input: LikeInput) {
   log('like %j', input)
 
+  assertsMember(input.user)
+
   const {data: param, user} = input
   const {data, createdAt} = param
-
-  if (!user) {
-    throw new Error('user is required')
-  }
-  if (!('id' in user)) {
-    throw new Error('user.id is required')
-  }
-
   const like = await store.addLike({
     data: ep.createLike({
       user,
