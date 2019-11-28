@@ -7,10 +7,11 @@ import {logApiReply} from '../../lib/log'
 
 export async function create(store: MetadataStore, ep: EntityFactory, input: CreateInput) {
   log('create %j', input)
+  const data = ep.createReply(input)
 
   return Promise
     .all([
-      store.addReply({data: ep.createReply(input)}),
+      store.addReply({data}),
       store.commentPost({
         data: {
           hk: input.data.comment.postId
