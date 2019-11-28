@@ -1,4 +1,4 @@
-import React, {FunctionComponent, useEffect, useMemo, useState} from 'react'
+import React, {FunctionComponent, useEffect, useState} from 'react'
 import {CategoryBoard} from './CategoryBoard'
 import {useLazyQuery} from '@apollo/react-hooks'
 import gql from 'graphql-tag'
@@ -7,7 +7,7 @@ import Link from 'next/link'
 
 export const Boards: FunctionComponent<Props> = props => {
   const [category, setCategory] = useState<string>('')
-  const [query, {data, refetch}] = useLazyQuery<Q, A>(gql`
+  const [query, {data, refetch, fetchMore}] = useLazyQuery<Q, A>(gql`
     query posts($category: Category, $cursor: String) {
       posts(category: $category, cursor: $cursor) {
         items {
@@ -43,7 +43,28 @@ export const Boards: FunctionComponent<Props> = props => {
     query()
   }
   const [buttonText, more] = cursor
-    ? ['더 보기', fetch]
+    ? ['더 보기', () => fetchMore({
+      variables: {
+        cursor
+      },
+      updateQuery: (prev, {fetchMoreResult}) => {
+        if (!fetchMoreResult) {
+          return prev
+        }
+
+        const current = {
+          posts: {
+            ...fetchMoreResult.posts,
+            items: [
+              ...prev.posts.items,
+              ...fetchMoreResult.posts.items,
+            ]
+          }
+        }
+
+        return current
+      }
+    })]
     : ['새 글 확인', () => refetch()]
 
   useEffect(fetch, [category])
