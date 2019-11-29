@@ -50,7 +50,7 @@ export interface Post extends YiguanaDocument {
   children: number
   title: string
   contentUrl: string
-  user: Omit<User, 'id'>
+  user: User
   cover?: string
   updatedAt?: string
   content?: string

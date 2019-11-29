@@ -3,28 +3,27 @@ import locale from 'date-fns/locale/ko'
 import {formatDistanceToNow, parseISO} from 'date-fns'
 import {Post as TPost} from '../../../../../../src/entity/post'
 import * as R from 'ramda'
-import {StorageContext} from '../../context/StorageContext'
 import {BlockRequest} from '../BlockRequest'
 import {useMutation} from '@apollo/react-hooks'
 import gql from 'graphql-tag'
 import Router from 'next/router'
+import {StorageContext} from '../../context/StorageContext'
 
 export const Post: FunctionComponent<Props> = props => {
   const {data, setPost} = props
-//  const {user} = useContext(StorageContext)
+  const {user: me} = useContext(StorageContext)
   const {hk, title, userId, createdAt, updatedAt, views, likes: originalLikes, content, user} = data ?? {}
   const [likes, setLikes] = useState(originalLikes)
   const lastModifiedAt = updatedAt || createdAt
   const datetime = lastModifiedAt && formatDistanceToNow(parseISO(lastModifiedAt), {locale})
   const editable = useMemo(() => {
-    if (user) {
-      if ('id' in user) {
-        return userId
-//        return user.id === userId
+    if (me) {
+      if ('id' in me) {
+        return me.id === userId
       }
     }
     return false
-  }, [user, userId])
+  }, [me, userId])
   const [showBr, setShowBr] = useState(false)
   const [likeMutation, {data: liked}] = useMutation(gql`
     mutation ($hk: String!) {
