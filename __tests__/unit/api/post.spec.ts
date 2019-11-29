@@ -28,9 +28,12 @@ describe('unit', () => {
               },
               user: non_member_without_pw,
             })
+            expect(false).toEqual(true)
           } catch (e) {
-            expect(e.message).toEqual(EValidationErrorMessage.InvalidInput)
+            expect(e.message).toEqual('pw must not empty')
           }
+          const {items} = await api.post.list({})
+          console.table(items)
         })
         it('create post, 비회원 글쓰기', async () => {
           const post = await api.post.create({
@@ -42,6 +45,7 @@ describe('unit', () => {
             user: non_member_a,
           })
           const {items} = await api.post.list({})
+          console.table(items)
           expect(items.length).toEqual(1)
           console.log(post)
           expect(items[0]).toEqual(post)
