@@ -3,6 +3,7 @@ import {EValidationErrorMessage} from '../../../src/entity/error'
 import {bucketName, ddbClient, s3Client, tableName} from '../../env'
 import {clearData} from '../../setup'
 import {member_a, non_member_a, non_member_without_pw, member_b} from '../../__data__/user'
+import {EEntityStatus} from '../../../src/dynamodb'
 
 describe('unit', () => {
   describe('api', () => {
@@ -78,10 +79,10 @@ describe('unit', () => {
           const {items} = await api.post.list({})
           expect(items.length).toEqual(1)
           const [post] = items
-          expect(post.deleted).toEqual(undefined)
+          expect(post.status).toBeUndefined()
           await api.post.del({data: post, user: non_member_a})
           const nextPost = await api.post.read({data: post})
-          expect(nextPost.deleted).toEqual(true)
+          expect(nextPost.status).toEqual(EEntityStatus.deletedByUser)
         })
         it.todo(`request to block post
 블락 신고의 경우에는 이를 검색할 수 있는 GSI가 필요

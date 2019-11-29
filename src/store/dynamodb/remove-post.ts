@@ -1,6 +1,7 @@
 import {DynamoDBInput} from '../../entity/input/dynamodb'
 import {Post} from '../../entity'
 import * as R from 'ramda'
+import {EEntityStatus} from '../../dynamodb'
 
 export function removePost(operator: DynamoDBInput, params: RemovePostInput) {
   const {dynamodb, tableName} = operator
@@ -14,12 +15,12 @@ export function removePost(operator: DynamoDBInput, params: RemovePostInput) {
         hk,
         rk,
       },
-      UpdateExpression: [
-        'SET dCategory = category, deleted = :d',
-        'REMOVE category, posts',
-      ].join(' '),
+      UpdateExpression: 'SET #s = :s',
+      ExpressionAttributeNames: {
+        '#s': 'status'
+      },
       ExpressionAttributeValues: {
-        ':d': true,
+        ':s': EEntityStatus.deletedByUser
       },
       ReturnConsumedCapacity: 'TOTAL',
       ReturnValues: 'ALL_NEW',

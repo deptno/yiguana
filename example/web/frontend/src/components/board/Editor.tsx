@@ -25,9 +25,7 @@ export const Editor: FunctionComponent<Props> = props => {
         category
         createdAt
         content
-
-        dCategory
-        deleted
+        status
       }
     }
   `)

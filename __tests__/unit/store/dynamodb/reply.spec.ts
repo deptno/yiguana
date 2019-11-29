@@ -8,7 +8,6 @@ import {addReply} from '../../../../src/store/dynamodb/add-reply'
 import {createReply} from '../../../../src/entity/reply'
 import {comments} from '../../../../src/store/dynamodb/comments'
 import {updateReply} from '../../../../src/store/dynamodb/update-reply'
-import {removeReply} from '../../../../src/store/dynamodb/remove-reply'
 import {member_a, member_f, non_member_a} from '../../../__data__/user'
 import {createLike} from '../../../../src/entity/like'
 import {addLike} from '../../../../src/store/dynamodb/add-like'
@@ -130,19 +129,6 @@ describe('unit', function () {
             console.debug('답글 리스트 a')
             console.table(items)
             expect(items.length).toEqual(1)
-          })
-          it('remove reply', async() => {
-            const {items: commentItems} = await comments(opDdb, {postId: commentedPost.hk})
-            const repliedComment = commentItems.find(c => c.hk === commentId)!
-
-            const {items: replyItems} = await replies(opDdb, {comment: repliedComment})
-            const targetReply = replyItems[0]
-            expect(targetReply).not.toEqual(undefined)
-
-            const isRemoved = await removeReply(opDdb, {hk: targetReply.hk})
-            expect(isRemoved).toEqual(true)
-            const {items: after} = await replies(opDdb, {comment: repliedComment})
-            console.table(after) // expect 비교군이 생각이 안 나고 일단 로그로 확인하라
           })
         })
       })

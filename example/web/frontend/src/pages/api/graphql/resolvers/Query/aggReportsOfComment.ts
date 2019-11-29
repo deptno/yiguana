@@ -4,7 +4,7 @@ import {EEntity} from '../../../../../../../../../lib/entity/enum'
 
 export const aggReportsOfComment: GraphQLFieldResolver<any, Context, { entity: EEntity.Post | EEntity.Comment, cursor?: string }> =
   (source, args, context) => {
-  // FIXME: 인증필요
+    // FIXME: 인증필요
     const user = context.getUser()
     console.log('aggReportsOfComment', args, user)
 
@@ -12,19 +12,4 @@ export const aggReportsOfComment: GraphQLFieldResolver<any, Context, { entity: E
       cursor: args.cursor,
       entity: 'comment' as EEntity.Comment,
     })
-      .then((x) => {
-        console.log(x)
-        return x
-      })
-      .then(response => {
-        return {
-          ...response,
-          items: response.items.map(item => {
-            if (item.deleted) {
-              item.content = '삭제 처리 되었습니다.'
-            }
-            return item
-          }),
-        }
-      })
   }

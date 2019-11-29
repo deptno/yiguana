@@ -28,6 +28,7 @@ export const Boards: FunctionComponent<Props> = props => {
             pw
             ip
           }
+          status
         }
         cursor
         firstResult

@@ -12,19 +12,4 @@ export const reports: GraphQLFieldResolver<any, Context> =
         rk: args.rk,
       },
     })
-      .then(response => {
-        return {
-          ...response,
-          items: response.items.map(item => {
-            if (item.deleted) {
-              item.content = '삭제 처리 되었습니다.'
-            }
-            return item
-          }),
-        }
-      })
-      .then( x => {
-        console.log('xx', x)
-        return x
-      })
   }

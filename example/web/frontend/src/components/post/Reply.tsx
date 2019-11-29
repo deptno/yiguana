@@ -10,10 +10,12 @@ import cx from 'classnames'
 import {BlockRequest} from '../BlockRequest'
 import * as R from 'ramda'
 import {MentionWriter} from '../board/MentionWriter'
+import {EEntityStatus} from '../../../../../../lib'
 
 export const Reply: FunctionComponent<Props> = props => {
   const {data, onLike, onCreate, onDelete} = props
-  const {hk, rk, postId, content, createdAt, likes, user, userId, deleted} = data
+  const {hk, rk, postId, content, createdAt, likes, user, userId, status} = data
+  const deleted = status === EEntityStatus.deletedByUser
   const {ip, name} = user
   const [showWriter, setShowWriter] = useState(false)
   const [showReporter, setShowReporter] = useState(false)

@@ -18,6 +18,7 @@ import {unlikeComment} from '../../../../src/store/dynamodb/unlike-comment'
 import {createLike} from '../../../../src/entity/like'
 import {addLike} from '../../../../src/store/dynamodb/add-like'
 import {member_d, member_e} from '../../../__data__/user'
+import {EEntityStatus} from '../../../../src/dynamodb'
 
 describe('unit', function () {
   describe('store', function () {
@@ -241,6 +242,7 @@ describe('unit', function () {
             console.log('PostPage 의 children 값도 증가')
             await commentPost(opDdb, {data: commentedPost})
             const nextCommentedPost = await post(opDdb, {hk: commentedPost.hk})
+            console.log(nextCommentedPost.children)
             expect(nextCommentedPost.children).toEqual(2)
           })
         })
@@ -273,7 +275,10 @@ describe('unit', function () {
             expect(removedPost.hk).toEqual(commentedPost.hk)
 
             const {items: afterPost} = await posts(opDdb, {})
-            expect(afterPost.length).toEqual(beforePost.length - 1)
+            expect(afterPost.length).toEqual(beforePost.length)
+            expect(
+              afterPost.filter(p => p.status === EEntityStatus.deletedByUser).length
+            ).toEqual(1)
 
             console.table(afterPost)
 

@@ -7,6 +7,7 @@ import {createReport, CreateReportInput} from './report'
 export * from './user'
 export * from './post'
 export * from './comment'
+export * from './report'
 
 export class EntityFactory {
   createPost(input: CreatePostInput) {

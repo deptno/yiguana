@@ -30,7 +30,7 @@ const ReportsCommentPage: NextPage<Props> = props => {
           pw
         }
         commentId
-        deleted
+        status
         comment {
           hk
           rk
@@ -48,7 +48,7 @@ const ReportsCommentPage: NextPage<Props> = props => {
             pw
           }
           commentId
-          deleted
+          status
         }
         post {
           hk
@@ -68,8 +68,7 @@ const ReportsCommentPage: NextPage<Props> = props => {
             pw
           }
           
-          dCategory
-          deleted
+          status
         }
       }
       reports(hk: $hk, rk: $rk) {

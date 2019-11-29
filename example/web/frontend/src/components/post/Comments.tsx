@@ -32,7 +32,7 @@ export const Comments: FunctionComponent<Props> = props => {
             pw
           }
           commentId
-          deleted
+          status
         } cursor
         firstResult
       }
@@ -50,7 +50,6 @@ export const Comments: FunctionComponent<Props> = props => {
         commentId
         content
         createdAt
-        deleted
         hk
         likes
         postId
@@ -63,6 +62,7 @@ export const Comments: FunctionComponent<Props> = props => {
           pw
         }
         userId
+        status
       }
     }
   `)

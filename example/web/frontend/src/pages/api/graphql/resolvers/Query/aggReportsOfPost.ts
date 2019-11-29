@@ -11,16 +11,4 @@ export const aggReportsOfPost: GraphQLFieldResolver<any, Context, { entity: EEnt
       cursor: args.cursor,
       entity: 'post' as EEntity.Post,
     })
-      .then(response => {
-        return {
-          ...response,
-          items: response.items.map(item => {
-            if (item.deleted) {
-              item.content = '삭제 처리 되었습니다.'
-            }
-            return item
-          }),
-        }
-      })
-      .catch(() => null)
   }

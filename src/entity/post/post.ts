@@ -57,6 +57,5 @@ export interface Post extends YiguanaDocument {
   userId?: string // gsi.hk
   byUser?: string // gsi.rk
   category: string // gsi.rk
-  dCategory?: string // remove-posts 참조
   posts: string // gsi.rk
 }

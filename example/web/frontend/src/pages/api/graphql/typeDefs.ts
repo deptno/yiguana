@@ -41,8 +41,7 @@ export const typeDefs = gql`
     cover: String
     user: User!
 
-    dCategory: String
-    deleted: Boolean
+    status: EEntityStatus
   }
   type CommentList {
     items: [Comment]!
@@ -62,7 +61,7 @@ export const typeDefs = gql`
     user: User!
     commentId: String
 
-    deleted: Boolean
+    status: EEntityStatus
     refUserName: String
     
     comment: Comment
@@ -170,5 +169,15 @@ export const typeDefs = gql`
   input DocumentInput {
     hk: String
     rk: String
+  }
+
+  enum EEntityStatus {
+    requestedBlock
+    blockedBySystem
+    deletedByUser
+    deletedByAdmin
+    deletedBySystem
+    innocent
+    inAudit
   }
 `

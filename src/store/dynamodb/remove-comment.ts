@@ -1,5 +1,5 @@
 import {DynamoDBInput} from '../../entity/input/dynamodb'
-import {YiguanaDocumentHash} from '../../dynamodb/yiguana-document'
+import {YiguanaDocumentHash, EEntityStatus} from '../../dynamodb'
 import {EEntity} from '../../entity/enum'
 import {Comment} from '../../entity'
 import * as R from 'ramda'
@@ -16,9 +16,12 @@ export async function removeComment(operator: DynamoDBInput, params: RemoveComme
         hk,
         rk,
       },
-      UpdateExpression: 'SET deleted = :d',
+      UpdateExpression: 'SET #s = :s',
+      ExpressionAttributeNames: {
+        '#s': 'status',
+      },
       ExpressionAttributeValues: {
-        ':d': true,
+        ':s': EEntityStatus.deletedByUser,
       },
       ReturnConsumedCapacity: 'TOTAL',
       ReturnValues: 'ALL_NEW',
