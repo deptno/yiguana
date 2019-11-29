@@ -36,6 +36,7 @@ export default {
     'crypto',
     'path',
     'url',
+    'util',
     '@deptno/dynamodb',
     '@deptno/s3',
     'short-uuid',

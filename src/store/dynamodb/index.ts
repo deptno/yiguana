@@ -41,6 +41,7 @@ import {reports, ReportsInput} from './reports'
 import {logStoreDdb} from '../../lib/log'
 import {postsByUserReport, PostsByUserReportInput} from './posts-by-user-report'
 import {CommentsByUserReportInput, commentsByUserReport} from './comments-by-user-report'
+import {deprecate} from 'util'
 
 export class MetadataStore {
   constructor(private operator: DynamoDBInput) {
@@ -172,9 +173,10 @@ export class MetadataStore {
     return unlikeComment(this.operator, input)
   }
 
+  // @deprecated
   replies(input: RepliesInput) {
     logStoreDdb('replies', input)
-    return replies(this.operator, input)
+    return deprecate(replies, 'use comments instead')(this.operator, input)
   }
 
   repliesByUserId(input: RepliesByUserIdInput) {
