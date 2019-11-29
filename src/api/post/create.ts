@@ -5,12 +5,13 @@ import {User} from '../../entity/user'
 import {logApiPost} from '../../lib/log'
 import {ContentStore} from '../../store/s3'
 import {UserApiInput} from '../../type'
-import {assertsMember, assertsNotMember} from '../../lib/assert'
+import {assertNotEmptyString, assertsMember, assertsNotMember} from '../../lib/assert'
 
 export async function create(ms: MetadataStore, cs: ContentStore, e: EntityFactory, input: CreateInput) {
   log('create %j', input)
 
   validateUser(input.user)
+  assertNotEmptyString(input.data.content)
 
   const {data, user} = input
   // FIXME: cs.create 는 throw 가능성(unsafe)이 있다.
