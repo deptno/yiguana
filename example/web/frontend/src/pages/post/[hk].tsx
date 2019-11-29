@@ -26,6 +26,10 @@ const PostPage: NextPage<Props> = props => {
         createdAt
         content
         userId
+        user {
+          id
+          name
+        }
 
         dCategory
         deleted
