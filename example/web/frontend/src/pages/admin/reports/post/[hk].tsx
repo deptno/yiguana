@@ -5,6 +5,7 @@ import gql from 'graphql-tag'
 import {useRouter} from 'next/router'
 import Link from 'next/link'
 import {BoardItem} from '../../../../components/board/BoardItem'
+import {Post} from '../../../../components/post/Post'
 
 const ReportsPostPage: NextPage<Props> = props => {
   const {query: {hk}} = useRouter()
@@ -27,6 +28,7 @@ const ReportsPostPage: NextPage<Props> = props => {
           name
           pw
         }
+        content
 
         status
       }
@@ -66,7 +68,9 @@ const ReportsPostPage: NextPage<Props> = props => {
       <div className="flex-auto mv2 pa2 bg-gold">
         {data?.post && <BoardItem item={data?.post} no={0}/>}
       </div>
-      신고받은 게시물들
+      {data?.post && <Post data={data.post}/>}
+      <hr/>
+      신고 내용들
       {data?.reports?.items.map((r, no) => {
         return (
           <Link key={`${r.hk}#${r.userId}`} href="/admin/reports/[hk]" as={`/admin/reports/${r.hk}`}>

@@ -7,6 +7,7 @@ import Link from 'next/link'
 import {Comment} from '../../../../components/post/Comment'
 import {BoardItem} from '../../../../components/board/BoardItem'
 import {Reply} from '../../../../components/post/Reply'
+import {Post} from '../../../../components/post/Post'
 
 const ReportsCommentPage: NextPage<Props> = props => {
   const {query: {hk}} = useRouter()
@@ -67,6 +68,7 @@ const ReportsCommentPage: NextPage<Props> = props => {
             name
             pw
           }
+          content
           
           status
         }
@@ -94,9 +96,6 @@ const ReportsCommentPage: NextPage<Props> = props => {
     }
   }, [hk])
 
-  console.log(hk, data, error)
-  console.log(data?.comment?.commentId)
-
   return (
     <div className="pa3 flex-column">
       신고받은 게시물들
@@ -118,6 +117,8 @@ const ReportsCommentPage: NextPage<Props> = props => {
             : <Comment data={data.comment} onCreate={console.log} onLike={console.log} onReport={console.log}/>
         )}
       </div>
+      {data?.comment?.post && <Post data={data.comment.post}/>}
+      <hr/>
       {data?.reports?.items.map((r, no) => {
         return (
           <Link key={`${r.hk}#${r.userId}`} href="/admin/reports/[hk]" as={`/admin/reports/${r.hk}`}>
