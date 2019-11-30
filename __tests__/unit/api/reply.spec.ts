@@ -4,7 +4,6 @@ import {Comment} from '../../../src/entity/comment'
 import {bucketName, ddbClient, s3Client, tableName} from '../../env'
 import {member_f, non_member_a} from '../../__data__/user'
 import * as R from 'ramda'
-import {EEntityStatus} from '../../../src/dynamodb'
 
 describe('unit', () => {
   describe('api', () => {
