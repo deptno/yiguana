@@ -54,7 +54,7 @@ export const Reply: FunctionComponent<Props> = props => {
       </figure>
       <div className={cx('flex-auto flex flex-column', {'black-30': deleted})}>
         <header className="pa2 flex lh-copy bg-near-white br2 br--top">
-          <strong className="">{name}</strong>
+          <strong className="">{name} 님</strong>
           <div className="ml-auto">
             <span>
               <i className="mh1 pv1 far fa-clock black-60"/>{formatDistanceToNow(parseISO(createdAt), {locale})} 전

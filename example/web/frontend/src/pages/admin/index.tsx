@@ -5,6 +5,7 @@ import gql from 'graphql-tag'
 import {BoardItem} from '../../components/board/BoardItem'
 import {Comment} from '../../components/post/Comment'
 import Link from 'next/link'
+import {Reply} from '../../components/post/Reply'
 
 const AdminPage: NextPage<Props> = props => {
   const [reports, setReports] = useState([])
@@ -87,7 +88,7 @@ const AdminPage: NextPage<Props> = props => {
           <Link key={rp.hk} href="/admin/reports/post/[hk]" as={`/admin/reports/post/${rp.hk}`}>
             <div className="flex flex-column pa2 ba">
               <div className="lh-copy flex w-100 pointer mv0 pv0 lh-copy nowrap bg-gold pa2">
-                <span className="w4">{rp.agg.split('#')[1].toUpperCase()}</span>
+                <span className="w4">글</span>
                 <span className="w3">신고수: {rp.reported}</span>
                 <span className="ml-auto">신고 내용 보기 -></span>
               </div>
@@ -106,12 +107,15 @@ const AdminPage: NextPage<Props> = props => {
           <Link key={rp.hk} href="/admin/reports/comment/[hk]" as={`/admin/reports/comment/${rp.hk}`}>
             <div className="flex flex-column pa2 ba">
               <div className="lh-copy flex w-100 pointer mv0 pv0 lh-copy nowrap bg-gold pa2">
-                <span className="w4">{rp.agg.split('#')[1].toUpperCase()}</span>
+                <span className="w4">{rp.data.commentId ? '답글' : '댓글'}</span>
                 <span className="w3">신고수: {rp.reported}</span>
                 <span className="ml-auto">신고 내용 보기 -></span>
               </div>
               <div className="flex-auto">
-                <Comment data={rp.data} onCreate={console.log} onLike={console.log} onReport={console.log}/>
+                {rp.data.commentId
+                  ? <Reply data={rp.data} onCreate={console.log} onLike={console.log} onDelete={console.log}/>
+                  : <Comment data={rp.data} onCreate={console.log} onLike={console.log} onReport={console.log}/>
+                }
               </div>
               <pre className="debug pa3 pre-wrap overflow-x-scroll f7 bg-black-10 ba b--dashed">
               {JSON.stringify(rp, null, 2)}
