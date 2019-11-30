@@ -9,7 +9,7 @@ import {Comment} from '../comment'
 export function createLike<T extends Post | Comment>(params: CreateLikeInput<T>): Like {
   const {user, data: {data, createdAt}} = params
   const {hk: targetId, rk: target} = data
-  const {id: userId, ...userOmitId} = user
+  const {id: userId} = user
   const entity = EEntity.Like
   const hk = targetId
   const rk = keys.rk.like.stringify({entity, target, userId})
@@ -21,8 +21,8 @@ export function createLike<T extends Post | Comment>(params: CreateLikeInput<T>)
     userId,
     byUser,
     createdAt,
-    user: userOmitId,
-    data
+    user,
+    data,
   }
 }
 
@@ -36,5 +36,5 @@ export interface Like extends YiguanaDocument {
   userId: string
   byUser: string
   user: Omit<User, 'id'>
-  data: Post|Comment
+  data: Post | Comment
 }

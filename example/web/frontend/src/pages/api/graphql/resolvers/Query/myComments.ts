@@ -13,19 +13,8 @@ export const myComments: GraphQLFieldResolver<any, Context, Args> = (source, arg
   // FIXME: userId 대신 user 를 통일해서 받고 처리되어야한다
   return context.dataSources.private.comments({
     ...args,
-    userId: user.id
+    userId: user.id,
   })
-    .then(response => {
-      return {
-        ...response,
-        items: response.items.map(item => {
-          if (item.deleted) {
-            item.content = '삭제 처리 되었습니다.'
-          }
-          return item
-        })
-      }
-    })
 }
 
 type Args = {

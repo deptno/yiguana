@@ -25,6 +25,7 @@ export const UserReportedComments: FunctionComponent<Props> = props => {
             pw
           }
           userId
+          status
         }
       }
     }

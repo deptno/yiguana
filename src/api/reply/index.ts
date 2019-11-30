@@ -3,7 +3,6 @@ import {EntityFactory} from '../../entity'
 import {list, ListInput} from './list'
 import {create, CreateInput} from './create'
 import {update, UpdateInput} from './update'
-import {del, DelInput} from './del'
 import {logApiReply} from '../../lib/log'
 
 export class ReplyApi {
@@ -24,10 +23,5 @@ export class ReplyApi {
   update(input: UpdateInput) {
     logApiReply('update', input)
     return update(this.store, this.ef, input)
-  }
-
-  del(input: DelInput) {
-    logApiReply('del', input)
-    return del(this.store, this.ef, input)
   }
 }

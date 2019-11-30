@@ -1,5 +1,4 @@
 import {DynamoDBInput} from '../../entity/input/dynamodb'
-import {EEntity} from '../../entity/enum'
 import {YiguanaDocumentHashRange} from '../../dynamodb/yiguana-document'
 
 export async function remove(operator: DynamoDBInput, params: RemoveInput): Promise<any | undefined> {

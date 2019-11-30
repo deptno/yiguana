@@ -1,6 +1,6 @@
 import {DynamoDBInput} from '../../entity/input/dynamodb'
 import {Comment} from '../../entity/comment'
-import {EIndexName} from '../../dynamodb/yiguana-index'
+import {EIndexName} from '../../dynamodb'
 
 export function comments<T = Comment>(operator: DynamoDBInput, params: CommentsInput) {
   const {tableName, dynamodb} = operator

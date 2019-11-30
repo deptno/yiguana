@@ -21,7 +21,6 @@ import {updateComment, UpdateCommentInput} from './update-comment'
 import {likeComment, LikeCommentInput} from './like-comment'
 import {unlikeComment, UnlikeCommentInput} from './unlike-comment'
 import {updateReply, UpdateCommentReplyInput} from './update-reply'
-import {removeReply, RemoveCommentReplyInput} from './remove-reply'
 import {addLike, AddLikeInput} from './add-like'
 import {getLike, GetLikeInput} from './get-like'
 import {get, GetInput} from './get'
@@ -197,11 +196,6 @@ export class MetadataStore {
   updateReply(input: UpdateCommentReplyInput) {
     logStoreDdb('updateReply', input)
     return updateReply(this.operator, input)
-  }
-
-  removeReply(input: RemoveCommentReplyInput) {
-    logStoreDdb('removeReply', input)
-    return removeReply(this.operator, input)
   }
 
   likeReply(input: LikeReplyInput) {

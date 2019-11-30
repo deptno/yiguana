@@ -31,8 +31,7 @@ const PostPage: NextPage<Props> = props => {
           name
         }
 
-        dCategory
-        deleted
+        status
       }
     }`)
   const getPost = useCallback(() => {

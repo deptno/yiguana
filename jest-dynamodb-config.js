@@ -45,10 +45,6 @@ module.exports = {
           'AttributeType': 'S'
         },
         {
-          'AttributeName': 'order',
-          'AttributeType': 'S'
-        },
-        {
           'AttributeName': 'postId',
           'AttributeType': 'S'
         },

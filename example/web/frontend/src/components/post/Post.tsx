@@ -32,8 +32,7 @@ export const Post: FunctionComponent<Props> = props => {
         children
         content
         createdAt
-        dCategory
-        deleted
+        status
         hk
         likes
         rk
@@ -41,6 +40,7 @@ export const Post: FunctionComponent<Props> = props => {
         views
         userId
         cover
+        status
       }
     }
   `)

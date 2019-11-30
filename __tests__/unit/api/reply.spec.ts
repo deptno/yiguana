@@ -73,23 +73,6 @@ describe('unit', () => {
         expect(found).toEqual(updatedReply)
       })
 
-      it('remove reply', async() => {
-        const {items: replyItems} = await api.reply.list({comment})
-        const [targetReply] = replyItems
-        expect(targetReply).not.toEqual(undefined)
-
-        expect(targetReply.deleted).toBeUndefined()
-        const isRemoved = await api.reply.del({
-          data: targetReply,
-        })
-        expect(isRemoved).toEqual(true)
-        const {items: after} = await api.reply.list({comment})
-        console.table(after)
-        const found = after.find(r => r.hk === targetReply.hk)!
-        expect(found).toBeDefined()
-        expect(found.deleted).toEqual(true)
-      })
-
       it.todo('request to block reply')
 
     })

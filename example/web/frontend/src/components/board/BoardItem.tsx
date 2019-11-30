@@ -6,6 +6,7 @@ import Link from 'next/link'
 import {useMutation} from '@apollo/react-hooks'
 import gql from 'graphql-tag'
 import Router from 'next/router'
+import cx from 'classnames'
 
 export const BoardItem: FunctionComponent<Props> = props => {
   const {item, no} = props
@@ -25,14 +26,14 @@ export const BoardItem: FunctionComponent<Props> = props => {
 
   return (
     <Link href="/post/[hk]" as={`/post/${item.hk}`}>
-      <div className="lh-copy center flex flex-column items-center nowrap tc ph2 pv1 bl br bb b--black-05">
+      <div className={
+        cx('lh-copy center flex flex-column items-center nowrap tc ph2 pv1 bl br bb b--black-05', {
+          'bg-black-05 black-30': item.status
+        })
+      }>
         <div className="flex w-100 pointer mv0 pv0 lh-copy ">
           <span className="w3 dn db-ns">{no}</span>
-          <span className="w-20 dn db-ns">{
-            R.head(item.deleted
-              ? item.dCategory.split('#')
-              : item.category.split('#'))
-          }</span>
+          <span className="w-20 dn db-ns">{R.head(item.category.split('#'))}</span>
           <span className="w-100 w-50-ns pl2 cut-text tl">
             {item.cover
               ? <i className="mr2 fas fa-photo-video"/>

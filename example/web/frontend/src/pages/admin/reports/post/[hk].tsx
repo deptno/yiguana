@@ -28,8 +28,7 @@ const ReportsPostPage: NextPage<Props> = props => {
           pw
         }
 
-        dCategory
-        deleted
+        status
       }
       reports(hk: $hk, rk: $rk) {
         items {

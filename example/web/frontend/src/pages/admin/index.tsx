@@ -36,8 +36,7 @@ const AdminPage: NextPage<Props> = props => {
               pw
             }
 
-            dCategory
-            deleted
+            status
           }
         }
         cursor
@@ -67,7 +66,7 @@ const AdminPage: NextPage<Props> = props => {
               pw
             }
             commentId
-            deleted
+            status
           }
         }
         cursor

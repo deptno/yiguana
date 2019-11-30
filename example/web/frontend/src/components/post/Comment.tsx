@@ -10,11 +10,13 @@ import cx from 'classnames'
 import gql from 'graphql-tag'
 import {BlockRequest} from '../BlockRequest'
 import * as R from 'ramda'
+import {EEntityStatus} from '../../../../../../lib'
 
 export const Comment: FunctionComponent<Props> = props => {
   const {data, onLike, onCreate, onReport} = props
-  const {hk, rk, postId, content, userId, createdAt, updatedAt = createdAt, children, likes, user, deleted} = data
+  const {hk, rk, postId, content, userId, createdAt, updatedAt = createdAt, children, likes, user, status} = data
   const {name, ip} = user
+  const deleted = status === EEntityStatus.deletedByUser
   const [showWriter, setShowWriter] = useState(false)
   const [showReporter, setShowReporter] = useState(false)
   const context = useContext(StorageContext)

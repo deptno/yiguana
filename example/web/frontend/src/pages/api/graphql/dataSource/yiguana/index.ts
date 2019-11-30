@@ -2,6 +2,7 @@ import {DataSource} from 'apollo-datasource'
 import {yiguana} from '../../../lib/yiguana'
 import {util} from '@deptno/dynamodb'
 import {SALT} from '../../../lib/token'
+import {overrideResponseByStatus} from '../../../lib/display'
 
 export class Public extends DataSource {
   get(args: Argument<typeof yiguana.administrator.get>) {
@@ -12,6 +13,7 @@ export class Public extends DataSource {
     return yiguana.post
       .list(preListHook(args))
       .then(postListHook)
+      .then(overrideResponseByStatus)
   }
 
   post(args: Argument<typeof yiguana.post.view>) {
@@ -22,6 +24,7 @@ export class Public extends DataSource {
     return yiguana.comment
       .list(preListHook(args))
       .then(postListHook)
+      .then(overrideResponseByStatus)
   }
 
   comment(args: ListArgument<typeof yiguana.comment.read>) {
@@ -61,12 +64,7 @@ export class Private extends DataSource {
     return yiguana.user.post
       .list(preListHook(args))
       .then(postListHook)
-  }
-
-  reportedPosts(args: ListArgument<typeof yiguana.user.post.list>) {
-    return yiguana.user.post
-      .list(preListHook(args))
-      .then(postListHook)
+      .then(overrideResponseByStatus)
   }
 
   likePost({data: {hk}, user}) {
@@ -95,6 +93,7 @@ export class Private extends DataSource {
     return yiguana.user.comment
       .list(preListHook(args))
       .then(postListHook)
+      .then(overrideResponseByStatus)
   }
 
   likeComment({data: {hk}, user}) {

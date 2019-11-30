@@ -19,14 +19,13 @@ export const UserLikePosts: FunctionComponent<Props> = props => {
           likes
           views
           createdAt
-          deleted
-          dCategory
           user {
             name
             id
             ip
             pw
           }
+          status
         }
       }
     }
