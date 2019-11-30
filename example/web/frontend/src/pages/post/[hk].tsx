@@ -39,15 +39,6 @@ const PostPage: NextPage<Props> = props => {
       getPostQuery({variables: {postId}})
     }
   }, [postId])
-  const setPostLikes = useCallback(
-    R.compose(
-      setPost,
-      R.merge(
-        R.pick(['content'], R.defaultTo({}, post)),
-      ),
-    ),
-    [post],
-  )
 
   useEffect(getPost, [postId])
   useEffect(() => {
@@ -58,7 +49,7 @@ const PostPage: NextPage<Props> = props => {
 
   return (
     <div className="pa3 flex-column">
-      <Post data={post} setPost={setPostLikes}/>
+      <Post data={post}/>
       <LineLink href="/">목록으로</LineLink>
       <Comments postId={postId} count={post?.children}/>
     </div>
