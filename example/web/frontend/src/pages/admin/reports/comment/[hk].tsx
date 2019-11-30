@@ -8,6 +8,7 @@ import {Comment} from '../../../../components/post/Comment'
 import {BoardItem} from '../../../../components/board/BoardItem'
 import {Reply} from '../../../../components/post/Reply'
 import {Post} from '../../../../components/post/Post'
+import {AnswerBlockRequest} from '../../../../components/AnswerBlockRequest'
 
 const ReportsCommentPage: NextPage<Props> = props => {
   const {query: {hk}} = useRouter()
@@ -126,6 +127,9 @@ const ReportsCommentPage: NextPage<Props> = props => {
         )}
       </div>
       {data?.comment?.post && <Post data={data.comment.post}/>}
+      <hr/>
+      // TODO: reports 쿼리로 전체를 가져와야지 전체에 대해서 응답을 할 수 있다 아니면 두번 패치가 필요
+      <AnswerBlockRequest data={{hk: hk as string}} reports={data?.reports?.items ?? []} onRequest={console.log}/>
       <hr/>
       {data?.reports?.items.map((r, no) => {
         return (

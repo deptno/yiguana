@@ -6,6 +6,7 @@ import {useRouter} from 'next/router'
 import Link from 'next/link'
 import {BoardItem} from '../../../../components/board/BoardItem'
 import {Post} from '../../../../components/post/Post'
+import {AnswerBlockRequest} from '../../../../components/AnswerBlockRequest'
 
 const ReportsPostPage: NextPage<Props> = props => {
   const {query: {hk}} = useRouter()
@@ -69,6 +70,9 @@ const ReportsPostPage: NextPage<Props> = props => {
         {data?.post && <BoardItem item={data?.post} no={0}/>}
       </div>
       {data?.post && <Post data={data.post}/>}
+      <hr/>
+      // TODO: reports 쿼리로 전체를 가져와야지 전체에 대해서 응답을 할 수 있다 아니면 두번 패치가 필요
+      <AnswerBlockRequest data={{hk: hk as string}} reports={data?.reports?.items ?? []} onRequest={console.log}/>
       <hr/>
       신고 내용들
       {data?.reports?.items.map((r, no) => {
