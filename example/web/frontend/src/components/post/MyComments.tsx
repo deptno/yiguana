@@ -27,7 +27,7 @@ export const MyComments: FunctionComponent<Props> = props => {
                   <a className="debug">글 보기 -></a>
                 </Link>
               </div>
-              <pre className="ma0 pa2" dangerouslySetInnerHTML={{__html: content}}/>
+              <pre className="ma0 pa2 ws-normal" dangerouslySetInnerHTML={{__html: content}}/>
               <pre className="debug">{JSON.stringify(commentOrReply, null, 2)}</pre>
             </div>
           </li>

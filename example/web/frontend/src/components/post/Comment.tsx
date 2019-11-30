@@ -77,7 +77,7 @@ export const Comment: FunctionComponent<Props> = props => {
           </div>
         </header>
         <main className="pa2 bg-white br2 br--bottom">
-          <pre className="ma0 pa2" dangerouslySetInnerHTML={{__html: content}}/>
+          <pre className="ma0 pa2 ws-normal" dangerouslySetInnerHTML={{__html: content}}/>
         </main>
         <pre className="debug">{JSON.stringify(data, null, 2)}</pre>
         {showReporter && <BlockRequest data={R.pick(['hk', 'rk'], data)} onRequest={() => setShowReporter(false)}/>}
