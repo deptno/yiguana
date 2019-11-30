@@ -78,6 +78,14 @@ const ReportsCommentPage: NextPage<Props> = props => {
           hk
           userId
           content
+          byUser
+          hk
+          rk
+          user {
+            name
+          }
+          userId
+          
         }
         firstResult
         cursor
