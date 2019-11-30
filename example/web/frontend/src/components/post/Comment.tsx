@@ -13,7 +13,7 @@ import * as R from 'ramda'
 import {EEntityStatus} from '../../../../../../lib'
 
 export const Comment: FunctionComponent<Props> = props => {
-  const {data, onLike, onCreate, onReport} = props
+  const {data, onLike, onCreate} = props
   const {hk, rk, postId, content, userId, createdAt, updatedAt = createdAt, children, likes, user, status} = data
   const {name, ip} = user
   const deleted = status === EEntityStatus.deletedByUser
@@ -91,5 +91,4 @@ type Props = {
   data: TComment
   onLike(id: string): void
   onCreate(): void
-  onReport(id: string): void
 }

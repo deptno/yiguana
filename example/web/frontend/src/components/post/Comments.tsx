@@ -1,9 +1,8 @@
-import React, {FunctionComponent, useCallback, useEffect, useRef, useState} from 'react'
+import React, {FunctionComponent, useEffect, useState} from 'react'
 import {Comment} from './Comment'
 import {Comment as TComment} from '../../../../../../src/entity/comment'
 import {Reply as TReply} from '../../../../../../src/entity/reply'
 import {CommentWriter} from '../board/CommentWriter'
-import {api} from '../../pages/api/lib/api'
 import {Reply} from './Reply'
 import {useLazyQuery, useMutation} from '@apollo/react-hooks'
 import gql from 'graphql-tag'
@@ -66,11 +65,7 @@ export const Comments: FunctionComponent<Props> = props => {
       }
     }
   `)
-  // TODO:
-  const report = (id) => {
-    api<TComment>(`/api/comment/${id}/report`, {method: 'post'})
-      .catch(alert)
-  }
+
   const [buttonText, more] = cursor
     ? ['더 보기', () => fetchMore({
       variables: {
@@ -153,7 +148,6 @@ export const Comments: FunctionComponent<Props> = props => {
                 data={commentOrReply as TComment}
                 onLike={like}
                 onCreate={refetch}
-                onReport={report}
               />
             )
           })}
