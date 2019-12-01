@@ -1,4 +1,4 @@
-import {Comment, Post, User} from './entity'
+import {Comment, Member, Post, User} from './entity'
 
 export type ApiInput<T> = {
   data: T
@@ -6,6 +6,10 @@ export type ApiInput<T> = {
 export type UserApiInput<T> = {
   data: T
   user: User
+}
+export type MemberApiInput<T> = {
+  data: T
+  user: Member
 }
 
 export type LikeCommentApiInput = UserApiInput<{

@@ -122,6 +122,10 @@ export class Private extends DataSource {
     return yiguana.comment.del(args)
   }
 
+  reports(args: ListArgument2<typeof yiguana.user.report.list>) {
+    return yiguana.user.report.list(args)
+  }
+
   report(args: ListArgument<typeof yiguana.user.report.create>) {
     return yiguana.user.report.create(args)
   }
@@ -148,5 +152,9 @@ type Argument<F extends Function> = F extends (first: infer A) => any
   : never;
 type ListArgument<F extends Function> = F extends (first: infer A) => any
   ? Omit<A, 'exclusiveStartKey'> & { cursor?: string }
+  : never;
+
+type ListArgument2<F extends Function> = F extends <T extends {user, data: infer A}>(first: T) => any
+  ? {user, data: Omit<A, 'exclusiveStartKey'> & { cursor?: string }}
   : never;
 

@@ -19,6 +19,8 @@ export const typeDefs = gql`
     myComments(cursor: String, like: Boolean): CommentList!
     myReportedPosts(cursor: String): PostList!
     myReportedComments(cursor: String): CommentList!
+    myPostReports(cursor: String): ReportPostList!
+    myCommentReports(cursor: String): ReportCommentList!
 
     uploadUrl(key: String!): String
   }
@@ -121,11 +123,13 @@ export const typeDefs = gql`
     answer: String
   }
   type ReportComment {
+    hk: String!
+    rk: String!
     userId: String
     byUser: String
     content: String!
     user: User!
-    data: Post
+    data: Comment
     status: EEntityStatus!
     answer: String
   }
