@@ -47,6 +47,7 @@ export interface Comment extends YiguanaDocument {
   user: Omit<User, 'id'>
   updatedAt?: string
   likes: number
+  commentId?: string
 //  user: User
 //  ip: string
 //  password?: string
