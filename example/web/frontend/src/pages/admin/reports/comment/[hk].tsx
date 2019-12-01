@@ -9,6 +9,7 @@ import {BoardItem} from '../../../../components/board/BoardItem'
 import {Reply} from '../../../../components/post/Reply'
 import {Post} from '../../../../components/post/Post'
 import {AnswerBlockRequest} from '../../../../components/AnswerBlockRequest'
+import {EEntity} from '../../../../../../../../lib/type'
 
 const ReportsCommentPage: NextPage<Props> = props => {
   const {query: {hk}} = useRouter()
@@ -70,9 +71,9 @@ const ReportsCommentPage: NextPage<Props> = props => {
             pw
           }
           content
-          
           status
         }
+        status
       }
       reports(hk: $hk, rk: $rk) {
         items {
@@ -86,7 +87,8 @@ const ReportsCommentPage: NextPage<Props> = props => {
             name
           }
           userId
-          
+          status
+          answer
         }
         firstResult
         cursor
@@ -129,7 +131,7 @@ const ReportsCommentPage: NextPage<Props> = props => {
       {data?.comment?.post && <Post data={data.comment.post}/>}
       <hr/>
       // TODO: reports 쿼리로 전체를 가져와야지 전체에 대해서 응답을 할 수 있다 아니면 두번 패치가 필요
-      <AnswerBlockRequest data={{hk: hk as string}} reports={data?.reports?.items ?? []} onRequest={console.log}/>
+      <AnswerBlockRequest data={{hk}} entity={EEntity.Comment}/>
       <hr/>
       {data?.reports?.items.map((r, no) => {
         return (
@@ -139,6 +141,8 @@ const ReportsCommentPage: NextPage<Props> = props => {
                 <span className="bg-black-05 pa2 mr2"><i
                   className="far fa-user-circle bg-black white pa1 br2"/> {r.userId}</span>
                 <span className="w-100 ws-normal">신고내용: {r.content}</span>
+                <span className="w4 ws-normal">상태: {r.status}</span>
+                <span className="w4 ws-normal">상태: {r.answer}</span>
               </div>
               <pre className="debug pa3 pre-wrap overflow-x-scroll f7 bg-black-10 ba b--dashed">
               {JSON.stringify(r, null, 2)}

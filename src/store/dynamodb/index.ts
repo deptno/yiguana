@@ -44,6 +44,7 @@ import {reportReply, ReportReplyInput} from './report-reply'
 import {logStoreDdb} from '../../lib/log'
 import {deprecate} from 'util'
 import {reportsAll, ReportsAllInput} from './reports-all'
+import {update, UpdateInput} from './update'
 
 export class MetadataStore {
   constructor(private operator: DynamoDBInput) {
@@ -229,7 +230,7 @@ export class MetadataStore {
   }
 
   reportReply(input: ReportReplyInput) {
-    logStoreDdb('reportsReply', input)
+    logStoreDdb('reportReply', input)
     return reportReply(this.operator, input)
   }
 
@@ -266,6 +267,11 @@ export class MetadataStore {
   remove(input: RemoveInput) {
     logStoreDdb('remove', input)
     return remove(this.operator, input)
+  }
+
+  update(input: UpdateInput) {
+    logStoreDdb('update', input)
+    return update(this.operator, input)
   }
 }
 

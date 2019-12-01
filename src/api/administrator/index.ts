@@ -4,7 +4,7 @@ import {AggReportApi} from './agg-report'
 import {GetInput} from '../../store/dynamodb/get'
 import {logApiAdmin} from '../../lib/log'
 import {ReportApi} from './report'
-import {AggReportReplyInput} from '../../store/dynamodb/agg-report-reply'
+import {reportReply, ReportReplyInput} from './report-reply'
 
 export class AdministratorApi {
   public aggReport = new AggReportApi(this.ms, this.ef)
@@ -18,31 +18,8 @@ export class AdministratorApi {
     return this.ms.get(input)
   }
 
-  replyReport(input: AggReportReplyInput) {
-    logApiAdmin('reply', input)
-
-    const {hk, entity: rk, answer, status} = input
-
-    // 누적객체를 일단 변경
-    // 모든 신고 객체 가져온다
-    return Promise.all([
-      this.ms.aggReportReply(input),
-      this.ms
-        .reportsAll({
-          data: {
-            hk,
-            rk,
-          },
-        })
-        .then(reports => Promise.all(
-          reports.map(r => this.ms.reportReply({
-            hk: r.hk,
-            rk: r.rk,
-            answer,
-            status,
-          })),
-        ))
-        .then(results => results.every(Boolean)),
-    ])
+  replyReport(input: ReportReplyInput) {
+    logApiAdmin('replyReport', input)
+    return reportReply(this.ms, this.ef, input)
   }
 }

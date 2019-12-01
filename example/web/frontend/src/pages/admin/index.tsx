@@ -39,6 +39,8 @@ const AdminPage: NextPage<Props> = props => {
 
             status
           }
+          status
+          answer
         }
         cursor
         firstResult
@@ -69,6 +71,8 @@ const AdminPage: NextPage<Props> = props => {
             commentId
             status
           }
+          status
+          answer
         }
         cursor
         firstResult
@@ -90,7 +94,9 @@ const AdminPage: NextPage<Props> = props => {
               <div className="lh-copy flex w-100 pointer mv0 pv0 lh-copy nowrap bg-gold pa2">
                 <span className="w4">글</span>
                 <span className="w3">신고수: {rp.reported}</span>
-                <span className="ml-auto">신고 내용 보기 -></span>
+                <span className="ml-auto w4">{rp.status}</span>
+                <span className="w4 ws-normal">답변: {rp.answer}</span>
+                <span className="w4">신고 내용 보기 -></span>
               </div>
               <div className="flex-auto">
                 <BoardItem item={rp.data} no={no}/>
@@ -109,6 +115,8 @@ const AdminPage: NextPage<Props> = props => {
               <div className="lh-copy flex w-100 pointer mv0 pv0 lh-copy nowrap bg-gold pa2">
                 <span className="w4">{rp.data.commentId ? '답글' : '댓글'}</span>
                 <span className="w3">신고수: {rp.reported}</span>
+                <span className="ml-auto w4">{rp.status}</span>
+                <span className="w4 ws-normal">답변: {rp.answer}</span>
                 <span className="ml-auto">신고 내용 보기 -></span>
               </div>
               <div className="flex-auto">

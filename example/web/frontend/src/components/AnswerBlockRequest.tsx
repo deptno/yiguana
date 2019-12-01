@@ -2,13 +2,13 @@ import React, {FunctionComponent, useState} from 'react'
 import {useMutation} from '@apollo/react-hooks'
 import gql from 'graphql-tag'
 import * as R from 'ramda'
-import {Report} from '../../../../../lib/entity'
+import {EEntity} from '../../../../../lib/type'
 
 export const AnswerBlockRequest: FunctionComponent<Props> = props => {
-  const {data, reports, onRequest} = props
+  const {data, entity} = props
   const [replyReport, {data: result}] = useMutation(gql`
-    mutation ($hk: String!, $type: EEntityType!, $answer: String!, $status: EEntityStatus) {
-      replyReport(hk: $hk, type: $type, answer: $answer, status: $status) 
+    mutation ($hk: String!, $entity: EEntityType!, $answer: String!, $status: EEntityStatus) {
+      replyReport(hk: $hk, entity: $entity, answer: $answer, status: $status) 
     }
   `)
   const [value, setValue] = useState('')
@@ -18,18 +18,14 @@ export const AnswerBlockRequest: FunctionComponent<Props> = props => {
   }
   const makeVariables = (status) => (answer) => ({
     hk: data.hk,
-    type: 'post',
     answer: value,
+    entity,
     status,
   })
 
   const block = R.compose(mutate, makeVariables('blockedBySystem'))
   const del = R.compose(mutate, makeVariables('deletedByAdmin'))
   const innocent = R.compose(mutate, makeVariables('innocent'))
-
-  if (result) {
-    console.log(JSON.stringify(result))
-  }
 
   return (
     <div className="b--light-gray ba br2 pa2 bg-light-red flex justify-between items-center">
@@ -69,7 +65,8 @@ export const AnswerBlockRequest: FunctionComponent<Props> = props => {
 }
 
 type Props = {
-  data: {hk}
-  reports: Report[]
-  onRequest(e?): void
+  data: {
+    hk
+  }
+  entity: EEntity.Post|EEntity.Comment
 }

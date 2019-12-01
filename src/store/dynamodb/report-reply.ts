@@ -21,6 +21,7 @@ export function reportReply(operator: DynamoDBInput, params: ReportReplyInput) {
         ':a': answer,
         ':s': status,
       },
+      ReturnValues: 'ALL_NEW',
     })
     .then(R.prop('Attributes'))
 }

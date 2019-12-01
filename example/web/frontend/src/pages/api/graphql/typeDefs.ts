@@ -80,6 +80,8 @@ export const typeDefs = gql`
     reports: String!
     reported: Int!
     data: Post
+    status: EEntityStatus!
+    answer: String
   }
   type AggReportCommentList {
     items: [AggReportComment]!
@@ -93,6 +95,8 @@ export const typeDefs = gql`
     reports: String!
     reported: Int!
     data: Comment
+    status: EEntityStatus!
+    answer: String
   }
   type ReportPostList {
     items: [ReportPost]!
@@ -112,6 +116,8 @@ export const typeDefs = gql`
     content: String!
     user: User!
     data: Post
+    status: EEntityStatus!
+    answer: String
   }
   type ReportComment {
     userId: String
@@ -119,6 +125,8 @@ export const typeDefs = gql`
     content: String!
     user: User!
     data: Post
+    status: EEntityStatus!
+    answer: String
   }
   type User {
     ip: String!
@@ -145,7 +153,7 @@ export const typeDefs = gql`
     deletePost(postId: String!): Post
     deleteComment(commentId: String!): Comment
 
-    replyReport(hk: String!, type: EEntityType!, answer: String!, status: EEntityStatus): Boolean
+    replyReport(hk: String!, entity: EEntityType!, answer: String!, status: EEntityStatus): Boolean
   }
 
   ### input

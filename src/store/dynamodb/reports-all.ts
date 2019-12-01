@@ -5,7 +5,7 @@ import {EEntity, YiguanaDocumentHashRange} from '../../type'
 
 export function reportsAll(operator: DynamoDBInput, params: ReportsAllInput) {
   const {tableName, dynamodb} = operator
-  const {data} = params
+  const {hk, rk} = params
 
   return dynamodb
     .queryAll<Report>({
@@ -16,17 +16,15 @@ export function reportsAll(operator: DynamoDBInput, params: ReportsAllInput) {
         '#r': 'rk',
       },
       ExpressionAttributeValues: {
-        ':h': data.hk,
+        ':h': hk,
         ':r': keys.rk.report.stringify({
           entity: EEntity.Report,
-          target: data.rk
-        }),
+          target: rk
+        })
       },
       ScanIndexForward: false,
       ReturnConsumedCapacity: 'TOTAL',
     })
 }
 
-export type ReportsAllInput = {
-  data: YiguanaDocumentHashRange
-}
+export type ReportsAllInput = YiguanaDocumentHashRange

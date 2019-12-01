@@ -9,5 +9,8 @@ export const replyReport: GraphQLFieldResolver<any, Context, any> = async (sourc
     throw new Error('user must be provided')
   }
 
-  return context.dataSources.public.replyReport(args)
+  return context.dataSources.public.replyReport({
+    data: args,
+    user
+  })
 }
