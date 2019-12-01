@@ -60,6 +60,7 @@ export const typeDefs = gql`
     likes: Int!
     user: User!
     commentId: String
+    comments: String!
 
     status: EEntityStatus
     refUserName: String
