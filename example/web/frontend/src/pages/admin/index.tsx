@@ -114,7 +114,7 @@ const AdminPage: NextPage<Props> = props => {
               <div className="flex-auto">
                 {rp.data.commentId
                   ? <Reply data={rp.data} onCreate={console.log} onLike={console.log} onDelete={console.log}/>
-                  : <Comment data={rp.data} onCreate={console.log} onLike={console.log} onReport={console.log}/>
+                  : <Comment data={rp.data} onCreate={console.log} onLike={console.log}/>
                 }
               </div>
               <pre className="debug pa3 pre-wrap overflow-x-scroll f7 bg-black-10 ba b--dashed">

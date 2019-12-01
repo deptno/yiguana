@@ -113,7 +113,7 @@ const ReportsCommentPage: NextPage<Props> = props => {
       </div>
       <div className="flex-auto mv2 pa2 bg-light-yellow">
         {data?.comment?.comment &&
-        <Comment data={data.comment.comment} onCreate={console.log} onLike={console.log} onReport={console.log}/>}
+        <Comment data={data.comment.comment} onCreate={console.log} onLike={console.log} />}
         {data?.comment && (
           data?.comment.commentId
             ? (
@@ -123,7 +123,7 @@ const ReportsCommentPage: NextPage<Props> = props => {
                 </div>
               </li>
             )
-            : <Comment data={data.comment} onCreate={console.log} onLike={console.log} onReport={console.log}/>
+            : <Comment data={data.comment} onCreate={console.log} onLike={console.log} />
         )}
       </div>
       {data?.comment?.post && <Post data={data.comment.post}/>}
