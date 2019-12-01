@@ -1,5 +1,5 @@
-import {DynamoDBInput} from '../../entity/input/dynamodb'
 import * as R from 'ramda'
+import {DynamoDBInput} from '../../entity/input/dynamodb'
 import {EEntityStatus} from '../../type'
 
 export function reportReply(operator: DynamoDBInput, params: ReportReplyInput) {

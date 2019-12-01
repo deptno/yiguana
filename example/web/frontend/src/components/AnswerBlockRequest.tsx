@@ -2,7 +2,7 @@ import React, {FunctionComponent, useState} from 'react'
 import {useMutation} from '@apollo/react-hooks'
 import gql from 'graphql-tag'
 import * as R from 'ramda'
-import {Report} from '../../../../../src/entity/report'
+import {Report} from '../../../../../lib/entity'
 
 export const AnswerBlockRequest: FunctionComponent<Props> = props => {
   const {data, reports, onRequest} = props

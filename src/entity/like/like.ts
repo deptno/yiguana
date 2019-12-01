@@ -1,10 +1,10 @@
-import {YiguanaDocument} from '../../dynamodb/yiguana-document'
+
 import {Member, User} from '../user'
 import {LikeInput} from './user-input'
 import {keys} from '../../dynamodb/keys'
 import {Post} from '../post'
 import {Comment} from '../comment'
-import {EEntity} from '../../type'
+import {EEntity, YiguanaDocument} from '../../type'
 
 export function createLike<T extends Post | Comment>(params: CreateLikeInput<T>): Like {
   const {user, data: {data, createdAt}} = params

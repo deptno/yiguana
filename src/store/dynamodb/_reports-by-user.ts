@@ -1,12 +1,11 @@
 import {Key} from 'readline'
 import {DynamoDBInput} from '../../entity/input/dynamodb'
-import {EIndexName} from '../../dynamodb'
 import {keys} from '../../dynamodb/keys'
 import {DocumentClient} from 'aws-sdk/clients/dynamodb'
 import {Post} from '../../entity/post'
 import {Comment} from '../../entity/comment'
 import {Report} from '../../entity/report'
-import {EEntity} from '../../type'
+import {EEntity, EIndexName} from '../../type'
 
 export function _reportsByUser<T extends Post|Comment>(operator: DynamoDBInput, params: QueryByUserReport<T['rk']>) {
   const {tableName, dynamodb} = operator

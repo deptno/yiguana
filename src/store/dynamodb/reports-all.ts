@@ -1,9 +1,7 @@
 import {DynamoDBInput} from '../../entity/input/dynamodb'
 import {keys} from '../../dynamodb/keys'
-import * as R from 'ramda'
 import {Report} from '../../entity/report'
-import {YiguanaDocumentHashRange} from '../../dynamodb'
-import {EEntity} from '../../type'
+import {EEntity, YiguanaDocumentHashRange} from '../../type'
 
 export function reportsAll(operator: DynamoDBInput, params: ReportsAllInput) {
   const {tableName, dynamodb} = operator

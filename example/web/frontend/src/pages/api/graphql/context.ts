@@ -1,4 +1,4 @@
-import {Member, NonMember, User, UserMeta} from '../../../../../../../src/entity/user'
+import {Member, NonMember, User, UserMeta} from '../../../../../../../lib/entity'
 
 export const context = (req) => {
   return {

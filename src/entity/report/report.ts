@@ -1,10 +1,9 @@
-import {YiguanaDocument} from '../../dynamodb'
+import {EEntity, EEntityStatus, YiguanaDocument} from '../../type'
 import {Member, User} from '../user'
 import {ReportInput} from './user-input'
 import {keys} from '../../dynamodb/keys'
 import {Post} from '../post'
 import {Comment} from '../comment'
-import {EEntity, EEntityStatus} from '../../type'
 
 export function createReport<T extends Post | Comment>(params: CreateReportInput<T>): Report {
   const {user, data: {content, data, createdAt}} = params

@@ -1,6 +1,6 @@
 import {GraphQLFieldResolver} from 'graphql'
 import {Context} from '../../types'
-import {EEntity} from '../../../../../../../../../src'
+import {EEntity} from '../../../../../../../../../lib/type'
 
 export const aggReportsOfComment: GraphQLFieldResolver<any, Context, { entity: EEntity.Post | EEntity.Comment, cursor?: string }> =
   (source, args, context) => {

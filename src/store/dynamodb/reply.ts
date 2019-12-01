@@ -1,5 +1,5 @@
 import {DynamoDBInput} from '../../entity/input/dynamodb'
-import {YiguanaDocumentHash} from '../../dynamodb/yiguana-document'
+import {YiguanaDocumentHash} from '../../type'
 
 export async function reply(operator: DynamoDBInput, params: ReplyInput) {
   // TODO:

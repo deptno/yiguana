@@ -1,5 +1,4 @@
-import {YiguanaDocument} from '../../dynamodb'
-import {EEntityStatus} from '../../type'
+import {EEntityStatus, YiguanaDocument} from '../../type'
 
 export interface ReportAgg extends YiguanaDocument {
   agg: string

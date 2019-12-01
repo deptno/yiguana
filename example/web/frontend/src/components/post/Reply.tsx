@@ -1,16 +1,15 @@
 import React, {FunctionComponent, useCallback, useContext, useMemo, useState} from 'react'
 import locale from 'date-fns/locale/ko'
 import {formatDistanceToNow, parseISO} from 'date-fns'
-import {Reply as TReply} from '../../../../../../src/entity/reply'
+import {Member, Reply as TReply} from '../../../../../../lib/entity'
 import {StorageContext} from '../../context/StorageContext'
-import {Member} from '../../../../../../src/entity/user'
 import {useMutation} from '@apollo/react-hooks'
 import gql from 'graphql-tag'
 import cx from 'classnames'
 import {BlockRequest} from '../BlockRequest'
 import * as R from 'ramda'
 import {MentionWriter} from '../board/MentionWriter'
-import {EEntityStatus} from '../../../../../../lib'
+import {EEntityStatus} from '../../../../../../lib/type'
 
 export const Reply: FunctionComponent<Props> = props => {
   const {data, onLike, onCreate, onDelete} = props

@@ -1,7 +1,7 @@
 import React, {FunctionComponent, useCallback, useContext, useEffect, useMemo, useState} from 'react'
 import locale from 'date-fns/locale/ko'
 import {formatDistanceToNow, parseISO} from 'date-fns'
-import {Post as TPost} from '../../../../../../src/entity/post'
+import {Post as TPost} from '../../../../../../lib/entity'
 import * as R from 'ramda'
 import {BlockRequest} from '../BlockRequest'
 import {useMutation} from '@apollo/react-hooks'

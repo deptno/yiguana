@@ -1,5 +1,5 @@
 import React, {FunctionComponent, useCallback} from 'react'
-import {Post} from '../../../../../../src/entity/post'
+import {Post} from '../../../../../../lib/entity'
 import {format, parseISO} from 'date-fns'
 import * as R from 'ramda'
 import Link from 'next/link'

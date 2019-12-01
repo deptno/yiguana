@@ -1,8 +1,7 @@
 import {DynamoDBInput} from '../../entity/input/dynamodb'
-import {YiguanaDocumentHash} from '../../dynamodb/yiguana-document'
 import * as R from 'ramda'
 import {Reply} from '../../entity/reply'
-import {EEntity} from '../../type'
+import {EEntity, YiguanaDocumentHash} from '../../type'
 
 export async function unlikeReply(operator: DynamoDBInput, params: UnlikeReplyInput) {
   const {dynamodb, tableName} = operator

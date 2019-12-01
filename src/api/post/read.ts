@@ -1,6 +1,6 @@
 import {MetadataStore} from '../../store/dynamodb'
 import {EntityFactory} from '../../entity'
-import {YiguanaDocumentHash} from '../../dynamodb'
+import {YiguanaDocumentHash} from '../../type'
 import {ApiInput} from '../../type'
 import {logApiPost} from '../../lib/log'
 

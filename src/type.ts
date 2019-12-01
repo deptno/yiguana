@@ -44,3 +44,17 @@ export enum EEntity {
   Report = 'report',
   Agg = 'agg',
 }
+export type YiguanaDocumentHash = { hk: string }
+export type YiguanaDocumentHashRange = YiguanaDocumentHash & { rk: EEntity | string }
+export interface YiguanaDocument extends YiguanaDocumentHashRange {
+  createdAt: string
+  updatedAt?: string
+  status?: EEntityStatus
+}
+export enum EIndexName {
+  posts = 'posts',
+  postsByCategory = 'postsByCategory',
+  comments = 'comments',
+  byUser = 'byUser',
+  reports = 'reports',
+}

@@ -5,10 +5,10 @@ import * as R from 'ramda'
 import {createComment} from '../src/entity/comment'
 import {addComment} from '../src/store/dynamodb/add-comment'
 import {commentPost} from '../src/store/dynamodb/comment-post'
-import {YiguanaDocument} from '../src/dynamodb'
+import {YiguanaDocument} from '../src/type'
 import {ContentStore} from '../src/store/s3'
 import {EntityFactory} from '../src/entity'
-import {member_a, member_b, member_c, member_d, non_member_a, member_f} from './__data__/user'
+import {member_a, member_b, member_c, member_d, member_f, non_member_a} from './__data__/user'
 import {posts} from '../src/store/dynamodb/posts'
 
 export const getInitialData = async () => {

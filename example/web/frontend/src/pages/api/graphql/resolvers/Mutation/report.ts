@@ -1,6 +1,6 @@
 import {GraphQLFieldResolver} from 'graphql'
 import {Context} from '../../types'
-import {Comment, Post} from '../../../../../../../../../src/entity'
+import {Comment, Post} from '../../../../../../../../../lib/entity'
 
 export const report: GraphQLFieldResolver<any, Context, any> = async (source, args, context) => {
   const user = context.getUser(args.user)

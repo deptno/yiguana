@@ -1,7 +1,7 @@
 import React, {FunctionComponent, useCallback, useContext, useMemo, useState} from 'react'
 import locale from 'date-fns/locale/ko'
 import {formatDistanceToNow, parseISO} from 'date-fns'
-import {Comment as TComment} from '../../../../../../src/entity/comment'
+import {Comment as TComment} from '../../../../../../lib/entity'
 import {ReplyWriter} from '../board/ReplyWriter'
 import {StorageContext} from '../../context/StorageContext'
 import {Member} from '../../../../../../src/entity/user'
@@ -10,7 +10,7 @@ import cx from 'classnames'
 import gql from 'graphql-tag'
 import {BlockRequest} from '../BlockRequest'
 import * as R from 'ramda'
-import {EEntityStatus} from '../../../../../../lib'
+import {EEntityStatus} from '../../../../../../lib/type'
 
 export const Comment: FunctionComponent<Props> = props => {
   const {data, onLike, onCreate} = props

@@ -1,4 +1,5 @@
-import {Post, Comment, Report, EEntityStatus} from '../../../../../../../lib'
+import {EEntityStatus} from '../../../../../../../lib/type'
+import {Post, Comment, Report} from '../../../../../../../lib/entity'
 
 export const overrideResponseByStatus = (response: { items: ContentEntity[] }) => {
   console.log({response: response.items})

@@ -1,5 +1,5 @@
 import React, {FunctionComponent} from 'react'
-import {NonMember as TNonMember} from '../../../../../../src/entity/user'
+import {NonMember as TNonMember} from '../../../../../../lib/entity'
 
 export const NonMember: FunctionComponent<Props> = props => {
   const {user, defaultChecked} = props
