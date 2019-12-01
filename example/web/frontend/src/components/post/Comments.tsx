@@ -33,6 +33,7 @@ export const Comments: FunctionComponent<Props> = props => {
           }
           commentId
           status
+          comments
         } cursor
         firstResult
       }
