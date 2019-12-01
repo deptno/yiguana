@@ -1,8 +1,8 @@
 import {DynamoDBInput} from '../../entity/input/dynamodb'
 import {Post} from '../../entity/post'
-import {EEntity} from '../../entity/enum'
 import {YiguanaDocument} from '../../dynamodb/yiguana-document'
 import * as R from 'ramda'
+import {EEntity} from '../../type'
 
 export function updatePost(operator: DynamoDBInput, params: UpdatePostInput) {
   const {dynamodb, tableName} = operator

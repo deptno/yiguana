@@ -1,8 +1,8 @@
 import {DynamoDBInput} from '../../entity/input/dynamodb'
-import {EEntity} from '../../entity/enum'
 import {EIndexName} from '../../dynamodb/yiguana-index'
 import {Reply} from '../../entity/reply'
 import {keys} from '../../dynamodb/keys'
+import {EEntity} from '../../type'
 
 export function repliesByUserId<T = Reply>(operator: DynamoDBInput, params: RepliesByUserIdInput) {
   const {tableName, dynamodb} = operator

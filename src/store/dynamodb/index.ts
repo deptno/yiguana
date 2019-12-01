@@ -37,10 +37,13 @@ import {increaseReportAgg, IncreaseReportAggInput} from './increase-report-agg'
 import {decreaseReportAgg, DecreaseReportAggInput} from './decrease-report-agg'
 import {aggReports, AggReportsInput} from './agg-reports'
 import {reports, ReportsInput} from './reports'
-import {logStoreDdb} from '../../lib/log'
 import {postsByUserReport, PostsByUserReportInput} from './posts-by-user-report'
-import {CommentsByUserReportInput, commentsByUserReport} from './comments-by-user-report'
+import {commentsByUserReport, CommentsByUserReportInput} from './comments-by-user-report'
+import {aggReportReply, AggReportReplyInput} from './agg-report-reply'
+import {reportReply, ReportReplyInput} from './report-reply'
+import {logStoreDdb} from '../../lib/log'
 import {deprecate} from 'util'
+import {reportsAll, ReportsAllInput} from './reports-all'
 
 export class MetadataStore {
   constructor(private operator: DynamoDBInput) {
@@ -218,6 +221,21 @@ export class MetadataStore {
   aggReports(input: AggReportsInput) {
     logStoreDdb('aggReports', input)
     return aggReports(this.operator, input)
+  }
+
+  aggReportReply(input: AggReportReplyInput) {
+    logStoreDdb('aggReportReply', input)
+    return aggReportReply(this.operator, input)
+  }
+
+  reportReply(input: ReportReplyInput) {
+    logStoreDdb('reportsReply', input)
+    return reportReply(this.operator, input)
+  }
+
+  reportsAll(input: ReportsAllInput) {
+    logStoreDdb('reportsAll', input)
+    return reportsAll(this.operator, input)
   }
 
   reports(input: ReportsInput) {

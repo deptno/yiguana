@@ -1,9 +1,9 @@
 import {DynamoDBInput} from '../../entity/input/dynamodb'
 import {YiguanaDocumentHashRange} from '../../dynamodb'
-import {EEntity} from '../../entity/enum'
 import * as R from 'ramda'
 import {keys} from '../../dynamodb/keys'
 import {ReportAgg} from '../../entity/report/report-agg'
+import {EEntity} from '../../type'
 
 export function decreaseReportAgg(operator: DynamoDBInput, params: DecreaseReportAggInput) {
   const {dynamodb, tableName} = operator

@@ -1,10 +1,9 @@
 import {DynamoDBInput} from '../../entity/input/dynamodb'
-import {EEntity} from '../../entity/enum'
 import * as R from 'ramda'
 import {keys} from '../../dynamodb/keys'
 import {ReportAgg} from '../../entity/report/report-agg'
 import {Comment, Post} from '../../entity'
-import {EEntityStatus} from '../../dynamodb'
+import {EEntity, EEntityStatus} from '../../type'
 
 export function increaseReportAgg(operator: DynamoDBInput, params: IncreaseReportAggInput) {
   const {dynamodb, tableName} = operator

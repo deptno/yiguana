@@ -1,5 +1,5 @@
-import {createApi} from '../../../../../../../lib'
 import {DynamoDB, S3} from 'aws-sdk'
+import {createApi} from '../../../../../../../lib'
 
 const region = 'ap-northeast-2'
 

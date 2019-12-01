@@ -1,52 +1,75 @@
-import React, {FunctionComponent} from 'react'
+import React, {FunctionComponent, useState} from 'react'
 import {useMutation} from '@apollo/react-hooks'
 import gql from 'graphql-tag'
-import {YiguanaDocumentHash, Report} from '../../../../../lib'
+import * as R from 'ramda'
+import {Report} from '../../../../../src/entity/report'
 
 export const AnswerBlockRequest: FunctionComponent<Props> = props => {
   const {data, reports, onRequest} = props
-  const [reportMutation, {data: result}] = useMutation(gql`
-    mutation ($data: DocumentInput!, $content: String!) {
-      report(data: $data, content: $content) {
-        hk
-      }
+  const [replyReport, {data: result}] = useMutation(gql`
+    mutation ($hk: String!, $type: EEntityType!, $answer: String!, $status: EEntityStatus) {
+      replyReport(hk: $hk, type: $type, answer: $answer, status: $status) 
     }
   `)
-  const report = (e) => {
-    e.preventDefault()
+  const [value, setValue] = useState('')
+  const mutate = (variables) => {
+    console.log({variables})
+    replyReport({variables}).catch(alert)
+  }
+  const makeVariables = (status) => (answer) => ({
+    hk: data.hk,
+    type: 'post',
+    answer: value,
+    status,
+  })
 
-    const {value: content} = e.currentTarget.elements.namedItem('reason') as any
+  const block = R.compose(mutate, makeVariables('blockedBySystem'))
+  const del = R.compose(mutate, makeVariables('deletedByAdmin'))
+  const innocent = R.compose(mutate, makeVariables('innocent'))
 
-    if (data) {
-      console.log('result')
-    }
+  if (result) {
+    console.log(JSON.stringify(result))
   }
 
   return (
-    <form className="b--light-gray ba br2 pa2 bg-light-red flex justify-between items-center" onSubmit={report}>
+    <div className="b--light-gray ba br2 pa2 bg-light-red flex justify-between items-center">
       <input
         className="mh2 pa2 w-100 ba b--black br2 bg-white"
-        name="reason"
+        name="answer"
         placeholder="신고에 대한 답변"
+        value={value}
+        onChange={e => setValue(e.target.value)}
       />
       <div className="self-end flex justify-end">
-        <button className="pa2 link near-black dib blue bg-white mh2 nowrap pointer hover-bg-blue">
+        <button
+          className="pa2 link near-black dib blue bg-white mh2 nowrap pointer hover-bg-blue"
+          type="button"
+          onClick={block}
+        >
           블락
         </button>
-        <button className="pa2 link near-black dib blue bg-white mh2 nowrap pointer hover-bg-blue">
+        <button
+          className="pa2 link near-black dib blue bg-white mh2 nowrap pointer hover-bg-blue"
+          type="button"
+          onClick={del}
+        >
           삭제
         </button>
-        <button className="pa2 link near-black dib blue bg-white mh2 nowrap pointer hover-bg-blue">
+        <button
+          className="pa2 link near-black dib blue bg-white mh2 nowrap pointer hover-bg-blue"
+          type="button"
+          onClick={innocent}
+        >
           무고
         </button>
       </div>
-    </form>
+    </div>
 
   )
 }
 
 type Props = {
-  data: YiguanaDocumentHash
+  data: {hk}
   reports: Report[]
   onRequest(e?): void
 }

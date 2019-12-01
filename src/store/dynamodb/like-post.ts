@@ -1,8 +1,8 @@
 import {DynamoDBInput} from '../../entity/input/dynamodb'
 import {Post} from '../../entity/post'
-import {EEntity} from '../../entity/enum'
 import {YiguanaDocumentHash} from '../../dynamodb/yiguana-document'
 import * as R from 'ramda'
+import {EEntity} from '../../type'
 
 export function likePost(operator: DynamoDBInput, params: LikePostInput) {
   const {dynamodb, tableName} = operator

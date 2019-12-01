@@ -1,7 +1,7 @@
 import {Post} from '../../src/entity/post'
 import {posts} from '../../src/store/dynamodb/posts'
 import {getInitialData} from '../setup'
-import {EEntity} from '../../src/entity/enum'
+import {EEntity} from '../../src'
 
 describe('bdd', function () {
   describe('posts', function () {

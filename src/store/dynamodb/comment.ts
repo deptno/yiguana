@@ -1,7 +1,7 @@
 import {DynamoDBInput} from '../../entity/input/dynamodb'
 import {YiguanaDocumentHash} from '../../dynamodb'
-import {EEntity} from '../../entity/enum'
 import {Comment} from '../../entity'
+import {EEntity} from '../../type'
 
 export function comment(operator: DynamoDBInput, params: CommentInput) {
   const {dynamodb, tableName} = operator

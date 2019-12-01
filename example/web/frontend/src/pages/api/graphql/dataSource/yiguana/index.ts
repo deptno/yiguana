@@ -58,6 +58,10 @@ export class Public extends DataSource {
   getUploadUrl(args: Argument<typeof yiguana.common.createUploadUrl>) {
     return yiguana.common.createUploadUrl(args)
   }
+
+  async replyReport(args: Argument<typeof yiguana.administrator.replyReport>) {
+    return yiguana.administrator.replyReport(args)
+  }
 }
 export class Private extends DataSource {
   posts(args: ListArgument<typeof yiguana.user.post.list>) {

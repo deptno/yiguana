@@ -1,9 +1,9 @@
-import {EEntity} from '../enum'
 import {uuid} from '../../lib/uuid'
 import {YiguanaDocument} from '../../dynamodb/yiguana-document'
 import {User} from '../user'
 import {CommentUserInput} from './user-input'
 import {keys} from '../../dynamodb/keys'
+import {EEntity} from '../../type'
 
 export function createComment(params: CreateCommentInput): Comment {
   const {user, data} = params

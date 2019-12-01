@@ -1,5 +1,5 @@
-import {EEntity} from '../entity/enum'
-import {EEntityStatus} from './yiguana-index'
+
+import {EEntity, EEntityStatus} from '../type'
 
 export type YiguanaDocumentHash = { hk: string }
 export type YiguanaDocumentHashRange = YiguanaDocumentHash & { rk: EEntity | string }

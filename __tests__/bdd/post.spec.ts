@@ -3,7 +3,7 @@ import {opDdb} from '../env'
 import {getInitialData} from '../setup'
 import {Post} from '../../src/entity/post'
 import {uiComment} from '../ui'
-import {EEntity} from '../../src/entity/enum'
+import {EEntity} from '../../src/type'
 
 describe('bdd', function () {
   describe('post', function () {

@@ -1,9 +1,9 @@
 import {MetadataStore} from '../../../store/dynamodb'
 import {EntityFactory} from '../../../entity'
-import {EEntity} from '../../../entity/enum'
 import {RepliesByUserIdInput} from '../../../store/dynamodb/replies-by-user-id'
 import {RepliesInput} from '../../../store/dynamodb/replies'
 import {logApiUserReply} from '../../../lib/log'
+import {EEntity} from '../../../type'
 
 export async function list(store: MetadataStore, ep: EntityFactory, input: ListInput) {
   log('list %j', input)

@@ -1,4 +1,4 @@
-import {EEntity} from '../enum'
+import {EEntity} from '../../type'
 
 export type ReportInput = {
   entity: Extract<EEntity, EEntity.Post | EEntity.Comment>

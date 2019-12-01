@@ -143,6 +143,8 @@ export const typeDefs = gql`
 
     deletePost(postId: String!): Post
     deleteComment(commentId: String!): Comment
+
+    replyReport(hk: String!, type: EEntityType!, answer: String!, status: EEntityStatus): Boolean
   }
 
   ### input
@@ -179,5 +181,9 @@ export const typeDefs = gql`
     deletedBySystem
     innocent
     inAudit
+  }
+  enum EEntityType {
+    post
+    comment
   }
 `

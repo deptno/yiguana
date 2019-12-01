@@ -1,5 +1,5 @@
 import {util} from '@deptno/dynamodb'
-import {EEntity} from '../entity/enum'
+import {EEntity} from '../type'
 
 const {createKey} = util
 

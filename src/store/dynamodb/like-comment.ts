@@ -1,8 +1,8 @@
 import {DynamoDBInput} from '../../entity/input/dynamodb'
-import {EEntity} from '../../entity/enum'
 import {YiguanaDocumentHash} from '../../dynamodb/yiguana-document'
 import {Comment} from '../../entity/comment'
 import * as R from 'ramda'
+import {EEntity} from '../../type'
 
 export function likeComment(operator: DynamoDBInput, input: LikeCommentInput) {
   const {dynamodb, tableName} = operator

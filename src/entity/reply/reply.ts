@@ -1,9 +1,9 @@
-import {EEntity} from '../enum'
 import {uuid} from '../../lib/uuid'
 import {ReplyUserInput} from './index'
 import {User} from '../user'
 import {YiguanaDocument} from '../../dynamodb'
 import {keys} from '../../dynamodb/keys'
+import {EEntity} from '../../type'
 
 export function createReply(params: CreateReplyInput): Reply {
   const {user, data} = params

@@ -1,7 +1,7 @@
 import {DynamoDBInput} from '../../entity/input/dynamodb'
 import {Post} from '../../entity/post'
 import {YiguanaDocumentHash} from '../../dynamodb/yiguana-document'
-import {EEntity} from '../../entity/enum'
+import {EEntity} from '../../type'
 
 export function post(operator: DynamoDBInput, params: PostInput) {
   const {dynamodb, tableName} = operator

@@ -2,13 +2,13 @@ import {Post} from '../../../../src/entity/post'
 import {Comment} from '../../../../src/entity/comment'
 import {opDdb} from '../../../env'
 import {getInitialData} from '../../../setup'
-import {EEntity} from '../../../../src/entity/enum'
 import {member_a, member_b} from '../../../__data__/user'
 import {createLike} from '../../../../src/entity/like'
 import {addLike} from '../../../../src/store/dynamodb/add-like'
 import {postsByUserLike} from '../../../../src/store/dynamodb/posts-by-user-like'
 import {commentsByUserLike} from '../../../../src/store/dynamodb/comments-by-user-like'
 import {removeLike} from '../../../../src/store/dynamodb/remove-like'
+import {EEntity} from '../../../../src/type'
 
 describe('unit', function () {
   describe('store', function () {

@@ -1,7 +1,7 @@
 import {Post} from '../../entity/post'
 import {DynamoDBInput} from '../../entity/input/dynamodb'
 import {EIndexName} from '../../dynamodb'
-import {EEntity} from '../../entity/enum'
+import {EEntity} from '../../type'
 
 export function posts(operator: DynamoDBInput, params: PostsInput) {
   const {tableName, dynamodb} = operator

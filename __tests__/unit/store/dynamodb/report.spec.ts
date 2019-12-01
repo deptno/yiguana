@@ -3,7 +3,6 @@ import {member_a, member_b} from '../../../__data__/user'
 import {Post} from '../../../../src/entity/post'
 import {Comment} from '../../../../src/entity/comment'
 import {getInitialData} from '../../../setup'
-import {EEntity} from '../../../../src/entity/enum'
 import {opDdb} from '../../../env'
 import {postsByUserReport} from '../../../../src/store/dynamodb/posts-by-user-report'
 import {createReport} from '../../../../src/entity/report'
@@ -12,6 +11,7 @@ import {commentsByUserReport} from '../../../../src/store/dynamodb/comments-by-u
 import {removeReport} from '../../../../src/store/dynamodb/remove-report'
 import {increaseReportAgg} from '../../../../src/store/dynamodb/increase-report-agg'
 import {aggReports} from '../../../../src/store/dynamodb/agg-reports'
+import {EEntity} from '../../../../src/type'
 
 describe('unit', function () {
   describe('store', function () {

@@ -1,12 +1,12 @@
 import {Key} from 'readline'
 import {DynamoDBInput} from '../../entity/input/dynamodb'
-import {EEntity} from '../../entity/enum'
 import {EIndexName} from '../../dynamodb'
 import {keys} from '../../dynamodb/keys'
 import {Like} from '../../entity/like'
 import {DocumentClient} from 'aws-sdk/clients/dynamodb'
 import {Post} from '../../entity/post'
 import {Comment} from '../../entity/comment'
+import {EEntity} from '../../type'
 
 export function _likesByUser<T extends Post|Comment>(operator: DynamoDBInput, params: QueryByUserLike<T['rk']>) {
   const {tableName, dynamodb} = operator

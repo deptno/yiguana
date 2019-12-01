@@ -1,4 +1,3 @@
-import {EEntity} from '../../../../src/entity/enum'
 import {Post} from '../../../../src/entity/post'
 import {getInitialData} from '../../../setup'
 import {opDdb} from '../../../env'
@@ -18,7 +17,7 @@ import {unlikeComment} from '../../../../src/store/dynamodb/unlike-comment'
 import {createLike} from '../../../../src/entity/like'
 import {addLike} from '../../../../src/store/dynamodb/add-like'
 import {member_d, member_e} from '../../../__data__/user'
-import {EEntityStatus} from '../../../../src/dynamodb'
+import {EEntity, EEntityStatus} from '../../../../src/type'
 
 describe('unit', function () {
   describe('store', function () {

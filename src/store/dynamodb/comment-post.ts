@@ -1,8 +1,8 @@
 import {DynamoDBInput} from '../../entity/input/dynamodb'
 import {Comment} from '../../entity'
 import {YiguanaDocumentHash} from '../../dynamodb/yiguana-document'
-import {EEntity} from '../../entity/enum'
 import * as R from 'ramda'
+import {EEntity} from '../../type'
 
 export async function commentPost(operator: DynamoDBInput, params: CommentPostInput) {
   const {dynamodb, tableName} = operator

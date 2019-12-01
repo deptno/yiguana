@@ -1,13 +1,13 @@
 import {DynamoDBInput} from '../../entity/input/dynamodb'
-import {EEntity} from '../../entity/enum'
 import {keys} from '../../dynamodb/keys'
 import {Post, Comment} from '../../entity'
 import * as R from 'ramda'
 import {Report} from '../../entity/report'
+import {EEntity} from '../../type'
 
 export function reports(operator: DynamoDBInput, params: ReportsInput) {
   const {tableName, dynamodb} = operator
-  const {data, exclusiveStartKey, limit} = params
+  const {data, exclusiveStartKey, limit = 10} = params
   const queryParams = {
     TableName: tableName,
     KeyConditionExpression: '#h = :h AND begins_with(#r, :r)',

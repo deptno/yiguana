@@ -1,7 +1,7 @@
 import {DynamoDBInput} from '../../entity/input/dynamodb'
-import {EEntity} from '../../entity/enum'
 import {_reportsByUser, QueryByUserReport} from './_reports-by-user'
 import {Post} from '../../entity/post'
+import {EEntity} from '../../type'
 
 export function postsByUserReport(operator: DynamoDBInput, params: PostsByUserReportInput) {
   return _reportsByUser<Post>(operator, {...params, entity: EEntity.Post})

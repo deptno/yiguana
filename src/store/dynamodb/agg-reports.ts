@@ -1,8 +1,8 @@
 import {DynamoDBInput} from '../../entity/input/dynamodb'
 import {EIndexName} from '../../dynamodb'
-import {EEntity} from '../../entity/enum'
 import {keys} from '../../dynamodb/keys'
 import {ReportAgg} from '../../entity/report/report-agg'
+import {EEntity} from '../../type'
 
 export function aggReports(operator: DynamoDBInput, params: AggReportsInput) {
   const {tableName, dynamodb} = operator

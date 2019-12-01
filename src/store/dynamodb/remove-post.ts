@@ -1,7 +1,7 @@
 import {DynamoDBInput} from '../../entity/input/dynamodb'
 import {Post} from '../../entity'
 import * as R from 'ramda'
-import {EEntityStatus} from '../../dynamodb'
+import {EEntityStatus} from '../../type'
 
 export function removePost(operator: DynamoDBInput, params: RemovePostInput) {
   const {dynamodb, tableName} = operator

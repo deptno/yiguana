@@ -1,10 +1,10 @@
 import {Key} from 'readline'
 import {DynamoDBInput} from '../../entity/input/dynamodb'
 import {Post} from '../../entity/post'
-import {EEntity} from '../../entity/enum'
 import {EIndexName} from '../../dynamodb/yiguana-index'
 import {keys} from '../../dynamodb/keys'
 import {DocumentClient} from 'aws-sdk/clients/dynamodb'
+import {EEntity} from '../../type'
 
 export function postsByUserId<T = Post>(operator: DynamoDBInput, params: PostsByUserIdInput) {
   const {tableName, dynamodb} = operator
