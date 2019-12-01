@@ -10,8 +10,9 @@ export function createReply(params: CreateReplyInput): Reply {
   const {comment, content, createdAt, refUserName} = data
   const entity = EEntity.Comment
   // TODO: createdAt 의 시간 지정을 createReply 타이밍에 하는 것이 나아보임
+  const [commentCreatedAt] = comment.comments.split('#')
   const comments = keys.comments.stringify({
-    commentCreatedAt: comment.createdAt,
+    commentCreatedAt, // root 에 있는 parent createdAt 값 추출
     replyCreatedAt: createdAt
   })
   const reply: Reply = {
@@ -19,7 +20,7 @@ export function createReply(params: CreateReplyInput): Reply {
     rk: entity,
     likes: 0,
     unlikes: 0,
-    commentId: comment.hk,
+    commentId: comment.commentId || comment.hk,
     postId: comment.postId,
     content,
     createdAt,
