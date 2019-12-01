@@ -20,7 +20,7 @@ export function createReply(params: CreateReplyInput): Reply {
     rk: entity,
     likes: 0,
     unlikes: 0,
-    commentId: comment.commentId ?? comment.hk,
+    commentId: comment.commentId || comment.hk,
     postId: comment.postId,
     content,
     createdAt,
