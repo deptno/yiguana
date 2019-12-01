@@ -42,6 +42,7 @@ export const typeDefs = gql`
     user: User!
 
     status: EEntityStatus
+    byUser: String
   }
   type CommentList {
     items: [Comment]!

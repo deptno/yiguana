@@ -26,6 +26,7 @@ export const UserReportedPosts: FunctionComponent<Props> = props => {
             pw
           }
           status
+          byUser
         }
         firstResult
         cursor
