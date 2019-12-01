@@ -19,7 +19,7 @@ export function reportsByUser(operator: DynamoDBInput, params: ReportByUserInput
       ':p': userId,
       ':r': keys.byUser.report.stringify({
         entity: EEntity.Report,
-        target: entity,
+        target: entity
       }),
     },
     ScanIndexForward: false,
@@ -31,7 +31,7 @@ export function reportsByUser(operator: DynamoDBInput, params: ReportByUserInput
 
 export type ReportByUserInput = {
   userId: string
-  entity: EEntity.Post | EEntity.Comment
+  entity?: EEntity.Post | EEntity.Comment
   limit?: number
   exclusiveStartKey?: Exclude<any, string | number>
 }

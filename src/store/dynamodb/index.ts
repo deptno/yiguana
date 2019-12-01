@@ -37,8 +37,6 @@ import {increaseReportAgg, IncreaseReportAggInput} from './increase-report-agg'
 import {decreaseReportAgg, DecreaseReportAggInput} from './decrease-report-agg'
 import {aggReports, AggReportsInput} from './agg-reports'
 import {reports, ReportsInput} from './reports'
-import {postsByUserReport, PostsByUserReportInput} from './posts-by-user-report'
-import {commentsByUserReport, CommentsByUserReportInput} from './comments-by-user-report'
 import {aggReportReply, AggReportReplyInput} from './agg-report-reply'
 import {reportReply, ReportReplyInput} from './report-reply'
 import {logStoreDdb} from '../../lib/log'
@@ -75,11 +73,6 @@ export class MetadataStore {
   postsByUserLike(input: PostsByUserLikeInput) {
     logStoreDdb('postsByUserLike', input)
     return postsByUserLike(this.operator, input)
-  }
-
-  postsByUserReport(input: PostsByUserReportInput) {
-    logStoreDdb('postsByUserReport', input)
-    return postsByUserReport(this.operator, input)
   }
 
   addPost(input: AddPostInput) {
@@ -135,11 +128,6 @@ export class MetadataStore {
   commentsByUserLike(input: CommentsByUserLikeInput) {
     logStoreDdb('commentsByUserLike', input)
     return commentsByUserLike(this.operator, input)
-  }
-
-  commentsByUserReport(input: CommentsByUserReportInput) {
-    logStoreDdb('commentsByUserReport', input)
-    return commentsByUserReport(this.operator, input)
   }
 
   addComment(input: AddCommentInput) {
