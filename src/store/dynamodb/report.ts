@@ -4,14 +4,13 @@ import * as R from 'ramda'
 
 export function report(operator: DynamoDBInput, params: ReportInput) {
   const {dynamodb, tableName} = operator
-  const {data} = params
 
   return dynamodb
     .update<Report>({
       TableName: tableName,
       Key: {
-        hk: data.hk,
-        rk: data.rk,
+        hk: params.hk,
+        rk: params.rk,
       },
       UpdateExpression: 'SET #u = :u, #b = :b, #c = :c, #uid = :uid, #ct = :ct, #d = :d, #s = :s',
       ExpressionAttributeNames: {
@@ -25,13 +24,13 @@ export function report(operator: DynamoDBInput, params: ReportInput) {
         '#s': 'status',
       },
       ExpressionAttributeValues: {
-        ':u': data.user,
-        ':b': data.byUser,
-        ':c': data.createdAt,
-        ':uid': data.userId,
-        ':ct': data.content,
-        ':d': data.data,
-        ':s': data.status,
+        ':u': params.user,
+        ':b': params.byUser,
+        ':c': params.createdAt,
+        ':uid': params.userId,
+        ':ct': params.content,
+        ':d': params.data,
+        ':s': params.status,
       },
       ConditionExpression: 'attribute_not_exists(#h)',
       ReturnValues: 'ALL_NEW',
@@ -39,6 +38,4 @@ export function report(operator: DynamoDBInput, params: ReportInput) {
     .then<Report>(R.prop('Attributes'))
 }
 
-export type ReportInput = {
-  data: Report
-}
+export type ReportInput = Report

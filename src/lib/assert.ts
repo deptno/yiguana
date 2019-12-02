@@ -1,5 +1,5 @@
 import {ValidationError} from '../entity/error'
-import {Member, NonMember, User} from '../entity/user'
+import {ERole, Member, MemberAdmin, NonMember, User} from '../entity/user'
 import {logAsserts} from './log'
 
 function asserts(condition, message?: string): asserts condition {
@@ -25,9 +25,12 @@ export function assertsNotMember(user: User): asserts user is NonMember {
   assertNotEmptyString(user.pw, 'pw must not empty')
 }
 export function assertsMember(user: User): asserts user is Member {
-  // 과도하게 퍼포먼스만 떨어질 수 있다고 생각되나 일단 검증
   assertsUser(user)
   asserts('id' in user, 'login is required')
+}
+export function assertsAdmin(user: User): asserts user is MemberAdmin {
+  assertsMember(user)
+  asserts(user.role === ERole.admin, 'admin access only')
 }
 
 const log = logAsserts.extend('asserts')

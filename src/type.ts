@@ -22,8 +22,8 @@ export type LikePostApiInput = UserApiInput<{
 }>
 export type ReportApiInput = UserApiInput<{
   data: Comment|Post
-  createdAt: string
   content: string
+  createdAt: string
 }>
 export enum EEntityStatus {
   // 유저가 신고했을 때 유저 입장에서의 최초 상태
