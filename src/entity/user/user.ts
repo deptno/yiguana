@@ -5,6 +5,7 @@ export type UserMeta = {
 export type Member = UserMeta & {
   id: string
   name: string
+  photo?: string
 }
 export type NonMember = UserMeta & {
   pw: string

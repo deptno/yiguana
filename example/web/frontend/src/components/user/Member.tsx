@@ -3,21 +3,23 @@ import {Member as TMember} from '../../../../../../lib/entity'
 
 export const Member: FunctionComponent<Props> = props => {
   const {user, defaultChecked} = props
+  const {id, name, photo = 'https://avatars1.githubusercontent.com/u/9919?s=88&v=4'} = user
 
   return (
-    <label className="w4">
-      <input
-        className="mr1"
-        type="radio"
-        name="user"
-        value={user.id}
-        onChange={() => props.onChange(user)}
-        defaultChecked={defaultChecked}
-      />
-      <span>
-        {user.name}({user.id})
-      </span>
-    </label>
+    <figure className="tc ma2 w4 flex flex-column">
+      {name}({id})
+      <img className="br-100" src={photo}/>
+      <label className="w3 mt2">
+        <input
+          className="mr1"
+          type="radio"
+          name="user"
+          value={id}
+          onChange={() => props.onChange(user)}
+          defaultChecked={defaultChecked}
+        />
+      </label>
+    </figure>
   )
 }
 type Props = {
