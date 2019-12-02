@@ -6,6 +6,7 @@ import {BoardItem} from '../../components/board/BoardItem'
 import {Comment} from '../../components/post/Comment'
 import Link from 'next/link'
 import {Reply} from '../../components/post/Reply'
+import {EEntityStatus} from '../../../../../../lib/type'
 
 const AdminPage: NextPage<Props> = props => {
   const [reports, setReports] = useState([])
@@ -87,7 +88,10 @@ const AdminPage: NextPage<Props> = props => {
   return (
     <div className="pa3 flex-column">
       신고받은 게시물들
-      {(data?.aggReportsOfPost?.items ?? []).map((rp, no) => {
+      {(data?.aggReportsOfPost?.items ?? [])
+        .filter((rp => rp.status === EEntityStatus.requestedBlock
+          || rp.status === EEntityStatus.inAudit))
+        .map((rp, no) => {
         return (
           <Link key={rp.hk} href="/admin/reports/post/[hk]" as={`/admin/reports/post/${rp.hk}`}>
             <div className="flex flex-column pa2 ba">
@@ -108,7 +112,10 @@ const AdminPage: NextPage<Props> = props => {
           </Link>
         )
       })}
-      {(data?.aggReportsOfComment?.items ?? []).map((rp, no) => {
+      {(data?.aggReportsOfComment?.items ?? [])
+        .filter((rp => rp.status === EEntityStatus.requestedBlock
+          || rp.status === EEntityStatus.inAudit))
+        .map((rp, no) => {
         return (
           <Link key={rp.hk} href="/admin/reports/comment/[hk]" as={`/admin/reports/comment/${rp.hk}`}>
             <div className="flex flex-column pa2 ba">
