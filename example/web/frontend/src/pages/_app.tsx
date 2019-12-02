@@ -75,7 +75,7 @@ pre.debug {
                 </ul>
               </nav>
             </div>
-            <div className="h4 mv2"/>
+            <div className="h5 mv2"/>
             <Component {...pageProps} />
           </div>
         </StorageContext.Provider>
