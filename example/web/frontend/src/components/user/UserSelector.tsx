@@ -14,7 +14,7 @@ export const UserSelector: FunctionComponent<Props> = props => {
   const {user: currentUser} = useContext(StorageContext)
 
   return (
-    <div className="ph3 pv2 flex-column w-100">
+    <div className="ph0 pv2 flex-column w-100">
       <pre className="debug mv0 pv0 lh-copy">선택된 유저 정보: {JSON.stringify(currentUser)}</pre>
       <div className="flex pre">
         <NonMember onChange={setUser} defaultChecked={R.o(R.equals(''), R.prop('name'), currentUser)} />

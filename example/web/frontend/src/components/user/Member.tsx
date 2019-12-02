@@ -6,8 +6,11 @@ export const Member: FunctionComponent<Props> = props => {
   const {id, name, photo = 'https://avatars1.githubusercontent.com/u/9919?s=88&v=4'} = user
 
   return (
-    <figure className="tc ma2 w4 flex flex-column">
-      {name}({id})
+    <figure className="tc ma2 w3 flex flex-column">
+      <span className="dib">
+        {name}
+      </span>
+      ({id})
       <img className="br-100" src={photo}/>
       <label className="w3 mt2">
         <input

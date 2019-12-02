@@ -1,3 +1,10 @@
+export const admin = {
+  id: 'admin',
+  name: '관리자',
+  ip: '0.0.0.0',
+  photo: 'https://avatars2.githubusercontent.com/u/1342004?s=88&v=4',
+  role: 'admin'
+}
 export const member_a = {
   id: 'a',
   name: 'jhgu',
