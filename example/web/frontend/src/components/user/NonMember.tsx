@@ -1,27 +1,31 @@
-import React, {FunctionComponent} from 'react'
+import React, {FunctionComponent, useRef} from 'react'
 import {NonMember as TNonMember} from '../../../../../../lib/entity'
+import cx from 'classnames'
 
 export const NonMember: FunctionComponent<Props> = props => {
   const {defaultChecked} = props
+  const ref = useRef<HTMLInputElement>()
+  const photo = 'https://avatars1.githubusercontent.com/u/9919?s=88&v=4'
 
   return (
-    <figure className="tc ma2 w3 flex flex-column">
+    <label className="tc ma2 w3 flex flex-column pointer">
+      <input
+        ref={ref}
+        className="dn"
+        type="radio"
+        name="user"
+        value=""
+        onChange={() => props.onChange({name: ''})}
+        defaultChecked={defaultChecked}
+      />
       <span className="dib">
         ?
       </span>
       (비회원)
-      <img className="br-100" src="https://avatars1.githubusercontent.com/u/9919?s=88&v=4"/>
-      <label className="w3 mt2">
-        <input
-          className="mr1"
-          type="radio"
-          name="user"
-          value=""
-          onChange={() => props.onChange()}
-          defaultChecked={defaultChecked}
-        />
-      </label>
-    </figure>
+      <figure className="ma0">
+        <img className={cx('br-100 w3 ba bw1', {'b--gold bw2': ref.current?.checked})} src={photo}/>
+      </figure>
+    </label>
   )
 }
 type Props = {
