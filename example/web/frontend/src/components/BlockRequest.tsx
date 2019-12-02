@@ -1,7 +1,7 @@
 import React, {FunctionComponent} from 'react'
 import {useMutation} from '@apollo/react-hooks'
 import gql from 'graphql-tag'
-import {YiguanaDocumentHashRange} from '../../../../../src/dynamodb'
+import {YiguanaDocumentHashRange} from '../../../../../lib/type'
 
 export const BlockRequest: FunctionComponent<Props> = props => {
   const {data, onRequest} = props

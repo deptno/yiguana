@@ -4,7 +4,7 @@ import {CommentsInput} from '../../../store/dynamodb/comments'
 import {logApiUserComment} from '../../../lib/log'
 
 export async function list(store: MetadataStore, ef: EntityFactory, input: ListInput) {
-  log('listG %j', input)
+  log('input %j', input)
 
   const {userId, like, exclusiveStartKey} = input
 
@@ -14,12 +14,7 @@ export async function list(store: MetadataStore, ef: EntityFactory, input: ListI
       exclusiveStartKey,
     })
   }
-  if (input.report) {
-    return store.commentsByUserReport({
-      userId: input.userId,
-      exclusiveStartKey: input.exclusiveStartKey
-    })
-  }
+
   return store.commentsByUserId({
     userId,
     exclusiveStartKey,
@@ -29,7 +24,6 @@ export async function list(store: MetadataStore, ef: EntityFactory, input: ListI
 export type ListInput = Pick<CommentsInput, 'exclusiveStartKey'> & {
   userId: string
   like?: boolean
-  report?: boolean
 }
 
 const log = logApiUserComment.extend('list')

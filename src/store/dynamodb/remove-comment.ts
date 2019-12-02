@@ -1,6 +1,5 @@
 import {DynamoDBInput} from '../../entity/input/dynamodb'
-import {YiguanaDocumentHash, EEntityStatus} from '../../dynamodb'
-import {EEntity} from '../../entity/enum'
+import {EEntity, EEntityStatus, YiguanaDocumentHash} from '../../type'
 import {Comment} from '../../entity'
 import * as R from 'ramda'
 

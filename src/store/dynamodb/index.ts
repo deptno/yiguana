@@ -37,10 +37,13 @@ import {increaseReportAgg, IncreaseReportAggInput} from './increase-report-agg'
 import {decreaseReportAgg, DecreaseReportAggInput} from './decrease-report-agg'
 import {aggReports, AggReportsInput} from './agg-reports'
 import {reports, ReportsInput} from './reports'
+import {aggReportReply, AggReportReplyInput} from './agg-report-reply'
+import {reportReply, ReportReplyInput} from './report-reply'
 import {logStoreDdb} from '../../lib/log'
-import {postsByUserReport, PostsByUserReportInput} from './posts-by-user-report'
-import {CommentsByUserReportInput, commentsByUserReport} from './comments-by-user-report'
 import {deprecate} from 'util'
+import {reportsAll, ReportsAllInput} from './reports-all'
+import {update, UpdateInput} from './update'
+import {ReportByUserInput, reportsByUser} from './reports-by-user'
 
 export class MetadataStore {
   constructor(private operator: DynamoDBInput) {
@@ -70,11 +73,6 @@ export class MetadataStore {
   postsByUserLike(input: PostsByUserLikeInput) {
     logStoreDdb('postsByUserLike', input)
     return postsByUserLike(this.operator, input)
-  }
-
-  postsByUserReport(input: PostsByUserReportInput) {
-    logStoreDdb('postsByUserReport', input)
-    return postsByUserReport(this.operator, input)
   }
 
   addPost(input: AddPostInput) {
@@ -130,11 +128,6 @@ export class MetadataStore {
   commentsByUserLike(input: CommentsByUserLikeInput) {
     logStoreDdb('commentsByUserLike', input)
     return commentsByUserLike(this.operator, input)
-  }
-
-  commentsByUserReport(input: CommentsByUserReportInput) {
-    logStoreDdb('commentsByUserReport', input)
-    return commentsByUserReport(this.operator, input)
   }
 
   addComment(input: AddCommentInput) {
@@ -220,9 +213,29 @@ export class MetadataStore {
     return aggReports(this.operator, input)
   }
 
+  aggReportReply(input: AggReportReplyInput) {
+    logStoreDdb('aggReportReply', input)
+    return aggReportReply(this.operator, input)
+  }
+
+  reportReply(input: ReportReplyInput) {
+    logStoreDdb('reportReply', input)
+    return reportReply(this.operator, input)
+  }
+
+  reportsAll(input: ReportsAllInput) {
+    logStoreDdb('reportsAll', input)
+    return reportsAll(this.operator, input)
+  }
+
   reports(input: ReportsInput) {
     logStoreDdb('reports', input)
     return reports(this.operator, input)
+  }
+
+  reportsByUser(input: ReportByUserInput) {
+    logStoreDdb('reports', input)
+    return reportsByUser(this.operator, input)
   }
 
   report(input: ReportInput) {
@@ -248,6 +261,11 @@ export class MetadataStore {
   remove(input: RemoveInput) {
     logStoreDdb('remove', input)
     return remove(this.operator, input)
+  }
+
+  update(input: UpdateInput) {
+    logStoreDdb('update', input)
+    return update(this.operator, input)
   }
 }
 

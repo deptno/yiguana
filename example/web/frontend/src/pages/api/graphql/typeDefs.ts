@@ -17,8 +17,8 @@ export const typeDefs = gql`
 
     myPosts(cursor: String, like: Boolean): PostList!
     myComments(cursor: String, like: Boolean): CommentList!
-    myReportedPosts(cursor: String): PostList!
-    myReportedComments(cursor: String): CommentList!
+    myPostReports(cursor: String): ReportPostList!
+    myCommentReports(cursor: String): ReportCommentList!
 
     uploadUrl(key: String!): String
   }
@@ -42,6 +42,7 @@ export const typeDefs = gql`
     user: User!
 
     status: EEntityStatus
+    byUser: String
   }
   type CommentList {
     items: [Comment]!
@@ -80,6 +81,8 @@ export const typeDefs = gql`
     reports: String!
     reported: Int!
     data: Post
+    status: EEntityStatus!
+    answer: String
   }
   type AggReportCommentList {
     items: [AggReportComment]!
@@ -93,6 +96,8 @@ export const typeDefs = gql`
     reports: String!
     reported: Int!
     data: Comment
+    status: EEntityStatus!
+    answer: String
   }
   type ReportPostList {
     items: [ReportPost]!
@@ -112,13 +117,19 @@ export const typeDefs = gql`
     content: String!
     user: User!
     data: Post
+    status: EEntityStatus!
+    answer: String
   }
   type ReportComment {
+    hk: String!
+    rk: String!
     userId: String
     byUser: String
     content: String!
     user: User!
-    data: Post
+    data: Comment
+    status: EEntityStatus!
+    answer: String
   }
   type User {
     ip: String!
@@ -144,6 +155,8 @@ export const typeDefs = gql`
 
     deletePost(postId: String!): Post
     deleteComment(commentId: String!): Comment
+
+    replyReport(hk: String!, entity: EEntityType!, answer: String!, status: EEntityStatus): Boolean
   }
 
   ### input
@@ -180,5 +193,9 @@ export const typeDefs = gql`
     deletedBySystem
     innocent
     inAudit
+  }
+  enum EEntityType {
+    post
+    comment
   }
 `

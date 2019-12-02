@@ -1,7 +1,6 @@
 import React, {FunctionComponent, useEffect, useState} from 'react'
 import {Comment} from './Comment'
-import {Comment as TComment} from '../../../../../../src/entity/comment'
-import {Reply as TReply} from '../../../../../../src/entity/reply'
+import {Comment as TComment, Reply as TReply} from '../../../../../../lib/entity'
 import {CommentWriter} from '../board/CommentWriter'
 import {Reply} from './Reply'
 import {useLazyQuery, useMutation} from '@apollo/react-hooks'

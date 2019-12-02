@@ -1,8 +1,7 @@
-import {EEntity} from '../enum'
 import {PostContent} from './post-content'
-import {YiguanaDocument} from '../../dynamodb/yiguana-document'
 import {User} from '../user'
 import {keys} from '../../dynamodb/keys'
+import {EEntity, YiguanaDocument} from '../../type'
 
 export function createPost(params: CreatePostInput): Post {
   const {user, data} = params

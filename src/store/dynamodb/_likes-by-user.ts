@@ -1,7 +1,6 @@
 import {Key} from 'readline'
 import {DynamoDBInput} from '../../entity/input/dynamodb'
-import {EEntity} from '../../entity/enum'
-import {EIndexName} from '../../dynamodb'
+import {EEntity, EIndexName} from '../../type'
 import {keys} from '../../dynamodb/keys'
 import {Like} from '../../entity/like'
 import {DocumentClient} from 'aws-sdk/clients/dynamodb'

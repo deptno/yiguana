@@ -3,14 +3,12 @@
     "target": "esnext",
     "moduleResolution": "node",
     "inlineSourceMap": true,
-    "noEmit": true,
     "esModuleInterop": true,
-    "jsx": "preserve",
     "strictNullChecks": true,
-    "experimentalDecorators": true,
-    "emitDecoratorMetadata": true
+    "noEmit": true
   },
   "include": [
-    "src"
+    "src",
+    "__tests__"
   ]
 }

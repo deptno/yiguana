@@ -1,7 +1,6 @@
-import {YiguanaDocument} from '../../dynamodb'
+import {EEntity, EEntityStatus, YiguanaDocument} from '../../type'
 import {Member, User} from '../user'
 import {ReportInput} from './user-input'
-import {EEntity} from '../enum'
 import {keys} from '../../dynamodb/keys'
 import {Post} from '../post'
 import {Comment} from '../comment'
@@ -28,6 +27,7 @@ export function createReport<T extends Post | Comment>(params: CreateReportInput
     data,
     content,
     user: userOmitId,
+    status: EEntityStatus.requestedBlock
   }
 }
 
@@ -44,4 +44,5 @@ export interface Report extends YiguanaDocument {
   content: string
   user: Omit<User, 'id'>
   data: Post|Comment
+  status: EEntityStatus
 }

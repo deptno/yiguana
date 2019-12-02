@@ -1,9 +1,9 @@
-import React, {FunctionComponent, useContext, useEffect} from 'react'
+import React, {FunctionComponent, useContext} from 'react'
 import * as R from 'ramda'
 import * as userData from '../../../../../../__tests__/__data__/user'
 import {Member} from './Member'
 import {NonMember} from './NonMember'
-import {Member as TMember, NonMember as TNonMember} from '../../../../../../src/entity/user'
+import {Member as TMember, NonMember as TNonMember} from '../../../../../../lib/entity'
 import {setUser} from '../../lib/storage/user'
 import {StorageContext} from '../../context/StorageContext'
 

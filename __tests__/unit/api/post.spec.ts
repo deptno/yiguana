@@ -1,9 +1,8 @@
 import {createApi} from '../../../src/api'
-import {EValidationErrorMessage} from '../../../src/entity/error'
 import {bucketName, ddbClient, s3Client, tableName} from '../../env'
 import {clearData} from '../../setup'
-import {member_a, non_member_a, non_member_without_pw, member_b} from '../../__data__/user'
-import {EEntityStatus} from '../../../src/dynamodb'
+import {non_member_a, non_member_without_pw} from '../../__data__/user'
+import {EEntityStatus} from '../../../src/type'
 
 describe('unit', () => {
   describe('api', () => {

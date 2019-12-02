@@ -13,7 +13,7 @@ export function report(operator: DynamoDBInput, params: ReportInput) {
         hk: data.hk,
         rk: data.rk,
       },
-      UpdateExpression: 'SET #u = :u, #b = :b, #c = :c, #uid = :uid, #ct = :ct, #d = :d',
+      UpdateExpression: 'SET #u = :u, #b = :b, #c = :c, #uid = :uid, #ct = :ct, #d = :d, #s = :s',
       ExpressionAttributeNames: {
         '#h': 'hk',
         '#u': 'user',
@@ -22,6 +22,7 @@ export function report(operator: DynamoDBInput, params: ReportInput) {
         '#uid': 'userId',
         '#ct': 'content',
         '#d': 'data',
+        '#s': 'status',
       },
       ExpressionAttributeValues: {
         ':u': data.user,
@@ -30,6 +31,7 @@ export function report(operator: DynamoDBInput, params: ReportInput) {
         ':uid': data.userId,
         ':ct': data.content,
         ':d': data.data,
+        ':s': data.status,
       },
       ConditionExpression: 'attribute_not_exists(#h)',
       ReturnValues: 'ALL_NEW',

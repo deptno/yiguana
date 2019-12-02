@@ -1,5 +1,5 @@
 import React, {FunctionComponent, useCallback} from 'react'
-import {Post} from '../../../../../../src/entity/post'
+import {Post} from '../../../../../../lib/entity'
 import {format, parseISO} from 'date-fns'
 import * as R from 'ramda'
 import Link from 'next/link'
@@ -28,7 +28,7 @@ export const BoardItem: FunctionComponent<Props> = props => {
     <Link href="/post/[hk]" as={`/post/${item.hk}`}>
       <div className={
         cx('lh-copy center flex flex-column items-center nowrap tc ph2 pv1 bl br bb b--black-05', {
-          'bg-black-05 black-30': item.status
+          'bg-black-05 black-30': item.status?.startsWith('blocked') || item.status?.startsWith('deleted')
         })
       }>
         <div className="flex w-100 pointer mv0 pv0 lh-copy ">

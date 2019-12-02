@@ -6,10 +6,11 @@
   "main": "lib/index.js",
   "types": "lib/index.d.ts",
   "scripts": {
-    "prepare": "rimraf lib && rollup -c",
+    "prepare": "tsc -p src",
+    "bundle": "rimraf lib && rollup -c",
     "deploy.gihtub": "git add example/web/client/out && git commit -m gh-pages && git subtree push --prefix client/out origin gh-pages",
     "test": "jest --collect-coverage  --silent --verbose -i --ci",
-    "test.tsc": "tsc --noEmit",
+    "test.tsc": "tsc",
     "test._full": "DEBUG=yiguana:* jest --verbose -i",
     "test._silent": "jest --collect-coverage  --silent -i",
     "test.bdd": "jest --silent -i --testPathPattern=/bdd",

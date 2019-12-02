@@ -1,4 +1,4 @@
-import {EEntity} from '../enum'
+import {EEntity} from '../../type'
 
 export type LikeInput = {
   entity: Extract<EEntity, EEntity.Post | EEntity.Comment>

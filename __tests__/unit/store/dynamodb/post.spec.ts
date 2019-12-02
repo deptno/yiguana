@@ -7,13 +7,12 @@ import {getInitialData} from '../../../setup'
 import {removePost} from '../../../../src/store/dynamodb/remove-post'
 import {likePost} from '../../../../src/store/dynamodb/like-post'
 import {viewPost} from '../../../../src/store/dynamodb/view-post'
-import {EEntity} from '../../../../src/entity/enum'
 import {updatePost} from '../../../../src/store/dynamodb/update-post'
 import {member_a, member_b, member_c, member_e} from '../../../__data__/user'
 import {createPostContentUnSafe} from '../../../../src/store/s3/create-post-content'
 import {createLike} from '../../../../src/entity/like'
 import {addLike} from '../../../../src/store/dynamodb/add-like'
-import {EEntityStatus} from '../../../../src/dynamodb'
+import {EEntity, EEntityStatus} from '../../../../src/type'
 
 describe('unit', function () {
   describe('store', function () {

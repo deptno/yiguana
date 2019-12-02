@@ -3,9 +3,8 @@ import {ContentStore} from '../../store/s3'
 import {MetadataStore} from '../../store/dynamodb'
 import * as R from 'ramda'
 import {Post} from '../../entity/post'
-import {ApiInput} from '../../type'
+import {ApiInput, YiguanaDocumentHash} from '../../type'
 import {logApiPost} from '../../lib/log'
-import {YiguanaDocumentHash} from '../../dynamodb'
 
 export async function view(ms: MetadataStore, cs: ContentStore, e: EntityFactory, input: ViewInput) {
   log('view %j', input)

@@ -1,14 +1,14 @@
 import {DynamoDBInput} from '../../entity/input/dynamodb'
-import {EEntity} from '../../entity/enum'
 import {keys} from '../../dynamodb/keys'
-import {Post, Comment} from '../../entity'
-import * as R from 'ramda'
+import {Comment, Post} from '../../entity'
 import {Report} from '../../entity/report'
+import {EEntity} from '../../type'
 
 export function reports(operator: DynamoDBInput, params: ReportsInput) {
   const {tableName, dynamodb} = operator
-  const {data, exclusiveStartKey, limit} = params
-  const queryParams = {
+  const {data, exclusiveStartKey, limit = 10} = params
+
+  return dynamodb.query<Report>({
     TableName: tableName,
     KeyConditionExpression: '#h = :h AND begins_with(#r, :r)',
     ExpressionAttributeNames: {
@@ -26,9 +26,7 @@ export function reports(operator: DynamoDBInput, params: ReportsInput) {
     ReturnConsumedCapacity: 'TOTAL',
     ExclusiveStartKey: exclusiveStartKey,
     Limit: limit
-  }
-
-  return dynamodb.query<Report>(queryParams)
+  })
 }
 
 export type ReportsInput = {

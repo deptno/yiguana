@@ -1,8 +1,7 @@
 import {DynamoDBInput} from '../../entity/input/dynamodb'
-import {EEntity} from '../../entity/enum'
-import {YiguanaDocumentHash} from '../../dynamodb/yiguana-document'
 import * as R from 'ramda'
 import {Reply} from '../../entity/reply'
+import {EEntity, YiguanaDocumentHash} from '../../type'
 
 export function likeReply(operator: DynamoDBInput, input: LikeReplyInput) {
   const {dynamodb, tableName} = operator

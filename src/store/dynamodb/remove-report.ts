@@ -1,8 +1,8 @@
 import {DynamoDBInput} from '../../entity/input/dynamodb'
 import {keys} from '../../dynamodb/keys'
-import {EEntity} from '../../entity/enum'
 import {Post} from '../../entity/post'
 import {Comment} from '../../entity/comment'
+import {EEntity} from '../../type'
 
 export function removeReport(operator: DynamoDBInput, params: RemoveReportInput) {
   const {dynamodb, tableName} = operator

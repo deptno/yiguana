@@ -1,5 +1,5 @@
 import {util} from '@deptno/dynamodb'
-import {EEntity} from '../entity/enum'
+import {EEntity} from '../type'
 
 const {createKey} = util
 
@@ -111,11 +111,11 @@ export const keys = {
         createdAt: v => v,
       },
     ),
-    report: createKey<{ entity: EEntity, target: EEntity.Post|EEntity.Comment, createdAt: string }>(
+    report: createKey<{ entity: EEntity, target?: EEntity.Post|EEntity.Comment, createdAt: string }>(
       ['entity', 'target', 'createdAt'],
       {
         entity: v => v as EEntity,
-        target: v => v,
+        target: v => v || '',
         createdAt: v => v,
       },
     ),

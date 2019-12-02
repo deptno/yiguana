@@ -1,21 +1,19 @@
 import React, {FunctionComponent, useCallback, useContext, useMemo, useState} from 'react'
 import locale from 'date-fns/locale/ko'
 import {formatDistanceToNow, parseISO} from 'date-fns'
-import {Reply as TReply} from '../../../../../../src/entity/reply'
+import {Member, Reply as TReply} from '../../../../../../lib/entity'
 import {StorageContext} from '../../context/StorageContext'
-import {Member} from '../../../../../../src/entity/user'
 import {useMutation} from '@apollo/react-hooks'
 import gql from 'graphql-tag'
 import cx from 'classnames'
 import {BlockRequest} from '../BlockRequest'
 import * as R from 'ramda'
 import {MentionWriter} from '../board/MentionWriter'
-import {EEntityStatus} from '../../../../../../lib'
 
 export const Reply: FunctionComponent<Props> = props => {
   const {data, onLike, onCreate, onDelete} = props
   const {hk, rk, postId, content, createdAt, likes, user, userId, status} = data
-  const deleted = status === EEntityStatus.deletedByUser
+  const deleted = status?.startsWith('blocked') || status?.startsWith('deleted')
   const {ip, name} = user
   const [showWriter, setShowWriter] = useState(false)
   const [showReporter, setShowReporter] = useState(false)
@@ -54,7 +52,7 @@ export const Reply: FunctionComponent<Props> = props => {
       </figure>
       <div className={cx('flex-auto flex flex-column', {'black-30': deleted})}>
         <header className="pa2 flex lh-copy bg-near-white br2 br--top">
-          <strong className="">{name}</strong>
+          <strong className="">{name} 님</strong>
           <div className="ml-auto">
             <span>
               <i className="mh1 pv1 far fa-clock black-60"/>{formatDistanceToNow(parseISO(createdAt), {locale})} 전
@@ -76,7 +74,7 @@ export const Reply: FunctionComponent<Props> = props => {
           </div>
         </header>
         <main className="pa2 bg-white br2 br--bottom">
-          <pre className="ma0 pa2" dangerouslySetInnerHTML={{__html: content}}/>
+          <pre className="ma0 pa2 ws-normal" dangerouslySetInnerHTML={{__html: content}}/>
         </main>
         <pre className="debug">{JSON.stringify(data, null, 2)}</pre>
         {showReporter && <BlockRequest data={R.pick(['hk', 'rk'], data)} onRequest={() => setShowReporter(false)}/>}

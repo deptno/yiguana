@@ -1,6 +1,6 @@
+import * as R from 'ramda'
 import {DynamoDBInput} from '../../entity/input/dynamodb'
 import {Report} from '../../entity/report'
-import * as R from 'ramda'
 
 export function addReport(operator: DynamoDBInput, params: AddReportInput) {
   const {dynamodb, tableName} = operator

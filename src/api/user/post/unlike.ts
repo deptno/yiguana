@@ -1,7 +1,6 @@
 import {MetadataStore} from '../../../store/dynamodb'
 import {EntityFactory} from '../../../entity'
-import {YiguanaDocumentHash} from '../../../dynamodb/yiguana-document'
-import {ApiInput} from '../../../type'
+import {ApiInput, YiguanaDocumentHash} from '../../../type'
 import {logApiUserPost} from '../../../lib/log'
 
 export async function unlike(store: MetadataStore, ep: EntityFactory, input: UnlikeInput) {

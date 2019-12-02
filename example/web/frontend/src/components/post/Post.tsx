@@ -1,7 +1,7 @@
 import React, {FunctionComponent, useCallback, useContext, useEffect, useMemo, useState} from 'react'
 import locale from 'date-fns/locale/ko'
 import {formatDistanceToNow, parseISO} from 'date-fns'
-import {Post as TPost} from '../../../../../../src/entity/post'
+import {Post as TPost} from '../../../../../../lib/entity'
 import * as R from 'ramda'
 import {BlockRequest} from '../BlockRequest'
 import {useMutation} from '@apollo/react-hooks'
@@ -10,7 +10,7 @@ import Router from 'next/router'
 import {StorageContext} from '../../context/StorageContext'
 
 export const Post: FunctionComponent<Props> = props => {
-  const {data, setPost} = props
+  const {data} = props
   const {user: me} = useContext(StorageContext)
   const {hk, title, userId, createdAt, updatedAt, views, likes: originalLikes, content, user} = data ?? {}
   const [likes, setLikes] = useState(originalLikes)
@@ -117,7 +117,6 @@ export const Post: FunctionComponent<Props> = props => {
 
 type Props = {
   data: TPost
-  setPost(post: TPost): void
 }
 
 const CircleLoading = props => (

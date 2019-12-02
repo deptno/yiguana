@@ -1,13 +1,25 @@
 import {MetadataStore} from '../../../store/dynamodb'
 import {EntityFactory} from '../../../entity'
-import {ReportApiInput} from '../../../type'
-import {logApiUserReply} from '../../../lib/log'
+import {EEntity, MemberApiInput} from '../../../type'
+import {logApiUserReport} from '../../../lib/log'
+import {assertsMember} from '../../../lib/assert'
 
 export async function reports(store: MetadataStore, ef: EntityFactory, input: ReportsInput) {
-  log('aggReports %j', input)
-  // TODO:
+  log('reports %j', input)
+
+  assertsMember(input.user)
+
+  const {user, data} = input
+
+  return store.reportsByUser({
+    ...data,
+    userId: user.id,
+  })
 }
 
-export type ReportsInput = ReportApiInput
+export type ReportsInput = MemberApiInput<{
+  entity: EEntity.Post | EEntity.Comment
+  exclusiveStartKey?: any
+}>
 
-const log = logApiUserReply.extend('reports')
+const log = logApiUserReport.extend('reports')

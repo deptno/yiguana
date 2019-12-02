@@ -1,6 +1,6 @@
 import * as R from 'ramda'
 import {get, set} from './storage'
-import {User} from '../../../../../../src/entity/user'
+import {User} from '../../../../../../lib/entity'
 
 export const getUser = () => {
   const data = get('user')

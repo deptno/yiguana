@@ -1,8 +1,7 @@
 import {DynamoDBInput} from '../../entity/input/dynamodb'
 import {Post} from '../../entity/post'
-import {EEntity} from '../../entity/enum'
-import {YiguanaDocumentHash} from '../../dynamodb/yiguana-document'
 import * as R from 'ramda'
+import {EEntity, YiguanaDocumentHash} from '../../type'
 
 export async function viewPost(operator: DynamoDBInput, params: ViewPostInput) {
   const {dynamodb, tableName} = operator

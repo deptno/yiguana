@@ -1,7 +1,7 @@
 import {DynamoDBInput} from '../../entity/input/dynamodb'
 import {Comment, CommentUpdateUserInput} from '../../entity/comment'
-import {EEntity} from '../../entity/enum'
 import * as R from 'ramda'
+import {EEntity} from '../../type'
 
 export async function updateComment(operator: DynamoDBInput, params: UpdateCommentInput) {
   const {dynamodb, tableName} = operator

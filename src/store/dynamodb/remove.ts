@@ -1,5 +1,5 @@
 import {DynamoDBInput} from '../../entity/input/dynamodb'
-import {YiguanaDocumentHashRange} from '../../dynamodb/yiguana-document'
+import {YiguanaDocumentHashRange} from '../../type'
 
 export async function remove(operator: DynamoDBInput, params: RemoveInput): Promise<any | undefined> {
   const {dynamodb, tableName} = operator

@@ -1,7 +1,6 @@
 import {Post} from '../../../../src/entity/post'
 import {Comment} from '../../../../src/entity/comment'
 import {getInitialData} from '../../../setup'
-import {EEntity} from '../../../../src/entity/enum'
 import {replies} from '../../../../src/store/dynamodb/replies'
 import {opDdb} from '../../../env'
 import {addReply} from '../../../../src/store/dynamodb/add-reply'
@@ -13,6 +12,7 @@ import {createLike} from '../../../../src/entity/like'
 import {addLike} from '../../../../src/store/dynamodb/add-like'
 import {likeReply} from '../../../../src/store/dynamodb/like-reply'
 import {repliesByUserId} from '../../../../src/store/dynamodb/replies-by-user-id'
+import {EEntity} from '../../../../src/type'
 
 describe('unit', function () {
   describe('store', function () {

@@ -1,5 +1,5 @@
 import {NextApiRequest, NextApiResponse} from 'next'
-import {User} from '../../../../../../../src/entity/user'
+import {User} from '../../../../../../../lib/entity'
 
 export function authorize(req: NextApiRequest, res: NextApiResponse) {
   try {

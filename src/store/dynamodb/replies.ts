@@ -1,6 +1,6 @@
 import {DynamoDBInput} from '../../entity/input/dynamodb'
 import {Reply} from '../../entity/reply'
-import {EIndexName} from '../../dynamodb'
+import {EIndexName} from '../../type'
 import {Comment} from '../../entity/comment'
 import {keys} from '../../dynamodb/keys'
 

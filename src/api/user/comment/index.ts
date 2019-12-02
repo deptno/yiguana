@@ -2,7 +2,6 @@ import {MetadataStore} from '../../../store/dynamodb'
 import {EntityFactory} from '../../../entity'
 import {list, ListInput} from './list'
 import {like, LikeInput} from './like'
-import {report, ReportInput} from './report'
 import {logApiUserComment} from '../../../lib/log'
 
 export class UserCommentApi {
@@ -17,10 +16,5 @@ export class UserCommentApi {
   like(input: LikeInput) {
     logApiUserComment('like', input)
     return like(this.store, this.ef, input)
-  }
-
-  report(input: ReportInput) {
-    logApiUserComment('report', input)
-    return report(this.store, this.ef, input)
   }
 }

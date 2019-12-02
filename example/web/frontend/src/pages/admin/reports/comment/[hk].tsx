@@ -7,6 +7,9 @@ import Link from 'next/link'
 import {Comment} from '../../../../components/post/Comment'
 import {BoardItem} from '../../../../components/board/BoardItem'
 import {Reply} from '../../../../components/post/Reply'
+import {Post} from '../../../../components/post/Post'
+import {AnswerBlockRequest} from '../../../../components/AnswerBlockRequest'
+import {EEntity} from '../../../../../../../../lib/type'
 
 const ReportsCommentPage: NextPage<Props> = props => {
   const {query: {hk}} = useRouter()
@@ -67,15 +70,25 @@ const ReportsCommentPage: NextPage<Props> = props => {
             name
             pw
           }
-          
+          content
           status
         }
+        status
       }
       reports(hk: $hk, rk: $rk) {
         items {
           hk
           userId
           content
+          byUser
+          hk
+          rk
+          user {
+            name
+          }
+          userId
+          status
+          answer
         }
         firstResult
         cursor
@@ -93,9 +106,6 @@ const ReportsCommentPage: NextPage<Props> = props => {
       })
     }
   }, [hk])
-
-  console.log(hk, data, error)
-  console.log(data?.comment?.commentId)
 
   return (
     <div className="pa3 flex-column">
@@ -118,6 +128,11 @@ const ReportsCommentPage: NextPage<Props> = props => {
             : <Comment data={data.comment} onCreate={console.log} onLike={console.log} />
         )}
       </div>
+      {data?.comment?.post && <Post data={data.comment.post}/>}
+      <hr/>
+      // TODO: reports 쿼리로 전체를 가져와야지 전체에 대해서 응답을 할 수 있다 아니면 두번 패치가 필요
+      <AnswerBlockRequest data={{hk}} entity={EEntity.Comment}/>
+      <hr/>
       {data?.reports?.items.map((r, no) => {
         return (
           <Link key={`${r.hk}#${r.userId}`} href="/admin/reports/[hk]" as={`/admin/reports/${r.hk}`}>
@@ -126,6 +141,8 @@ const ReportsCommentPage: NextPage<Props> = props => {
                 <span className="bg-black-05 pa2 mr2"><i
                   className="far fa-user-circle bg-black white pa1 br2"/> {r.userId}</span>
                 <span className="w-100 ws-normal">신고내용: {r.content}</span>
+                <span className="w4 ws-normal">상태: {r.status}</span>
+                <span className="w4 ws-normal">상태: {r.answer}</span>
               </div>
               <pre className="debug pa3 pre-wrap overflow-x-scroll f7 bg-black-10 ba b--dashed">
               {JSON.stringify(r, null, 2)}

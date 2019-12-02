@@ -1,6 +1,6 @@
 import {S3Input} from '../../entity/input/s3'
 import {ES3ErrorMessage, S3Error} from '../../entity/error'
-import {YiguanaDocumentHash} from '../../dynamodb/yiguana-document'
+import {YiguanaDocumentHash} from '../../type'
 
 export async function getPostContentUnSafe(op: S3Input, input: GetPostContentUnSafeInput): Promise<string> {
   try {

@@ -1,7 +1,7 @@
 import {DynamoDBInput} from '../../entity/input/dynamodb'
-import {EEntity} from '../../entity/enum'
 import {Comment} from '../../entity/comment'
 import {_likesByUser, QueryByUserLike} from './_likes-by-user'
+import {EEntity} from '../../type'
 
 export function commentsByUserLike(operator: DynamoDBInput, params: CommentsByUserLikeInput) {
   return _likesByUser<Comment>(operator, {...params, entity: EEntity.Comment})

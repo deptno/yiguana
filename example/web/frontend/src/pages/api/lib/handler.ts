@@ -1,6 +1,6 @@
 import {NextApiRequest, NextApiResponse} from 'next'
 import {EMethod} from './method'
-import {User} from '../../../../../../../src/entity/user'
+import {User} from '../../../../../../../lib/entity'
 import {authorize} from './authorize'
 
 export const handler = ({get, put, post, del}: Methods) =>

@@ -58,6 +58,10 @@ export class Public extends DataSource {
   getUploadUrl(args: Argument<typeof yiguana.common.createUploadUrl>) {
     return yiguana.common.createUploadUrl(args)
   }
+
+  async replyReport(args: Argument<typeof yiguana.administrator.replyReport>) {
+    return yiguana.administrator.replyReport(args)
+  }
 }
 export class Private extends DataSource {
   posts(args: ListArgument<typeof yiguana.user.post.list>) {
@@ -118,6 +122,10 @@ export class Private extends DataSource {
     return yiguana.comment.del(args)
   }
 
+  reports(args: ListArgument2<typeof yiguana.user.report.list>) {
+    return yiguana.user.report.list(args)
+  }
+
   report(args: ListArgument<typeof yiguana.user.report.create>) {
     return yiguana.user.report.create(args)
   }
@@ -144,5 +152,9 @@ type Argument<F extends Function> = F extends (first: infer A) => any
   : never;
 type ListArgument<F extends Function> = F extends (first: infer A) => any
   ? Omit<A, 'exclusiveStartKey'> & { cursor?: string }
+  : never;
+
+type ListArgument2<F extends Function> = F extends <T extends {user, data: infer A}>(first: T) => any
+  ? {user, data: Omit<A, 'exclusiveStartKey'> & { cursor?: string }}
   : never;
 
