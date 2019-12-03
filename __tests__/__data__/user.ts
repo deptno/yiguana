@@ -1,11 +1,9 @@
-import {ERole} from '../../src/entity/user'
-
 export const admin = {
   id: 'admin',
   name: 'administrator',
   ip: '0.0.0.0',
   photo: 'https://avatars2.githubusercontent.com/u/1342004?s=88&v=4',
-  role: ERole.admin
+  role: 'admin'
 }
 export const member_a = {
   id: 'a',
