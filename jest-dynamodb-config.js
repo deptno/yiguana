@@ -65,7 +65,7 @@ module.exports = {
           'AttributeType': 'S'
         },
         {
-          'AttributeName': 'completed',
+          'AttributeName': 'reportsEnd',
           'AttributeType': 'S'
         }
       ],
