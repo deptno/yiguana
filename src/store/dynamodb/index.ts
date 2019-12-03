@@ -5,14 +5,12 @@ import {updatePost, UpdatePostInput} from './update-post'
 import {removePost, RemovePostInput} from './remove-post'
 import {viewPost, ViewPostInput} from './view-post'
 import {likePost, LikePostInput} from './like-post'
-import {unlikePost, UnlikePostInput} from './unlike-post'
 import {remove, RemoveInput} from './remove'
 import {addComment, AddCommentInput} from './add-comment'
 import {comments, CommentsInput} from './comments'
 import {removeComment, RemoveCommentInput} from './remove-comment'
 import {addReply, AddCommentReplyInput} from './add-reply'
 import {commentPost, CommentPostInput} from './comment-post'
-import {replies, RepliesInput} from './replies'
 import {postsByUserId, PostsByUserIdInput} from './posts-by-user-id'
 import {postsByUserLike, PostsByUserLikeInput} from './posts-by-user-like'
 import {post, PostInput} from './post'
@@ -29,7 +27,6 @@ import {likeReply, LikeReplyInput} from './like-reply'
 import {unlikeReply, UnlikeReplyInput} from './unlike-reply'
 import {commentsByUserLike, CommentsByUserLikeInput} from './comments-by-user-like'
 import {repliesByUserId, RepliesByUserIdInput} from './replies-by-user-id'
-import {repliesByUserLike, RepliesByUserLikeInput} from './replies-by-user-like'
 import {posts, PostsInput} from './posts'
 import {comment, CommentInput} from './comment'
 import {report, ReportInput} from './report'
@@ -100,11 +97,6 @@ export class MetadataStore {
     return likePost(this.operator, input)
   }
 
-  unlikePost(input: UnlikePostInput) {
-    logStoreDdb('unlikePost', input)
-    return unlikePost(this.operator, input)
-  }
-
   commentPost(input: CommentPostInput) {
     logStoreDdb('commentPost', input)
     return commentPost(this.operator, input)
@@ -165,20 +157,9 @@ export class MetadataStore {
     return unlikeComment(this.operator, input)
   }
 
-  // @deprecated
-  replies(input: RepliesInput) {
-    logStoreDdb('replies', input)
-    return deprecate(replies, 'use comments instead')(this.operator, input)
-  }
-
   repliesByUserId(input: RepliesByUserIdInput) {
     logStoreDdb('repliesByUserId', input)
     return repliesByUserId(this.operator, input)
-  }
-
-  repliesByUserLike(input: RepliesByUserLikeInput) {
-    logStoreDdb('repliesByUserLike', input)
-    return repliesByUserLike(this.operator, input)
   }
 
   addReply(input: AddCommentReplyInput) {

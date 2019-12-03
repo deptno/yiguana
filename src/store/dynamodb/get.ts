@@ -3,14 +3,11 @@ import {YiguanaDocumentHashRange} from '../../type'
 
 export async function get<T = any>(operator: DynamoDBInput, params: GetInput) {
   const {dynamodb, tableName} = operator
-  const {data} = params
 
   return dynamodb.get<T>({
     TableName: tableName,
-    Key: data,
+    Key: params,
   })
 }
 
-export type GetInput = {
-  data: YiguanaDocumentHashRange
-}
+export type GetInput = YiguanaDocumentHashRange

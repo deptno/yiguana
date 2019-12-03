@@ -30,6 +30,5 @@ export function repliesByUserId<T = Reply>(operator: DynamoDBInput, params: Repl
 
 export type RepliesByUserIdInput = {
   userId: string
-  postId?: string
   exclusiveStartKey?: Exclude<any, string | number>
 }

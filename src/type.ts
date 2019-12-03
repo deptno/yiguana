@@ -1,30 +1,13 @@
-import {Comment, Member, Post, User} from './entity'
+import {User} from './entity'
 
 export type ApiInput<T> = {
   data: T
 }
-export type UserApiInput<T> = {
+export type ApiInputWithUser<T> = {
   data: T
   user: User
 }
-export type MemberApiInput<T> = {
-  data: T
-  user: Member
-}
 
-export type LikeCommentApiInput = UserApiInput<{
-  data: Comment
-  createdAt: string
-}>
-export type LikePostApiInput = UserApiInput<{
-  data: Post
-  createdAt: string
-}>
-export type ReportApiInput = UserApiInput<{
-  data: Comment|Post
-  content: string
-  createdAt: string
-}>
 export enum EEntityStatus {
   // 유저가 신고했을 때 유저 입장에서의 최초 상태
   requestedBlock = 'requestedBlock',

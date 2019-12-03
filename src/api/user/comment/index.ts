@@ -1,20 +1,17 @@
 import {MetadataStore} from '../../../store/dynamodb'
 import {EntityFactory} from '../../../entity'
-import {list, ListInput} from './list'
-import {like, LikeInput} from './like'
-import {logApiUserComment} from '../../../lib/log'
+import {list, ListApiInput} from './list'
+import {like, LikeApiInput} from './like'
 
 export class UserCommentApi {
   constructor(private store: MetadataStore, private ef: EntityFactory) {
   }
 
-  list(input: ListInput) {
-    logApiUserComment('list', input)
+  list(input: ListApiInput) {
     return list(this.store, this.ef, input)
   }
 
-  like(input: LikeInput) {
-    logApiUserComment('like', input)
+  like(input: LikeApiInput) {
     return like(this.store, this.ef, input)
   }
 }

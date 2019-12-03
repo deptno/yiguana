@@ -1,21 +1,19 @@
 import {MetadataStore} from '../../store/dynamodb'
 import {EntityFactory} from '../../entity'
-import {PostsByCategoryInput} from '../../store/dynamodb/posts-by-category'
 import {PostsInput} from '../../store/dynamodb/posts'
-import {logApiPost} from '../../lib/log'
+import {ApiInput} from '../../type'
+import {logApiPost as log} from '../../lib/log'
 
-export async function list(store: MetadataStore, ef: EntityFactory, input: ListInput) {
+export async function list(store: MetadataStore, ef: EntityFactory, input: ListApiInput) {
   log('list %j', input)
-  if (input.category) { // 보드
-    return store.postsByCategory(input as PostsByCategoryInput)
+
+  const {data} = input
+
+  if ('category' in data) { // 보드
+    return store.postsByCategory(data)
   }
-  return store.posts(input)
+
+  return store.posts(data)
 }
 
-export type ListInput = PostsInput & {
-  category?: string
-  userId?: string
-  like?: boolean
-}
-
-const log = logApiPost.extend('list')
+export type ListApiInput = ApiInput<PostsInput | (PostsInput & { category: string })>

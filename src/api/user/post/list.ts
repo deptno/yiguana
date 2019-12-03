@@ -1,25 +1,31 @@
 import {MetadataStore} from '../../../store/dynamodb'
 import {EntityFactory} from '../../../entity'
-import {PostsByUserIdInput} from '../../../store/dynamodb/posts-by-user-id'
 import {PostsInput} from '../../../store/dynamodb/posts'
-import {logApiUserPost} from '../../../lib/log'
+import {logApiUserPost as log} from '../../../lib/log'
+import {ApiInputWithUser} from '../../../type'
+import {assertsMember} from '../../../lib/assert'
 
-export async function list(store: MetadataStore, ef: EntityFactory, input: ListInput) {
-  log('input %j', input)
+export async function list(store: MetadataStore, ef: EntityFactory, input: ListApiInput) {
+  log('list %j', input)
 
-  if (input.like) {
+  assertsMember(input.user)
+
+  const {user, data} = input
+  const {id: userId} = user
+
+  if (data.like) {
     return store.postsByUserLike({
-      userId: input.userId,
-      exclusiveStartKey: input.exclusiveStartKey
+      userId,
+      exclusiveStartKey: data.exclusiveStartKey,
     })
   }
 
-  return store.postsByUserId(input as PostsByUserIdInput)
+  return store.postsByUserId({
+    ...data,
+    userId
+  })
 }
 
-export type ListInput = PostsInput & {
-  userId: string
+export type ListApiInput = ApiInputWithUser<PostsInput & {
   like?: boolean
-}
-
-const log = logApiUserPost.extend('list')
+}>
