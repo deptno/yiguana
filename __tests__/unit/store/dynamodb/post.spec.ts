@@ -107,7 +107,6 @@ describe('unit', function () {
                 data: {
                   data: before[0],
                   createdAt: new Date().toISOString()
-
                 },
                 user: member_e
               })
