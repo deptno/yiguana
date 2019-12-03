@@ -33,7 +33,11 @@ describe('unit', () => {
       })
 
       it('create reply', async() => {
-        const {items: before} = await api.comment.list({postId: comment.postId})
+        const {items: before} = await api.comment.list({
+          data: {
+            postId: comment.postId
+          }
+        })
         expect(before.length).toEqual(1)
         const reply = await api.reply.create({
           data: {
@@ -43,34 +47,14 @@ describe('unit', () => {
           },
           user: non_member_a
         })
-        const {items} = await api.comment.list({postId: comment.postId})
+        const {items} = await api.comment.list({
+          data: {
+            postId: comment.postId
+          }
+        })
         expect(items.length).toEqual(before.length + 1)
         expect(R.last(items)).toEqual(reply)
         console.table(items)
-      })
-
-      it('update reply', async() => {
-        const {items: replyItems} = await api.reply.list({comment})
-        const targetReply = replyItems[0]
-        expect(targetReply).not.toEqual(undefined)
-
-        const content = 'updated reply content'
-        expect(targetReply).not.toEqual(content)
-        const updatedReply = await api.reply.update({
-          data: {
-            hk: targetReply.hk,
-            commentId,
-            content
-          },
-          user: member_f
-        })
-        expect(updatedReply).not.toEqual(targetReply)
-        const {items: after} = await api.reply.list({comment})
-        console.table(after)
-        const found = after.find(r => r.hk === targetReply.hk)!
-        expect(found).toBeDefined()
-        expect(found.content).toEqual(content)
-        expect(found).toEqual(updatedReply)
       })
 
       it.todo('request to block reply')

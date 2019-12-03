@@ -1,13 +1,13 @@
 import {MetadataStore} from '../../store/dynamodb'
 import {EntityFactory} from '../../entity'
-import {YiguanaDocumentHash, ApiInputWithUser} from '../../type'
+import {ApiInputWithUser, YiguanaDocumentHash} from '../../type'
 import {logApiPost as log} from '../../lib/log'
-import {assertsMember} from '../../lib/assert'
+import {assertsMemberOrNot} from '../../lib/assert'
 
 export async function del(store: MetadataStore, ep: EntityFactory, input: DelApiInput) {
   log('del %j', input)
 
-  assertsMember(input.user)
+  assertsMemberOrNot(input.user)
 
   return store.removePost({hk: input.data.hk})
 }

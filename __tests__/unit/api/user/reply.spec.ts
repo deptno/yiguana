@@ -34,7 +34,11 @@ describe('unit', () => {
         })
 
         it('create reply', async() => {
-          const {items: before} = await api.comment.list({postId: comment.postId})
+          const {items: before} = await api.comment.list({
+            data: {
+              postId: comment.postId
+            }
+          })
           expect(before.length).toEqual(1)
           const reply = await api.reply.create({
             data: {
@@ -44,13 +48,18 @@ describe('unit', () => {
             },
             user: member_a
           })
-          const {items: after} = await api.comment.list({postId: comment.postId})
+          const {items: after} = await api.comment.list({
+            data: {
+              postId: comment.postId
+            }
+          })
           expect(after.length).toEqual(before.length + 1)
           expect(R.last(after)).toEqual(reply)
           console.table(after)
 
           const {items} = await api.user.reply.list({
-            userId: member_a.id,
+            user: member_a,
+            data: {}
           })
           expect(items.length).toEqual(1)
           console.table(after)

@@ -29,10 +29,10 @@ export function assertsMember(user: User): asserts user is Member {
   asserts('id' in user, 'login is required')
 }
 export function assertsMemberOrNot(user: User): asserts user is User {
-  try {
-    assertsNotMember(user)
-  } catch {
+  if ('id' in user) {
     assertsMember(user)
+  } else {
+    assertsNotMember(user)
   }
 }
 export function assertsAdmin(user: User): asserts user is MemberAdmin {

@@ -32,7 +32,9 @@ describe('unit', () => {
 
         it('list(0)', async () => {
           const {items} = await api.comment.list({
-            postId: post.hk,
+            data: {
+              postId: post.hk,
+            }
           })
           expect(items.length).toEqual(1)
         })
@@ -46,7 +48,9 @@ describe('unit', () => {
 
         it('like comment', async () => {
           const {items: before} = await api.comment.list({
-            postId: post.hk,
+            data: {
+              postId: post.hk,
+            }
           })
           await api.user.comment.like({
             data: {
@@ -56,13 +60,17 @@ describe('unit', () => {
             user: member_f,
           })
           const {items: after} = await api.comment.list({
-            postId: post.hk,
+            data: {
+              postId: post.hk,
+            }
           })
           expect(after[0].likes).toEqual(before[0].likes + 1)
         })
         it('like comment -> like comment', async () => {
           const {items: first} = await api.comment.list({
-            postId: post.hk,
+            data: {
+              postId: post.hk,
+            }
           })
           await api.user.comment.like({
             data: {
@@ -72,7 +80,9 @@ describe('unit', () => {
             user: member_b,
           })
           const {items: second} = await api.comment.list({
-            postId: post.hk,
+            data: {
+              postId: post.hk,
+            }
           })
           expect(second[0].likes).toEqual(first[0].likes + 1)
 
@@ -85,7 +95,9 @@ describe('unit', () => {
             user: member_b,
           })
           const {items: third} = await api.comment.list({
-            postId: post.hk,
+            data: {
+              postId: post.hk,
+            }
           })
           expect(third[0].likes).toEqual(second[0].likes - 1)
         })
