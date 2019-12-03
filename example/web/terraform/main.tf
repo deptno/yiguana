@@ -44,6 +44,10 @@ resource aws_dynamodb_table yiguana {
     name = "reports"
     type = "S"
   }
+  attribute {
+    name = "reportsEnd"
+    type = "S"
+  }
 
   global_secondary_index {
     name = "byUser"
@@ -73,6 +77,12 @@ resource aws_dynamodb_table yiguana {
     name = "reports"
     hash_key = "agg"
     range_key = "reports"
+    projection_type = "ALL"
+  }
+  global_secondary_index {
+    name = "reportsEnd"
+    hash_key = "agg"
+    range_key = "reportsEnd"
     projection_type = "ALL"
   }
 }

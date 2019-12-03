@@ -8,7 +8,7 @@ export const aggReportsOfPost: GraphQLFieldResolver<any, Context, { entity: EEnt
     console.log('aggReportsOfPost', args, user)
 
     return context.dataSources.public.aggReports({
-      cursor: args.cursor,
+      ...args,
       entity: 'post' as EEntity.Post,
     })
   }

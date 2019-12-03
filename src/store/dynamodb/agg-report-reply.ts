@@ -17,18 +17,19 @@ export function aggReportReply(operator: DynamoDBInput, params: AggReportReplyIn
           target: entity,
         })
       },
-      UpdateExpression: 'SET #a = :a, #s = :s, #v = if_not_exists(#v, :z) + :v REMOVE #r',
+      UpdateExpression: 'SET #a = :a, #s = :s, #v = if_not_exists(#v, :z) + #rd, #e = #r REMOVE #r',
       ExpressionAttributeNames: {
         '#a': 'answer',
         '#s': 'status',
+        '#e': 'reportsEnd',
         '#v': 'processed',
         '#r': 'reports',
+        '#rd': 'reported',
       },
       ExpressionAttributeValues: {
         ':a': answer,
         ':s': status,
         ':z': 0,
-        ':v': 1,
       },
       ReturnValues: 'ALL_NEW',
     })

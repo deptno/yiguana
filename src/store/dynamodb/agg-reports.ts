@@ -5,10 +5,11 @@ import {ReportAgg} from '../../entity/report/report-agg'
 
 export function aggReports(operator: DynamoDBInput, params: AggReportsInput) {
   const {tableName, dynamodb} = operator
-  const {entity, exclusiveStartKey, limit = 10} = params
+  const {entity, exclusiveStartKey, limit = 10, end} = params
+  const indexName = end ? EIndexName.reportsEnd : EIndexName.reports
   const queryParams = {
     TableName: tableName,
-    IndexName: EIndexName.reports,
+    IndexName: indexName,
     KeyConditionExpression: '#h = :h',
     ExpressionAttributeNames: {
       '#h': 'agg',
@@ -31,5 +32,6 @@ export function aggReports(operator: DynamoDBInput, params: AggReportsInput) {
 export type AggReportsInput = {
   limit?: number
   exclusiveStartKey?: Exclude<any, string | number>
+  end?: boolean
   entity: Extract<EEntity, EEntity.Post|EEntity.Comment>
 }

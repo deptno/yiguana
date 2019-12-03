@@ -11,8 +11,8 @@ export const typeDefs = gql`
     post(hk: String!): Post
     comments(postId: String!, cursor: String): CommentList!
     comment(hk: String!): Comment!
-    aggReportsOfPost(cursor: String): AggReportPostList!
-    aggReportsOfComment(cursor: String): AggReportCommentList!
+    aggReportsOfPost(cursor: String, end: Boolean): AggReportPostList!
+    aggReportsOfComment(cursor: String, end: Boolean): AggReportCommentList!
     reports(hk: String!, rk: String!): ReportPostList!
 
     myPosts(cursor: String, like: Boolean): PostList!
@@ -78,7 +78,7 @@ export const typeDefs = gql`
     hk: String!
     rk: String!
     agg: String!
-    reports: String!
+    reports: String
     reported: Int!
     data: Post
     status: EEntityStatus!
@@ -94,7 +94,7 @@ export const typeDefs = gql`
     hk: String!
     rk: String!
     agg: String!
-    reports: String!
+    reports: String
     reported: Int!
     data: Comment
     status: EEntityStatus!

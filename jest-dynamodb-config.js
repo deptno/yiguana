@@ -63,6 +63,10 @@ module.exports = {
         {
           'AttributeName': 'reports',
           'AttributeType': 'S'
+        },
+        {
+          'AttributeName': 'completed',
+          'AttributeType': 'S'
         }
       ],
       'TableName'             : 'yiguana',
@@ -86,6 +90,7 @@ module.exports = {
         createGsi('postsByCategory', 'rk', 'category'),
         createGsi('comments', 'postId', 'comments'),
         createGsi('reports', 'agg', 'reports'),
+        createGsi('reportsEnd', 'agg', 'reportsEnd'),
       ],
       'StreamSpecification'   : {
         'StreamEnabled' : true,

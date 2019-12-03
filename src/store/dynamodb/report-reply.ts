@@ -12,10 +12,11 @@ export function reportReply(operator: DynamoDBInput, params: ReportReplyInput) {
         hk,
         rk,
       },
-      UpdateExpression: 'SET #a = :a, #s = :s',
+      UpdateExpression: 'SET #a = :a, #s = :s REMOVE #e',
       ExpressionAttributeNames: {
         '#a': 'answer',
         '#s': 'status',
+        '#e': 'reportsEnd',
       },
       ExpressionAttributeValues: {
         ':a': answer,

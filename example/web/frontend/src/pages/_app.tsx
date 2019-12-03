@@ -48,23 +48,17 @@ pre.debug {
                 <ul className="list lh-copy flex">
                   <li>
                     <Link href="/">
-                      <a className="link black hover-white hover-bg-blue br1 pa1 mr3 ba">
-                        보드
-                      </a>
+                      <a className="link black hover-white hover-bg-blue br1 pa1 mr3 ba">보드</a>
                     </Link>
                   </li>
                   <li>
                     <Link href="/my-page">
-                      <a className="link black hover-white hover-bg-blue br1 pa1 mr3 ba">
-                        마이페이지
-                      </a>
+                      <a className="link black hover-white hover-bg-blue br1 pa1 mr3 ba">마이페이지</a>
                     </Link>
                   </li>
                   <li>
                     <Link href="/admin">
-                      <a className="link black hover-white hover-bg-blue br1 pa1 mr3 ba">
-                        관리자
-                      </a>
+                      <a className="link black hover-white hover-bg-blue br1 pa1 mr3 ba">관리자</a>
                     </Link>
                   </li>
                   <li>

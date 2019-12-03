@@ -9,7 +9,7 @@ export const aggReportsOfComment: GraphQLFieldResolver<any, Context, { entity: E
     console.log('aggReportsOfComment', args, user)
 
     return context.dataSources.public.aggReports({
-      cursor: args.cursor,
+      ...args,
       entity: 'comment' as EEntity.Comment,
     })
   }

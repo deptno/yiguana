@@ -61,4 +61,5 @@ export enum EIndexName {
   comments = 'comments',
   byUser = 'byUser',
   reports = 'reports',
+  reportsEnd = 'reportsEnd',
 }
