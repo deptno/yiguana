@@ -47,7 +47,7 @@ describe('unit', function () {
                 content: 'reply content',
                 createdAt: new Date().toISOString(),
               },
-              user: non_member_a
+              user: non_member_a,
             })
             const replied = await addReply(opDdb, {
               data: reply,
@@ -62,7 +62,7 @@ describe('unit', function () {
             const repliedComment = items.find(c => c.hk === commentId)!
             expect(repliedComment.children).toEqual(0)
           })
-          it('update reply', async() => {
+          it('update reply', async () => {
             const {items: commentItems} = await comments(opDdb, {postId: commentedPost.hk})
             const repliedComment = commentItems.find(c => c.hk === commentId)!
 
@@ -72,16 +72,14 @@ describe('unit', function () {
 
             const content = 'updated reply content'
             await updateReply(opDdb, {
-              data: {
-                hk: targetReply.hk,
-                commentId,
-                content,
-              }
+              hk: targetReply.hk,
+              commentId,
+              content,
             })
             const {items: after} = await replies(opDdb, {comment: repliedComment})
             console.table(after) // expect 비교군이 생각이 안 나고 일단 로그로 확인하라
           })
-          it('like reply', async() => {
+          it('like reply', async () => {
             const {items: commentItems} = await comments(opDdb, {postId: commentedPost.hk})
             const repliedComment = commentItems.find(c => c.hk === commentId)!
 
@@ -92,7 +90,7 @@ describe('unit', function () {
             const like = createLike({
               data: {
                 data: targetReply as unknown as Comment,
-                createdAt: new Date().toISOString()
+                createdAt: new Date().toISOString(),
               },
               user: member_f,
             })
@@ -104,7 +102,7 @@ describe('unit', function () {
             expect(likedReply.likes).toEqual(targetReply.likes + 1)
           })
           // a 유저의 답글 조회 -> 답글 추가 -> 답글 재조회
-          it('repliesByUserId: 답글 리스트 a', async() => {
+          it('repliesByUserId: 답글 리스트 a', async () => {
             const {items} = await repliesByUserId(opDdb, {userId: member_a.id})
             console.debug('reply 리스트 userId')
             console.table(items)
@@ -120,7 +118,7 @@ describe('unit', function () {
               },
               user: member_a,
             })
-            const replied  = await addReply(opDdb, {data: reply})
+            const replied = await addReply(opDdb, {data: reply})
             console.table([reply, replied])
             expect(replied).toEqual(reply)
 
