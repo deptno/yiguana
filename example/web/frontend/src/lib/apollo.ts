@@ -21,7 +21,6 @@ const link = setContext((_, {headers}) => {
   return {
     headers,
   }
-}).
-concat(createHttpLink({uri, fetch}))
+}).concat(createHttpLink({uri, fetch}))
 
 export const client = new ApolloClient({link, cache})

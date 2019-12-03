@@ -83,6 +83,7 @@ export const typeDefs = gql`
     data: Post
     status: EEntityStatus!
     answer: String
+    processed: Int
   }
   type AggReportCommentList {
     items: [AggReportComment]!
@@ -98,6 +99,7 @@ export const typeDefs = gql`
     data: Comment
     status: EEntityStatus!
     answer: String
+    processed: Int
   }
   type ReportPostList {
     items: [ReportPost]!

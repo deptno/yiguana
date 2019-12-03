@@ -9,20 +9,12 @@ export async function report(store: MetadataStore, ef: EntityFactory, input: Rep
 
   assertsMember(input.user)
 
-  const {data: {content, data, createdAt}, user} = input
-  const report = await store.report({
-    data: ef.createReport({
-      user,
-      data: {
-        data,
-        content,
-        createdAt,
-      },
-    }),
-  })
+  const {data, user} = input
+  const report = ef.createReport({user, data})
+  const reported = await store.report(report)
 
-  if (report) {
-    return store.increaseReportCount(report)
+  if (reported) {
+    return store.increaseReportCount(reported)
   }
 }
 

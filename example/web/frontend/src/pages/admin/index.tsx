@@ -1,6 +1,6 @@
-import React, {useEffect, useState} from 'react'
+import React, {useEffect} from 'react'
 import {NextPage} from 'next'
-import {useQuery} from '@apollo/react-hooks'
+import {useLazyQuery} from '@apollo/react-hooks'
 import gql from 'graphql-tag'
 import {BoardItem} from '../../components/board/BoardItem'
 import {Comment} from '../../components/post/Comment'
@@ -8,9 +8,8 @@ import Link from 'next/link'
 import {Reply} from '../../components/post/Reply'
 
 const AdminPage: NextPage<Props> = props => {
-  const [reports, setReports] = useState([])
   // FIXME: Do not share $cursor
-  const {data, error} = useQuery(gql`
+  const [query, {data, error}] = useLazyQuery(gql`
     query ($cursor: String){
       aggReportsOfPost(cursor: $cursor) {
         items {
@@ -41,6 +40,7 @@ const AdminPage: NextPage<Props> = props => {
           }
           status
           answer
+          processed
         }
         cursor
         firstResult
@@ -73,6 +73,7 @@ const AdminPage: NextPage<Props> = props => {
           }
           status
           answer
+          processed
         }
         cursor
         firstResult
@@ -80,9 +81,7 @@ const AdminPage: NextPage<Props> = props => {
     }
   `)
 
-  useEffect(() => {
-    setReports(data?.aggReportsOfPost?.items ?? [])
-  }, [data])
+  useEffect(() => query(), [])
 
   return (
     <div className="pa3 flex-column">

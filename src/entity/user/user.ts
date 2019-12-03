@@ -6,10 +6,14 @@ export type Member = UserMeta & {
   id: string
   name: string
   photo?: string
-  role?: 'admin'
+  role?: ERole
 }
 export type NonMember = UserMeta & {
   pw: string
   name: string
 }
+export type MemberAdmin = Member & {role: ERole.admin}
 
+export enum ERole {
+  admin = 'admin'
+}
