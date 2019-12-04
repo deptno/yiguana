@@ -329,17 +329,17 @@ describe('unit', function () {
             const {items} = await reportsByUser(opDdb, {userId})
             expect(items.length).toEqual(1)
           })
-          it('04. replyReport', async () => {
-            const replied = await reportReply(opDdb, {
+          it('04. replyReport === innocent', async () => {
+            await reportReply(opDdb, {
               hk: targetId,
               rk: EEntity.Post,
               answer: 'test answer',
-              status: EEntityStatus.inAudit,
+              status: EEntityStatus.innocent,
             })
 
             const {items} = await posts(opDdb, {})
             expect(
-              items.filter(i => i.status === EEntityStatus.inAudit).length,
+              items.filter(i => i.status === EEntityStatus.innocent).length,
             ).toEqual(1)
             console.table(items)
           })
