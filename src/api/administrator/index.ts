@@ -4,7 +4,7 @@ import {AggReportApi} from './agg-report'
 import {GetInput} from '../../store/dynamodb/get'
 import {logApiAdmin} from '../../lib/log'
 import {ReportApi} from './report'
-import {reportReply, ReportReplyInput} from './report-reply'
+import {replyReport, ReplyReportInput} from './reply-report'
 
 export class AdministratorApi {
   public aggReport = new AggReportApi(this.ms, this.ef)
@@ -18,8 +18,8 @@ export class AdministratorApi {
     return this.ms.get(input)
   }
 
-  replyReport(input: ReportReplyInput) {
+  replyReport(input: ReplyReportInput) {
     logApiAdmin('replyReport', input)
-    return reportReply(this.ms, this.ef, input)
+    return replyReport(this.ms, this.ef, input)
   }
 }

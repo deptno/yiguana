@@ -9,8 +9,10 @@ import {addReport} from '../../../../src/store/dynamodb/add-report'
 import {removeReport} from '../../../../src/store/dynamodb/remove-report'
 import {increaseReportAgg} from '../../../../src/store/dynamodb/increase-report-agg'
 import {aggReports} from '../../../../src/store/dynamodb/agg-reports'
-import {EEntity} from '../../../../src/type'
+import {EEntity, EEntityStatus} from '../../../../src/type'
 import {reportsByUser} from '../../../../src/store/dynamodb/reports-by-user'
+import {reportReply} from '../../../../src/store/dynamodb/report-reply'
+import {posts} from '../../../../src/store/dynamodb/posts'
 
 describe('unit', function () {
   describe('store', function () {
@@ -279,6 +281,67 @@ describe('unit', function () {
               entity: EEntity.Comment
             })
             expect(items.length).toEqual(2)
+          })
+        })
+
+        describe('report admin', function() {
+          const user = member_a
+          const userId = member_a.id
+          const createdAt = new Date().toISOString()
+
+          let postList: Post[]
+          let data: Post
+          let targetId: string
+          let comment: Comment
+
+          beforeAll(() => getInitialData().then(initialData => {
+            [comment] = initialData.filter(d => d.rk === EEntity.Comment) as Comment[]
+            postList = initialData.filter(d => d.rk === EEntity.Post) as Post[]
+            [data] = postList
+            targetId = data.hk
+          }))
+
+          it('01. reportsByUser(User(a)) === 0', async () => {
+            const {items} = await reportsByUser(opDdb, {userId})
+            expect(items.length).toEqual(0)
+          })
+          it('02. User(a)가 Post(0) 신고', async () => {
+            const content = 'user a, post 0, 1st report'
+            const report = createReport({
+              data: {createdAt, data, content},
+              user,
+            })
+            console.log({report})
+
+            const added = await addReport(opDdb, {data: report})
+            expect(report).toMatchObject(added)
+            if (added) {
+              const count = await increaseReportAgg(opDdb, {data, userId})
+              console.log({count})
+              expect(count.reported).toEqual(1)
+            }
+          })
+          it('031. aggReports() === 1', async () => {
+            const {items} = await aggReports(opDdb, {entity: EEntity.Post})
+            expect(items.length).toEqual(1)
+          })
+          it('03. reportsByUser(User(a)) === 1', async () => {
+            const {items} = await reportsByUser(opDdb, {userId})
+            expect(items.length).toEqual(1)
+          })
+          it('04. replyReport', async () => {
+            const replied = await reportReply(opDdb, {
+              hk: targetId,
+              rk: EEntity.Post,
+              answer: 'test answer',
+              status: EEntityStatus.inAudit,
+            })
+
+            const {items} = await posts(opDdb, {})
+            expect(
+              items.filter(i => i.status === EEntityStatus.inAudit).length,
+            ).toEqual(1)
+            console.table(items)
           })
         })
       })
