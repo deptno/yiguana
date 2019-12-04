@@ -1,12 +1,10 @@
 import {Post} from '../../../../src/entity/post'
 import {Comment} from '../../../../src/entity/comment'
 import {getInitialData} from '../../../setup'
-import {replies} from '../../../../src/store/dynamodb/replies'
 import {opDdb} from '../../../env'
 import {addReply} from '../../../../src/store/dynamodb/add-reply'
 import {createReply} from '../../../../src/entity/reply'
 import {comments} from '../../../../src/store/dynamodb/comments'
-import {updateReply} from '../../../../src/store/dynamodb/update-reply'
 import {member_a, member_f, non_member_a} from '../../../__data__/user'
 import {createLike} from '../../../../src/entity/like'
 import {addLike} from '../../../../src/store/dynamodb/add-like'
@@ -36,11 +34,7 @@ describe('unit', function () {
         }))
 
         describe('replies', function () {
-          it('초기 replies(0)', async () => {
-            const {items} = await replies(opDdb, {comment})
-            expect(items.length).toEqual(0)
-          })
-          it('addReply -> replies(1)', async () => {
+          it('addReply', async () => {
             const reply = createReply({
               data: {
                 comment,
@@ -49,47 +43,24 @@ describe('unit', function () {
               },
               user: non_member_a,
             })
-            const replied = await addReply(opDdb, {
-              data: reply,
-            })
-            console.log({replied})
-            const {items} = await replies(opDdb, {comment})
-            expect(items.length).toEqual(1)
-            console.table(items)
+            const replied = await addReply(opDdb, {data: reply})
+            const {items} = await comments(opDdb, {postId: comment.postId})
+            expect(items.filter(c => c.commentId === replied.commentId).length).toEqual(1)
           })
           it('BEFORE replyComment, comment.children(0) ', async () => {
             const {items} = await comments(opDdb, {postId: commentedPost.hk})
             const repliedComment = items.find(c => c.hk === commentId)!
             expect(repliedComment.children).toEqual(0)
           })
-          it('update reply', async () => {
-            const {items: commentItems} = await comments(opDdb, {postId: commentedPost.hk})
-            const repliedComment = commentItems.find(c => c.hk === commentId)!
-
-            const {items: replyItems} = await replies(opDdb, {comment: repliedComment})
-            const targetReply = replyItems[0]
-            expect(targetReply).not.toEqual(undefined)
-
-            const content = 'updated reply content'
-            await updateReply(opDdb, {
-              hk: targetReply.hk,
-              commentId,
-              content,
-            })
-            const {items: after} = await replies(opDdb, {comment: repliedComment})
-            console.table(after) // expect 비교군이 생각이 안 나고 일단 로그로 확인하라
-          })
           it('like reply', async () => {
-            const {items: commentItems} = await comments(opDdb, {postId: commentedPost.hk})
-            const repliedComment = commentItems.find(c => c.hk === commentId)!
+            const {items} = await comments(opDdb, {postId: commentedPost.hk})
+            const reply = items.find(c => c.commentId === commentId)!
 
-            const {items: replyItems} = await replies(opDdb, {comment: repliedComment})
-            const targetReply = replyItems[0]
-            expect(targetReply).not.toEqual(undefined)
+            expect(reply).not.toEqual(undefined)
 
             const like = createLike({
               data: {
-                data: targetReply as unknown as Comment,
+                data: reply,
                 createdAt: new Date().toISOString(),
               },
               user: member_f,
@@ -97,9 +68,9 @@ describe('unit', function () {
             const saved = await addLike(opDdb, {data: like})
             console.log({saved})
 
-            const likedReply = await likeReply(opDdb, {data: targetReply})
-            expect(likedReply.hk).toEqual(targetReply.hk)
-            expect(likedReply.likes).toEqual(targetReply.likes + 1)
+            const likedReply = await likeReply(opDdb, {data: reply})
+            expect(likedReply.hk).toEqual(reply.hk)
+            expect(likedReply.likes).toEqual(reply.likes + 1)
           })
           // a 유저의 답글 조회 -> 답글 추가 -> 답글 재조회
           it('repliesByUserId: 답글 리스트 a', async () => {

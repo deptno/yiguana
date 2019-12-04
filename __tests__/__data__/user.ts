@@ -3,7 +3,7 @@ export const admin = {
   name: 'administrator',
   ip: '0.0.0.0',
   photo: 'https://avatars2.githubusercontent.com/u/1342004?s=88&v=4',
-  role: 'admin'
+  role: 'admin' as any
 }
 export const member_a = {
   id: 'a',
