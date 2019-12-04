@@ -68,7 +68,7 @@ describe('unit', () => {
           console.table(before)
 
           const targetComment = await api.comment.update({
-            user: admin,
+            user: admin as any,
             data: {
               hk: comment.hk,
               postId: post.hk,
@@ -97,7 +97,7 @@ describe('unit', () => {
           console.table(before)
 
           const targetComment = await api.comment.del({
-            user: admin,
+            user: admin as any,
             data: comment,
           })
           console.table(targetComment)
