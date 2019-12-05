@@ -1,20 +1,17 @@
 import {MetadataStore} from '../../../store/dynamodb'
 import {EntityFactory} from '../../../entity'
-import {logApiUserReport} from '../../../lib/log'
-import {report, ReportInput} from './report'
-import {reports, ReportsInput} from './reports'
+import {list, ReportsInput} from './list'
+import {create, ReportApiInput} from './create'
 
 export class UserReportApi {
   constructor(private ms: MetadataStore, private ef: EntityFactory) {
   }
 
   list(input: ReportsInput) {
-    logApiUserReport('list', input)
-    return reports(this.ms, this.ef, input)
+    return list(this.ms, this.ef, input)
   }
 
-  create(input: ReportInput) {
-    logApiUserReport('create', input)
-    return report(this.ms, this.ef, input)
+  create(input: ReportApiInput) {
+    return create(this.ms, this.ef, input)
   }
 }

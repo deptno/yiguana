@@ -12,7 +12,9 @@ describe('unit', () => {
 
         const api = createApi({ddbClient, s3Client, tableName, bucketName})
         it('list(0)', async () => {
-          const {items} = await api.post.list({})
+          const {items} = await api.post.list({
+            data: {},
+          })
           expect(items.length).toEqual(0)
         })
 
@@ -26,7 +28,8 @@ describe('unit', () => {
             user: member_a,
           })
           const {items} = await api.user.post.list({
-            userId: member_a.id
+            user: member_a,
+            data: {},
           })
           expect(items.length).toEqual(1)
           console.log(post)
@@ -34,14 +37,16 @@ describe('unit', () => {
         })
 
         it('like post', async () => {
-          const {items} = await api.post.list({})
+          const {items} = await api.post.list({
+            data: {},
+          })
           expect(items.length).toEqual(1)
           const [post] = items
           expect(post.likes).toEqual(0)
           await api.user.post.like({
             data: {
               data: post,
-              createdAt: new Date().toISOString()
+              createdAt: new Date().toISOString(),
             },
             user: member_a,
           })
@@ -49,7 +54,9 @@ describe('unit', () => {
           expect(nextPost.likes).toEqual(1)
         })
         it('like post -> like post', async () => {
-          const {items} = await api.post.list({})
+          const {items} = await api.post.list({
+            data: {},
+          })
           expect(items.length).toEqual(1)
           const [post] = items
           expect(post.likes).toEqual(1)
@@ -57,27 +64,31 @@ describe('unit', () => {
           await api.user.post.like({
             data: {
               data: post,
-              createdAt: new Date().toISOString()
+              createdAt: new Date().toISOString(),
             },
             user: member_b,
           })
           const firstPost = await api.post.read({data: post})
           expect(firstPost.likes).toEqual(2)
-          const {items: before} = await api.post.list({})
+          const {items: before} = await api.post.list({
+            data: {},
+          })
           console.table(before)
 
           console.debug('like post 1회 수행하여 like가 이미 존재할 시 unlike 동작')
           await api.user.post.like({
             data: {
               data: post,
-              createdAt: new Date().toISOString()
+              createdAt: new Date().toISOString(),
             },
             user: member_b,
           })
           const secondPost = await api.post.read({data: post})
           console.debug('member_b의 좋아요는 취소가 되고 member_a가 좋아요 했던 것만 남아서 1이 기대값')
           expect(secondPost.likes).toEqual(1)
-          const {items: after} = await api.post.list({})
+          const {items: after} = await api.post.list({
+            data: {},
+          })
           console.table(after)
         })
         it.todo(`unlike
@@ -89,11 +100,16 @@ describe('unit', () => {
 최종적으로 누가 좋아요를 눌렀는지 알기를 원한다면
   ddb> postId / like#userId`)
         it('unlike post', async () => {
-          const {items} = await api.post.list({})
+          const {items} = await api.post.list({
+            data: {},
+          })
           expect(items.length).toEqual(1)
           const [post] = items
           expect(post.likes).toEqual(1)
-          await api.user.post.unlike({data: post})
+          await api.user.post.like({
+            user: member_a,
+            data: {data: post, createdAt: new Date().toISOString()},
+          })
           const nextPost = await api.post.read({data: post})
           expect(nextPost.likes).toEqual(0)
         })

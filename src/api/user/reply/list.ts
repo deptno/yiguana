@@ -1,25 +1,19 @@
 import {MetadataStore} from '../../../store/dynamodb'
 import {EntityFactory} from '../../../entity'
-import {RepliesByUserIdInput} from '../../../store/dynamodb/replies-by-user-id'
-import {RepliesInput} from '../../../store/dynamodb/replies'
-import {logApiUserReply} from '../../../lib/log'
-import {EEntity} from '../../../type'
+import {logApiUserReply as log} from '../../../lib/log'
+import {ApiInputWithUser} from '../../../type'
+import {assertsMember} from '../../../lib/assert'
 
-export async function list(store: MetadataStore, ep: EntityFactory, input: ListInput) {
+export async function list(store: MetadataStore, ep: EntityFactory, input: ListApiInput) {
   log('list %j', input)
 
-  if ('like' in input) {
-    return store.repliesByUserLike({
-      userId: input.userId,
-      entity: EEntity.Comment,
-    }) as any
-  }
-  return store.repliesByUserId(input as RepliesByUserIdInput)
+  assertsMember(input.user)
+
+  const {user: {id: userId}, data} = input
+
+  return store.repliesByUserId({...data, userId})
 }
 
-export type ListInput = RepliesInput | {
-  userId: string
-  like?: boolean
-}
-
-const log = logApiUserReply.extend('list')
+export type ListApiInput = ApiInputWithUser<{
+  exclusiveStartKey?: Exclude<any, string | number>
+}>

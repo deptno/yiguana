@@ -3,8 +3,10 @@ import {yiguana} from '../../../lib/yiguana'
 import {util} from '@deptno/dynamodb'
 import {SALT} from '../../../lib/token'
 import {overrideResponseByStatus} from '../../../lib/display'
+import {User} from '../../../../../../../../../lib/entity/user'
 
 export class Public extends DataSource {
+  // TODO: 권한 이슈 있음 admin 권한은 아니어야 하는데 좀 더 생각
   get(args: Argument<typeof yiguana.administrator.get>) {
     return yiguana.administrator.get(args)
   }
@@ -27,17 +29,17 @@ export class Public extends DataSource {
       .then(overrideResponseByStatus)
   }
 
-  comment(args: ListArgument<typeof yiguana.comment.read>) {
+  comment(args: Argument<typeof yiguana.comment.read>) {
     return yiguana.comment.read(args)
   }
 
-  aggReports(args: ListArgument<typeof yiguana.administrator.aggReport.list>) {
+  aggReports(args: ListArgumentWithAuth<typeof yiguana.administrator.aggReport.list>) {
     return yiguana.administrator.aggReport
       .list(preListHook(args))
       .then(postListHook)
   }
 
-  reports(args: ListArgument<typeof yiguana.administrator.report.list>) {
+  reports(args: ListArgumentWithAuth<typeof yiguana.administrator.report.list>) {
     return yiguana.administrator.report
       .list(preListHook(args))
       .then(postListHook)
@@ -64,7 +66,7 @@ export class Public extends DataSource {
   }
 }
 export class Private extends DataSource {
-  posts(args: ListArgument<typeof yiguana.user.post.list>) {
+  posts(args: ListArgumentWithAuth<typeof yiguana.user.post.list>) {
     return yiguana.user.post
       .list(preListHook(args))
       .then(postListHook)
@@ -89,11 +91,11 @@ export class Private extends DataSource {
       })
   }
 
-  deletePost(args: ListArgument<typeof yiguana.post.del>) {
+  deletePost(args: Argument<typeof yiguana.post.del>) {
     return yiguana.post.del(args)
   }
 
-  comments(args: ListArgument<typeof yiguana.user.comment.list>) {
+  comments(args: ListArgumentWithAuth<typeof yiguana.user.comment.list>) {
     return yiguana.user.comment
       .list(preListHook(args))
       .then(postListHook)
@@ -118,15 +120,15 @@ export class Private extends DataSource {
       })
   }
 
-  deleteComment(args: ListArgument<typeof yiguana.comment.del>) {
+  deleteComment(args: Argument<typeof yiguana.comment.del>) {
     return yiguana.comment.del(args)
   }
 
-  reports(args: ListArgument2<typeof yiguana.user.report.list>) {
+  reports(args: ListArgumentWithAuth<typeof yiguana.user.report.list>) {
     return yiguana.user.report.list(args)
   }
 
-  report(args: ListArgument<typeof yiguana.user.report.create>) {
+  report(args: Argument<typeof yiguana.user.report.create>) {
     return yiguana.user.report.create(args)
   }
 }
@@ -149,12 +151,11 @@ const postListHook = (params?) => {
 
 type Argument<F extends Function> = F extends (first: infer A) => any
   ? A
-  : never;
-type ListArgument<F extends Function> = F extends (first: infer A) => any
-  ? Omit<A, 'exclusiveStartKey'> & { cursor?: string }
-  : never;
-
-type ListArgument2<F extends Function> = F extends <T extends {user, data: infer A}>(first: T) => any
-  ? {user, data: Omit<A, 'exclusiveStartKey'> & { cursor?: string }}
-  : never;
+  : never
+type ListArgument<F extends Function> = F extends <T extends { user: infer B, data: infer A }>(first: T) => any
+  ? {data: Omit<A, 'exclusiveStartKey'> & { cursor?: string } }
+  : never
+type ListArgumentWithAuth<F extends Function> = F extends <T extends { user: infer B, data: infer A }>(first: T) => any
+  ? {user: User, data: Omit<A, 'exclusiveStartKey'> & { cursor?: string } }
+  : never
 

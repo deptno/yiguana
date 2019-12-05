@@ -1,14 +1,16 @@
 import {MetadataStore} from '../../store/dynamodb'
 import {EntityFactory} from '../../entity'
 import {CommentUpdateUserInput} from '../../entity/comment'
-import {ApiInput} from '../../type'
-import {logApiComment} from '../../lib/log'
+import {ApiInputWithUser} from '../../type'
+import {logApiComment as log} from '../../lib/log'
+import {assertsMemberOrNot} from '../../lib/assert'
 
-export async function update(store: MetadataStore, ep: EntityFactory, input: UpdateInput) {
+export async function update(store: MetadataStore, ep: EntityFactory, input: UpdateApiInput) {
   log('update %j', input)
-  return store.updateComment(input)
+
+  assertsMemberOrNot(input.user)
+
+  return store.updateComment(input.data)
 }
 
-export type UpdateInput = ApiInput<CommentUpdateUserInput>
-
-const log = logApiComment.extend('update')
+export type UpdateApiInput = ApiInputWithUser<CommentUpdateUserInput>

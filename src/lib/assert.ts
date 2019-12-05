@@ -15,7 +15,7 @@ export function assertNotEmptyString(value: string, message = 'empty string'): a
 }
 
 // User
-function assertsUser(user: User): asserts user is User {
+export function assertsUser(user: User): asserts user is User {
   asserts(user.ip, 'user must have ip')
   asserts(user.name, 'user must have name')
 }
@@ -27,6 +27,13 @@ export function assertsNotMember(user: User): asserts user is NonMember {
 export function assertsMember(user: User): asserts user is Member {
   assertsUser(user)
   asserts('id' in user, 'login is required')
+}
+export function assertsMemberOrNot(user: User): asserts user is User {
+  if ('id' in user) {
+    assertsMember(user)
+  } else {
+    assertsNotMember(user)
+  }
 }
 export function assertsAdmin(user: User): asserts user is MemberAdmin {
   assertsMember(user)

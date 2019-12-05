@@ -149,6 +149,11 @@ const AdminPage: NextPage<Props> = props => {
   `)
 
   useEffect(() => query(), [])
+  useEffect(() => {
+    if (error) {
+      alert(error)
+    }
+  }, [error])
 
   return (
     <div className="pa3 flex-column">

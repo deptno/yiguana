@@ -2,12 +2,14 @@ import {MetadataStore} from '../../store/dynamodb'
 import {EntityFactory} from '../../entity'
 import {ReplyUserInput} from '../../entity/reply'
 import * as R from 'ramda'
-import {UserApiInput} from '../../type'
-import {logApiReply} from '../../lib/log'
-import {assertNotEmptyString} from '../../lib/assert'
+import {ApiInputWithUser} from '../../type'
+import {logApiReply as log} from '../../lib/log'
+import {assertNotEmptyString, assertsMemberOrNot} from '../../lib/assert'
 
-export async function create(store: MetadataStore, ep: EntityFactory, input: CreateInput) {
+export async function create(store: MetadataStore, ep: EntityFactory, input: CreateApiInput) {
   log('create %j', input)
+
+  assertsMemberOrNot(input.user)
   assertNotEmptyString(input.data.content)
 
   const data = ep.createReply(input)
@@ -24,6 +26,4 @@ export async function create(store: MetadataStore, ep: EntityFactory, input: Cre
     .then(R.head)
 }
 
-export type CreateInput = UserApiInput<ReplyUserInput>
-
-const log = logApiReply.extend('create')
+export type CreateApiInput = ApiInputWithUser<ReplyUserInput>

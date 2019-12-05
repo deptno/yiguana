@@ -3,7 +3,7 @@ import {Post} from '../../../src/entity/post'
 import {Comment} from '../../../src/entity/comment'
 import {bucketName, ddbClient, s3Client, tableName} from '../../env'
 import {EValidationErrorMessage} from '../../../src/entity/error'
-import {member_a, member_f} from '../../__data__/user'
+import {admin, member_a, member_f} from '../../__data__/user'
 
 describe('unit', () => {
   describe('api', () => {
@@ -32,7 +32,9 @@ describe('unit', () => {
 
       it('list(0)', async () => {
         const {items} = await api.comment.list({
-          postId: post.hk,
+          data: {
+            postId: post.hk,
+          }
         })
         expect(items.length).toEqual(1)
       })
@@ -51,17 +53,22 @@ describe('unit', () => {
             expect(e.message).toEqual(EValidationErrorMessage.InvalidInput)
           }
           const {items} = await api.comment.list({
-            postId: post.hk,
+            data: {
+              postId: post.hk,
+            }
           })
           expect(items.length).toEqual(2)
         })
         it('update comment', async () => {
           const {items: before} = await api.comment.list({
-            postId: post.hk,
+            data: {
+              postId: post.hk,
+            }
           })
           console.table(before)
 
           const targetComment = await api.comment.update({
+            user: admin as any,
             data: {
               hk: comment.hk,
               postId: post.hk,
@@ -72,7 +79,9 @@ describe('unit', () => {
           console.table(targetComment)
 
           const {items: after} = await api.comment.list({
-            postId: post.hk,
+            data: {
+              postId: post.hk,
+            }
           })
           console.table(after)
 
@@ -81,17 +90,22 @@ describe('unit', () => {
         it.todo('view comment')
         it('remove comment', async() => {
           const {items: before} = await api.comment.list({
-            postId: post.hk,
+            data: {
+              postId: post.hk,
+            }
           })
           console.table(before)
 
           const targetComment = await api.comment.del({
+            user: admin as any,
             data: comment,
           })
           console.table(targetComment)
 
           const {items: after} = await api.comment.list({
-            postId: post.hk,
+            data: {
+              postId: post.hk,
+            }
           })
           console.table(after)
         })

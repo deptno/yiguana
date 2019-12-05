@@ -1,18 +1,17 @@
 import {MetadataStore} from '../../../store/dynamodb'
-import {EntityFactory} from '../../../entity'
-import {Comment} from '../../../entity/comment'
+import {Comment, EntityFactory} from '../../../entity'
 import * as R from 'ramda'
-import {LikeCommentApiInput} from '../../../type'
-import {logApiUserComment} from '../../../lib/log'
+import {ApiInputWithUser} from '../../../type'
+import {logApiUserComment as log} from '../../../lib/log'
 import {assertsMember} from '../../../lib/assert'
 
-export async function like(store: MetadataStore, ep: EntityFactory, input: LikeInput) {
+export async function like(store: MetadataStore, ep: EntityFactory, input: LikeApiInput) {
   log('like %j', input)
 
   assertsMember(input.user)
 
-  const {data: param, user} = input
-  const {data, createdAt} = param
+  const {user} = input
+  const {data, createdAt} = input.data
   const like = await store.addLike({
     data: ep.createLike({
       user,
@@ -29,12 +28,16 @@ export async function like(store: MetadataStore, ep: EntityFactory, input: LikeI
 
   return Promise
     .all([
-      store.removeLike({data, userId: user.id}),
+      store.removeLike({
+        data,
+        userId: user.id
+      }),
       store.unlikeComment({data}),
     ])
     .then<Comment>(R.view(R.lensIndex(1)))
 }
 
-export type LikeInput = LikeCommentApiInput
-
-const log = logApiUserComment.extend('like')
+export type LikeApiInput = ApiInputWithUser<{
+  data: Comment
+  createdAt: string
+}>

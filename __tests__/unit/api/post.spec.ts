@@ -13,7 +13,7 @@ describe('unit', () => {
       const api = createApi({ddbClient, s3Client, tableName, bucketName})
       it.todo('like, 혹은 like 를 포함한 view 모두가 다이나모디비에 저장되는 경우에는 추후 저장 용량의 부담이 생길 수 있음')
       it('list(0)', async () => {
-        const {items} = await api.post.list({})
+        const {items} = await api.post.list({data: {}})
         expect(items.length).toEqual(0)
       })
 
@@ -32,7 +32,7 @@ describe('unit', () => {
           } catch (e) {
             expect(e.message).toEqual('pw must not empty')
           }
-          const {items} = await api.post.list({})
+          const {items} = await api.post.list({data: {}})
           console.table(items)
         })
         it('create post, 비회원 글쓰기', async () => {
@@ -44,7 +44,7 @@ describe('unit', () => {
             },
             user: non_member_a,
           })
-          const {items} = await api.post.list({})
+          const {items} = await api.post.list({data: {}})
           console.table(items)
           expect(items.length).toEqual(1)
           console.log(post)
@@ -63,7 +63,7 @@ describe('unit', () => {
 누가 봤는지를 추적하길 원한다면
   ddb> postId view#userId`)
         it('view post', async () => {
-          const {items} = await api.post.list({})
+          const {items} = await api.post.list({data: {}})
           console.table(items)
           expect(items.length).toEqual(1)
           const [post] = items
@@ -75,7 +75,7 @@ describe('unit', () => {
           expect(nextPost.content).toEqual('content')
         })
         it('delete post', async () => {
-          const {items} = await api.post.list({})
+          const {items} = await api.post.list({data: {}})
           expect(items.length).toEqual(1)
           const [post] = items
           expect(post.status).toBeUndefined()
