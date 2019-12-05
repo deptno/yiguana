@@ -13,6 +13,8 @@ import {EEntity, EEntityStatus} from '../../../../src/type'
 import {reportsByUser} from '../../../../src/store/dynamodb/reports-by-user'
 import {reportReply} from '../../../../src/store/dynamodb/report-reply'
 import {posts} from '../../../../src/store/dynamodb/posts'
+import {post} from '../../../../src/store/dynamodb/post'
+import {aggReportReply} from '../../../../src/store/dynamodb/agg-report-reply'
 
 describe('unit', function () {
   describe('store', function () {
@@ -323,13 +325,21 @@ describe('unit', function () {
           })
           it('031. aggReports() === 1', async () => {
             const {items} = await aggReports(opDdb, {entity: EEntity.Post})
+            console.table(items)
             expect(items.length).toEqual(1)
+            expect(items[0].processed).toBeUndefined()
           })
           it('03. reportsByUser(User(a)) === 1', async () => {
             const {items} = await reportsByUser(opDdb, {userId})
             expect(items.length).toEqual(1)
           })
-          it('04. replyReport === innocent', async () => {
+          it('04. replyReport', async () => {
+            await aggReportReply(opDdb, {
+              hk: targetId,
+              entity: EEntity.Post,
+              answer: 'test answer',
+              status: EEntityStatus.innocent,
+            })
             await reportReply(opDdb, {
               hk: targetId,
               rk: EEntity.Post,
@@ -341,8 +351,10 @@ describe('unit', function () {
             expect(
               items.filter(i => i.status === EEntityStatus.innocent).length,
             ).toEqual(1)
-            console.table(items)
+            const item = await post(opDdb, {hk: targetId})
+            expect(item.status === EEntityStatus.innocent)
           })
+          it.todo('processed 값 체크')
         })
       })
     })

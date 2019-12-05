@@ -5,4 +5,5 @@ export interface ReportAgg extends YiguanaDocument {
   reports: string
   reported: number
   status: EEntityStatus
+  processed?: number
 }
