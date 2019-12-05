@@ -23,9 +23,9 @@ export function reports(operator: DynamoDBInput, params: ReportsInput) {
       }),
     },
     ScanIndexForward: false,
+    Limit: limit,
     ReturnConsumedCapacity: 'TOTAL',
     ExclusiveStartKey: exclusiveStartKey,
-    Limit: limit
   })
 }
 

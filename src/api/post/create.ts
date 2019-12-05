@@ -1,5 +1,5 @@
 import {MetadataStore} from '../../store/dynamodb'
-import {PostUserInput} from '../../entity/post'
+import {Post, PostUserInput} from '../../entity/post'
 import {EntityFactory} from '../../entity'
 import {ContentStore} from '../../store/s3'
 import {ApiInputWithUser} from '../../type'
@@ -24,7 +24,7 @@ export async function create(ms: MetadataStore, cs: ContentStore, e: EntityFacto
     data: content,
   })
 
-  return ms.addPost({data: post})
+  return ms.put<Post>(post)
 }
 
 export type CreateApiInput = ApiInputWithUser<PostUserInput>

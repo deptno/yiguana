@@ -1,18 +1,18 @@
 import {createPost, Post} from '../../../../src/entity/post'
 import {posts} from '../../../../src/store/dynamodb/posts'
-import {addPost} from '../../../../src/store/dynamodb/add-post'
 import {opDdb, opS3} from '../../../env'
 import {postsByUserId} from '../../../../src/store/dynamodb/posts-by-user-id'
 import {getInitialData} from '../../../setup'
 import {removePost} from '../../../../src/store/dynamodb/remove-post'
 import {likePost} from '../../../../src/store/dynamodb/like-post'
 import {viewPost} from '../../../../src/store/dynamodb/view-post'
-import {updatePost} from '../../../../src/store/dynamodb/update-post'
 import {member_a, member_b, member_c, member_e} from '../../../__data__/user'
 import {createPostContentUnSafe} from '../../../../src/store/s3/create-post-content'
 import {createLike} from '../../../../src/entity/like'
 import {addLike} from '../../../../src/store/dynamodb/add-like'
 import {EEntity, EEntityStatus} from '../../../../src/type'
+import {put} from '../../../../src/store/dynamodb/put'
+import {update} from '../../../../src/store/dynamodb/update'
 
 describe('unit', function () {
   describe('store', function () {
@@ -50,7 +50,7 @@ describe('unit', function () {
                 }),
                 user: member_a,
               })
-              await addPost(opDdb, {data: latestPost})
+              await put(opDdb, latestPost)
               const {items} = await posts(opDdb, {})
               console.debug('시간순 리스트')
               console.table(items)
@@ -95,8 +95,9 @@ describe('unit', function () {
               // TODO: updatedAt 이 필요한지 생각해 볼 필요가 있고 이 데이터 자체는 s3 데이터가 가지고 있을 수 있다
               // TODO: 이 경우라면 updatePost 는 필요하지 않다
               const [post] = postList
-              const updatedPost = await updatePost(opDdb, {
-                data: post,
+              const updatedPost = await update<Post>(opDdb, {
+                ...post,
+                updatedAt: new Date().toISOString(),
               })
               console.table([post, updatedPost])
             })
@@ -106,9 +107,9 @@ describe('unit', function () {
               const like = createLike({
                 data: {
                   data: before[0],
-                  createdAt: new Date().toISOString()
+                  createdAt: new Date().toISOString(),
                 },
-                user: member_e
+                user: member_e,
               })
               const saved = await addLike(opDdb, {data: like})
               console.log({saved})
@@ -185,33 +186,27 @@ describe('unit', function () {
               console.log('before')
               console.table(before)
               {
-                await addPost(opDdb, {
-                  data: createPost({
-                      data: await createPostContentUnSafe(opS3, {
-                        category: 'news#anime',
-                        title: 'latest',
-                        content: 'out of kids',
-                      }),
-                      user: member_c,
-                    },
-                  ),
-                })
+                await put<Post>(opDdb, createPost({
+                  data: await createPostContentUnSafe(opS3, {
+                    category: 'news#anime',
+                    title: 'latest',
+                    content: 'out of kids',
+                  }),
+                  user: member_c,
+                }))
                 const {items} = await postsByUserId(opDdb, {userId: member_c.id, category: 'kids'})
                 expect(items).toHaveLength(beforeItemCount)
                 console.table(items)
               }
 
-              await addPost(opDdb, {
-                data: createPost({
-                    data: await createPostContentUnSafe(opS3, {
-                      category: 'kids#anime',
-                      title: 'latest',
-                      content: 'content',
-                    }),
-                    user: member_c,
-                  },
-                ),
-              })
+              await put<Post>(opDdb, createPost({
+                data: await createPostContentUnSafe(opS3, {
+                  category: 'kids#anime',
+                  title: 'latest',
+                  content: 'content',
+                }),
+                user: member_c,
+              }))
 
               const {items} = await postsByUserId(opDdb, {userId: member_c.id, category: 'kids'})
               console.debug('유저 리스트 cGun, 카테고리 kids')
@@ -242,18 +237,16 @@ describe('unit', function () {
               console.table(other)
 
               console.debug('포스트 추가')
-              await addPost(opDdb, {
-                data: createPost(
-                  {
-                    data: await createPostContentUnSafe(opS3, {
-                      category: 'kids#anime',
-                      title: 'latest',
-                      content: 'content',
-                    }),
-                    user: member_c,
-                  },
-                ),
-              })
+              await put<Post>(opDdb, createPost(
+                {
+                  data: await createPostContentUnSafe(opS3, {
+                    category: 'kids#anime',
+                    title: 'latest',
+                    content: 'content',
+                  }),
+                  user: member_c,
+                },
+              ))
               console.log('포스트 삭제')
               const removedPost = await removePost(opDdb, {hk: before[0].hk})
               expect(removedPost).toBeDefined()
@@ -269,7 +262,7 @@ describe('unit', function () {
               ).toEqual(before.length)
               expect(
                 after
-                  .filter(t => t.status === EEntityStatus.deletedByUser).length
+                  .filter(t => t.status === EEntityStatus.deletedByUser).length,
               ).toEqual(1)
 
               console.log('다른 유저 리스트 aGun')

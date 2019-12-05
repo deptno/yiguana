@@ -2,8 +2,7 @@ import {Post} from '../../../../src/entity/post'
 import {Comment} from '../../../../src/entity/comment'
 import {getInitialData} from '../../../setup'
 import {opDdb} from '../../../env'
-import {addReply} from '../../../../src/store/dynamodb/add-reply'
-import {createReply} from '../../../../src/entity/reply'
+import {createReply, Reply} from '../../../../src/entity/reply'
 import {comments} from '../../../../src/store/dynamodb/comments'
 import {member_a, member_f, non_member_a} from '../../../__data__/user'
 import {createLike} from '../../../../src/entity/like'
@@ -11,6 +10,7 @@ import {addLike} from '../../../../src/store/dynamodb/add-like'
 import {likeReply} from '../../../../src/store/dynamodb/like-reply'
 import {repliesByUserId} from '../../../../src/store/dynamodb/replies-by-user-id'
 import {EEntity} from '../../../../src/type'
+import {put} from '../../../../src/store/dynamodb/put'
 
 describe('unit', function () {
   describe('store', function () {
@@ -43,7 +43,7 @@ describe('unit', function () {
               },
               user: non_member_a,
             })
-            const replied = await addReply(opDdb, {data: reply})
+            const replied = await put<Reply>(opDdb, reply)
             const {items} = await comments(opDdb, {postId: comment.postId})
             expect(items.filter(c => c.commentId === replied.commentId).length).toEqual(1)
           })
@@ -89,7 +89,7 @@ describe('unit', function () {
               },
               user: member_a,
             })
-            const replied = await addReply(opDdb, {data: reply})
+            const replied = await put<Reply>(opDdb, reply)
             console.table([reply, replied])
             expect(replied).toEqual(reply)
 

@@ -16,7 +16,7 @@ export async function create(store: MetadataStore, ep: EntityFactory, input: Cre
 
   return Promise
     .all([
-      store.addComment({data}),
+      store.put(data),
       store.commentPost({
         data: {
           hk: input.data.postId,

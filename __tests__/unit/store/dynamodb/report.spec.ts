@@ -4,7 +4,7 @@ import {Post} from '../../../../src/entity/post'
 import {Comment} from '../../../../src/entity/comment'
 import {getInitialData} from '../../../setup'
 import {opDdb} from '../../../env'
-import {createReport} from '../../../../src/entity/report'
+import {createReport, Report} from '../../../../src/entity/report'
 import {addReport} from '../../../../src/store/dynamodb/add-report'
 import {removeReport} from '../../../../src/store/dynamodb/remove-report'
 import {increaseReportAgg} from '../../../../src/store/dynamodb/increase-report-agg'
@@ -13,8 +13,8 @@ import {EEntity, EEntityStatus} from '../../../../src/type'
 import {reportsByUser} from '../../../../src/store/dynamodb/reports-by-user'
 import {reportReply} from '../../../../src/store/dynamodb/report-reply'
 import {posts} from '../../../../src/store/dynamodb/posts'
-import {post} from '../../../../src/store/dynamodb/post'
 import {aggReportReply} from '../../../../src/store/dynamodb/agg-report-reply'
+import {get} from '../../../../src/store/dynamodb/get'
 
 describe('unit', function () {
   describe('store', function () {
@@ -351,7 +351,7 @@ describe('unit', function () {
             expect(
               items.filter(i => i.status === EEntityStatus.innocent).length,
             ).toEqual(1)
-            const item = await post(opDdb, {hk: targetId})
+            const item = await get<Report>(opDdb, {hk: targetId, rk: EEntity.Post})
             expect(item.status === EEntityStatus.innocent)
           })
           it('05. aggReports() === 1', async () => {

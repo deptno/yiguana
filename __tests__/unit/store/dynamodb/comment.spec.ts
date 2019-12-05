@@ -1,15 +1,12 @@
-import {Post} from '../../../../src/entity/post'
+import {Comment, Post} from '../../../../src/entity'
 import {getInitialData} from '../../../setup'
 import {opDdb} from '../../../env'
 import {createComment} from '../../../../src/entity/comment'
-import {addComment} from '../../../../src/store/dynamodb/add-comment'
 import {removeComment} from '../../../../src/store/dynamodb/remove-comment'
-import {updateComment} from '../../../../src/store/dynamodb/update-comment'
 import {comments} from '../../../../src/store/dynamodb/comments'
 import {commentPost} from '../../../../src/store/dynamodb/comment-post'
 import {commentsByUserId} from '../../../../src/store/dynamodb/comments-by-user-id'
 import {commentsByPostId} from '../../../../src/store/dynamodb/comments-by-post-id'
-import {post} from '../../../../src/store/dynamodb/post'
 import {posts} from '../../../../src/store/dynamodb/posts'
 import {removePost} from '../../../../src/store/dynamodb/remove-post'
 import {likeComment} from '../../../../src/store/dynamodb/like-comment'
@@ -19,6 +16,8 @@ import {addLike} from '../../../../src/store/dynamodb/add-like'
 import {member_d, member_e} from '../../../__data__/user'
 import {EEntity, EEntityStatus} from '../../../../src/type'
 import {removeLike} from '../../../../src/store/dynamodb/remove-like'
+import {put} from '../../../../src/store/dynamodb/put'
+import {get} from '../../../../src/store/dynamodb/get'
 
 describe('unit', function () {
   describe('store', function () {
@@ -43,7 +42,7 @@ describe('unit', function () {
           })
           it('post.children(1)', async function () {
             const {items} = await comments(opDdb, {postId: commentedPost.hk})
-            const nextCommentedPost = await post(opDdb, {hk: commentedPost.hk})
+            const nextCommentedPost = await get<Post>(opDdb, commentedPost)
 
             console.table(items)
 
@@ -58,7 +57,7 @@ describe('unit', function () {
               },
               user: member_e,
             })
-            const commented = await addComment(opDdb, {data: comment})
+            const commented = await put<Comment>(opDdb, comment)
             console.table([comment, commented])
             expect(commented).toEqual(comment)
           })
@@ -72,7 +71,7 @@ describe('unit', function () {
           })
           it('commentPost(2), PostPage 의 comments 값도 증가', async function () {
             await commentPost(opDdb, {data: commentedPost})
-            const nextCommentedPost = await post(opDdb, {hk: commentedPost.hk})
+            const nextCommentedPost = await get<Post>(opDdb, commentedPost)
             expect(nextCommentedPost.children).toEqual(2)
           })
           it('addComment(비회원)', async function () {
@@ -84,7 +83,7 @@ describe('unit', function () {
               },
               user: member_e
             })
-            const commented = await addComment(opDdb, {data: comment})
+            const commented = await put<Comment>(opDdb, comment)
             console.table([comment, commented])
             expect(commented).toEqual(comment)
           })
@@ -98,7 +97,7 @@ describe('unit', function () {
           })
           it('commentPost(3), PostPage 의 comments 값도 증가', async function () {
             await commentPost(opDdb, {data: commentedPost})
-            const nextCommentedPost = await post(opDdb, {hk: commentedPost.hk})
+            const nextCommentedPost = await get<Post>(opDdb, commentedPost)
             expect(nextCommentedPost.children).toEqual(3)
           })
 
@@ -120,7 +119,7 @@ describe('unit', function () {
             })
 
             it('post.children(1), 삭제되도 코멘트 수는 유지', async function () {
-              const nextCommentedPost = await post(opDdb, {hk: commentedPost.hk})
+              const nextCommentedPost = await get<Post>(opDdb, commentedPost)
               expect(nextCommentedPost.children).toEqual(3)
             })
           })
@@ -193,7 +192,7 @@ describe('unit', function () {
               },
               user: member_e,
             })
-            const commented = await addComment(opDdb, {data: comment})
+            const commented = await put<Comment>(opDdb, comment)
             console.table([comment, commented])
             expect(commented).toEqual(comment)
 
@@ -205,7 +204,7 @@ describe('unit', function () {
 
             console.log('PostPage 의 children 값도 증가')
             await commentPost(opDdb, {data: commentedPost})
-            const nextCommentedPost = await post(opDdb, {hk: commentedPost.hk})
+            const nextCommentedPost = await get<Post>(opDdb, commentedPost)
             console.log(nextCommentedPost.children)
             expect(nextCommentedPost.children).toEqual(2)
           })
@@ -260,7 +259,7 @@ describe('unit', function () {
             console.table(afterComments)
 
             console.log('삭제되어도 코멘트 수는 유지')
-            const nextCommentedPost = await post(opDdb, {hk: commentedPost.hk})
+            const nextCommentedPost = await get<Post>(opDdb, commentedPost)
             expect(nextCommentedPost.children).toEqual(1)
           })
         })

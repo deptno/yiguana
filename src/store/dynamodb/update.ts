@@ -1,9 +1,8 @@
 import {DynamoDBInput} from '../../entity/input/dynamodb'
-import {Post} from '../../entity/post'
 import * as R from 'ramda'
 import {YiguanaDocument} from '../../type'
 
-export function update(operator: DynamoDBInput, params: UpdateInput) {
+export function update<T extends YiguanaDocument>(operator: DynamoDBInput, params: UpdateStoreInput) {
   const {dynamodb, tableName} = operator
   const {hk, rk, ...props} = params
   const {names, values, set} = Object
@@ -32,7 +31,7 @@ export function update(operator: DynamoDBInput, params: UpdateInput) {
       ExpressionAttributeValues: values,
       ReturnValues: 'ALL_NEW',
     })
-    .then<Post>(R.prop('Attributes'))
+    .then<T>(R.prop('Attributes'))
 }
 
-export type UpdateInput = Omit<YiguanaDocument, 'createdAt'> & Required<Pick<YiguanaDocument, 'updatedAt'>>
+export type UpdateStoreInput = Omit<YiguanaDocument, 'createdAt'> & Required<Pick<YiguanaDocument, 'updatedAt'>>

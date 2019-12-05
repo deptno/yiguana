@@ -10,8 +10,6 @@ export async function viewPost(operator: DynamoDBInput, params: ViewPostInput) {
 
   return dynamodb
     .update({
-      ReturnConsumedCapacity: 'TOTAL',
-      ReturnValues: 'ALL_NEW',
       TableName: tableName,
       Key: {
         hk,
@@ -24,6 +22,8 @@ export async function viewPost(operator: DynamoDBInput, params: ViewPostInput) {
       ExpressionAttributeValues: {
         ':v': 1,
       },
+      ReturnConsumedCapacity: 'TOTAL',
+      ReturnValues: 'ALL_NEW',
     })
     .then<Post>(R.prop('Attributes'))
 }

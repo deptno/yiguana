@@ -6,7 +6,6 @@ import {EEntity, EIndexName} from '../../type'
 export function repliesByUserId<T = Reply>(operator: DynamoDBInput, params: RepliesByUserIdInput) {
   const {tableName, dynamodb} = operator
   const {userId, exclusiveStartKey} = params
-
   const queryParams = {
     TableName: tableName,
     IndexName: EIndexName.byUser,
@@ -25,6 +24,7 @@ export function repliesByUserId<T = Reply>(operator: DynamoDBInput, params: Repl
     ReturnConsumedCapacity: 'TOTAL',
     ExclusiveStartKey: exclusiveStartKey
   }
+
   return dynamodb.query<T>(queryParams)
 }
 

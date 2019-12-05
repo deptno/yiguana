@@ -2,8 +2,9 @@ import {DynamoDBInput} from '../../entity/input/dynamodb'
 import * as R from 'ramda'
 import {Reply} from '../../entity/reply'
 import {EEntity, YiguanaDocumentHash} from '../../type'
+import {deprecate} from 'util'
 
-export function likeReply(operator: DynamoDBInput, input: LikeReplyInput) {
+export const likeReply = deprecate((operator: DynamoDBInput, input: LikeReplyInput) => {
   const {dynamodb, tableName} = operator
   const {data} = input
   const {hk} = data
@@ -26,7 +27,8 @@ export function likeReply(operator: DynamoDBInput, input: LikeReplyInput) {
       ReturnValues: 'ALL_NEW',
     })
     .then<Reply>(R.prop('Attributes'))
-}
+}, '@replace likeReply')
+
 export type LikeReplyInput = {
   data: YiguanaDocumentHash
 }
