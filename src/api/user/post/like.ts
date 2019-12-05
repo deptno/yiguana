@@ -1,12 +1,11 @@
 import {MetadataStore} from '../../../store/dynamodb'
-import {EntityFactory} from '../../../entity'
-import {Post} from '../../../entity/post'
+import {EntityFactory, Post} from '../../../entity'
 import * as R from 'ramda'
-import {LikePostApiInput} from '../../../type'
-import {logApiUserPost} from '../../../lib/log'
+import {ApiInputWithUser} from '../../../type'
+import {logApiUserPost as log} from '../../../lib/log'
 import {assertsMember} from '../../../lib/assert'
 
-export async function like(store: MetadataStore, ep: EntityFactory, input: LikeInput) {
+export async function like(store: MetadataStore, ep: EntityFactory, input: LikeApiInput) {
   log('like %j', input)
 
   assertsMember(input.user)
@@ -23,10 +22,10 @@ export async function like(store: MetadataStore, ep: EntityFactory, input: LikeI
   })
 
   if (like) {
-    console.log('like + 1', like)
+    log('like +1', like)
     return store.likePost({data: data})
   }
-  console.log('like - 1', like, data)
+  log('like -1', like)
 
   return Promise
     .all([
@@ -36,6 +35,7 @@ export async function like(store: MetadataStore, ep: EntityFactory, input: LikeI
     .then<Post>(R.view(R.lensIndex(1)))
 }
 
-export type LikeInput = LikePostApiInput
-
-const log = logApiUserPost.extend('like')
+export type LikeApiInput = ApiInputWithUser<{
+  data: Post
+  createdAt: string
+}>

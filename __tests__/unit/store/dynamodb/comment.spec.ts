@@ -125,31 +125,6 @@ describe('unit', function () {
             })
           })
 
-          describe('updateComment', function() {
-            it('updateComment', async() => {
-              const {items: before} = await comments(opDdb, {postId: commentedPost.hk})
-              const [comment] = before
-
-              const content = 'updated content'
-              const updatedAt = new Date().toISOString()
-              const isUpdated = await updateComment(opDdb, {
-                data: {
-                  hk: comment.hk,
-                  postId: commentedPost.hk,
-                  content,
-                  updatedAt,
-                }
-              })
-
-              const {items: after} = await comments(opDdb, {postId: commentedPost.hk})
-              expect(before[0].content).not.toEqual(content)
-              expect(after[0].content).toEqual(content)
-
-              console.table(before)
-              console.table(after)
-            })
-          })
-
           describe('likeComment', function() {
             it('likeComment', async () => {
               const {items: before} = await comments(opDdb, {postId: commentedPost.hk})

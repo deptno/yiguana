@@ -5,13 +5,12 @@ import {EEntity} from '../../type'
 
 export function updateReply(operator: DynamoDBInput, params: UpdateCommentReplyInput) {
   const {dynamodb, tableName} = operator
-  const {data} = params
 
   return dynamodb
     .update({
       TableName: tableName,
       Key: {
-        hk: data.hk,
+        hk: params.hk,
         rk: EEntity.Comment,
       },
       UpdateExpression: 'SET #c = :c',
@@ -19,13 +18,11 @@ export function updateReply(operator: DynamoDBInput, params: UpdateCommentReplyI
         '#c': 'content',
       },
       ExpressionAttributeValues: {
-        ':c': data.content,
+        ':c': params.content,
       },
       ReturnValues: 'ALL_NEW',
     })
     .then<Reply>(R.prop('Attributes'))
 }
 
-export type UpdateCommentReplyInput = {
-  data: ReplyUpdateUserInput
-}
+export type UpdateCommentReplyInput = ReplyUpdateUserInput

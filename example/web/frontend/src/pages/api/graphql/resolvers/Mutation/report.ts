@@ -4,23 +4,21 @@ import {Comment, Post} from '../../../../../../../../../lib/entity'
 
 export const report: GraphQLFieldResolver<any, Context, any> = async (source, args, context) => {
   const user = context.getUser(args.user)
-  console.log('report', args, user)
+  const data: Post | Comment = await context.dataSources.public.get({
+    user,
+    data: args.data,
+  })
 
-  if (!user) {
-    throw new Error('user must be logged in')
-  }
-
-  const data: Post | Comment = await context.dataSources.public.get({data: args.data})
   if (!data) {
     throw new Error('not found')
   }
 
   return context.dataSources.private.report({
+    user,
     data: {
       data,
       content: args.content,
       createdAt: new Date().toISOString(),
     },
-    user
   })
 }
