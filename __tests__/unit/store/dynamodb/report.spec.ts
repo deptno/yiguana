@@ -354,7 +354,12 @@ describe('unit', function () {
             const item = await post(opDdb, {hk: targetId})
             expect(item.status === EEntityStatus.innocent)
           })
-          it.todo('processed 값 체크')
+          it('05. aggReports() === 1', async () => {
+            const {items} = await aggReports(opDdb, {entity: EEntity.Post, end: true})
+            console.table(items)
+            expect(items.length).toEqual(1)
+            expect(items[0].processed).toEqual(items[0].reported)
+          })
         })
       })
     })
