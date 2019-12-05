@@ -3,7 +3,7 @@ import {EntityFactory} from '../../entity'
 import {AggReportApi} from './agg-report'
 import {ReportApi} from './report'
 import {get, GetApiInput} from './get'
-import {reportReply, ReportReplyApiInput} from './report-reply'
+import {replyReport, ReplyReportApiInput} from './reply-report'
 
 export class AdministratorApi {
   aggReport = new AggReportApi(this.ms, this.ef)
@@ -16,7 +16,7 @@ export class AdministratorApi {
     return get(this.ms, this.ef, input)
   }
 
-  replyReport(input: ReportReplyApiInput) {
-    return reportReply(this.ms, this.ef, input)
+  replyReport(input: ReplyReportApiInput) {
+    return replyReport(this.ms, this.ef, input)
   }
 }

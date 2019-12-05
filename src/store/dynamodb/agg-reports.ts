@@ -6,7 +6,9 @@ import {ReportAgg} from '../../entity/report/report-agg'
 export function aggReports(operator: DynamoDBInput, params: AggReportsInput) {
   const {tableName, dynamodb} = operator
   const {entity, exclusiveStartKey, limit = 10, end} = params
-  const indexName = end ? EIndexName.reportsEnd : EIndexName.reports
+  const indexName = end
+    ? EIndexName.reportsEnd
+    : EIndexName.reports
   const queryParams = {
     TableName: tableName,
     IndexName: indexName,

@@ -110,7 +110,6 @@ export const Post: FunctionComponent<Props> = props => {
         </a>
       </div>
       {showBr && <BlockRequest data={R.pick(['hk', 'rk'], data)} onRequest={() => setShowBr(false)}/>}
-
     </main>
   )
 }

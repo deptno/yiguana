@@ -5,7 +5,7 @@ import {logApiAdmin as log} from '../../lib/log'
 import {assertNotEmptyString, assertsAdmin} from '../../lib/assert'
 import {AggReportReplyInput} from '../../store/dynamodb/agg-report-reply'
 
-export async function reportReply(store: MetadataStore, ef: EntityFactory, input: ReportReplyApiInput) {
+export async function replyReport(store: MetadataStore, ef: EntityFactory, input: ReplyReportApiInput) {
   log('reportReply %j', input)
 
   assertsAdmin(input.user)
@@ -36,5 +36,4 @@ export async function reportReply(store: MetadataStore, ef: EntityFactory, input
     .then(results => results.every(Boolean))
 }
 
-export type ReportReplyApiInput = ApiInputWithUser<AggReportReplyInput>
-
+export type ReplyReportApiInput = ApiInputWithUser<AggReportReplyInput>

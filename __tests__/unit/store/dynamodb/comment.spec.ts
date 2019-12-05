@@ -18,6 +18,7 @@ import {createLike} from '../../../../src/entity/like'
 import {addLike} from '../../../../src/store/dynamodb/add-like'
 import {member_d, member_e} from '../../../__data__/user'
 import {EEntity, EEntityStatus} from '../../../../src/type'
+import {removeLike} from '../../../../src/store/dynamodb/remove-like'
 
 describe('unit', function () {
   describe('store', function () {
@@ -127,18 +128,6 @@ describe('unit', function () {
           describe('likeComment', function() {
             it('likeComment', async () => {
               const {items: before} = await comments(opDdb, {postId: commentedPost.hk})
-              /* FIXME: 생각 및 구현이 잘못되었을 수 있으니 올바른 방향으로 수정 필요
-               * [목적]
-               * - like 수 증가는 likeComment에서 하고 있으니 like count는 저장하지 않고 (양쪽에서 저장하면 되려 sync 안 맞는 경우 생길까봐?)
-               * - 유저가 [코멘트/포스트/답글]를 like 했다는 사실 자체만 createLike -> addLike 통해 저장하고자 한 것
-               *
-               * - hk: createLike 안에서 UUID 생성
-               * - rk: like (고정값)
-               * - data:
-               *    userId (required라고 생각하는데 현재는 optional 상태 - 유저 객체와의 관계 처리를 못해서)
-               *    entity (post / comment / reply 중 하나이며 like 자체를 공용으로 사용하기 위해 이렇게 진행)
-               *    targetId (entity 값이 고정이 아니므로 postId 이렇게 하지 않고 targetId라는 이름 사용)
-               */
               const like = createLike({
                 data: {
                   data: before[0],
@@ -164,6 +153,7 @@ describe('unit', function () {
           describe('unlikeComment', function() {
             it('unlikeComment', async () => {
               const {items: before} = await comments(opDdb, {postId: commentedPost.hk})
+              await removeLike(opDdb, {data: before[0], userId: member_e.id})
               await unlikeComment(opDdb, {data: before[0]})
               const {items: after} = await comments(opDdb, {postId: commentedPost.hk})
               expect(after[0].likes).toEqual(before[0].likes - 1)

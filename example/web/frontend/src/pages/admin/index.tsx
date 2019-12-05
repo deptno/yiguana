@@ -35,7 +35,6 @@ const AdminPage: NextPage<Props> = props => {
               name
               pw
             }
-
             status
           }
           status
@@ -102,7 +101,6 @@ const AdminPage: NextPage<Props> = props => {
               name
               pw
             }
-
             status
           }
           status
