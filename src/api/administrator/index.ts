@@ -4,6 +4,7 @@ import {AggReportApi} from './agg-report'
 import {ReportApi} from './report'
 import {get, GetApiInput} from './get'
 import {replyReport, ReplyReportApiInput} from './reply-report'
+import {YiguanaDocument} from '../../type'
 
 export class AdministratorApi {
   aggReport = new AggReportApi(this.ms, this.ef)
@@ -12,8 +13,8 @@ export class AdministratorApi {
   constructor(private ms: MetadataStore, private ef: EntityFactory) {
   }
 
-  get(input: GetApiInput) {
-    return get(this.ms, this.ef, input)
+  get<T extends YiguanaDocument>(input: GetApiInput) {
+    return get<T>(this.ms, this.ef, input)
   }
 
   replyReport(input: ReplyReportApiInput) {

@@ -4,11 +4,12 @@ import {util} from '@deptno/dynamodb'
 import {SALT} from '../../../lib/token'
 import {overrideResponseByStatus} from '../../../lib/display'
 import {User} from '../../../../../../../../../lib/entity/user'
+import {YiguanaDocument} from '../../../../../../../../../src/type'
 
 export class Public extends DataSource {
   // TODO: 권한 이슈 있음 admin 권한은 아니어야 하는데 좀 더 생각
-  get(args: Argument<typeof yiguana.administrator.get>) {
-    return yiguana.administrator.get(args)
+  get<T extends YiguanaDocument>(args: Argument<typeof yiguana.administrator.get>) {
+    return yiguana.administrator.get<T>(args)
   }
 
   posts(args: ListArgument<typeof yiguana.post.list>) {
