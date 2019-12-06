@@ -200,8 +200,8 @@ export class MetadataStore {
     return update<T>(this.operator, input)
   }
 
-  remove<T extends YiguanaDocument>(input: RemoveStoreInput) {
-    logStoreDdb('remove', input)
+  del<T extends YiguanaDocument>(input: RemoveStoreInput) {
+    logStoreDdb('del', input)
     return del<T>(this.operator, input)
   }
 }
