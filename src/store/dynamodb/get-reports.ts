@@ -4,7 +4,7 @@ import {Comment, Post} from '../../entity'
 import {Report} from '../../entity/report'
 import {EEntity} from '../../type'
 
-export function reports(operator: DynamoDBInput, params: ReportsInput) {
+export function getReports(operator: DynamoDBInput, params: ReportsInput) {
   const {tableName, dynamodb} = operator
   const {data, exclusiveStartKey, limit = 10} = params
 

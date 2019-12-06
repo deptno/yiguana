@@ -2,7 +2,7 @@ import {Post} from '../../entity/post'
 import {DynamoDBInput} from '../../entity/input/dynamodb'
 import {EEntity, EIndexName} from '../../type'
 
-export function postsByCategory(operator: DynamoDBInput, params: PostsByCategoryInput) {
+export function getPostsByCategory(operator: DynamoDBInput, params: PostsByCategoryInput) {
   const {tableName, dynamodb} = operator
   const {exclusiveStartKey, category = '', limit = 10} = params
   const queryParams = {

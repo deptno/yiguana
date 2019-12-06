@@ -2,7 +2,7 @@ import {DynamoDBInput} from '../../entity/input/dynamodb'
 import {Comment} from '../../entity/comment'
 import {EIndexName} from '../../type'
 
-export function comments<T = Comment>(operator: DynamoDBInput, params: CommentsInput) {
+export function getComments<T = Comment>(operator: DynamoDBInput, params: CommentsInput) {
   const {tableName, dynamodb} = operator
   const {postId, exclusiveStartKey, limit = 10} = params
 

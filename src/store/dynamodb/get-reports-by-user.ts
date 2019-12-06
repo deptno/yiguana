@@ -3,7 +3,7 @@ import {keys} from '../../dynamodb/keys'
 import {Report} from '../../entity'
 import {EEntity, EIndexName} from '../../type'
 
-export function reportsByUser(operator: DynamoDBInput, params: ReportByUserInput) {
+export function getReportsByUser(operator: DynamoDBInput, params: ReportByUserInput) {
   const {tableName, dynamodb} = operator
   const {entity, exclusiveStartKey, userId, limit = 10} = params
 

@@ -1,16 +1,16 @@
 import {DynamoDBInput} from '../../entity/input/dynamodb'
-import {postsByCategory, PostsByCategoryInput} from './posts-by-category'
+import {getPostsByCategory, PostsByCategoryInput} from './get-posts-by-category'
 import {removePost, RemovePostInput} from './remove-post'
 import {viewPost, ViewPostInput} from './view-post'
 import {likePost, LikePostInput} from './like-post'
 import {unlikePost, UnlikePostInput} from './unlike-post'
 import {del, RemoveStoreInput} from './del'
-import {comments, CommentsInput} from './comments'
+import {getComments, CommentsInput} from './get-comments'
 import {removeComment, RemoveCommentInput} from './remove-comment'
 import {commentPost, CommentPostInput} from './comment-post'
-import {postsByUserId, PostsByUserIdInput} from './posts-by-user-id'
-import {postsByUserLike, PostsByUserLikeInput} from './posts-by-user-like'
-import {commentsByUserId, CommentsByUserIdInput} from './comments-by-user-id'
+import {getPostsByUserId, PostsByUserIdInput} from './get-posts-by-user-id'
+import {getPostsByUserLike, PostsByUserLikeInput} from './get-posts-by-user-like'
+import {getCommentsByUserId, CommentsByUserIdInput} from './get-comments-by-user-id'
 import {updateComment, UpdateCommentInput} from './update-comment'
 import {likeComment, LikeCommentInput} from './like-comment'
 import {unlikeComment, UnlikeCommentInput} from './unlike-comment'
@@ -18,20 +18,20 @@ import {addLike, AddLikeInput} from './add-like'
 import {get, GetStoreInput} from './get'
 import {removeLike, RemoveLikeInput} from './remove-like'
 import {likeReply, LikeReplyInput} from './like-reply'
-import {commentsByUserLike, CommentsByUserLikeInput} from './comments-by-user-like'
-import {repliesByUserId, RepliesByUserIdInput} from './replies-by-user-id'
-import {posts, PostsInput} from './posts'
+import {getCommentsByUserLike, CommentsByUserLikeInput} from './get-comments-by-user-like'
+import {getRepliesByUserId, RepliesByUserIdInput} from './get-replies-by-user-id'
+import {getPosts, PostsInput} from './get-posts'
 import {report, ReportInput} from './report'
 import {increaseReportAgg, IncreaseReportAggInput} from './increase-report-agg'
 import {decreaseReportAgg, DecreaseReportAggInput} from './decrease-report-agg'
-import {aggReports, AggReportsInput} from './agg-reports'
-import {reports, ReportsInput} from './reports'
+import {getAggReports, AggReportsInput} from './get-agg-reports'
+import {getReports, ReportsInput} from './get-reports'
 import {aggReportReply, AggReportReplyInput} from './agg-report-reply'
 import {reportReply, ReportReplyInput} from './report-reply'
 import {logStoreDdb} from '../../lib/log'
-import {reportsAll, ReportsAllInput} from './reports-all'
+import {getReportsAll, ReportsAllInput} from './get-reports-all'
 import {update, UpdateStoreInput} from './update'
-import {ReportByUserInput, reportsByUser} from './reports-by-user'
+import {ReportByUserInput, getReportsByUser} from './get-reports-by-user'
 import {put, PutStoreInput} from './put'
 import {YiguanaDocument} from '../../type'
 
@@ -40,23 +40,23 @@ export class MetadataStore {
 
   }
 
-  posts(input: PostsInput) {
-    return posts(this.operator, input)
+  getPosts(input: PostsInput) {
+    return getPosts(this.operator, input)
   }
 
-  postsByCategory(input: PostsByCategoryInput) {
-    logStoreDdb('postsByCategory', input)
-    return postsByCategory(this.operator, input)
+  getPostsByCategory(input: PostsByCategoryInput) {
+    logStoreDdb('getPostsByCategory', input)
+    return getPostsByCategory(this.operator, input)
   }
 
-  postsByUserId(input: PostsByUserIdInput) {
-    logStoreDdb('postsByUserId', input)
-    return postsByUserId(this.operator, input)
+  getPostsByUserId(input: PostsByUserIdInput) {
+    logStoreDdb('getPostsByUserId', input)
+    return getPostsByUserId(this.operator, input)
   }
 
-  postsByUserLike(input: PostsByUserLikeInput) {
-    logStoreDdb('postsByUserLike', input)
-    return postsByUserLike(this.operator, input)
+  getPostsByUserLike(input: PostsByUserLikeInput) {
+    logStoreDdb('getPostsByUserLike', input)
+    return getPostsByUserLike(this.operator, input)
   }
 
   removePost(input: RemovePostInput) {
@@ -84,19 +84,19 @@ export class MetadataStore {
     return commentPost(this.operator, input)
   }
 
-  comments(input: CommentsInput) {
-    logStoreDdb('comments', input)
-    return comments(this.operator, input)
+  getComments(input: CommentsInput) {
+    logStoreDdb('getComments', input)
+    return getComments(this.operator, input)
   }
 
-  commentsByUserId(input: CommentsByUserIdInput) {
-    logStoreDdb('commentsByUserId', input)
-    return commentsByUserId(this.operator, input)
+  getCommentsByUserId(input: CommentsByUserIdInput) {
+    logStoreDdb('getCommentsByUserId', input)
+    return getCommentsByUserId(this.operator, input)
   }
 
-  commentsByUserLike(input: CommentsByUserLikeInput) {
-    logStoreDdb('commentsByUserLike', input)
-    return commentsByUserLike(this.operator, input)
+  getCommentsByUserLike(input: CommentsByUserLikeInput) {
+    logStoreDdb('getCommentsByUserLike', input)
+    return getCommentsByUserLike(this.operator, input)
   }
 
   updateComment(input: UpdateCommentInput) {
@@ -129,9 +129,9 @@ export class MetadataStore {
     return unlikeComment(this.operator, input)
   }
 
-  repliesByUserId(input: RepliesByUserIdInput) {
-    logStoreDdb('repliesByUserId', input)
-    return repliesByUserId(this.operator, input)
+  getRepliesByUserId(input: RepliesByUserIdInput) {
+    logStoreDdb('getRepliesByUserId', input)
+    return getRepliesByUserId(this.operator, input)
   }
 
   // todo replace
@@ -140,13 +140,13 @@ export class MetadataStore {
     return likeReply(this.operator, input)
   }
 
-  aggReports(input: AggReportsInput) {
-    logStoreDdb('aggReports', input)
-    return aggReports(this.operator, input)
+  getAggReports(input: AggReportsInput) {
+    logStoreDdb('getAggReports', input)
+    return getAggReports(this.operator, input)
   }
 
   aggReportReply(input: AggReportReplyInput) {
-    logStoreDdb('aggReportReply', input)
+    logStoreDdb('getRggReportReply', input)
     return aggReportReply(this.operator, input)
   }
 
@@ -155,19 +155,19 @@ export class MetadataStore {
     return reportReply(this.operator, input)
   }
 
-  reportsAll(input: ReportsAllInput) {
-    logStoreDdb('reportsAll', input)
-    return reportsAll(this.operator, input)
+  getReportsAll(input: ReportsAllInput) {
+    logStoreDdb('getReportsAll', input)
+    return getReportsAll(this.operator, input)
   }
 
-  reports(input: ReportsInput) {
-    logStoreDdb('reports', input)
-    return reports(this.operator, input)
+  getReports(input: ReportsInput) {
+    logStoreDdb('getReports', input)
+    return getReports(this.operator, input)
   }
 
-  reportsByUser(input: ReportByUserInput) {
-    logStoreDdb('reports', input)
-    return reportsByUser(this.operator, input)
+  getReportsByUser(input: ReportByUserInput) {
+    logStoreDdb('getReportsByUser', input)
+    return getReportsByUser(this.operator, input)
   }
 
   report(input: ReportInput) {

@@ -3,8 +3,8 @@ import {DynamoDBInput} from '../../entity/input/dynamodb'
 import {EEntity, EIndexName} from '../../type'
 import {logStoreDdb as log} from '../../lib/log'
 
-export function posts(operator: DynamoDBInput, params: PostsInput) {
-  log('posts input %j', params)
+export function getPosts(operator: DynamoDBInput, params: PostsInput) {
+  log('getPosts input %j', params)
 
   const {tableName, dynamodb} = operator
   const {exclusiveStartKey, limit = 10} = params

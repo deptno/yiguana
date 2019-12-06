@@ -19,7 +19,7 @@ export async function replyReport(store: MetadataStore, ef: EntityFactory, input
     .all([
       store.update({hk, rk, status, updatedAt}),
       store.aggReportReply(data),
-      store.reportsAll({hk, rk}).then(reports => {
+      store.getReportsAll({hk, rk}).then(reports => {
         return Promise.all(
           reports.map(r => store
             .reportReply({

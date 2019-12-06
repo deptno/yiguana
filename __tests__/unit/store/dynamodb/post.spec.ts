@@ -1,7 +1,7 @@
 import {createPost, Post} from '../../../../src/entity/post'
-import {posts} from '../../../../src/store/dynamodb/posts'
+import {getPosts} from '../../../../src/store/dynamodb/get-posts'
 import {opDdb, opS3} from '../../../env'
-import {postsByUserId} from '../../../../src/store/dynamodb/posts-by-user-id'
+import {getPostsByUserId} from '../../../../src/store/dynamodb/get-posts-by-user-id'
 import {getInitialData} from '../../../setup'
 import {removePost} from '../../../../src/store/dynamodb/remove-post'
 import {likePost} from '../../../../src/store/dynamodb/like-post'
@@ -28,7 +28,7 @@ describe('unit', function () {
         describe('posts', function () {
           it.todo('시간순 리스트, 우선순위 글에 대한 테스트')
           it('시간순 리스트', async () => {
-            const {items} = await posts(opDdb, {})
+            const {items} = await getPosts(opDdb, {})
             console.debug('시간순 리스트')
             console.table(items)
 
@@ -51,7 +51,7 @@ describe('unit', function () {
                 user: member_a,
               })
               await put(opDdb, latestPost)
-              const {items} = await posts(opDdb, {})
+              const {items} = await getPosts(opDdb, {})
               console.debug('시간순 리스트')
               console.table(items)
 
@@ -69,13 +69,13 @@ describe('unit', function () {
             // GSI 를 제거하지 않고 삭제된 포스트로 표시함
             xit('포스트 삭제, 삭제 플래그만 표기 후 GSI 키를 제거한다.', async () => {
               // 실제로는 삭제 플래그만 가동
-              const {items: before} = await posts(opDdb, {})
+              const {items: before} = await getPosts(opDdb, {})
               const removedPost = await removePost(opDdb, {hk: before[0].hk})
 
               expect(removedPost).toBeDefined()
               expect(removedPost.hk).toEqual(before[0].hk)
 
-              const {items: after} = await posts(opDdb, {})
+              const {items: after} = await getPosts(opDdb, {})
 
               expect(after.length).toEqual(before.length)
 
@@ -103,7 +103,7 @@ describe('unit', function () {
             })
 
             it('likePost', async () => {
-              const {items: before} = await posts(opDdb, {})
+              const {items: before} = await getPosts(opDdb, {})
               const like = createLike({
                 data: {
                   data: before[0],
@@ -118,18 +118,18 @@ describe('unit', function () {
               expect(likedPost.hk).toEqual(before[0].hk)
               expect(likedPost.likes).toEqual(before[0].likes + 1)
 
-              const {items: after} = await posts(opDdb, {})
+              const {items: after} = await getPosts(opDdb, {})
               expect(after[0].likes).toEqual(before[0].likes + 1)
               console.debug('result')
               console.table(after)
             })
 
             it('viewPost', async () => {
-              const {items: before} = await posts(opDdb, {})
+              const {items: before} = await getPosts(opDdb, {})
               const isViewed = await viewPost(opDdb, {data: before[0]})
               console.log(isViewed)
 
-              const {items: after} = await posts(opDdb, {})
+              const {items: after} = await getPosts(opDdb, {})
               expect(after[0].views).toEqual(before[0].views + 1)
               console.debug('result')
               console.table(after)
@@ -139,7 +139,7 @@ describe('unit', function () {
 
         describe('postByUserId', function () {
           it('유저 리스트 aGun', async () => {
-            const {items} = await postsByUserId(opDdb, {userId: member_a.id})
+            const {items} = await getPostsByUserId(opDdb, {userId: member_a.id})
             console.debug('유저 리스트 aGun')
             console.table(items)
 
@@ -151,7 +151,7 @@ describe('unit', function () {
             ).toBeTruthy()
           })
           it('유저 리스트 bGun', async () => {
-            const {items} = await postsByUserId(opDdb, {userId: member_b.id})
+            const {items} = await getPostsByUserId(opDdb, {userId: member_b.id})
             console.debug('유저 리스트 bGun')
             console.table(items)
 
@@ -162,7 +162,7 @@ describe('unit', function () {
             ).toBeTruthy()
           })
           it('유저 리스트 cGun, 카테고리 kids', async () => {
-            const {items} = await postsByUserId(opDdb, {userId: member_c.id, category: 'kids'})
+            const {items} = await getPostsByUserId(opDdb, {userId: member_c.id, category: 'kids'})
             console.debug('유저 리스트 cGun, 카테고리 kids')
             console.table(items)
 
@@ -180,7 +180,7 @@ describe('unit', function () {
 
           describe('addPost', function () {
             it('유저 리스트 cGun, 카테고리 kids, 포스트 추가, 삭제 후 조회, 글 수 확인', async () => {
-              const {items: before} = await postsByUserId(opDdb, {userId: member_c.id, category: 'kids'})
+              const {items: before} = await getPostsByUserId(opDdb, {userId: member_c.id, category: 'kids'})
               const beforeItemCount = before.length
 
               console.log('before')
@@ -194,7 +194,7 @@ describe('unit', function () {
                   }),
                   user: member_c,
                 }))
-                const {items} = await postsByUserId(opDdb, {userId: member_c.id, category: 'kids'})
+                const {items} = await getPostsByUserId(opDdb, {userId: member_c.id, category: 'kids'})
                 expect(items).toHaveLength(beforeItemCount)
                 console.table(items)
               }
@@ -208,7 +208,7 @@ describe('unit', function () {
                 user: member_c,
               }))
 
-              const {items} = await postsByUserId(opDdb, {userId: member_c.id, category: 'kids'})
+              const {items} = await getPostsByUserId(opDdb, {userId: member_c.id, category: 'kids'})
               console.debug('유저 리스트 cGun, 카테고리 kids')
               console.table(items)
 
@@ -229,10 +229,10 @@ describe('unit', function () {
           describe('removePost', () => {
             // cGun 데이터만 추가/삭제하였으니 cGun 데이터는 잘 갱신되고 aGun 데이터는 무결함을 확인하는 테스트
             it('유저 리스트 cGun -> 포스트 추가 -> 포스트 삭제 -> 유저 리스트 aGun', async () => {
-              const {items: before} = await postsByUserId(opDdb, {userId: member_c.id})
+              const {items: before} = await getPostsByUserId(opDdb, {userId: member_c.id})
               console.debug('유저 리스트 cGun')
 
-              const {items: other} = await postsByUserId(opDdb, {userId: member_a.id})
+              const {items: other} = await getPostsByUserId(opDdb, {userId: member_a.id})
               console.debug('다른 유저 리스트 aGun')
               console.table(other)
 
@@ -252,7 +252,7 @@ describe('unit', function () {
               expect(removedPost).toBeDefined()
               expect(removedPost.hk).toEqual(before[0].hk)
 
-              const {items: after} = await postsByUserId(opDdb, {userId: member_c.id})
+              const {items: after} = await getPostsByUserId(opDdb, {userId: member_c.id})
               console.table(after)
               expect(
                 after
@@ -266,7 +266,7 @@ describe('unit', function () {
               ).toEqual(1)
 
               console.log('다른 유저 리스트 aGun')
-              const {items} = await postsByUserId(opDdb, {userId: member_a.id})
+              const {items} = await getPostsByUserId(opDdb, {userId: member_a.id})
               console.table(items)
               expect(items.length).toEqual(other.length)
             })

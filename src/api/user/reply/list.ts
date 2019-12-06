@@ -11,7 +11,7 @@ export async function list(store: MetadataStore, ep: EntityFactory, input: ListA
 
   const {user: {id: userId}, data} = input
 
-  return store.repliesByUserId({...data, userId})
+  return store.getRepliesByUserId({...data, userId})
 }
 
 export type ListApiInput = ApiInputWithUser<{

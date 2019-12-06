@@ -3,7 +3,7 @@ import {EEntity, EIndexName} from '../../type'
 import {keys} from '../../dynamodb/keys'
 import {ReportAgg} from '../../entity/report/report-agg'
 
-export function aggReports(operator: DynamoDBInput, params: AggReportsInput) {
+export function getAggReports(operator: DynamoDBInput, params: AggReportsInput) {
   const {tableName, dynamodb} = operator
   const {entity, exclusiveStartKey, limit = 10, end} = params
   const indexName = end

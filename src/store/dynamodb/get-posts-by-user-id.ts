@@ -5,7 +5,7 @@ import {keys} from '../../dynamodb/keys'
 import {DocumentClient} from 'aws-sdk/clients/dynamodb'
 import {EEntity, EIndexName} from '../../type'
 
-export function postsByUserId<T = Post>(operator: DynamoDBInput, params: PostsByUserIdInput) {
+export function getPostsByUserId<T = Post>(operator: DynamoDBInput, params: PostsByUserIdInput) {
   const {tableName, dynamodb} = operator
   const {category, exclusiveStartKey, userId} = params
 

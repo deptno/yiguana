@@ -11,7 +11,7 @@ export async function list(store: MetadataStore, ef: EntityFactory, input: Repor
 
   const {user, data} = input
 
-  return store.reportsByUser({
+  return store.getReportsByUser({
     ...data,
     userId: user.id,
   })

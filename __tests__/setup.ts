@@ -6,7 +6,7 @@ import {commentPost} from '../src/store/dynamodb/comment-post'
 import {YiguanaDocument} from '../src/type'
 import {ContentStore} from '../src/store/s3'
 import {member_a, member_b, member_c, member_d, member_f, non_member_a} from './__data__/user'
-import {posts} from '../src/store/dynamodb/posts'
+import {getPosts} from '../src/store/dynamodb/get-posts'
 import {put} from '../src/store/dynamodb/put'
 
 export const getInitialData = async () => {
@@ -28,7 +28,7 @@ export const getInitialData = async () => {
   expect(postContentNews.contentUrl).toBeDefined()
   expect(postContentNews.input).toBeDefined()
 
-  const {items} = await posts(opDdb, {})
+  const {items} = await getPosts(opDdb, {})
   expect(items).toHaveLength(0)
 
   const setup = (posts: Post[]) => posts

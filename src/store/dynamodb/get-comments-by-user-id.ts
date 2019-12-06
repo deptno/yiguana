@@ -1,11 +1,12 @@
 import {DynamoDBInput} from '../../entity/input/dynamodb'
-import {Reply} from '../../entity/reply'
+import {Comment} from '../../entity/comment'
 import {keys} from '../../dynamodb/keys'
 import {EEntity, EIndexName} from '../../type'
 
-export function repliesByUserId<T = Reply>(operator: DynamoDBInput, params: RepliesByUserIdInput) {
+export function getCommentsByUserId<T = Comment>(operator: DynamoDBInput, params: CommentsByUserIdInput) {
   const {tableName, dynamodb} = operator
   const {userId, exclusiveStartKey} = params
+
   const queryParams = {
     TableName: tableName,
     IndexName: EIndexName.byUser,
@@ -16,19 +17,19 @@ export function repliesByUserId<T = Reply>(operator: DynamoDBInput, params: Repl
     },
     ExpressionAttributeValues: {
       ':h': userId,
-      ':r': keys.byUser.reply.stringify({
+      ':r': keys.byUser.comment.stringify({
         entity: EEntity.Comment,
-      })
+      }),
     },
     ScanIndexForward: false,
     ReturnConsumedCapacity: 'TOTAL',
-    ExclusiveStartKey: exclusiveStartKey
+    ExclusiveStartKey: exclusiveStartKey,
   }
-
   return dynamodb.query<T>(queryParams)
 }
 
-export type RepliesByUserIdInput = {
+export type CommentsByUserIdInput = {
   userId: string
+  postId?: string
   exclusiveStartKey?: Exclude<any, string | number>
 }

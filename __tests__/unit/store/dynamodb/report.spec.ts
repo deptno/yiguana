@@ -8,11 +8,11 @@ import {createReport, Report} from '../../../../src/entity/report'
 import {addReport} from '../../../../src/store/dynamodb/add-report'
 import {removeReport} from '../../../../src/store/dynamodb/remove-report'
 import {increaseReportAgg} from '../../../../src/store/dynamodb/increase-report-agg'
-import {aggReports} from '../../../../src/store/dynamodb/agg-reports'
+import {getAggReports} from '../../../../src/store/dynamodb/get-agg-reports'
 import {EEntity, EEntityStatus} from '../../../../src/type'
-import {reportsByUser} from '../../../../src/store/dynamodb/reports-by-user'
+import {getReportsByUser} from '../../../../src/store/dynamodb/get-reports-by-user'
 import {reportReply} from '../../../../src/store/dynamodb/report-reply'
-import {posts} from '../../../../src/store/dynamodb/posts'
+import {getPosts} from '../../../../src/store/dynamodb/get-posts'
 import {aggReportReply} from '../../../../src/store/dynamodb/agg-report-reply'
 import {get} from '../../../../src/store/dynamodb/get'
 
@@ -39,7 +39,7 @@ describe('unit', function () {
           }))
 
           it('01. reportsByUser(User(a)) === 0', async () => {
-            const {items} = await reportsByUser(opDdb, {userId})
+            const {items} = await getReportsByUser(opDdb, {userId})
             expect(items.length).toEqual(0)
           })
           it('02. User(a)가 Post(0) 신고', async () => {
@@ -59,11 +59,11 @@ describe('unit', function () {
             }
           })
           it('031. aggReports() === 1', async () => {
-            const {items} = await aggReports(opDdb, {entity: EEntity.Post})
+            const {items} = await getAggReports(opDdb, {entity: EEntity.Post})
             expect(items.length).toEqual(1)
           })
           it('03. reportsByUser(User(a)) === 1', async () => {
-            const {items} = await reportsByUser(opDdb, {userId})
+            const {items} = await getReportsByUser(opDdb, {userId})
             expect(items.length).toEqual(1)
           })
           it('04. User(a)가 Post(0) 신고: 한번더', async () => {
@@ -85,11 +85,11 @@ describe('unit', function () {
             }
           })
           it('051. aggReports() === 1: 입력 실패로 수 동일', async () => {
-            const {items} = await aggReports(opDdb, {entity: EEntity.Post})
+            const {items} = await getAggReports(opDdb, {entity: EEntity.Post})
             expect(items.length).toEqual(1)
           })
           it('05. reportsByUser(User(a)) === 1: 입력 실패로 수 동일', async () => {
-            const {items} = await reportsByUser(opDdb, {userId})
+            const {items} = await getReportsByUser(opDdb, {userId})
             expect(items.length).toEqual(1)
           })
           it('06. User(a)가 Post(1) 신고', async () => {
@@ -125,11 +125,11 @@ describe('unit', function () {
             }
           })
           it('08. reportsByUser(User(b)) === 1', async () => {
-            const {items} = await reportsByUser(opDdb, {userId: member_b.id})
+            const {items} = await getReportsByUser(opDdb, {userId: member_b.id})
             expect(items.length).toEqual(1)
           })
           it('091. aggReports() === 2', async () => {
-            const {items} = await aggReports(opDdb, {entity: EEntity.Post})
+            const {items} = await getAggReports(opDdb, {entity: EEntity.Post})
             expect(items.length).toEqual(2)
             const [report, report2] = items
             console.log({report})
@@ -137,19 +137,19 @@ describe('unit', function () {
             expect(report2.reported).toEqual(1)
           })
           it('09. reportsByUser(User(a)) === 2', async () => {
-            const {items} = await reportsByUser(opDdb, {userId})
+            const {items} = await getReportsByUser(opDdb, {userId})
             console.table(items)
             expect(items.length).toEqual(2)
           })
           it('10. reportsByUser(User(a)) === Comment(0): 엔티티 필터', async () => {
-            const {items} = await reportsByUser(opDdb, {
+            const {items} = await getReportsByUser(opDdb, {
               userId,
               entity: EEntity.Comment
             })
             expect(items.length).toEqual(0)
           })
           it('11. reportsByUser(User(a)) === Post(2): 엔티티 필터', async () => {
-            const {items} = await reportsByUser(opDdb, {
+            const {items} = await getReportsByUser(opDdb, {
               userId,
               entity: EEntity.Post
             })
@@ -161,7 +161,7 @@ describe('unit', function () {
             console.log({result})
           })
           it('13. reportsByUser(User(a)) === Post(1): 엔티티 필터', async () => {
-            const {items} = await reportsByUser(opDdb, {
+            const {items} = await getReportsByUser(opDdb, {
               userId,
               entity: EEntity.Post
             })
@@ -187,7 +187,7 @@ describe('unit', function () {
           }))
 
           it('01. reportsByUser(User(a)) === 0', async () => {
-            const {items} = await reportsByUser(opDdb, {userId})
+            const {items} = await getReportsByUser(opDdb, {userId})
             expect(items.length).toEqual(0)
           })
           it('02. User(a)가 Comment(0) 신고', async () => {
@@ -206,7 +206,7 @@ describe('unit', function () {
             }
           })
           it('03. reportsByUser(User(a)) === 1', async () => {
-            const {items} = await reportsByUser(opDdb, {userId})
+            const {items} = await getReportsByUser(opDdb, {userId})
             expect(items.length).toEqual(1)
           })
           it('04. User(a)가 Comment(0) 신고: 한번더', async () => {
@@ -226,7 +226,7 @@ describe('unit', function () {
             }
           })
           it('05. reportsByUser(User(a)) === 1: 입력 실패로 수 동일', async () => {
-            const {items} = await reportsByUser(opDdb, {userId})
+            const {items} = await getReportsByUser(opDdb, {userId})
             console.table(items)
             expect(items.length).toEqual(1)
           })
@@ -262,23 +262,23 @@ describe('unit', function () {
             }
           })
           it('08. reportsByUser(User(b)) === 1', async () => {
-            const {items} = await reportsByUser(opDdb, {userId: member_b.id})
+            const {items} = await getReportsByUser(opDdb, {userId: member_b.id})
             expect(items.length).toEqual(1)
           })
           it('09. reportsByUser(User(a)) === 2', async () => {
-            const {items} = await reportsByUser(opDdb, {userId})
+            const {items} = await getReportsByUser(opDdb, {userId})
             console.table(items)
             expect(items.length).toEqual(2)
           })
           it('10. reportsByUser(User(a)) === Post(0): 엔티티 필터', async () => {
-            const {items} = await reportsByUser(opDdb, {
+            const {items} = await getReportsByUser(opDdb, {
               userId,
               entity: EEntity.Post
             })
             expect(items.length).toEqual(0)
           })
           it('11. reportsByUser(User(a)) === Comment(2): 엔티티 필터', async () => {
-            const {items} = await reportsByUser(opDdb, {
+            const {items} = await getReportsByUser(opDdb, {
               userId,
               entity: EEntity.Comment
             })
@@ -304,7 +304,7 @@ describe('unit', function () {
           }))
 
           it('01. reportsByUser(User(a)) === 0', async () => {
-            const {items} = await reportsByUser(opDdb, {userId})
+            const {items} = await getReportsByUser(opDdb, {userId})
             expect(items.length).toEqual(0)
           })
           it('02. User(a)가 Post(0) 신고', async () => {
@@ -324,13 +324,13 @@ describe('unit', function () {
             }
           })
           it('031. aggReports() === 1', async () => {
-            const {items} = await aggReports(opDdb, {entity: EEntity.Post})
+            const {items} = await getAggReports(opDdb, {entity: EEntity.Post})
             console.table(items)
             expect(items.length).toEqual(1)
             expect(items[0].processed).toBeUndefined()
           })
           it('03. reportsByUser(User(a)) === 1', async () => {
-            const {items} = await reportsByUser(opDdb, {userId})
+            const {items} = await getReportsByUser(opDdb, {userId})
             expect(items.length).toEqual(1)
           })
           it('04. replyReport', async () => {
@@ -347,7 +347,7 @@ describe('unit', function () {
               status: EEntityStatus.innocent,
             })
 
-            const {items} = await posts(opDdb, {})
+            const {items} = await getPosts(opDdb, {})
             expect(
               items.filter(i => i.status === EEntityStatus.innocent).length,
             ).toEqual(1)
@@ -355,7 +355,7 @@ describe('unit', function () {
             expect(item.status === EEntityStatus.innocent)
           })
           it('05. aggReports() === 1', async () => {
-            const {items} = await aggReports(opDdb, {entity: EEntity.Post, end: true})
+            const {items} = await getAggReports(opDdb, {entity: EEntity.Post, end: true})
             console.table(items)
             expect(items.length).toEqual(1)
             expect(items[0].processed).toEqual(items[0].reported)

@@ -1,6 +1,6 @@
 import {MetadataStore} from '../../store/dynamodb'
 import {EntityFactory} from '../../entity'
-import {PostsInput} from '../../store/dynamodb/posts'
+import {PostsInput} from '../../store/dynamodb/get-posts'
 import {ApiInput} from '../../type'
 import {logApiPost as log} from '../../lib/log'
 
@@ -10,10 +10,10 @@ export async function list(store: MetadataStore, ef: EntityFactory, input: ListA
   const {data} = input
 
   if ('category' in data) { // 보드
-    return store.postsByCategory(data)
+    return store.getPostsByCategory(data)
   }
 
-  return store.posts(data)
+  return store.getPosts(data)
 }
 
 export type ListApiInput = ApiInput<PostsInput | (PostsInput & { category: string })>
