@@ -68,13 +68,13 @@ describe('unit', () => {
           console.table(before)
 
           const targetComment = await api.comment.update({
-            user: admin as any,
             data: {
               hk: comment.hk,
               postId: post.hk,
               content: 'updated content',
               updatedAt: new Date().toISOString(),
             },
+            user: admin as any,
           })
           console.table(targetComment)
 
@@ -85,7 +85,9 @@ describe('unit', () => {
           })
           console.table(after)
 
-          // TODO: before/after 객체가 Reply 타입을 갖도록 해야 expect 비교가 가능한데
+          const [beforeItem] = before.filter(i => i.hk === comment.hk)
+          const [afterItem] = after.filter(i => i.hk === comment.hk)
+          expect(afterItem.content).not.toEqual(beforeItem.content)
         })
         it.todo('view comment')
         it('remove comment', async() => {
@@ -111,7 +113,6 @@ describe('unit', () => {
         })
         it.todo('request to block comment')
       })
-
     })
   })
 })
