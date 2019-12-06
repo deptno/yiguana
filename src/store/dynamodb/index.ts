@@ -31,6 +31,8 @@ import {reportReply, ReportReplyInput} from './report-reply'
 import {logStoreDdb} from '../../lib/log'
 import {getReportsAll, ReportsAllInput} from './get-reports-all'
 import {update, UpdateStoreInput} from './update'
+import {dec, DecStoreInput} from './dec'
+import {inc, IncStoreInput} from './inc'
 import {ReportByUserInput, getReportsByUser} from './get-reports-by-user'
 import {put, PutStoreInput} from './put'
 import {YiguanaDocument} from '../../type'
@@ -183,6 +185,14 @@ export class MetadataStore {
   decreaseReportCount(input: DecreaseReportAggInput) {
     logStoreDdb('decreaseReportCount', input)
     return decreaseReportAgg(this.operator, input)
+  }
+
+  inc<T extends YiguanaDocument>(input: IncStoreInput<T>) {
+    return inc<T>(this.operator, input)
+  }
+
+  dec<T extends YiguanaDocument>(input: DecStoreInput<T>) {
+    return dec<T>(this.operator, input)
   }
 
   put<T extends YiguanaDocument>(input: PutStoreInput) {
