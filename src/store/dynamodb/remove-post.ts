@@ -1,7 +1,7 @@
 import {DynamoDBInput} from '../../entity/input/dynamodb'
 import {Post} from '../../entity'
 import * as R from 'ramda'
-import {EEntityStatus} from '../../type'
+import {EEntityStatus, YiguanaDocumentHash} from '../../type'
 import {logStoreDdb} from '../../lib/log'
 
 export function removePost(operator: DynamoDBInput, input: RemovePostInput) {
@@ -31,6 +31,4 @@ export function removePost(operator: DynamoDBInput, input: RemovePostInput) {
     .then<Post>(R.prop('Attributes'))
 }
 
-export type RemovePostInput = {
-  hk: string
-}
+export type RemovePostInput = YiguanaDocumentHash

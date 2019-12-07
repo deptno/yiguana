@@ -21,7 +21,6 @@ import {AggReportsInput, getAggReports} from './get-agg-reports'
 import {getReports, ReportsInput} from './get-reports'
 import {aggReportReply, AggReportReplyInput} from './agg-report-reply'
 import {reportReply, ReportReplyInput} from './report-reply'
-import {logStoreDdb} from '../../lib/log'
 import {getReportsAll, ReportsAllInput} from './get-reports-all'
 import {update, UpdateStoreInput} from './raw/update'
 import {getReportsByUser, ReportByUserInput} from './get-reports-by-user'
@@ -99,6 +98,7 @@ export class MetadataStore {
     return removeComment(this.operator, input)
   }
 
+  // todo
   addLike(input: AddLikeInput) {
     return addLike(this.operator, input)
   }
@@ -123,10 +123,12 @@ export class MetadataStore {
     return getAggReports(this.operator, input)
   }
 
+  // todo
   aggReportReply(input: AggReportReplyInput) {
     return aggReportReply(this.operator, input)
   }
 
+  // todo
   reportReply(input: ReportReplyInput) {
     return reportReply(this.operator, input)
   }
@@ -147,11 +149,13 @@ export class MetadataStore {
     return putReport(this.operator, input)
   }
 
+  // todo
   increaseReportCount(input: IncreaseReportAggInput) {
     return increaseReportAgg(this.operator, input)
   }
 
   // no use case
+  // todo
   decreaseReportCount(input: DecreaseReportAggInput) {
     return decreaseReportAgg(this.operator, input)
   }
