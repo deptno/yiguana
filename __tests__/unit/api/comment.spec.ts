@@ -89,8 +89,7 @@ describe('unit', () => {
           const [afterItem] = after.filter(i => i.hk === comment.hk)
           expect(afterItem.content).not.toEqual(beforeItem.content)
         })
-        it.todo('view comment')
-        it('remove comment', async() => {
+        it('delete comment', async() => {
           const {items: before} = await api.comment.list({
             data: {
               postId: post.hk,
@@ -111,7 +110,6 @@ describe('unit', () => {
           })
           console.table(after)
         })
-        it.todo('request to block comment')
       })
     })
   })
