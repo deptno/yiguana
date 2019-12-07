@@ -1,13 +1,17 @@
 import {DynamoDBInput} from '../../entity/input/dynamodb'
-import {EEntity, YiguanaDocumentHashRange} from '../../type'
+import {EEntity} from '../../type'
 import * as R from 'ramda'
 import {keys} from '../../dynamodb/keys'
 import {ReportAgg} from '../../entity/report/report-agg'
+import {logStoreDdb} from '../../lib/log'
+import {Post} from '../../entity/post'
+import {Comment} from '../../entity/comment'
 
-export function decreaseReportAgg(operator: DynamoDBInput, params: DecreaseReportAggInput) {
+export function decreaseReportAgg(operator: DynamoDBInput, input: DecreaseReportAggInput) {
+  logStoreDdb('decreaseReportCount input %j', input)
+
   const {dynamodb, tableName} = operator
-  const {data, userId} = params
-  const {hk} = data
+  const {hk, rk} = input
 
   return dynamodb
     .update({
@@ -17,7 +21,7 @@ export function decreaseReportAgg(operator: DynamoDBInput, params: DecreaseRepor
         rk: keys.rk.agg.stringify({
           agg: EEntity.Agg,
           type: EEntity.Report,
-          target: data.rk // EEntity.Post|EEntity.Comment 인 것이 보장되어야 한다.
+          target: rk // EEntity.Post|EEntity.Comment 인 것이 보장되어야 한다.
         }),
       },
       UpdateExpression: 'SET #v = #v + :v',
@@ -31,7 +35,4 @@ export function decreaseReportAgg(operator: DynamoDBInput, params: DecreaseRepor
     })
     .then<ReportAgg>(R.prop('Attributes'))
 }
-export type DecreaseReportAggInput = {
-  data: YiguanaDocumentHashRange
-  userId: string
-}
+export type DecreaseReportAggInput = Post | Comment

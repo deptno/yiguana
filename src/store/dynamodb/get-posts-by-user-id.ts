@@ -4,10 +4,13 @@ import {Post} from '../../entity/post'
 import {keys} from '../../dynamodb/keys'
 import {DocumentClient} from 'aws-sdk/clients/dynamodb'
 import {EEntity, EIndexName} from '../../type'
+import {logStoreDdb} from '../../lib/log'
 
-export function postsByUserId<T = Post>(operator: DynamoDBInput, params: PostsByUserIdInput) {
+export function getPostsByUserId<T = Post>(operator: DynamoDBInput, input: PostsByUserIdInput) {
+  logStoreDdb('getPostsByUserId input %j', input)
+
   const {tableName, dynamodb} = operator
-  const {category, exclusiveStartKey, userId} = params
+  const {category, exclusiveStartKey, userId} = input
 
   const queryParams: DocumentClient.QueryInput = {
     TableName: tableName,

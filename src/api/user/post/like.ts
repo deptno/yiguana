@@ -11,26 +11,22 @@ export async function like(store: MetadataStore, ep: EntityFactory, input: LikeA
   assertsMember(input.user)
 
   const {data: {data, createdAt}, user} = input
-  const like = await store.addLike({
-    data: ep.createLike({
-      user,
-      data: {
-        data,
-        createdAt,
-      },
-    }),
-  })
-
-  if (like) {
-    log('like +1', like)
-    return store.likePost({data: data})
+  const liked = await store.addLike(ep.createLike({
+    user,
+    data: {
+      data,
+      createdAt,
+    },
+  }))
+  if (liked) {
+    return store.incLikes(data)
   }
-  log('like -1', like)
 
+  // todo 이런 로직은 스토어 쪽으로 내리는 걸 고려
   return Promise
     .all([
       store.removeLike({data, userId: user.id}),
-      store.unlikePost({data}),
+      store.decLikes(data),
     ])
     .then<Post>(R.view(R.lensIndex(1)))
 }

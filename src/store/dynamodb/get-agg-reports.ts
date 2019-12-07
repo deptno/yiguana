@@ -2,10 +2,13 @@ import {DynamoDBInput} from '../../entity/input/dynamodb'
 import {EEntity, EIndexName} from '../../type'
 import {keys} from '../../dynamodb/keys'
 import {ReportAgg} from '../../entity/report/report-agg'
+import {logStoreDdb} from '../../lib/log'
 
-export function aggReports(operator: DynamoDBInput, params: AggReportsInput) {
+export function getAggReports(operator: DynamoDBInput, input: AggReportsInput) {
+  logStoreDdb('getAggReports input %j', input)
+
   const {tableName, dynamodb} = operator
-  const {entity, exclusiveStartKey, limit = 10, end} = params
+  const {entity, exclusiveStartKey, limit = 10, end} = input
   const indexName = end
     ? EIndexName.reportsEnd
     : EIndexName.reports

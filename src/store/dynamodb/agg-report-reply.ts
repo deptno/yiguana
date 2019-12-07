@@ -1,10 +1,13 @@
 import * as R from 'ramda'
 import {DynamoDBInput} from '../../entity/input/dynamodb'
-import {EEntity, EEntityStatus} from '../../type'
+import {EEntity, EEntityStatus, YiguanaDocumentHash} from '../../type'
 import {keys} from '../../dynamodb/keys'
+import {logStoreDdb} from '../../lib/log'
 
-export function aggReportReply(operator: DynamoDBInput, params: AggReportReplyInput) {
-  const {hk, entity, answer, status} = params
+export function aggReportReply(operator: DynamoDBInput, input: AggReportReplyInput) {
+  logStoreDdb('getRggReportReply input %j', input)
+
+  const {data: {hk}, entity, answer, status} = input
 
   return operator.dynamodb
     .update({
@@ -37,7 +40,7 @@ export function aggReportReply(operator: DynamoDBInput, params: AggReportReplyIn
 }
 
 export type AggReportReplyInput = {
-  hk: string
+  data: YiguanaDocumentHash
   entity: Extract<EEntity, EEntity.Post | EEntity.Comment>
   answer: string
   status: EEntityStatus

@@ -79,8 +79,10 @@ describe('unit', () => {
           expect(items.length).toEqual(1)
           const [post] = items
           expect(post.status).toBeUndefined()
-          await api.post.del({data: post, user: non_member_a})
+          const nextPost1 = await api.post.del({data: post, user: non_member_a})
           const nextPost = await api.post.read({data: post})
+          expect(nextPost1.status).toEqual(EEntityStatus.deletedByUser)
+          console.log(nextPost)
           expect(nextPost.status).toEqual(EEntityStatus.deletedByUser)
         })
         it.todo(`request to block post
