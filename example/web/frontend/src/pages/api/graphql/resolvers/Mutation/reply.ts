@@ -5,7 +5,7 @@ import {Comment} from '../../../../../../../../../lib/entity'
 
 export const reply: GraphQLFieldResolver<any, Context, any> = async (source, args, context) => {
   const user = context.getUser(args.user)
-  const comment = await context.dataSources.public.get<Comment>({
+  const comment = await context.dataSources.private.get<Comment>({
     user,
     data: {
       hk: args.data.commentId,
