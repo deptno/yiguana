@@ -41,7 +41,7 @@ describe('unit', function () {
               data: {createdAt, data},
               user,
             })
-            const added = await addLike(opDdb, {data: like})
+            const added = await addLike(opDdb, like)
             expect(like).toMatchObject(added)
           })
           it('03. postsByUserLike(User(a)) === 1', async () => {
@@ -53,7 +53,7 @@ describe('unit', function () {
               data: {createdAt, data},
               user,
             })
-            const notAdded = await addLike(opDdb, {data: like})
+            const notAdded = await addLike(opDdb, like)
             expect(like).toBeDefined()
             expect(notAdded).not.toBeDefined()
           })
@@ -67,7 +67,7 @@ describe('unit', function () {
               data: {createdAt, data},
               user,
             })
-            const added = await addLike(opDdb, {data: like})
+            const added = await addLike(opDdb, like)
             expect(like).toMatchObject(added)
           })
           it('07. User(b)가 Post(0) 에 공감', async () => {
@@ -75,7 +75,7 @@ describe('unit', function () {
               data: {createdAt, data},
               user: member_b,
             })
-            const added = await addLike(opDdb, {data: like})
+            const added = await addLike(opDdb, like)
             expect(like).toMatchObject(added)
           })
           it('08. postsByUserLike(User(b)) === 1', async () => {
@@ -132,7 +132,7 @@ describe('unit', function () {
               data: {createdAt, data: comment},
               user,
             })
-            const added = await addLike(opDdb, {data: like})
+            const added = await addLike(opDdb, like)
             expect(like).toMatchObject(added)
           })
           it('03. commentsByUserLike(User(a)) === 1', async () => {
@@ -144,7 +144,7 @@ describe('unit', function () {
               data: {createdAt, data: comment},
               user,
             })
-            const notAdded = await addLike(opDdb, {data: like})
+            const notAdded = await addLike(opDdb, like)
             expect(like).toBeDefined()
             expect(notAdded).not.toBeDefined()
           })
@@ -159,7 +159,7 @@ describe('unit', function () {
               data: {createdAt, data},
               user,
             })
-            const added = await addLike(opDdb, {data: like})
+            const added = await addLike(opDdb, like)
             expect(like).toMatchObject(added)
           })
           it('07. User(b)가 Comment(0) 에 공감', async () => {
@@ -167,7 +167,7 @@ describe('unit', function () {
               data: {createdAt, data: comment},
               user: member_b,
             })
-            const added = await addLike(opDdb, {data: like})
+            const added = await addLike(opDdb, like)
             expect(like).toMatchObject(added)
           })
           it('08. commentsByUserLike(User(b)) === 1', async () => {

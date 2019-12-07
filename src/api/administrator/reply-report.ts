@@ -12,9 +12,10 @@ export async function replyReport(store: MetadataStore, ef: EntityFactory, input
   assertNotEmptyString(input.data.answer)
 
   const {data} = input
-  const {hk, entity: rk, answer, status} = data
+  const {data: {hk}, entity: rk, answer, status} = data
   const updatedAt = new Date().toISOString()
 
+  // todo: store 쪽으로 내려야할 것으로 보인다.
   return Promise
     .all([
       store.update({hk, rk, status, updatedAt}),
@@ -23,8 +24,10 @@ export async function replyReport(store: MetadataStore, ef: EntityFactory, input
         return Promise.all(
           reports.map(r => store
             .reportReply({
-              hk: r.hk,
-              rk: r.rk,
+              data: {
+                hk: r.hk,
+                rk: r.rk,
+              },
               answer,
               status,
             })

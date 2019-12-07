@@ -111,7 +111,7 @@ describe('unit', function () {
                 },
                 user: member_e,
               })
-              const saved = await addLike(opDdb, {data: like})
+              const saved = await addLike(opDdb, like)
               console.log({saved})
 
               const likedPost = await incLikes(opDdb, before[0])

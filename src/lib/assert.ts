@@ -4,6 +4,8 @@ import {logAsserts} from './log'
 import {EEntity, YiguanaDocumentHashRange} from '../type'
 import {Comment, Post} from '../entity'
 
+// todo: 에러메시지 이넘 처리
+
 function asserts(condition, message?: string): asserts condition {
   if (!condition) {
     log(message)

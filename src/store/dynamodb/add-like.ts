@@ -7,14 +7,13 @@ export function addLike(operator: DynamoDBInput, input: AddLikeInput) {
   logStoreDdb('addLike input %j', input)
 
   const {dynamodb, tableName} = operator
-  const {data} = input
 
   return dynamodb
     .update<Like>({
       TableName: tableName,
       Key: {
-        hk: data.hk,
-        rk: data.rk,
+        hk: input.hk,
+        rk: input.rk,
       },
       UpdateExpression: 'SET #uid = :uid, #b = :b, #c = :c, #u = :u, #d = :d',
       ExpressionAttributeNames: {
@@ -26,11 +25,11 @@ export function addLike(operator: DynamoDBInput, input: AddLikeInput) {
         '#d': 'data',
       },
       ExpressionAttributeValues: {
-        ':uid': data.userId,
-        ':b': data.byUser,
-        ':c': data.createdAt,
-        ':u': data.user,
-        ':d': data.data,
+        ':uid': input.userId,
+        ':b': input.byUser,
+        ':c': input.createdAt,
+        ':u': input.user,
+        ':d': input.data,
       },
       ConditionExpression: 'attribute_not_exists(#h)',
       ReturnValues: 'ALL_NEW',
@@ -38,6 +37,4 @@ export function addLike(operator: DynamoDBInput, input: AddLikeInput) {
     .then<Like>(R.prop('Attributes'))
 }
 
-export type AddLikeInput = {
-  data: Like
-}
+export type AddLikeInput = Like

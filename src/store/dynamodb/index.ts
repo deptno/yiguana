@@ -98,7 +98,7 @@ export class MetadataStore {
     return removeComment(this.operator, input)
   }
 
-  // todo
+  // todo 3
   addLike(input: AddLikeInput) {
     return addLike(this.operator, input)
   }
@@ -123,12 +123,12 @@ export class MetadataStore {
     return getAggReports(this.operator, input)
   }
 
-  // todo
+  // todo 3
   aggReportReply(input: AggReportReplyInput) {
     return aggReportReply(this.operator, input)
   }
 
-  // todo
+  // todo 3
   reportReply(input: ReportReplyInput) {
     return reportReply(this.operator, input)
   }
@@ -149,13 +149,13 @@ export class MetadataStore {
     return putReport(this.operator, input)
   }
 
-  // todo
+  // todo 3
   increaseReportCount(input: IncreaseReportAggInput) {
     return increaseReportAgg(this.operator, input)
   }
 
   // no use case
-  // todo
+  // todo 3
   decreaseReportCount(input: DecreaseReportAggInput) {
     return decreaseReportAgg(this.operator, input)
   }

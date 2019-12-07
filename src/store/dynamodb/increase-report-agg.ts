@@ -10,7 +10,6 @@ export function increaseReportAgg(operator: DynamoDBInput, input: IncreaseReport
   logStoreDdb('increaseReportCount input %j', input)
 
   const {dynamodb, tableName} = operator
-  const {data, userId} = input
   //FIXME: updatedAt 은 관례상 인자로 받아야한다. decrease 도 마찬가지 로직
   const updatedAt = new Date().toISOString()
 
@@ -20,11 +19,11 @@ export function increaseReportAgg(operator: DynamoDBInput, input: IncreaseReport
     .update({
       TableName: tableName,
       Key: {
-        hk: data.hk,
+        hk: input.hk,
         rk: keys.rk.agg.stringify({
           agg: EEntity.Agg,
           type: EEntity.Report,
-          target: data.rk as EEntity.Post | EEntity.Comment,
+          target: input.rk as EEntity.Post | EEntity.Comment,
         }),
       },
       UpdateExpression: 'SET ' + [
@@ -50,16 +49,13 @@ export function increaseReportAgg(operator: DynamoDBInput, input: IncreaseReport
         ':v': 1,
         ':a': keys.agg.stringify({
           type: EEntity.Report,
-          entity: data.rk as Extract<EEntity, EEntity.Post | EEntity.Comment>,
+          entity: input.rk as Extract<EEntity, EEntity.Post | EEntity.Comment>,
         }),
         ':r': updatedAt,
-        ':d': data,
+        ':d': input,
       },
       ReturnValues: 'ALL_NEW',
     })
     .then<ReportAgg>(R.prop('Attributes'))
 }
-export type IncreaseReportAggInput = {
-  data: Post | Comment
-  userId: string
-}
+export type IncreaseReportAggInput = Post | Comment
