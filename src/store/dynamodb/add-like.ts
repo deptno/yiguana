@@ -1,10 +1,13 @@
 import {DynamoDBInput} from '../../entity/input/dynamodb'
 import {Like} from '../../entity/like'
 import * as R from 'ramda'
+import {logStoreDdb} from '../../lib/log'
 
-export function addLike(operator: DynamoDBInput, params: AddLikeInput) {
+export function addLike(operator: DynamoDBInput, input: AddLikeInput) {
+  logStoreDdb('addLike input %j', input)
+
   const {dynamodb, tableName} = operator
-  const {data} = params
+  const {data} = input
 
   return dynamodb
     .update<Like>({

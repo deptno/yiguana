@@ -2,16 +2,21 @@ import {DynamoDBInput} from '../../entity/input/dynamodb'
 import {Comment, CommentUpdateUserInput} from '../../entity/comment'
 import * as R from 'ramda'
 import {EEntity} from '../../type'
+import {logStoreDdb} from '../../lib/log'
+import {assertMaxLength, assertsMemberOrNot} from '../../lib/assert'
 
-export async function updateComment(operator: DynamoDBInput, params: UpdateCommentInput) {
+export async function updateComment(operator: DynamoDBInput, input: UpdateCommentInput) {
+  logStoreDdb('updateComment input %j', input)
+
+  assertMaxLength(input.content, 300)
+
   const {dynamodb, tableName} = operator
-  // TODO: MAX_CONTENT_LENGTH 활용한 content length 체크해서 300자 넘으면 얼럿 띄우기?
 
   return dynamodb
     .update({
       TableName: tableName,
       Key: {
-        hk: params.hk,
+        hk: input.hk,
         rk: EEntity.Comment,
       },
       UpdateExpression: 'SET #c = :c, #u = :u',
@@ -20,8 +25,8 @@ export async function updateComment(operator: DynamoDBInput, params: UpdateComme
         '#u': 'updatedAt',
       },
       ExpressionAttributeValues: {
-        ':c': params.content,
-        ':u': params.updatedAt,
+        ':c': input.content,
+        ':u': input.updatedAt,
       },
       ReturnValues: 'ALL_NEW',
     })

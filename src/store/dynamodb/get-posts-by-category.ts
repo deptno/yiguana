@@ -1,10 +1,13 @@
 import {Post} from '../../entity/post'
 import {DynamoDBInput} from '../../entity/input/dynamodb'
 import {EEntity, EIndexName} from '../../type'
+import {logStoreDdb} from '../../lib/log'
 
-export function getPostsByCategory(operator: DynamoDBInput, params: PostsByCategoryInput) {
+export function getPostsByCategory(operator: DynamoDBInput, input: PostsByCategoryInput) {
+  logStoreDdb('getPostsByCategory input %j', input)
+
   const {tableName, dynamodb} = operator
-  const {exclusiveStartKey, category = '', limit = 10} = params
+  const {exclusiveStartKey, category = '', limit = 10} = input
   const queryParams = {
     TableName: tableName,
     IndexName: EIndexName.postsByCategory,

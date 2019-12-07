@@ -3,10 +3,13 @@ import {keys} from '../../dynamodb/keys'
 import {Post} from '../../entity/post'
 import {Comment} from '../../entity/comment'
 import {EEntity} from '../../type'
+import {logStoreDdb} from '../../lib/log'
 
-export function removeLike(operator: DynamoDBInput, params: RemoveLikeInput) {
+export function removeLike(operator: DynamoDBInput, input: RemoveLikeInput) {
+  logStoreDdb('removeLike input %j', input)
+
   const {dynamodb, tableName} = operator
-  const {data, userId} = params
+  const {data, userId} = input
 
   return dynamodb.del(
     {

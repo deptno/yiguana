@@ -1,6 +1,8 @@
 import {ValidationError} from '../entity/error'
 import {ERole, Member, MemberAdmin, NonMember, User} from '../entity/user'
 import {logAsserts} from './log'
+import {EEntity, YiguanaDocumentHashRange} from '../type'
+import {Comment, Post} from '../entity'
 
 function asserts(condition, message?: string): asserts condition {
   if (!condition) {
@@ -38,6 +40,18 @@ export function assertsMemberOrNot(user: User): asserts user is User {
 export function assertsAdmin(user: User): asserts user is MemberAdmin {
   assertsMember(user)
   asserts(user.role === ERole.admin, 'admin access only')
+}
+
+// store layer
+export function assertPostOrComment(input: Post | Comment | YiguanaDocumentHashRange): asserts input is Post | Comment {
+  asserts(
+    input.rk === EEntity.Post || input.rk === EEntity.Comment,
+    `${EEntity.Post} or ${EEntity.Comment} are supported`,
+  )
+}
+export function assertMaxLength(input: string, maxLength: number): asserts input {
+  assertNotEmptyString(input)
+  asserts(input.length <= maxLength, `assert max length 300`)
 }
 
 const log = logAsserts.extend('asserts')

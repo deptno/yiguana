@@ -2,9 +2,12 @@ import {DynamoDBInput} from '../../entity/input/dynamodb'
 import {Comment} from '../../entity/comment'
 import {_likesByUser, QueryByUserLike} from './_likes-by-user'
 import {EEntity} from '../../type'
+import {logStoreDdb} from '../../lib/log'
 
-export function getCommentsByUserLike(operator: DynamoDBInput, params: CommentsByUserLikeInput) {
-  return _likesByUser<Comment>(operator, {...params, entity: EEntity.Comment})
+export function getCommentsByUserLike(operator: DynamoDBInput, input: CommentsByUserLikeInput) {
+  logStoreDdb('getCommentsByUserLike input %j', input)
+
+  return _likesByUser<Comment>(operator, {...input, entity: EEntity.Comment})
     .then(response => {
       return {
         ...response,

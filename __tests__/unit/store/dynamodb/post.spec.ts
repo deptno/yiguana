@@ -4,15 +4,15 @@ import {opDdb, opS3} from '../../../env'
 import {getPostsByUserId} from '../../../../src/store/dynamodb/get-posts-by-user-id'
 import {getInitialData} from '../../../setup'
 import {removePost} from '../../../../src/store/dynamodb/remove-post'
-import {likePost} from '../../../../src/store/dynamodb/like-post'
-import {viewPost} from '../../../../src/store/dynamodb/view-post'
 import {member_a, member_b, member_c, member_e} from '../../../__data__/user'
 import {createPostContentUnSafe} from '../../../../src/store/s3/create-post-content'
 import {createLike} from '../../../../src/entity/like'
 import {addLike} from '../../../../src/store/dynamodb/add-like'
 import {EEntity, EEntityStatus} from '../../../../src/type'
-import {put} from '../../../../src/store/dynamodb/put'
-import {update} from '../../../../src/store/dynamodb/update'
+import {put} from '../../../../src/store/dynamodb/raw/put'
+import {update} from '../../../../src/store/dynamodb/raw/update'
+import {incViews} from '../../../../src/store/dynamodb/inc-views'
+import {incLikes} from '../../../../src/store/dynamodb/inc-likes'
 
 describe('unit', function () {
   describe('store', function () {
@@ -114,7 +114,7 @@ describe('unit', function () {
               const saved = await addLike(opDdb, {data: like})
               console.log({saved})
 
-              const likedPost = await likePost(opDdb, {data: before[0]})
+              const likedPost = await incLikes(opDdb, before[0])
               expect(likedPost.hk).toEqual(before[0].hk)
               expect(likedPost.likes).toEqual(before[0].likes + 1)
 
@@ -126,7 +126,7 @@ describe('unit', function () {
 
             it('viewPost', async () => {
               const {items: before} = await getPosts(opDdb, {})
-              const isViewed = await viewPost(opDdb, {data: before[0]})
+              const isViewed = await incViews(opDdb, before[0])
               console.log(isViewed)
 
               const {items: after} = await getPosts(opDdb, {})

@@ -3,20 +3,18 @@ import {ContentStore} from '../../store/s3'
 import {MetadataStore} from '../../store/dynamodb'
 import * as R from 'ramda'
 import {Post} from '../../entity/post'
-import {ApiInput, YiguanaDocumentHash} from '../../type'
+import {ApiInput} from '../../type'
 import {logApiPost as log} from '../../lib/log'
 
 export async function view(ms: MetadataStore, cs: ContentStore, e: EntityFactory, input: ViewApiInput) {
-  log('view %j', input)
+  log('view input %j', input)
 
   return Promise
     .all([
       cs.read(input).then(R.objOf('content')),
-      ms.viewPost({
-        data: input.data,
-      }),
+      ms.viewPost(input.data)
     ])
     .then<Post>(R.apply(Object.assign))
 }
 
-export type ViewApiInput = ApiInput<YiguanaDocumentHash>
+export type ViewApiInput = ApiInput<Post>

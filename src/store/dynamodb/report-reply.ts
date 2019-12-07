@@ -1,9 +1,12 @@
 import * as R from 'ramda'
 import {DynamoDBInput} from '../../entity/input/dynamodb'
 import {EEntityStatus} from '../../type'
+import {logStoreDdb} from '../../lib/log'
 
-export function reportReply(operator: DynamoDBInput, params: ReportReplyInput) {
-  const {hk, rk, answer, status} = params
+export function reportReply(operator: DynamoDBInput, input: ReportReplyInput) {
+  logStoreDdb('reportReply input %j', input)
+
+  const {hk, rk, answer, status} = input
 
   return operator.dynamodb
     .update({

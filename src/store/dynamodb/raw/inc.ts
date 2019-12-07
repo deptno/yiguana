@@ -1,6 +1,6 @@
-import {DynamoDBInput} from '../../entity/input/dynamodb'
+import {DynamoDBInput} from '../../../entity/input/dynamodb'
 import * as R from 'ramda'
-import {YiguanaDocumentHashRange} from '../../type'
+import {YiguanaDocumentHashRange} from '../../../type'
 
 export async function inc<T extends YiguanaDocumentHashRange>(operator: DynamoDBInput, params: IncStoreInput<T>) {
   const {dynamodb, tableName} = operator
@@ -9,7 +9,7 @@ export async function inc<T extends YiguanaDocumentHashRange>(operator: DynamoDB
   return dynamodb
     .update({
       TableName: tableName,
-      Key: data,
+      Key: R.pick(['hk', 'rk'], data),
       UpdateExpression: 'SET #v = #v + :v',
       ExpressionAttributeNames: {
         '#v': key as any,
@@ -23,8 +23,8 @@ export async function inc<T extends YiguanaDocumentHashRange>(operator: DynamoDB
     .then<T>(R.prop('Attributes'))
 }
 
-export type IncStoreInput<T> = {
-  data: T
+export type IncStoreInput<T extends YiguanaDocumentHashRange> = {
+  data: YiguanaDocumentHashRange
   inc: {
     key: keyof T
     value: number

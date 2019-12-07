@@ -9,15 +9,15 @@ import {getCommentsByUserId} from '../../../../src/store/dynamodb/get-comments-b
 import {commentsByPostId} from '../../../../src/store/dynamodb/comments-by-post-id'
 import {getPosts} from '../../../../src/store/dynamodb/get-posts'
 import {removePost} from '../../../../src/store/dynamodb/remove-post'
-import {likeComment} from '../../../../src/store/dynamodb/like-comment'
-import {unlikeComment} from '../../../../src/store/dynamodb/unlike-comment'
+import {incLikes} from '../../../../src/store/dynamodb/inc-likes'
 import {createLike} from '../../../../src/entity/like'
 import {addLike} from '../../../../src/store/dynamodb/add-like'
 import {member_d, member_e} from '../../../__data__/user'
 import {EEntity, EEntityStatus} from '../../../../src/type'
 import {removeLike} from '../../../../src/store/dynamodb/remove-like'
-import {put} from '../../../../src/store/dynamodb/put'
-import {get} from '../../../../src/store/dynamodb/get'
+import {put} from '../../../../src/store/dynamodb/raw/put'
+import {get} from '../../../../src/store/dynamodb/raw/get'
+import {decLikes} from '../../../../src/store/dynamodb/dec-likes'
 
 describe('unit', function () {
   describe('store', function () {
@@ -137,7 +137,7 @@ describe('unit', function () {
               const saved = await addLike(opDdb, {data: like})
               console.log({saved})
 
-              const likedComment = await likeComment(opDdb, {data: before[0]})
+              const likedComment = await incLikes(opDdb, before[0])
               expect(likedComment.hk).toEqual(before[0].hk)
               expect(likedComment.likes).toEqual(before[0].likes + 1)
 
@@ -153,7 +153,7 @@ describe('unit', function () {
             it('unlikeComment', async () => {
               const {items: before} = await getComments(opDdb, {postId: commentedPost.hk})
               await removeLike(opDdb, {data: before[0], userId: member_e.id})
-              await unlikeComment(opDdb, {data: before[0]})
+              await decLikes(opDdb, before[0])
               const {items: after} = await getComments(opDdb, {postId: commentedPost.hk})
               expect(after[0].likes).toEqual(before[0].likes - 1)
 

@@ -2,10 +2,13 @@ import {DynamoDBInput} from '../../entity/input/dynamodb'
 import {Reply} from '../../entity/reply'
 import {keys} from '../../dynamodb/keys'
 import {EEntity, EIndexName} from '../../type'
+import {logStoreDdb} from '../../lib/log'
 
-export function getRepliesByUserId<T = Reply>(operator: DynamoDBInput, params: RepliesByUserIdInput) {
+export function getRepliesByUserId<T = Reply>(operator: DynamoDBInput, input: RepliesByUserIdInput) {
+  logStoreDdb('getRepliesByUserId input %j', input)
+
   const {tableName, dynamodb} = operator
-  const {userId, exclusiveStartKey} = params
+  const {userId, exclusiveStartKey} = input
   const queryParams = {
     TableName: tableName,
     IndexName: EIndexName.byUser,

@@ -7,7 +7,7 @@ import {YiguanaDocument} from '../src/type'
 import {ContentStore} from '../src/store/s3'
 import {member_a, member_b, member_c, member_d, member_f, non_member_a} from './__data__/user'
 import {getPosts} from '../src/store/dynamodb/get-posts'
-import {put} from '../src/store/dynamodb/put'
+import {put} from '../src/store/dynamodb/raw/put'
 
 export const getInitialData = async () => {
   await clearData()

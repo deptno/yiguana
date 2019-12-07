@@ -1,29 +1,17 @@
 import {MetadataStore} from '../../store/dynamodb'
 import {EntityFactory} from '../../entity'
-import {Comment, CommentUserInput} from '../../entity/comment'
-import {head} from 'ramda'
+import {CommentUserInput} from '../../entity/comment'
 import {ApiInputWithUser} from '../../type'
 import {assertNotEmptyString, assertsMemberOrNot} from '../../lib/assert'
 import {logApiComment as log} from '../../lib/log'
 
 export async function create(store: MetadataStore, ep: EntityFactory, input: CreateApiInput) {
-  log('create %j', input)
+  log('create input %j', input)
 
   assertsMemberOrNot(input.user)
   assertNotEmptyString(input.data.content)
 
-  const data = ep.createComment(input)
-
-  return Promise
-    .all([
-      store.put(data),
-      store.commentPost({
-        data: {
-          hk: input.data.postId,
-        },
-      }),
-    ])
-    .then<Comment>(head)
+  return store.addComment(ep.createComment(input))
 }
 
 export type CreateApiInput = ApiInputWithUser<CommentUserInput>

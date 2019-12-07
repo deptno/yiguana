@@ -7,10 +7,10 @@ import {getComments} from '../../../../src/store/dynamodb/get-comments'
 import {member_a, member_f, non_member_a} from '../../../__data__/user'
 import {createLike} from '../../../../src/entity/like'
 import {addLike} from '../../../../src/store/dynamodb/add-like'
-import {likeReply} from '../../../../src/store/dynamodb/like-reply'
 import {getRepliesByUserId} from '../../../../src/store/dynamodb/get-replies-by-user-id'
 import {EEntity} from '../../../../src/type'
-import {put} from '../../../../src/store/dynamodb/put'
+import {put} from '../../../../src/store/dynamodb/raw/put'
+import {incLikes} from '../../../../src/store/dynamodb/inc-likes'
 
 describe('unit', function () {
   describe('store', function () {
@@ -68,7 +68,7 @@ describe('unit', function () {
             const saved = await addLike(opDdb, {data: like})
             console.log({saved})
 
-            const likedReply = await likeReply(opDdb, {data: reply})
+            const likedReply = await incLikes(opDdb, reply)
             expect(likedReply.hk).toEqual(reply.hk)
             expect(likedReply.likes).toEqual(reply.likes + 1)
           })

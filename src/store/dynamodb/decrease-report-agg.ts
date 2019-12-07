@@ -3,10 +3,13 @@ import {EEntity, YiguanaDocumentHashRange} from '../../type'
 import * as R from 'ramda'
 import {keys} from '../../dynamodb/keys'
 import {ReportAgg} from '../../entity/report/report-agg'
+import {logStoreDdb} from '../../lib/log'
 
-export function decreaseReportAgg(operator: DynamoDBInput, params: DecreaseReportAggInput) {
+export function decreaseReportAgg(operator: DynamoDBInput, input: DecreaseReportAggInput) {
+  logStoreDdb('decreaseReportCount input %j', input)
+
   const {dynamodb, tableName} = operator
-  const {data, userId} = params
+  const {data, userId} = input
   const {hk} = data
 
   return dynamodb

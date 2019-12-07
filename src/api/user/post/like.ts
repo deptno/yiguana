@@ -23,14 +23,14 @@ export async function like(store: MetadataStore, ep: EntityFactory, input: LikeA
 
   if (like) {
     log('like +1', like)
-    return store.likePost({data: data})
+    return store.incLikes(data)
   }
   log('like -1', like)
 
   return Promise
     .all([
       store.removeLike({data, userId: user.id}),
-      store.unlikePost({data}),
+      store.decLikes(data),
     ])
     .then<Post>(R.view(R.lensIndex(1)))
 }

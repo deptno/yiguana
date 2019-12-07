@@ -1,4 +1,4 @@
-import {report} from '../../../../src/store/dynamodb/report'
+import {putReport} from '../../../../src/store/dynamodb/report'
 import {member_a, member_b} from '../../../__data__/user'
 import {Post} from '../../../../src/entity/post'
 import {Comment} from '../../../../src/entity/comment'
@@ -14,7 +14,7 @@ import {getReportsByUser} from '../../../../src/store/dynamodb/get-reports-by-us
 import {reportReply} from '../../../../src/store/dynamodb/report-reply'
 import {getPosts} from '../../../../src/store/dynamodb/get-posts'
 import {aggReportReply} from '../../../../src/store/dynamodb/agg-report-reply'
-import {get} from '../../../../src/store/dynamodb/get'
+import {get} from '../../../../src/store/dynamodb/raw/get'
 
 describe('unit', function () {
   describe('store', function () {

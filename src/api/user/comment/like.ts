@@ -23,7 +23,7 @@ export async function like(store: MetadataStore, ep: EntityFactory, input: LikeA
   })
 
   if (like) {
-    return store.likeComment({data: data})
+    return store.incLikes(data)
   }
 
   return Promise
@@ -32,7 +32,7 @@ export async function like(store: MetadataStore, ep: EntityFactory, input: LikeA
         data,
         userId: user.id
       }),
-      store.unlikeComment({data}),
+      store.decLikes(data),
     ])
     .then<Comment>(R.view(R.lensIndex(1)))
 }

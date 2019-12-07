@@ -2,12 +2,15 @@ import {DynamoDBInput} from '../../entity/input/dynamodb'
 import {Comment} from '../../entity/comment'
 import {keys} from '../../dynamodb/keys'
 import {EEntity, EIndexName} from '../../type'
+import {logStoreDdb} from '../../lib/log'
 
-export function getCommentsByUserId<T = Comment>(operator: DynamoDBInput, params: CommentsByUserIdInput) {
+export function getCommentsByUserId<T = Comment>(operator: DynamoDBInput, input: CommentsByUserIdInput) {
+  logStoreDdb('getCommentsByUserId input %j', input)
+
   const {tableName, dynamodb} = operator
-  const {userId, exclusiveStartKey} = params
+  const {userId, exclusiveStartKey} = input
 
-  const queryParams = {
+  return dynamodb.query<T>({
     TableName: tableName,
     IndexName: EIndexName.byUser,
     KeyConditionExpression: '#h = :h AND begins_with(#r, :r)',
@@ -24,8 +27,7 @@ export function getCommentsByUserId<T = Comment>(operator: DynamoDBInput, params
     ScanIndexForward: false,
     ReturnConsumedCapacity: 'TOTAL',
     ExclusiveStartKey: exclusiveStartKey,
-  }
-  return dynamodb.query<T>(queryParams)
+  })
 }
 
 export type CommentsByUserIdInput = {

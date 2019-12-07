@@ -2,10 +2,13 @@ import {DynamoDBInput} from '../../entity/input/dynamodb'
 import {keys} from '../../dynamodb/keys'
 import {Report} from '../../entity/report'
 import {EEntity, YiguanaDocumentHashRange} from '../../type'
+import {logStoreDdb} from '../../lib/log'
 
-export function getReportsAll(operator: DynamoDBInput, params: ReportsAllInput) {
+export function getReportsAll(operator: DynamoDBInput, input: ReportsAllInput) {
+  logStoreDdb('getReportsAll input %j', input)
+
   const {tableName, dynamodb} = operator
-  const {hk, rk} = params
+  const {hk, rk} = input
 
   return dynamodb.queryAll<Report>({
     TableName: tableName,
