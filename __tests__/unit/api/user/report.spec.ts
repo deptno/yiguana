@@ -1,6 +1,6 @@
 import {createApi} from '../../../../src/api'
 import {bucketName, ddbClient, s3Client, tableName} from '../../../env'
-import {member_a} from '../../../__data__/user'
+import {member_a, member_d} from '../../../__data__/user'
 import {Post} from '../../../../src/entity/post'
 import {Comment} from '../../../../src/entity/comment'
 import {EEntity} from '../../../../src/type'
@@ -38,6 +38,7 @@ describe('unit', () => {
             },
             user: member_a,
           })
+          expect(items.length).toEqual(0)
         })
         it('user a, report comment list === 0', async () => {
           const {items} = await api.user.report.list({
@@ -46,8 +47,26 @@ describe('unit', () => {
             },
             user: member_a,
           })
+          expect(items.length).toEqual(0)
         })
-        it.todo('create report')
+        it('create report -> user d, report post list === 1', async () => {
+          await api.user.report.create({
+            data: {
+              data: post,
+              content: 'text report content',
+              createdAt: new Date().toISOString(),
+            },
+            user: member_d,
+          })
+          const {items} = await api.user.report.list({
+            data: {
+              entity: EEntity.Post,
+            },
+            user: member_d,
+          })
+          console.table(items)
+          expect(items.length).toEqual(1)
+        })
       })
     })
   })
