@@ -2,7 +2,7 @@ import {createApi} from '../../../../src/api'
 import {bucketName, ddbClient, s3Client, tableName} from '../../../env'
 import {Post} from '../../../../src/entity/post'
 import {Comment} from '../../../../src/entity/comment'
-import {member_a, member_b, member_f} from '../../../__data__/user'
+import {member_a, member_f} from '../../../__data__/user'
 import * as R from 'ramda'
 
 describe('unit', () => {
