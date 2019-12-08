@@ -5,7 +5,7 @@ import {logStoreDdb} from '../../lib/log'
 import {assertPostOrComment} from '../../lib/assert'
 import {Post, Comment} from '../../entity'
 
-export async function incChildren<T extends Post|Comment>(operator: DynamoDBInput, input: IncChildrenStoreInput) {
+export async function incChildren<T extends Post>(operator: DynamoDBInput, input: IncChildrenStoreInput) {
   logStoreDdb('incChildren input %j', input)
 
   assertPostOrComment(input)

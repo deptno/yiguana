@@ -1,5 +1,6 @@
 import {EEntityStatus} from '../../../../../../../lib/type'
 import {Post, Comment, Report} from '../../../../../../../lib/entity'
+import {Reply} from '../../../../../../../src/entity/comment'
 
 export const overrideResponseByStatus = (response: { items: ContentEntity[] }) => {
   return {
@@ -35,4 +36,4 @@ const getContentByStatus = (status?: EEntityStatus) => {
   }
 }
 
-type ContentEntity = Post | Comment | Report
+type ContentEntity = Post | Comment | Reply | Report

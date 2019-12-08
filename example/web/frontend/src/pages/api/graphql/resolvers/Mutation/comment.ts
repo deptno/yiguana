@@ -10,7 +10,10 @@ export const comment: GraphQLFieldResolver<any, Context, any> = (source, args, c
   }
 
   return context.dataSources.public.writeComment({
-    data: args.data,
+    data: {
+      ...args.data,
+      createdAt: new Date().toISOString()
+    },
     user,
   })
 }

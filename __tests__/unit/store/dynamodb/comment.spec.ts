@@ -54,6 +54,7 @@ describe('unit', function () {
               data: {
                 postId: commentedPost.hk,
                 content: 'comment',
+                createdAt: new Date().toISOString()
               },
               user: member_e,
             })
@@ -80,6 +81,7 @@ describe('unit', function () {
               data: {
                 postId: commentedPost.hk,
                 content: 'comment',
+                createdAt: new Date().toISOString()
               },
               user: member_e
             })
@@ -185,6 +187,7 @@ describe('unit', function () {
               data: {
                 postId: commentedPost.hk,
                 content: 'comment',
+                createdAt: new Date().toISOString()
               },
               user: member_e,
             })

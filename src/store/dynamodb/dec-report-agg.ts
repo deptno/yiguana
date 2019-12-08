@@ -5,10 +5,10 @@ import {keys} from '../../dynamodb/keys'
 import {ReportAgg} from '../../entity/report/report-agg'
 import {logStoreDdb} from '../../lib/log'
 import {Post} from '../../entity/post'
-import {Comment} from '../../entity/comment'
+import {Comment, Reply} from '../../entity/comment'
 
-export function decreaseReportAgg(operator: DynamoDBInput, input: DecreaseReportAggInput) {
-  logStoreDdb('decreaseReportCount input %j', input)
+export function decReportAgg(operator: DynamoDBInput, input: DecReportAggInput) {
+  logStoreDdb('decReportCount input %j', input)
 
   const {dynamodb, tableName} = operator
   const {hk, rk} = input
@@ -35,4 +35,4 @@ export function decreaseReportAgg(operator: DynamoDBInput, input: DecreaseReport
     })
     .then<ReportAgg>(R.prop('Attributes'))
 }
-export type DecreaseReportAggInput = Post | Comment
+export type DecReportAggInput = Post | Comment | Reply

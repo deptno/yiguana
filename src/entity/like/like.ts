@@ -1,12 +1,11 @@
-
 import {Member, User} from '../user'
 import {LikeInput} from './user-input'
 import {keys} from '../../dynamodb/keys'
 import {Post} from '../post'
-import {Comment} from '../comment'
+import {Comment, Reply} from '../comment'
 import {EEntity, YiguanaDocument} from '../../type'
 
-export function createLike<T extends Post | Comment>(params: CreateLikeInput<T>): Like {
+export function createLike<T extends Post | Comment | Reply>(params: CreateLikeInput<T>): Like {
   const {user, data: {data, createdAt}} = params
   const {hk: targetId, rk: target} = data
   const {id: userId} = user
@@ -26,7 +25,7 @@ export function createLike<T extends Post | Comment>(params: CreateLikeInput<T>)
   }
 }
 
-export type CreateLikeInput<T extends Post | Comment> = {
+export type CreateLikeInput<T extends Post | Comment | Reply> = {
   data: Pick<LikeInput, 'createdAt'> & {
     data: T
   }
@@ -35,6 +34,6 @@ export type CreateLikeInput<T extends Post | Comment> = {
 export interface Like extends YiguanaDocument {
   userId: string
   byUser: string
-  user: Omit<User, 'id'>
-  data: Post | Comment
+  user: User
+  data: Post | Comment | Reply
 }

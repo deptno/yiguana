@@ -4,7 +4,7 @@ import {EEntity, EEntityStatus, YiguanaDocumentHash} from '../../type'
 import {keys} from '../../dynamodb/keys'
 import {logStoreDdb} from '../../lib/log'
 
-export function aggReportReply(operator: DynamoDBInput, input: AggReportReplyInput) {
+export function replyAggReport(operator: DynamoDBInput, input: ReplyAggReportInput) {
   logStoreDdb('getRggReportReply input %j', input)
 
   const {data: {hk}, entity, answer, status} = input
@@ -39,7 +39,7 @@ export function aggReportReply(operator: DynamoDBInput, input: AggReportReplyInp
     .then(R.prop('Attributes'))
 }
 
-export type AggReportReplyInput = {
+export type ReplyAggReportInput = {
   data: YiguanaDocumentHash
   entity: Extract<EEntity, EEntity.Post | EEntity.Comment>
   answer: string

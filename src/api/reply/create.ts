@@ -1,6 +1,5 @@
 import {MetadataStore} from '../../store/dynamodb'
-import {EntityFactory} from '../../entity'
-import {ReplyUserInput} from '../../entity/reply'
+import {EntityFactory, ReplyUserInput} from '../../entity'
 import {ApiInputWithUser} from '../../type'
 import {logApiReply as log} from '../../lib/log'
 import {assertNotEmptyString, assertsMemberOrNot} from '../../lib/assert'

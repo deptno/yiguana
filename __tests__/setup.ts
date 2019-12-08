@@ -67,6 +67,7 @@ export const getInitialData = async () => {
     data: {
       postId: postList[0].hk,
       content: 'test data, post 0, user d',
+      createdAt: new Date().toISOString()
     },
     user: member_d,
   })
@@ -78,6 +79,7 @@ export const getInitialData = async () => {
     data: {
       postId: postList[1].hk,
       content: 'test data, post 1, user e',
+      createdAt: new Date().toISOString()
     },
     user: member_f,
   })

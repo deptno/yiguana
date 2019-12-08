@@ -1,5 +1,5 @@
 import {MetadataStore} from '../../store/dynamodb'
-import {EntityFactory} from '../../entity'
+import {EntityFactory, ReplyUserInput} from '../../entity'
 import {CommentUserInput} from '../../entity/comment'
 import {ApiInputWithUser} from '../../type'
 import {assertNotEmptyString, assertsMemberOrNot} from '../../lib/assert'
@@ -11,8 +11,13 @@ export async function create(store: MetadataStore, ep: EntityFactory, input: Cre
   assertsMemberOrNot(input.user)
   assertNotEmptyString(input.data.content)
 
-  return store.addComment(ep.createComment(input))
+  const {data, user} = input
+
+  if ('comment' in data) {
+    return store.addComment(ep.createReply({user, data}))
+  }
+  return store.addComment(ep.createComment({user, data}))
 }
 
-export type CreateApiInput = ApiInputWithUser<CommentUserInput>
+export type CreateApiInput = ApiInputWithUser<CommentUserInput | ReplyUserInput>
 

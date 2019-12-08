@@ -4,8 +4,8 @@ import {Report} from '../../entity/report'
 import {EEntity, YiguanaDocumentHashRange} from '../../type'
 import {logStoreDdb} from '../../lib/log'
 
-export function getReportsAll(operator: DynamoDBInput, input: ReportsAllInput) {
-  logStoreDdb('getReportsAll input %j', input)
+export function getAllReports(operator: DynamoDBInput, input: GetAllReportsInput) {
+  logStoreDdb('getAllReports input %j', input)
 
   const {tableName, dynamodb} = operator
   const {hk, rk} = input
@@ -29,4 +29,4 @@ export function getReportsAll(operator: DynamoDBInput, input: ReportsAllInput) {
   })
 }
 
-export type ReportsAllInput = YiguanaDocumentHashRange
+export type GetAllReportsInput = YiguanaDocumentHashRange
