@@ -3,8 +3,8 @@ import {DynamoDBInput} from '../../entity/input/dynamodb'
 import {EEntityStatus, YiguanaDocumentHashRange} from '../../type'
 import {logStoreDdb} from '../../lib/log'
 
-export function reportReply(operator: DynamoDBInput, input: ReportReplyInput) {
-  logStoreDdb('reportReply input %j', input)
+export function replyReports(operator: DynamoDBInput, input: ReplyReportInput) {
+  logStoreDdb('replyReports input %j', input)
 
   const {data, answer, status} = input
 
@@ -27,7 +27,7 @@ export function reportReply(operator: DynamoDBInput, input: ReportReplyInput) {
     .then(R.prop('Attributes'))
 }
 
-export type ReportReplyInput = {
+export type ReplyReportInput = {
   data: YiguanaDocumentHashRange
   answer: string
   status: EEntityStatus

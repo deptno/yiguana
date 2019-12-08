@@ -2,9 +2,9 @@ import {EEntity, EEntityStatus, YiguanaDocument} from '../../type'
 import {Member, User} from '../user'
 import {keys} from '../../dynamodb/keys'
 import {Post} from '../post'
-import {Comment} from '../comment'
+import {Comment, Reply} from '../comment'
 
-export function createReport<T extends Post | Comment>(params: CreateReportInput<T>): Report {
+export function createReport<T extends Post | Comment | Reply>(params: CreateReportInput<T>): Report {
   const {user, data: {content, data, createdAt, updatedAt}} = params
   const {hk, rk: target} = data
   const {id: userId} = user
@@ -30,7 +30,7 @@ export function createReport<T extends Post | Comment>(params: CreateReportInput
   }
 }
 
-export type CreateReportInput<T extends Post | Comment> = {
+export type CreateReportInput<T extends Post | Comment | Reply> = {
   data: {
     data: T
     content: string
@@ -44,6 +44,6 @@ export interface Report extends YiguanaDocument {
   byUser: string
   content: string
   user: User
-  data: Post|Comment
+  data: Post | Comment | Reply
   status: EEntityStatus
 }

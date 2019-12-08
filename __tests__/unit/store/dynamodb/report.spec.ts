@@ -6,14 +6,14 @@ import {opDdb} from '../../../env'
 import {createReport, Report} from '../../../../src/entity/report'
 import {addReport} from '../../../../src/store/dynamodb/add-report'
 import {removeReport} from '../../../../src/store/dynamodb/remove-report'
-import {increaseReportAgg} from '../../../../src/store/dynamodb/increase-report-agg'
+import {incReportAgg} from '../../../../src/store/dynamodb/inc-report-agg'
 import {getAggReports} from '../../../../src/store/dynamodb/get-agg-reports'
 import {EEntity, EEntityStatus} from '../../../../src/type'
 import {getReportsByUser} from '../../../../src/store/dynamodb/get-reports-by-user'
-import {reportReply} from '../../../../src/store/dynamodb/report-reply'
 import {getPosts} from '../../../../src/store/dynamodb/get-posts'
-import {aggReportReply} from '../../../../src/store/dynamodb/agg-report-reply'
+import {replyAggReport} from '../../../../src/store/dynamodb/reply-agg-report'
 import {get} from '../../../../src/store/dynamodb/raw/get'
+import {replyReports} from '../../../../src/store/dynamodb/reply-reports'
 
 describe('unit', function () {
   describe('store', function () {
@@ -52,7 +52,7 @@ describe('unit', function () {
             const added = await addReport(opDdb, {data: report})
             expect(report).toMatchObject(added)
             if (added) {
-              const count = await increaseReportAgg(opDdb, data)
+              const count = await incReportAgg(opDdb, data)
               console.log({count})
               expect(count.reported).toEqual(1)
             }
@@ -78,7 +78,7 @@ describe('unit', function () {
             expect(notAdded).not.toBeDefined()
             // 사실 여기에선 조건문 집입을 안할 거라 불필요한 테스트이나, addReport는 항상 increaseReportAgg를 동반해야 하므로 같이 써주는 것
             if (notAdded) { // addReport 짝꿍으로 항상 increaseReportAgg 함수를 실행하는데 add 성공인 경우에만 increase
-              const count = await increaseReportAgg(opDdb, data)
+              const count = await incReportAgg(opDdb, data)
               console.log({count})
               expect(count.reported).toEqual(1)
             }
@@ -103,7 +103,7 @@ describe('unit', function () {
             const added = await addReport(opDdb, {data: report})
             expect(report).toMatchObject(added)
             if (added) {
-              const count = await increaseReportAgg(opDdb, data)
+              const count = await incReportAgg(opDdb, data)
               console.log({count})
               expect(count.reported).toEqual(1)
             }
@@ -118,7 +118,7 @@ describe('unit', function () {
             const added = await addReport(opDdb, {data: report})
             expect(report).toMatchObject(added)
             if (added) {
-              const count = await increaseReportAgg(opDdb, data)
+              const count = await incReportAgg(opDdb, data)
               console.log({count})
               expect(count.reported).toEqual(2)
             }
@@ -199,7 +199,7 @@ describe('unit', function () {
             const added = await addReport(opDdb, {data: report})
             expect(report).toMatchObject(added)
             if (added) {
-              const count = await increaseReportAgg(opDdb, report.data)
+              const count = await incReportAgg(opDdb, report.data)
               console.log({count})
               expect(count.reported).toEqual(1)
             }
@@ -219,7 +219,7 @@ describe('unit', function () {
             expect(report).toBeDefined()
             expect(notAdded).not.toBeDefined()
             if (notAdded) {
-              const count = await increaseReportAgg(opDdb, report.data)
+              const count = await incReportAgg(opDdb, report.data)
               console.log({count})
               expect(count.reported).toEqual(1)
             }
@@ -240,7 +240,7 @@ describe('unit', function () {
             const added = await addReport(opDdb, {data: report})
             expect(report).toMatchObject(added)
             if (added) {
-              const count = await increaseReportAgg(opDdb, report.data)
+              const count = await incReportAgg(opDdb, report.data)
               console.log({count})
               expect(count.reported).toEqual(1)
             }
@@ -255,7 +255,7 @@ describe('unit', function () {
             const added = await addReport(opDdb, {data: report})
             expect(report).toMatchObject(added)
             if (added) {
-              const count = await increaseReportAgg(opDdb, report.data)
+              const count = await incReportAgg(opDdb, report.data)
               console.log({count})
               expect(count.reported).toEqual(2)
             }
@@ -317,7 +317,7 @@ describe('unit', function () {
             const added = await addReport(opDdb, {data: report})
             expect(report).toMatchObject(added)
             if (added) {
-              const count = await increaseReportAgg(opDdb, data)
+              const count = await incReportAgg(opDdb, data)
               console.log({count})
               expect(count.reported).toEqual(1)
             }
@@ -333,7 +333,7 @@ describe('unit', function () {
             expect(items.length).toEqual(1)
           })
           it('04. replyReport', async () => {
-            await aggReportReply(opDdb, {
+            await replyAggReport(opDdb, {
               data: {
                 hk: targetId
               },
@@ -341,7 +341,7 @@ describe('unit', function () {
               answer: 'test answer',
               status: EEntityStatus.innocent,
             })
-            await reportReply(opDdb, {
+            await replyReports(opDdb, {
               data: {
                 hk: targetId,
                 rk: EEntity.Post,

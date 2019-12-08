@@ -12,7 +12,7 @@ import * as R from 'ramda'
 
 export const Comment: FunctionComponent<Props> = props => {
   const {data, onLike, onCreate} = props
-  const {hk, rk, postId, content, userId, createdAt, updatedAt = createdAt, children, likes, user, status} = data
+  const {hk, rk, postId, content, userId, createdAt, updatedAt = createdAt, likes, user, status} = data
   const {name, ip} = user
   const deleted = status?.startsWith('blocked') || status?.startsWith('deleted')
   const [showWriter, setShowWriter] = useState(false)

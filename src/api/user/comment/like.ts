@@ -1,5 +1,5 @@
 import {MetadataStore} from '../../../store/dynamodb'
-import {Comment, EntityFactory} from '../../../entity'
+import {Comment, EntityFactory, Reply} from '../../../entity'
 import * as R from 'ramda'
 import {ApiInputWithUser} from '../../../type'
 import {logApiUserComment as log} from '../../../lib/log'
@@ -37,6 +37,6 @@ export async function like(store: MetadataStore, ep: EntityFactory, input: LikeA
 }
 
 export type LikeApiInput = ApiInputWithUser<{
-  data: Comment
+  data: Comment | Reply
   createdAt: string
 }>

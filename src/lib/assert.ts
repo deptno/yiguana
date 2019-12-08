@@ -2,7 +2,7 @@ import {ValidationError} from '../entity/error'
 import {ERole, Member, MemberAdmin, NonMember, User} from '../entity/user'
 import {logAsserts} from './log'
 import {EEntity, YiguanaDocumentHashRange} from '../type'
-import {Comment, Post} from '../entity'
+import {Comment, Post, Reply} from '../entity'
 
 // todo: 에러메시지 이넘 처리
 
@@ -45,7 +45,7 @@ export function assertsAdmin(user: User): asserts user is MemberAdmin {
 }
 
 // store layer
-export function assertPostOrComment(input: Post | Comment | YiguanaDocumentHashRange): asserts input is Post | Comment {
+export function assertPostOrComment(input: Post | Comment | Reply | YiguanaDocumentHashRange): asserts input is Post | Comment {
   asserts(
     input.rk === EEntity.Post || input.rk === EEntity.Comment,
     `${EEntity.Post} or ${EEntity.Comment} are supported`,

@@ -1,16 +1,14 @@
-import {Post} from '../../../../src/entity/post'
-import {Comment} from '../../../../src/entity/comment'
 import {getInitialData} from '../../../setup'
 import {opDdb} from '../../../env'
-import {createReply, Reply} from '../../../../src/entity/reply'
+import {Comment, createReply, Post, Reply} from '../../../../src/entity'
 import {getComments} from '../../../../src/store/dynamodb/get-comments'
 import {member_a, member_f, non_member_a} from '../../../__data__/user'
 import {createLike} from '../../../../src/entity/like'
 import {addLike} from '../../../../src/store/dynamodb/add-like'
-import {getRepliesByUserId} from '../../../../src/store/dynamodb/get-replies-by-user-id'
 import {EEntity} from '../../../../src/type'
 import {put} from '../../../../src/store/dynamodb/raw/put'
 import {incLikes} from '../../../../src/store/dynamodb/inc-likes'
+import {getCommentsByUserId} from '../../../../src/store/dynamodb/get-comments-by-user-id'
 
 describe('unit', function () {
   describe('store', function () {
@@ -47,11 +45,6 @@ describe('unit', function () {
             const {items} = await getComments(opDdb, {postId: comment.postId})
             expect(items.filter(c => c.commentId === replied.commentId).length).toEqual(1)
           })
-          it('BEFORE replyComment, comment.children(0) ', async () => {
-            const {items} = await getComments(opDdb, {postId: commentedPost.hk})
-            const repliedComment = items.find(c => c.hk === commentId)!
-            expect(repliedComment.children).toEqual(0)
-          })
           it('like reply', async () => {
             const {items} = await getComments(opDdb, {postId: commentedPost.hk})
             const reply = items.find(c => c.commentId === commentId)!
@@ -74,7 +67,7 @@ describe('unit', function () {
           })
           // a 유저의 답글 조회 -> 답글 추가 -> 답글 재조회
           it('repliesByUserId: 답글 리스트 a', async () => {
-            const {items} = await getRepliesByUserId(opDdb, {userId: member_a.id})
+            const {items} = await getCommentsByUserId(opDdb, {userId: member_a.id})
             console.debug('reply 리스트 userId')
             console.table(items)
             expect(items.length).toEqual(0)
@@ -94,7 +87,7 @@ describe('unit', function () {
             expect(replied).toEqual(reply)
 
             console.log('답글 리스트 a (재조회)')
-            const {items} = await getRepliesByUserId(opDdb, {userId: member_a.id})
+            const {items} = await getCommentsByUserId(opDdb, {userId: member_a.id})
             console.debug('답글 리스트 a')
             console.table(items)
             expect(items.length).toEqual(1)

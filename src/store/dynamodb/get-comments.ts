@@ -1,15 +1,15 @@
 import {DynamoDBInput} from '../../entity/input/dynamodb'
-import {Comment} from '../../entity/comment'
+import {Comment, Reply} from '../../entity/comment'
 import {EIndexName} from '../../type'
 import {logStoreDdb} from '../../lib/log'
 
-export function getComments<T = Comment>(operator: DynamoDBInput, input: CommentsInput) {
+export function getComments(operator: DynamoDBInput, input: CommentsInput) {
   logStoreDdb('getComments input %j', input)
 
   const {tableName, dynamodb} = operator
   const {postId, exclusiveStartKey, limit = 10} = input
 
-  return dynamodb.query<T>({
+  return dynamodb.query<Comment|Reply>({
     TableName: tableName,
     IndexName: EIndexName.comments,
     KeyConditionExpression: '#p = :p',

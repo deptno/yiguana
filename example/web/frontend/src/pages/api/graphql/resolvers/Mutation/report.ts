@@ -1,10 +1,11 @@
 import {GraphQLFieldResolver} from 'graphql'
 import {Context} from '../../types'
 import {Comment, Post} from '../../../../../../../../../lib/entity'
+import {Reply} from '../../../../../../../../../src/entity/comment'
 
 export const report: GraphQLFieldResolver<any, Context, any> = async (source, args, context) => {
   const user = context.getUser(args.user)
-  const data: Post | Comment = await context.dataSources.private.get({
+  const data: Post | Comment | Reply = await context.dataSources.private.get({
     user,
     data: args.data,
   })
