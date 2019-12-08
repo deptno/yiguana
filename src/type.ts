@@ -46,3 +46,10 @@ export enum EIndexName {
   reports = 'reports',
   reportsEnd = 'reportsEnd',
 }
+
+export type ContentStoreOption = {
+  contentLengthRange: {
+    min: number
+    max: number
+  }
+}

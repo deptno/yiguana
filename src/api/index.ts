@@ -13,26 +13,40 @@ import {AdministratorApi} from './administrator'
 import {CommonApi} from './common'
 
 export function createApi(params: CreateInput) {
-  const {ddbClient, s3Client, bucketName, tableName} = params
-  const dynamodb = createDynamoDB(ddbClient)
-  const s3 = createS3(s3Client)
-  const metadataStore = new MetadataStore({dynamodb, tableName})
-  const contentStore = new ContentStore({s3, bucketName})
+  const {ddbClient, ddbTableName, s3Client, s3BucketName, s3MaxContentLength, s3MinContentLength} = params
+  const ms = new MetadataStore({
+    dynamodb: createDynamoDB(ddbClient),
+    tableName: ddbTableName,
+  })
+  const cs = new ContentStore(
+    {
+      s3: createS3(s3Client),
+      bucketName: s3BucketName,
+    },
+    {
+      contentLengthRange: {
+        min: s3MinContentLength,
+        max: s3MaxContentLength,
+      }
+    },
+  )
   const ef = new EntityFactory()
 
   return {
-    common: new CommonApi(metadataStore, contentStore, ef),
-    post: new PostApi(metadataStore, contentStore, ef),
-    comment: new CommentApi(metadataStore, ef),
-    reply: new ReplyApi(metadataStore, ef),
-    user: new UserApi(metadataStore, ef),
-    administrator: new AdministratorApi(metadataStore, ef),
+    common: new CommonApi(ms, cs, ef),
+    post: new PostApi(ms, cs, ef),
+    comment: new CommentApi(ms, ef),
+    reply: new ReplyApi(ms, ef),
+    user: new UserApi(ms, ef),
+    administrator: new AdministratorApi(ms, ef),
   }
 }
 
 type CreateInput = {
-  ddbClient: DocumentClient
+  s3BucketName: string
   s3Client: S3
-  tableName: string
-  bucketName: string
+  s3MinContentLength: number
+  s3MaxContentLength: number
+  ddbClient: DocumentClient
+  ddbTableName: string
 }

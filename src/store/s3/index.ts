@@ -3,9 +3,10 @@ import {getPostContentUnSafe, GetPostContentUnSafeInput} from './get-post-conten
 import {createPostContentUnSafe, CreatePostContentUnSafeInput} from './create-post-content'
 import {logStoreS3} from '../../lib/log'
 import {getUploadUrl, GetUploadUrlInput} from './get-upload-url'
+import {ContentStoreOption} from '../../type'
 
 export class ContentStore {
-  constructor(private operator: S3Input) {
+  constructor(private operator: S3Input, private option: ContentStoreOption) {
 
   }
 
@@ -21,6 +22,7 @@ export class ContentStore {
 
   getUploadUrl(input: GetUploadUrlInput) {
     logStoreS3('getUploadUrl', input)
-    return getUploadUrl(this.operator, input)
+    return getUploadUrl(this.operator, this.option, input)
   }
 }
+

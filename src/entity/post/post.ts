@@ -22,6 +22,7 @@ export function createPost(params: CreatePostInput): Post {
     children: 0,
     title: data.input.title,
     contentUrl: data.contentUrl,
+    cover: data.input.cover,
     user,
     createdAt,
     posts,
@@ -30,9 +31,6 @@ export function createPost(params: CreatePostInput): Post {
   }
   if ('id' in user) {
     post.userId = user.id
-  }
-  if (data.cover) {
-    post.cover = data.cover
   }
 
   return post
