@@ -2,7 +2,7 @@ import {createApi} from '../../../../src/api'
 import {bucketName, ddbClient, s3Client, tableName} from '../../../env'
 import {Post} from '../../../../src/entity/post'
 import {Comment} from '../../../../src/entity/comment'
-import {admin, member_a, member_c, member_d} from '../../../__data__/user'
+import {admin, member_a, member_c, member_e} from '../../../__data__/user'
 import {EYiguanaError} from '../../../../src/lib/assert'
 
 describe('unit', () => {
@@ -61,7 +61,7 @@ describe('unit', () => {
               content: 'text report content',
               createdAt: new Date().toISOString(),
             },
-            user: member_d,
+            user: member_e,
           })
           const {items} = await api.administrator.report.list({
             data: {
@@ -110,7 +110,7 @@ describe('unit', () => {
               content: 'text report content',
               createdAt: new Date().toISOString(),
             },
-            user: member_d,
+            user: member_e,
           })
           const {items} = await api.administrator.report.list({
             data: {
