@@ -13,7 +13,7 @@ export const getInitialData = async () => {
   await clearData()
 
   const ef = new EntityFactory()
-  const cs = new ContentStore(opS3)
+  const cs = new ContentStore(opS3, {contentLengthRange: {min: 2**7, max: 2**20}})
   const postContentNews = await cs.create({
     category: 'news#politics',
     title: 'title',

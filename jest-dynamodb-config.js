@@ -69,7 +69,7 @@ module.exports = {
           'AttributeType': 'S'
         }
       ],
-      'TableName'             : 'yiguana',
+      'TableName'             : 'test-yiguana',
       'KeySchema'             : [
         {
           'AttributeName': 'hk',

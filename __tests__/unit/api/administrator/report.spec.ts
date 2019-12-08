@@ -1,5 +1,4 @@
-import {createApi} from '../../../../src/api'
-import {bucketName, ddbClient, s3Client, tableName} from '../../../env'
+import {yiguana} from '../../../env'
 import {Post} from '../../../../src/entity/post'
 import {Comment} from '../../../../src/entity/comment'
 import {admin, member_a, member_c, member_e} from '../../../__data__/user'
@@ -9,12 +8,11 @@ describe('unit', () => {
   describe('api', () => {
     describe('administrator', () => {
       describe('report', () => {
-        const api = createApi({ddbClient, s3Client, tableName, bucketName})
         let post: Post
         let comment: Comment
 
         beforeAll(async () => {
-          post = await api.post.create({
+          post = await yiguana.post.create({
             data: {
               category: 'news',
               title: 'title',
@@ -22,7 +20,7 @@ describe('unit', () => {
             },
             user: member_a,
           })
-          comment = await api.comment.create({
+          comment = await yiguana.comment.create({
             data: {
               postId: post.hk,
               content: 'init data',
@@ -34,7 +32,7 @@ describe('unit', () => {
 
         it('aggReports() require admin permission', async() => {
           try {
-            await api.administrator.report.list({
+            await yiguana.administrator.report.list({
               data: {
                 data: post,
               },
@@ -46,7 +44,7 @@ describe('unit', () => {
           }
         })
         it('aggReports() === 0', async () => {
-          const {items} = await api.administrator.report.list({
+          const {items} = await yiguana.administrator.report.list({
             data: {
               data: post,
             },
@@ -55,7 +53,7 @@ describe('unit', () => {
           expect(items.length).toEqual(0)
         })
         it('create report post, aggReports() === 1', async () => {
-          await api.user.report.create({
+          await yiguana.user.report.create({
             data: {
               data: post,
               content: 'text report content',
@@ -63,7 +61,7 @@ describe('unit', () => {
             },
             user: member_e,
           })
-          const {items} = await api.administrator.report.list({
+          const {items} = await yiguana.administrator.report.list({
             data: {
               data: post,
             },
@@ -72,7 +70,7 @@ describe('unit', () => {
           expect(items.length).toEqual(1)
         })
         it('create report post, aggReports() === 2', async () => {
-          await api.user.report.create({
+          await yiguana.user.report.create({
             data: {
               data: post,
               content: 'text report content',
@@ -80,7 +78,7 @@ describe('unit', () => {
             },
             user: member_c,
           })
-          const {items} = await api.administrator.report.list({
+          const {items} = await yiguana.administrator.report.list({
             data: {
               data: post,
             },
@@ -90,7 +88,7 @@ describe('unit', () => {
         })
         it('getAllReports() require admin permission', async() => {
           try {
-            await api.administrator.report.all({
+            await yiguana.administrator.report.all({
               data: {
                 hk: post.hk,
                 rk: post.rk,
@@ -104,7 +102,7 @@ describe('unit', () => {
         })
 
         it('create report comment, aggReports() === 1', async () => {
-          await api.user.report.create({
+          await yiguana.user.report.create({
             data: {
               data: comment,
               content: 'text report content',
@@ -112,7 +110,7 @@ describe('unit', () => {
             },
             user: member_e,
           })
-          const {items} = await api.administrator.report.list({
+          const {items} = await yiguana.administrator.report.list({
             data: {
               data: comment,
             },
@@ -121,7 +119,7 @@ describe('unit', () => {
           expect(items.length).toEqual(1)
         })
         it('create report comment, aggReports() === 2', async () => {
-          await api.user.report.create({
+          await yiguana.user.report.create({
             data: {
               data: comment,
               content: 'text report content',
@@ -129,7 +127,7 @@ describe('unit', () => {
             },
             user: member_c,
           })
-          const {items} = await api.administrator.report.list({
+          const {items} = await yiguana.administrator.report.list({
             data: {
               data: comment,
             },
@@ -139,7 +137,7 @@ describe('unit', () => {
         })
         it('getAllReports() require admin permission', async() => {
           try {
-            await api.administrator.report.all({
+            await yiguana.administrator.report.all({
               data: {
                 hk: comment.hk,
                 rk: comment.rk,

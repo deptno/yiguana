@@ -1,12 +1,13 @@
 import {DynamoDB, S3} from 'aws-sdk'
-import {createApi} from '../../../../../../../lib'
+import {createYiguana} from '../../../../../../../lib'
 
-const region = 'ap-northeast-2'
-
-export const yiguana = createApi({
-  bucketName: 'test-yiguana',
-  tableName: 'test-yiguana',
-  ddbClient: new DynamoDB.DocumentClient({region}),
-  s3Client: new S3({region})
+export const yiguana = createYiguana({
+  s3BucketName: 'test-yiguana',
+  ddbTableName: 'test-yiguana',
+  ddbClient: new DynamoDB.DocumentClient({region: 'ap-northeast-2'}),
+  s3Client: new S3({region: 'ap-northeast-2'}),
+  s3MinContentLength: 128,
+  s3MaxContentLength: 1048579
 })
+
 

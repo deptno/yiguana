@@ -2,11 +2,10 @@ import {S3Input} from '../../entity/input/s3'
 import {extname} from 'path'
 import {lookup} from 'mime-types'
 import {uuid} from '../../lib/uuid'
+import {ContentStoreOption} from '../../type'
 
-export const getUploadUrl = (op: S3Input, input: GetUploadUrlInput) => {
-  const datetime = new Date().toISOString()
-    .replace(/-/g, '/')
-    .replace('T', '/')
+export const getUploadUrl = (op: S3Input, option: ContentStoreOption, input: GetUploadUrlInput) => {
+  const datetime = new Date().toISOString().replace('T', '/')
   const ext = extname(input.key)
   const mime = lookup(ext) as string
 
@@ -14,15 +13,16 @@ export const getUploadUrl = (op: S3Input, input: GetUploadUrlInput) => {
     throw new Error('unsupported file type')
   }
 
+  const {min, max} = option.contentLengthRange
   const preSignedPost = op.s3.raw.createPresignedPost({
     Bucket: op.bucketName,
     Fields: {
-      key: `${datetime}-${uuid()}${ext}`
+      key: `${datetime}-media-${uuid()}${ext}`
     },
     Conditions: [
-      ['eq', '$acl', 'public-read'], // FIXME: 실사용시엔는 옵션 제거 후 클라우드 프론트 레이에서 처리
+      ['eq', '$acl', 'public-read'],
       ['starts-with', '$content-type', mime],
-      ['content-length-range', 128, 1048579],
+      ['content-length-range', min, max],
     ],
     Expires: 60,
   })

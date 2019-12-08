@@ -2,7 +2,7 @@ import {PutRecordInput} from 'aws-sdk/clients/firehose'
 import {GetObjectRequest, PutObjectRequest} from 'aws-sdk/clients/s3'
 
 const debug = function (...args: any[]) {
-//  console.log(...args)
+  console.log(...args)
 }
 
 export class Firehose {
