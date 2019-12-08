@@ -1,6 +1,6 @@
 import React, {FunctionComponent, useContext} from 'react'
 import * as R from 'ramda'
-import * as userData from '../../../../../../__tests__/__data__/user'
+import * as userData from '../../data/user'
 import {Member} from './Member'
 import {NonMember} from './NonMember'
 import {Member as TMember} from '../../../../../../lib/entity'

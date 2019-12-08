@@ -74,7 +74,7 @@ describe('unit', () => {
               content: 'updated content',
               updatedAt: new Date().toISOString(),
             },
-            user: admin as any,
+            user: admin,
           })
           console.table(targetComment)
 
@@ -98,7 +98,7 @@ describe('unit', () => {
           console.table(before)
 
           const targetComment = await api.comment.del({
-            user: admin as any,
+            user: admin,
             data: comment,
           })
           console.table(targetComment)
