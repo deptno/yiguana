@@ -2,7 +2,7 @@ import {DynamoDBInput} from '../../entity/input/dynamodb'
 import * as R from 'ramda'
 import {keys} from '../../dynamodb/keys'
 import {ReportAgg} from '../../entity/report/report-agg'
-import {Comment, Post} from '../../entity'
+import {Comment, Post, Reply} from '../../entity'
 import {EEntity, EEntityStatus} from '../../type'
 import {logStoreDdb} from '../../lib/log'
 
@@ -58,4 +58,4 @@ export function incReportAgg(operator: DynamoDBInput, input: IncReportAggInput) 
     })
     .then<ReportAgg>(R.prop('Attributes'))
 }
-export type IncReportAggInput = Post | Comment
+export type IncReportAggInput = Post | Comment | Reply

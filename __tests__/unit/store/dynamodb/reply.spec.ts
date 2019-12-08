@@ -1,8 +1,6 @@
-import {Post} from '../../../../src/entity/post'
-import {Comment} from '../../../../src/entity/comment'
 import {getInitialData} from '../../../setup'
 import {opDdb} from '../../../env'
-import {createReply, Reply} from '../../../../src/entity/reply'
+import {Comment, createReply, Post, Reply} from '../../../../src/entity'
 import {getComments} from '../../../../src/store/dynamodb/get-comments'
 import {member_a, member_f, non_member_a} from '../../../__data__/user'
 import {createLike} from '../../../../src/entity/like'
@@ -46,11 +44,6 @@ describe('unit', function () {
             const replied = await put<Reply>(opDdb, reply)
             const {items} = await getComments(opDdb, {postId: comment.postId})
             expect(items.filter(c => c.commentId === replied.commentId).length).toEqual(1)
-          })
-          it('BEFORE replyComment, comment.children(0) ', async () => {
-            const {items} = await getComments(opDdb, {postId: commentedPost.hk})
-            const repliedComment = items.find(c => c.hk === commentId)!
-            expect(repliedComment.children).toEqual(0)
           })
           it('like reply', async () => {
             const {items} = await getComments(opDdb, {postId: commentedPost.hk})

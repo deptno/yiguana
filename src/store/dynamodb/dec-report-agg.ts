@@ -5,7 +5,7 @@ import {keys} from '../../dynamodb/keys'
 import {ReportAgg} from '../../entity/report/report-agg'
 import {logStoreDdb} from '../../lib/log'
 import {Post} from '../../entity/post'
-import {Comment} from '../../entity/comment'
+import {Comment, Reply} from '../../entity/comment'
 
 export function decReportAgg(operator: DynamoDBInput, input: DecReportAggInput) {
   logStoreDdb('decReportCount input %j', input)
@@ -35,4 +35,4 @@ export function decReportAgg(operator: DynamoDBInput, input: DecReportAggInput) 
     })
     .then<ReportAgg>(R.prop('Attributes'))
 }
-export type DecReportAggInput = Post | Comment
+export type DecReportAggInput = Post | Comment | Reply

@@ -186,7 +186,7 @@ export class MetadataStore {
    * likes 를 1 증가 시킨다.
    * todo: raw 레벨로 빼야할지 밖으로 그대로 노출 시킬지 판단이 필요하다.
    * @param {IncLikesStoreInput} input
-   * @returns {Promise<Post | Comment>}
+   * @returns {Promise<Post | Comment | Reply>}
    */
   incLikes(input: IncLikesStoreInput) {
     return incLikes(this.operator, input)
@@ -195,7 +195,7 @@ export class MetadataStore {
   /**
    * likes 를 1 감소 시킨다.
    * @param {DecLikesStoreInput} input
-   * @returns {Promise<Post | Comment>}
+   * @returns {Promise<Post | Comment | Reply>}
    */
   decLikes(input: DecLikesStoreInput) {
     return decLikes(this.operator, input)

@@ -1,5 +1,5 @@
 import {MetadataStore} from '../../../store/dynamodb'
-import {Comment, EntityFactory, Post} from '../../../entity'
+import {Comment, EntityFactory, Post, Reply} from '../../../entity'
 import {ApiInputWithUser} from '../../../type'
 import {logApiUserReport as log} from '../../../lib/log'
 import {assertsMember} from '../../../lib/assert'
@@ -20,7 +20,7 @@ export async function create(store: MetadataStore, ef: EntityFactory, input: Rep
 }
 
 export type ReportApiInput = ApiInputWithUser<{
-  data: Comment | Post
+  data: Post | Comment | Reply
   content: string
   createdAt: string
 }>
