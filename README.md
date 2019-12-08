@@ -1,4 +1,4 @@
-# Yiguana
+# @deptno/yiguana
 
 ![](https://github.com/deptno/yiguana/workflows/pr/badge.svg)
 ![](https://github.com/deptno/yiguana/workflows/master/badge.svg)
