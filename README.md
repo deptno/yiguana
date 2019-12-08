@@ -24,6 +24,16 @@ DEBUG=yiguana:store:s3
 DEBUG=yiguana:store:ddb
 ```
 
-[asset/puml/sequence-diagram.puml](시퀀스 다이어그램)
+## 객체
+| 객체이름 | 설명 |
+| --- | --- |
+| Post | 글 |
+| Comment | 댓글 혹은 답글, 답글의 경우 `commentId` 를 가지공 있다. |
+| AggReport | 신고 누적 객체로 `reports` 라는 누적 카운트를 가지고 있다. |
+| Report | 개별 신고 객체 |
+
+## 다이어그램
+[사용자 관점 시퀀스 다이어그램](asset/puml/sequence-diagram.puml)
+
 
 
