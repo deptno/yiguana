@@ -6,25 +6,20 @@ import {EEntity, YiguanaDocument} from '../../type'
 
 export function createComment(params: CreateCommentInput): Comment {
   const {user, data} = params
-  const createdAt = new Date().toISOString()
-  const entity = EEntity.Comment
-  const comments = keys.comments.stringify({
-    commentCreatedAt: createdAt,
-  })
+  const {postId, content, createdAt} = data
   const comment: Comment = {
     hk: uuid(),
-    rk: entity,
+    rk: EEntity.Comment,
     likes: 0,
-    content: data.content,
-    postId: data.postId,
-    comments,
-    createdAt,
+    comments: keys.comments.stringify({commentCreatedAt: createdAt}),
     user,
+    postId,
+    content,
+    createdAt,
   }
-
   if ('id' in user) {
     comment.userId = user.id
-    comment.byUser = keys.byUser.comment.stringify({entity, createdAt})
+    comment.byUser = keys.byUser.comment.stringify({entity: EEntity.Comment, createdAt})
   }
 
   return comment
