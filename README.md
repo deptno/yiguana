@@ -24,4 +24,6 @@ DEBUG=yiguana:store:s3
 DEBUG=yiguana:store:ddb
 ```
 
+[asset/puml/sequence-diagram.puml](시퀀스 다이어그램)
+
 

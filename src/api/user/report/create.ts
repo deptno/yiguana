@@ -15,7 +15,7 @@ export async function create(store: MetadataStore, ef: EntityFactory, input: Rep
 
   if (reported) {
     // todo: 여기 코드에 에러가 있어서 수정을 했음 이 부분에서 에러가 있었을 꺼 같음
-    return store.increaseReportCount(reported.data)
+    return store.incReportCount(reported.data)
   }
 }
 

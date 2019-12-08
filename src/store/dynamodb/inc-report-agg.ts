@@ -6,8 +6,8 @@ import {Comment, Post} from '../../entity'
 import {EEntity, EEntityStatus} from '../../type'
 import {logStoreDdb} from '../../lib/log'
 
-export function increaseReportAgg(operator: DynamoDBInput, input: IncreaseReportAggInput) {
-  logStoreDdb('increaseReportCount input %j', input)
+export function incReportAgg(operator: DynamoDBInput, input: IncReportAggInput) {
+  logStoreDdb('incReportCount input %j', input)
 
   const {dynamodb, tableName} = operator
   //FIXME: updatedAt 은 관례상 인자로 받아야한다. decrease 도 마찬가지 로직
@@ -58,4 +58,4 @@ export function increaseReportAgg(operator: DynamoDBInput, input: IncreaseReport
     })
     .then<ReportAgg>(R.prop('Attributes'))
 }
-export type IncreaseReportAggInput = Post | Comment
+export type IncReportAggInput = Post | Comment

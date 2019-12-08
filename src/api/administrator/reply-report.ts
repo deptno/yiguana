@@ -3,7 +3,7 @@ import {EntityFactory} from '../../entity'
 import {ApiInputWithUser} from '../../type'
 import {logApiAdmin as log} from '../../lib/log'
 import {assertNotEmptyString, assertsAdmin} from '../../lib/assert'
-import {AggReportReplyInput} from '../../store/dynamodb/agg-report-reply'
+import {ReplyAggReportInput} from '../../store/dynamodb/reply-agg-report'
 
 export async function replyReport(store: MetadataStore, ef: EntityFactory, input: ReplyReportApiInput) {
   log('reportReply %j', input)
@@ -19,11 +19,11 @@ export async function replyReport(store: MetadataStore, ef: EntityFactory, input
   return Promise
     .all([
       store.update({hk, rk, status, updatedAt}),
-      store.aggReportReply(data),
+      store.replyAggReport(data),
       store.getReportsAll({hk, rk}).then(reports => {
         return Promise.all(
           reports.map(r => store
-            .reportReply({
+            .replyReports({
               data: {
                 hk: r.hk,
                 rk: r.rk,
@@ -39,4 +39,4 @@ export async function replyReport(store: MetadataStore, ef: EntityFactory, input
     .then(results => results.every(Boolean))
 }
 
-export type ReplyReportApiInput = ApiInputWithUser<AggReportReplyInput>
+export type ReplyReportApiInput = ApiInputWithUser<ReplyAggReportInput>
