@@ -25,6 +25,7 @@ describe('unit', () => {
             data: {
               postId: post.hk,
               content: 'init data',
+              createdAt: new Date().toISOString()
             },
             user: member_a,
           })
