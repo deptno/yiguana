@@ -2,7 +2,8 @@ import {createApi} from '../../../../src/api'
 import {bucketName, ddbClient, s3Client, tableName} from '../../../env'
 import {Post} from '../../../../src/entity/post'
 import {Comment} from '../../../../src/entity/comment'
-import {admin, member_a} from '../../../__data__/user'
+import {admin, member_a, member_c, member_d} from '../../../__data__/user'
+import {EYiguanaError} from '../../../../src/lib/assert'
 
 describe('unit', () => {
   describe('api', () => {
@@ -31,19 +32,124 @@ describe('unit', () => {
           })
         })
 
-        xit('aggReports() === 0', async () => {
+        it('aggReports() require admin permission', async() => {
+          try {
+            await api.administrator.report.list({
+              data: {
+                data: post,
+              },
+              user: member_a,
+            })
+            expect(false).toEqual(true)
+          } catch (e) {
+            expect(e.message).toEqual(EYiguanaError.admin_access_only)
+          }
+        })
+        it('aggReports() === 0', async () => {
           const {items} = await api.administrator.report.list({
             data: {
               data: post,
             },
-            /*
-             * FIXME:
-             *  src/api/administrator/report/list.ts 에서
-             *  assertsAdmin으로 유저 체크하고 있어서 아래 user 객체로는 admin만 유효한데
-             *  ApiInputWithUser<ReportsInput>에서 허용하는 User 객체로는 admin이 맞지 않는 상태
-             */
-            user: member_a,
+            user: admin,
           })
+          expect(items.length).toEqual(0)
+        })
+        it('create report post, aggReports() === 1', async () => {
+          await api.user.report.create({
+            data: {
+              data: post,
+              content: 'text report content',
+              createdAt: new Date().toISOString(),
+            },
+            user: member_d,
+          })
+          const {items} = await api.administrator.report.list({
+            data: {
+              data: post,
+            },
+            user: admin,
+          })
+          expect(items.length).toEqual(1)
+        })
+        it('create report post, aggReports() === 2', async () => {
+          await api.user.report.create({
+            data: {
+              data: post,
+              content: 'text report content',
+              createdAt: new Date().toISOString(),
+            },
+            user: member_c,
+          })
+          const {items} = await api.administrator.report.list({
+            data: {
+              data: post,
+            },
+            user: admin,
+          })
+          expect(items.length).toEqual(2)
+        })
+        it('getAllReports() require admin permission', async() => {
+          try {
+            await api.administrator.report.all({
+              data: {
+                hk: post.hk,
+                rk: post.rk,
+              },
+              user: member_a,
+            })
+            expect(false).toEqual(true)
+          } catch (e) {
+            expect(e.message).toEqual(EYiguanaError.admin_access_only)
+          }
+        })
+
+        it('create report comment, aggReports() === 1', async () => {
+          await api.user.report.create({
+            data: {
+              data: comment,
+              content: 'text report content',
+              createdAt: new Date().toISOString(),
+            },
+            user: member_d,
+          })
+          const {items} = await api.administrator.report.list({
+            data: {
+              data: comment,
+            },
+            user: admin,
+          })
+          expect(items.length).toEqual(1)
+        })
+        it('create report comment, aggReports() === 2', async () => {
+          await api.user.report.create({
+            data: {
+              data: comment,
+              content: 'text report content',
+              createdAt: new Date().toISOString(),
+            },
+            user: member_c,
+          })
+          const {items} = await api.administrator.report.list({
+            data: {
+              data: comment,
+            },
+            user: admin,
+          })
+          expect(items.length).toEqual(2)
+        })
+        it('getAllReports() require admin permission', async() => {
+          try {
+            await api.administrator.report.all({
+              data: {
+                hk: comment.hk,
+                rk: comment.rk,
+              },
+              user: member_a,
+            })
+            expect(false).toEqual(true)
+          } catch (e) {
+            expect(e.message).toEqual(EYiguanaError.admin_access_only)
+          }
         })
       })
     })
