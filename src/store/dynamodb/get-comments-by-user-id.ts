@@ -1,13 +1,16 @@
 import {DynamoDBInput} from '../../entity/input/dynamodb'
-import {Reply} from '../../entity/reply'
+import {Comment} from '../../entity/comment'
 import {keys} from '../../dynamodb/keys'
 import {EEntity, EIndexName} from '../../type'
+import {logStoreDdb} from '../../lib/log'
 
-export function repliesByUserId<T = Reply>(operator: DynamoDBInput, params: RepliesByUserIdInput) {
+export function getCommentsByUserId<T = Comment>(operator: DynamoDBInput, input: CommentsByUserIdInput) {
+  logStoreDdb('getCommentsByUserId input %j', input)
+
   const {tableName, dynamodb} = operator
-  const {userId, exclusiveStartKey} = params
+  const {userId, exclusiveStartKey} = input
 
-  const queryParams = {
+  return dynamodb.query<T>({
     TableName: tableName,
     IndexName: EIndexName.byUser,
     KeyConditionExpression: '#h = :h AND begins_with(#r, :r)',
@@ -17,18 +20,18 @@ export function repliesByUserId<T = Reply>(operator: DynamoDBInput, params: Repl
     },
     ExpressionAttributeValues: {
       ':h': userId,
-      ':r': keys.byUser.reply.stringify({
+      ':r': keys.byUser.comment.stringify({
         entity: EEntity.Comment,
-      })
+      }),
     },
     ScanIndexForward: false,
     ReturnConsumedCapacity: 'TOTAL',
-    ExclusiveStartKey: exclusiveStartKey
-  }
-  return dynamodb.query<T>(queryParams)
+    ExclusiveStartKey: exclusiveStartKey,
+  })
 }
 
-export type RepliesByUserIdInput = {
+export type CommentsByUserIdInput = {
   userId: string
+  postId?: string
   exclusiveStartKey?: Exclude<any, string | number>
 }

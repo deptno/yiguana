@@ -2,10 +2,13 @@ import {DynamoDBInput} from '../../entity/input/dynamodb'
 import {EEntity, EEntityStatus, YiguanaDocumentHash} from '../../type'
 import {Comment} from '../../entity'
 import * as R from 'ramda'
+import {logStoreDdb} from '../../lib/log'
 
-export async function removeComment(operator: DynamoDBInput, params: RemoveCommentInput) {
+export async function removeComment(operator: DynamoDBInput, input: RemoveCommentInput) {
+  logStoreDdb('removeComment input %j', input)
+
   const {dynamodb, tableName} = operator
-  const {hk} = params
+  const {hk} = input
   const rk = EEntity.Comment
 
   return dynamodb

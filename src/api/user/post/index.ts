@@ -2,6 +2,8 @@ import {MetadataStore} from '../../../store/dynamodb'
 import {EntityFactory} from '../../../entity'
 import {list, ListApiInput} from './list'
 import {like, LikeApiInput} from './like'
+import {YiguanaDocument} from '../../../type'
+import {GetApiInput} from '../get'
 
 export class UserPostApi {
   constructor(private store: MetadataStore, private ef: EntityFactory) {

@@ -1,4 +1,4 @@
-import {comments} from '../../src/store/dynamodb/comments'
+import {getComments} from '../../src/store/dynamodb/get-comments'
 import {opDdb} from '../env'
 import {getInitialData} from '../setup'
 import {Post} from '../../src/entity/post'
@@ -19,7 +19,7 @@ describe('bdd', function () {
     it.todo('삭제하기')
     it.todo('신고하기')
     it('댓글 조회하기', async function () {
-      const {items} = await comments(opDdb, {
+      const {items} = await getComments(opDdb, {
         postId: postList[0].hk,
       })
       const uiItems = items.map(uiComment)

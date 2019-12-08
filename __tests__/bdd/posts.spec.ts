@@ -1,5 +1,4 @@
 import {Post} from '../../src/entity/post'
-import {posts} from '../../src/store/dynamodb/posts'
 import {getInitialData} from '../setup'
 import {EEntity} from '../../src/type'
 

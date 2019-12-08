@@ -1,17 +1,17 @@
 import * as R from 'ramda'
 import {DynamoDBInput} from '../../entity/input/dynamodb'
-import {EEntityStatus} from '../../type'
+import {EEntityStatus, YiguanaDocumentHashRange} from '../../type'
+import {logStoreDdb} from '../../lib/log'
 
-export function reportReply(operator: DynamoDBInput, params: ReportReplyInput) {
-  const {hk, rk, answer, status} = params
+export function reportReply(operator: DynamoDBInput, input: ReportReplyInput) {
+  logStoreDdb('reportReply input %j', input)
+
+  const {data, answer, status} = input
 
   return operator.dynamodb
     .update({
       TableName: operator.tableName,
-      Key: {
-        hk,
-        rk,
-      },
+      Key: data,
       UpdateExpression: 'SET #a = :a, #s = :s REMOVE #e',
       ExpressionAttributeNames: {
         '#a': 'answer',
@@ -28,8 +28,7 @@ export function reportReply(operator: DynamoDBInput, params: ReportReplyInput) {
 }
 
 export type ReportReplyInput = {
-  hk: string
-  rk: string
+  data: YiguanaDocumentHashRange
   answer: string
   status: EEntityStatus
 }

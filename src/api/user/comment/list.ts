@@ -14,13 +14,13 @@ export async function list(store: MetadataStore, ef: EntityFactory, input: ListA
   const {id: userId} = user
 
   if (like) {
-    return store.commentsByUserLike({
+    return store.getCommentsByUserLike({
       userId,
       exclusiveStartKey,
     })
   }
 
-  return store.commentsByUserId({
+  return store.getCommentsByUserId({
     userId,
     exclusiveStartKey,
   })

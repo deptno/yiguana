@@ -1,15 +1,13 @@
 import {opDdb, opS3} from './env'
-import {Post} from '../src/entity/post'
-import {addPost} from '../src/store/dynamodb/add-post'
+import {Comment, EntityFactory, Post} from '../src/entity'
 import * as R from 'ramda'
 import {createComment} from '../src/entity/comment'
-import {addComment} from '../src/store/dynamodb/add-comment'
 import {commentPost} from '../src/store/dynamodb/comment-post'
 import {YiguanaDocument} from '../src/type'
 import {ContentStore} from '../src/store/s3'
-import {EntityFactory} from '../src/entity'
 import {member_a, member_b, member_c, member_d, member_f, non_member_a} from './__data__/user'
-import {posts} from '../src/store/dynamodb/posts'
+import {getPosts} from '../src/store/dynamodb/get-posts'
+import {put} from '../src/store/dynamodb/raw/put'
 
 export const getInitialData = async () => {
   await clearData()
@@ -30,7 +28,7 @@ export const getInitialData = async () => {
   expect(postContentNews.contentUrl).toBeDefined()
   expect(postContentNews.input).toBeDefined()
 
-  const {items} = await posts(opDdb, {})
+  const {items} = await getPosts(opDdb, {})
   expect(items).toHaveLength(0)
 
   const setup = (posts: Post[]) => posts
@@ -60,7 +58,7 @@ export const getInitialData = async () => {
 // todo contentUrl 을 만들면서 hasImage 에 대한 처리가 필요함
   const postDocs = await Promise.all(
     postList.map(
-      post => addPost(opDdb, {data: post}),
+      post => put<Post>(opDdb, post),
     ),
   )
   expect(postDocs).toEqual(postList)
@@ -72,9 +70,7 @@ export const getInitialData = async () => {
     },
     user: member_d,
   })
-  await addComment(opDdb, {
-    data: commentByUserD,
-  })
+  await put<Comment>(opDdb, commentByUserD)
   await commentPost(opDdb, {
     data: postList[0],
   })
@@ -85,9 +81,7 @@ export const getInitialData = async () => {
     },
     user: member_f,
   })
-  await addComment(opDdb, {
-    data: commentByUserF,
-  })
+  await put<Comment>(opDdb, commentByUserF)
   await commentPost(opDdb, {
     data: postList[1],
   })

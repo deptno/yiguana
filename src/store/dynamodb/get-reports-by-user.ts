@@ -2,10 +2,13 @@ import {DynamoDBInput} from '../../entity/input/dynamodb'
 import {keys} from '../../dynamodb/keys'
 import {Report} from '../../entity'
 import {EEntity, EIndexName} from '../../type'
+import {logStoreDdb} from '../../lib/log'
 
-export function reportsByUser(operator: DynamoDBInput, params: ReportByUserInput) {
+export function getReportsByUser(operator: DynamoDBInput, input: ReportByUserInput) {
+  logStoreDdb('getReportsByUser input %j', input)
+
   const {tableName, dynamodb} = operator
-  const {entity, exclusiveStartKey, userId, limit = 10} = params
+  const {entity, exclusiveStartKey, userId, limit = 10} = input
 
   return dynamodb.query<Report>({
     TableName: tableName,

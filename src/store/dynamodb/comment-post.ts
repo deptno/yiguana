@@ -26,7 +26,6 @@ export async function commentPost(operator: DynamoDBInput, params: CommentPostIn
       ReturnValues: 'ALL_NEW',
     })
     .then<Comment>(R.prop('Attributes'))
-
 }
 
 export type CommentPostInput = {

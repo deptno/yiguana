@@ -1,6 +1,6 @@
 import {MetadataStore} from '../../../store/dynamodb'
 import {EntityFactory} from '../../../entity'
-import {PostsInput} from '../../../store/dynamodb/posts'
+import {PostsInput} from '../../../store/dynamodb/get-posts'
 import {logApiUserPost as log} from '../../../lib/log'
 import {ApiInputWithUser} from '../../../type'
 import {assertsMember} from '../../../lib/assert'
@@ -14,13 +14,13 @@ export async function list(store: MetadataStore, ef: EntityFactory, input: ListA
   const {id: userId} = user
 
   if (data.like) {
-    return store.postsByUserLike({
+    return store.getPostsByUserLike({
       userId,
       exclusiveStartKey: data.exclusiveStartKey,
     })
   }
 
-  return store.postsByUserId({
+  return store.getPostsByUserId({
     ...data,
     userId
   })
