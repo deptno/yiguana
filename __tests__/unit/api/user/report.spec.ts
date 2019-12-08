@@ -67,6 +67,24 @@ describe('unit', () => {
           console.table(items)
           expect(items.length).toEqual(1)
         })
+        it('create report -> user d, report comment list === 1', async () => {
+          await api.user.report.create({
+            data: {
+              data: comment,
+              content: 'text report content',
+              createdAt: new Date().toISOString(),
+            },
+            user: member_d,
+          })
+          const {items} = await api.user.report.list({
+            data: {
+              entity: EEntity.Comment,
+            },
+            user: member_d,
+          })
+          console.table(items)
+          expect(items.length).toEqual(1)
+        })
       })
     })
   })
