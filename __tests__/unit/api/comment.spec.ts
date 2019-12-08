@@ -1,19 +1,17 @@
-import {createApi} from '../../../src/api'
 import {Post} from '../../../src/entity/post'
 import {Comment} from '../../../src/entity/comment'
-import {bucketName, ddbClient, s3Client, tableName} from '../../env'
+import {yiguana} from '../../env'
 import {EValidationErrorMessage} from '../../../src/entity/error'
 import {admin, member_a, member_f} from '../../__data__/user'
 
 describe('unit', () => {
   describe('api', () => {
     describe('comment', () => {
-      const api = createApi({ddbClient, s3Client, tableName, bucketName})
       let post: Post
       let comment: Comment
 
       beforeAll(async () => {
-        post = await api.post.create({
+        post = await yiguana.post.create({
           data: {
             content: 'content',
             title: 'title',
@@ -21,7 +19,7 @@ describe('unit', () => {
           },
           user: member_f,
         })
-        comment = await api.comment.create({
+        comment = await yiguana.comment.create({
           data: {
             postId: post.hk,
             content: 'init data',
@@ -32,7 +30,7 @@ describe('unit', () => {
       })
 
       it('list(0)', async () => {
-        const {items} = await api.comment.list({
+        const {items} = await yiguana.comment.list({
           data: {
             postId: post.hk,
           }
@@ -43,7 +41,7 @@ describe('unit', () => {
       describe('comment', () => {
         it('create comment', async () => {
           try {
-            await api.comment.create({
+            await yiguana.comment.create({
               data: {
                 postId: post.hk,
                 content: 'test data',
@@ -54,7 +52,7 @@ describe('unit', () => {
           } catch (e) {
             expect(e.message).toEqual(EValidationErrorMessage.InvalidInput)
           }
-          const {items} = await api.comment.list({
+          const {items} = await yiguana.comment.list({
             data: {
               postId: post.hk,
             }
@@ -62,14 +60,14 @@ describe('unit', () => {
           expect(items.length).toEqual(2)
         })
         it('update comment', async () => {
-          const {items: before} = await api.comment.list({
+          const {items: before} = await yiguana.comment.list({
             data: {
               postId: post.hk,
             }
           })
           console.table(before)
 
-          const targetComment = await api.comment.update({
+          const targetComment = await yiguana.comment.update({
             data: {
               hk: comment.hk,
               postId: post.hk,
@@ -80,7 +78,7 @@ describe('unit', () => {
           })
           console.table(targetComment)
 
-          const {items: after} = await api.comment.list({
+          const {items: after} = await yiguana.comment.list({
             data: {
               postId: post.hk,
             }
@@ -92,20 +90,20 @@ describe('unit', () => {
           expect(afterItem.content).not.toEqual(beforeItem.content)
         })
         it('delete comment', async() => {
-          const {items: before} = await api.comment.list({
+          const {items: before} = await yiguana.comment.list({
             data: {
               postId: post.hk,
             }
           })
           console.table(before)
 
-          const targetComment = await api.comment.del({
+          const targetComment = await yiguana.comment.del({
             user: admin,
             data: comment,
           })
           console.table(targetComment)
 
-          const {items: after} = await api.comment.list({
+          const {items: after} = await yiguana.comment.list({
             data: {
               postId: post.hk,
             }

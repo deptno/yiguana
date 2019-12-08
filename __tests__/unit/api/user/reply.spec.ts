@@ -1,21 +1,19 @@
-import {createApi} from '../../../../src/api'
-import {bucketName, ddbClient, s3Client, tableName} from '../../../env'
 import {Post} from '../../../../src/entity/post'
 import {Comment} from '../../../../src/entity/comment'
-import {member_c, member_f} from '../../../__data__/user'
+import {member_a, member_f} from '../../../__data__/user'
 import * as R from 'ramda'
+import {yiguana} from '../../../env'
 
 describe('unit', () => {
   describe('api', () => {
     describe('user', () => {
       describe('reply', () => {
-        const api = createApi({ddbClient, s3Client, tableName, bucketName})
         let post: Post
         let comment: Comment
         let commentId: string
 
         beforeAll(async () => {
-          post = await api.post.create({
+          post = await yiguana.post.create({
             data: {
               content: 'content',
               title: 'title',
@@ -23,7 +21,7 @@ describe('unit', () => {
             },
             user: member_f,
           })
-          comment = await api.comment.create({
+          comment = await yiguana.comment.create({
             data: {
               postId: post.hk,
               content: 'init data',
@@ -35,21 +33,21 @@ describe('unit', () => {
         })
 
         it('create reply', async() => {
-          const {items: before} = await api.comment.list({
+          const {items: before} = await yiguana.comment.list({
             data: {
               postId: comment.postId
             }
           })
           expect(before.length).toEqual(1)
-          const reply = await api.reply.create({
+          const reply = await yiguana.reply.create({
             data: {
               comment,
               content: 'reply content',
               createdAt: new Date().toISOString(),
             },
-            user: member_c,
+            user: member_a
           })
-          const {items: after} = await api.comment.list({
+          const {items: after} = await yiguana.comment.list({
             data: {
               postId: comment.postId
             }
@@ -58,9 +56,9 @@ describe('unit', () => {
           expect(R.last(after)).toEqual(reply)
           console.table(after)
 
-          const {items} = await api.user.comment.list({
-            data: {},
-            user: member_c,
+          const {items} = await yiguana.user.comment.list({
+            user: member_a,
+            data: {}
           })
           expect(items.length).toEqual(1)
           console.table(after)

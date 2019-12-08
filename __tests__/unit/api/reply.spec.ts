@@ -1,20 +1,18 @@
-import {createApi} from '../../../src/api'
 import {Post} from '../../../src/entity/post'
 import {Comment} from '../../../src/entity/comment'
-import {bucketName, ddbClient, s3Client, tableName} from '../../env'
+import {yiguana} from '../../env'
 import {member_f, non_member_a} from '../../__data__/user'
 import * as R from 'ramda'
 
 describe('unit', () => {
   describe('api', () => {
     describe('reply', () => {
-      const api = createApi({ddbClient, s3Client, tableName, bucketName})
       let post: Post
       let comment: Comment
       let commentId: string
 
       beforeAll(async () => {
-        post = await api.post.create({
+        post = await yiguana.post.create({
           data: {
             content: 'content',
             title: 'title',
@@ -22,7 +20,7 @@ describe('unit', () => {
           },
           user: member_f,
         })
-        comment = await api.comment.create({
+        comment = await yiguana.comment.create({
           data: {
             postId: post.hk,
             content: 'init data',
@@ -34,13 +32,13 @@ describe('unit', () => {
       })
 
       it('create reply', async() => {
-        const {items: before} = await api.comment.list({
+        const {items: before} = await yiguana.comment.list({
           data: {
             postId: comment.postId
           }
         })
         expect(before.length).toEqual(1)
-        const reply = await api.reply.create({
+        const reply = await yiguana.reply.create({
           data: {
             comment,
             content: 'reply content',
@@ -48,7 +46,7 @@ describe('unit', () => {
           },
           user: non_member_a
         })
-        const {items} = await api.comment.list({
+        const {items} = await yiguana.comment.list({
           data: {
             postId: comment.postId
           }
@@ -57,6 +55,9 @@ describe('unit', () => {
         expect(R.last(items)).toEqual(reply)
         console.table(items)
       })
+
+      it.todo('request to block reply')
+
     })
   })
 })

@@ -4,14 +4,12 @@ import {uuid} from '../../lib/uuid'
 import {ES3ErrorMessage, S3Error} from '../../entity/error'
 
 export async function createPostContentUnSafe(op: S3Input, input: CreatePostContentUnSafeInput): Promise<PostContent> {
-  const datetime = new Date().toISOString().replace('T', '/')
   const id = uuid()
-  const key = `${datetime}-post-${id}`
 
   try {
     await op.s3.putObject({
       Bucket: op.bucketName,
-      Key: key,
+      Key: id,
       Body: input.content,
       ContentType: 'plain/text',
     })
@@ -19,7 +17,7 @@ export async function createPostContentUnSafe(op: S3Input, input: CreatePostCont
     throw new S3Error(ES3ErrorMessage.FailToPut)
   }
 
-  const contentUrl = `s3://${op.bucketName}/${key}`
+  const contentUrl = `s3://${op.bucketName}/${id}`
   const postInput: PostContent = {
     id,
     input,
