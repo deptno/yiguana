@@ -15,9 +15,9 @@ describe('unit', () => {
         beforeAll(async () => {
           post = await api.post.create({
             data: {
-              content: 'content',
-              title: 'title',
               category: 'news',
+              title: 'title',
+              content: 'content',
             },
             user: member_f,
           })
@@ -31,23 +31,20 @@ describe('unit', () => {
           })
         })
 
-        it('list(0)', async () => {
-          const {items} = await api.comment.list({
+        it('comment list, user comment list === 1', async () => {
+          const {items: commentList} = await api.comment.list({
             data: {
               postId: post.hk,
             }
           })
-          expect(items.length).toEqual(1)
+          expect(commentList.length).toEqual(1)
+          const {items: userCommentList} = await api.user.comment.list({
+            data: {},
+            user: member_f,
+          })
+          expect(userCommentList.length).toEqual(1)
         })
-        // FIXME: 왜 실패인지 검토
-//        it('list(0) byUserId', async () => {
-//          const {items} = await api.user.comment.list({
-//            userId: member_f.id,
-//          })
-//          expect(items.length).toEqual(1)
-//        })
-
-        it('like comment', async () => {
+        it('like comment, member f', async () => {
           const {items: before} = await api.comment.list({
             data: {
               postId: post.hk,
@@ -67,40 +64,50 @@ describe('unit', () => {
           })
           expect(after[0].likes).toEqual(before[0].likes + 1)
         })
-        it('like comment -> like comment', async () => {
-          const {items: first} = await api.comment.list({
+        it('like comment -> like comment, member_b', async () => {
+          const {items: before} = await api.comment.list({
             data: {
               postId: post.hk,
             }
           })
+          const [targetComment] = before
           await api.user.comment.like({
             data: {
-              data: first[0],
+              data: targetComment,
               createdAt: new Date().toISOString()
             },
             user: member_b,
           })
-          const {items: second} = await api.comment.list({
+          const first = await api.comment.read({
             data: {
-              postId: post.hk,
+              hk: comment.hk,
             }
           })
-          expect(second[0].likes).toEqual(first[0].likes + 1)
+          expect(first.likes).toEqual(targetComment.likes + 1)
 
-          console.debug('like post 1회 수행하여 like가 이미 존재할 시 unlike 동작')
+          console.debug('like comment 1회 수행하여 like가 이미 존재할 시 unlike 동작')
           await api.user.comment.like({
             data: {
-              data: second[0],
+              data: targetComment,
               createdAt: new Date().toISOString()
             },
             user: member_b,
           })
-          const {items: third} = await api.comment.list({
+          const second = await api.comment.read({
+            data: {
+              hk: comment.hk,
+            }
+          })
+          console.debug('member_b의 좋아요는 취소가 되고 member_f가 좋아요 했던 것만 남아서 1이 기대값')
+          expect(second.likes).toEqual(1)
+
+          const {items: after} = await api.comment.list({
             data: {
               postId: post.hk,
             }
           })
-          expect(third[0].likes).toEqual(second[0].likes - 1)
+          expect(after[0].likes).toEqual(1)
+          expect(after.length).toEqual(before.length)
         })
       })
     })

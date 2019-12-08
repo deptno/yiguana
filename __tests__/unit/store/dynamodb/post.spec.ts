@@ -4,7 +4,7 @@ import {opDdb, opS3} from '../../../env'
 import {getPostsByUserId} from '../../../../src/store/dynamodb/get-posts-by-user-id'
 import {getInitialData} from '../../../setup'
 import {removePost} from '../../../../src/store/dynamodb/remove-post'
-import {member_a, member_b, member_c, member_e} from '../../../__data__/user'
+import {member_a, member_b, member_c, member_d, member_e} from '../../../__data__/user'
 import {createPostContentUnSafe} from '../../../../src/store/s3/create-post-content'
 import {createLike} from '../../../../src/entity/like'
 import {addLike} from '../../../../src/store/dynamodb/add-like'
@@ -13,6 +13,7 @@ import {put} from '../../../../src/store/dynamodb/raw/put'
 import {update} from '../../../../src/store/dynamodb/raw/update'
 import {incViews} from '../../../../src/store/dynamodb/inc-views'
 import {incLikes} from '../../../../src/store/dynamodb/inc-likes'
+import {getPostsByUserLike} from '../../../../src/store/dynamodb/get-posts-by-user-like'
 
 describe('unit', function () {
   describe('store', function () {
@@ -101,7 +102,6 @@ describe('unit', function () {
               })
               console.table([post, updatedPost])
             })
-
             it('likePost', async () => {
               const {items: before} = await getPosts(opDdb, {})
               const like = createLike({
@@ -123,7 +123,6 @@ describe('unit', function () {
               console.debug('result')
               console.table(after)
             })
-
             it('viewPost', async () => {
               const {items: before} = await getPosts(opDdb, {})
               const isViewed = await incViews(opDdb, before[0])
@@ -273,12 +272,31 @@ describe('unit', function () {
 
             describe('updatePost', function () {
               it.todo('updatePost')
-              it.todo('likePost')
-              it.todo('viewPost')
+              it('유저 dGun likePost -> postsByUserLike', async () => {
+                const {items: beforeUserLike} = await getPostsByUserLike(opDdb, {userId: member_d.id})
+                expect(beforeUserLike.length).toEqual(0)
+
+                const {items: before} = await getPosts(opDdb, {})
+                const like = createLike({
+                  data: {
+                    data: before[0],
+                    createdAt: new Date().toISOString()
+                  },
+                  user: member_d
+                })
+                const saved = await addLike(opDdb, like)
+                console.log({saved})
+
+                const likedPost = await incLikes(opDdb, before[0])
+                expect(likedPost.hk).toEqual(before[0].hk)
+                expect(likedPost.likes).toEqual(before[0].likes + 1)
+
+                const {items: afterUserLike} = await getPostsByUserLike(opDdb, {userId: member_d.id})
+                expect(afterUserLike.length).toEqual(beforeUserLike.length + 1)
+              })
             })
           })
         })
-
       })
     })
   })

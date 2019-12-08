@@ -104,13 +104,11 @@ describe('unit', function () {
           })
 
           describe('removeComment', function () {
-            // 삭제된 코메트의 경우 삭제된 코멘트라고 표시되며 코멘트 수는 유지된다.
-
+            console.debug('삭제된 코멘트의 경우 삭제된 코멘트라고 표시되며 코멘트 수는 유지된다')
             it('removeComment', async () => {
               const {items: before} = await getComments(opDdb, {postId: commentedPost.hk})
               const [comment] = before
               const deletedComment = await removeComment(opDdb, {hk: comment.hk})
-
               expect(deletedComment).toMatchObject(comment)
 
               const {items: after} = await getComments(opDdb, {postId: commentedPost.hk})
@@ -119,7 +117,6 @@ describe('unit', function () {
               console.table(before)
               console.table(after)
             })
-
             it('post.children(1), 삭제되도 코멘트 수는 유지', async function () {
               const nextCommentedPost = await get<Post>(opDdb, commentedPost)
               expect(nextCommentedPost.children).toEqual(3)
@@ -177,9 +174,8 @@ describe('unit', function () {
             console.table(items)
             expect(items.length).toEqual(1)
           })
-
-          // e 유저의 코멘트 조회 -> 코멘트 추가 -> 코멘트 재조회
           it('코멘트 리스트 e', async () => {
+            console.log('e 유저의 코멘트 조회 -> 코멘트 추가 -> 코멘트 재조회')
             const {items} = await getCommentsByUserId(opDdb, {userId: member_e.id})
             console.debug('코멘트 리스트 e')
             console.table(items)
@@ -219,7 +215,7 @@ describe('unit', function () {
             commentedPost = postList[4]
           }))
 
-          it('코멘트 리스트 commentId', async () => {
+          it('코멘트 리스트 postId', async () => {
             const {items} = await commentsByPostId(opDdb, {postId: commentedPost.hk})
             console.debug('코멘트 리스트 commentId')
             console.table(items)
@@ -245,14 +241,12 @@ describe('unit', function () {
             expect(
               afterPost.filter(p => p.status === EEntityStatus.deletedByUser).length
             ).toEqual(1)
-
             console.table(afterPost)
 
             console.log('코멘트 삭제')
             const {items: beforeComments} = await getComments(opDdb, {postId: commentedPost.hk})
             const [comment] = beforeComments
             const deletedComment = await removeComment(opDdb, {hk: comment.hk})
-
             expect(deletedComment).toMatchObject(comment)
 
             const {items: afterComments} = await getComments(opDdb, {postId: commentedPost.hk})

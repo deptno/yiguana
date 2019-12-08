@@ -2,7 +2,7 @@ import {createApi} from '../../../../src/api'
 import {bucketName, ddbClient, s3Client, tableName} from '../../../env'
 import {Post} from '../../../../src/entity/post'
 import {Comment} from '../../../../src/entity/comment'
-import {member_a, member_b, member_f} from '../../../__data__/user'
+import {member_c, member_f} from '../../../__data__/user'
 import * as R from 'ramda'
 
 describe('unit', () => {
@@ -47,7 +47,7 @@ describe('unit', () => {
               content: 'reply content',
               createdAt: new Date().toISOString(),
             },
-            user: member_a
+            user: member_c,
           })
           const {items: after} = await api.comment.list({
             data: {
@@ -59,8 +59,8 @@ describe('unit', () => {
           console.table(after)
 
           const {items} = await api.user.comment.list({
-            user: member_a,
-            data: {}
+            data: {},
+            user: member_c,
           })
           expect(items.length).toEqual(1)
           console.table(after)

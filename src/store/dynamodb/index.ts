@@ -1,3 +1,5 @@
+// TODO: 사용하지 않는 함수 정리 필요
+
 import {DynamoDBInput} from '../../entity/input/dynamodb'
 import {getPostsByCategory, PostsByCategoryInput} from './get-posts-by-category'
 import {removePost, RemovePostInput} from './remove-post'

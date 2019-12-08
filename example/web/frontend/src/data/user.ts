@@ -1,4 +1,4 @@
-import {ERole} from '../../src/entity/user'
+import {ERole} from '../../../../../lib/entity/user'
 
 export const admin = {
   id: 'admin',

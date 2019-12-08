@@ -57,9 +57,6 @@ describe('unit', () => {
         expect(R.last(items)).toEqual(reply)
         console.table(items)
       })
-
-      it.todo('request to block reply')
-
     })
   })
 })
