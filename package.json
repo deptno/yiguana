@@ -53,9 +53,7 @@
     "merge": "^1.2.1",
     "rimraf": "^3.0.0",
     "ts-jest": "^24.1.0",
-    "typescript": "^3.7.2"
-  },
-  "peerDependencies": {
+    "typescript": "^3.7.2",
     "aws-sdk": "^2.585.0"
   }
 }
