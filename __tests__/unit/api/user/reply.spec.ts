@@ -57,7 +57,7 @@ describe('unit', () => {
           expect(R.last(after)).toEqual(reply)
           console.table(after)
 
-          const {items} = await api.user.reply.list({
+          const {items} = await api.user.comment.list({
             user: member_a,
             data: {}
           })

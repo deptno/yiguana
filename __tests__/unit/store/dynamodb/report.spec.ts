@@ -10,10 +10,10 @@ import {incReportAgg} from '../../../../src/store/dynamodb/inc-report-agg'
 import {getAggReports} from '../../../../src/store/dynamodb/get-agg-reports'
 import {EEntity, EEntityStatus} from '../../../../src/type'
 import {getReportsByUser} from '../../../../src/store/dynamodb/get-reports-by-user'
-import {replyReports} from '../../../../src/store/dynamodb/report-reply'
 import {getPosts} from '../../../../src/store/dynamodb/get-posts'
 import {replyAggReport} from '../../../../src/store/dynamodb/reply-agg-report'
 import {get} from '../../../../src/store/dynamodb/raw/get'
+import {replyReports} from '../../../../src/store/dynamodb/reply-reports'
 
 describe('unit', function () {
   describe('store', function () {
