@@ -6,65 +6,19 @@ import {Reply} from './Reply'
 import {useLazyQuery, useMutation} from '@apollo/react-hooks'
 import gql from 'graphql-tag'
 import {LineButton} from '../board/LineButton'
+import queryComments from '../../../../../../graphql/query/comments.graphql'
+import mutationLikeComment from '../../../../../../graphql/mutation/likeComment.graphql'
 
 export const Comments: FunctionComponent<Props> = props => {
   const {postId, count} = props
   const [{items, cursor}, setResponse] = useState({items: [] as (TComment | TReply)[], cursor: undefined})
-  const [getCommentsQuery, {data, refetch, fetchMore}] = useLazyQuery(gql`
-    query ($postId: String!, $cursor: String) {
-      comments(postId: $postId, cursor: $cursor) {
-        items {
-          hk
-          rk
-          content
-          postId
-          userId
-          createdAt
-          updatedAt
-          children
-          likes
-          user {
-            id
-            ip
-            name
-            pw
-          }
-          commentId
-          status
-          comments
-        } cursor
-        firstResult
-      }
-    }
-  `)
+  const [getCommentsQuery, {data, refetch, fetchMore}] = useLazyQuery(gql`${queryComments}`)
+  const [likeMutation, {data: liked}] = useMutation(gql`${mutationLikeComment}`)
   const getComments = () => {
     if (postId) {
       getCommentsQuery({variables: {postId}})
     }
   }
-  const [likeMutation, {data: liked}] = useMutation(gql`
-    mutation ($hk: String!) {
-      likeComment(hk: $hk) {
-        children
-        commentId
-        content
-        createdAt
-        hk
-        likes
-        postId
-        rk
-        updatedAt
-        user {
-          id
-          ip
-          name
-          pw
-        }
-        userId
-        status
-      }
-    }
-  `)
 
   const [buttonText, more] = cursor
     ? ['더 보기', () => fetchMore({

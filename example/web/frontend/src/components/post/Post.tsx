@@ -8,6 +8,8 @@ import {useMutation} from '@apollo/react-hooks'
 import gql from 'graphql-tag'
 import Router from 'next/router'
 import {StorageContext} from '../../context/StorageContext'
+import mutationLikePost from '../../../../../../graphql/mutation/likePost.graphql'
+import mutationDeletePost from '../../../../../../graphql/mutation/deletePost.graphql'
 
 export const Post: FunctionComponent<Props> = props => {
   const {data} = props
@@ -25,32 +27,8 @@ export const Post: FunctionComponent<Props> = props => {
     return false
   }, [me, userId])
   const [showBr, setShowBr] = useState(false)
-  const [likeMutation, {data: liked}] = useMutation(gql`
-    mutation ($hk: String!) {
-      likePost(hk: $hk) {
-        category
-        children
-        content
-        createdAt
-        status
-        hk
-        likes
-        rk
-        title
-        views
-        userId
-        cover
-        status
-      }
-    }
-  `)
-  const [deletePost] = useMutation(gql`
-    mutation ($postId: String!) {
-      deletePost(postId: $postId) {
-        hk
-      }
-    }
-  `)
+  const [likeMutation, {data: liked}] = useMutation(gql`${mutationLikePost}`)
+  const [deletePost] = useMutation(gql`${mutationDeletePost}`)
   const del = useCallback((e) => {
     if (hk) {
       deletePost({variables: {postId: hk}})

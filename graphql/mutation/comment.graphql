@@ -1,0 +1,5 @@
+mutation ($data: CommentMutationInput!, $user: NotMemberInput) {
+  comment(data: $data, user: $user) {
+    hk
+  }
+}

@@ -1,0 +1,20 @@
+query ($hk: String!) {
+  post(hk: $hk) {
+    hk
+    rk
+    title
+    likes
+    views
+    children
+    category
+    createdAt
+    content
+    userId
+    user {
+      id
+      name
+    }
+
+    status
+  }
+}

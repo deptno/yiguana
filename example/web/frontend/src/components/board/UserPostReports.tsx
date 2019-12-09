@@ -5,51 +5,10 @@ import gql from 'graphql-tag'
 import {StorageContext} from '../../context/StorageContext'
 import Link from 'next/link'
 import {BoardItem} from './BoardItem'
+import myPostReports from '../../../../../../graphql/query/myPostReports.graphql'
 
 export const UserPostReports: FunctionComponent<Props> = props => {
-  const [query, {data, refetch}] = useLazyQuery<Q, A>(gql`
-    query ($cursor: String) {
-      myPostReports(cursor: $cursor) {
-        items {
-          hk
-          rk
-          answer
-          content
-          byUser
-          status
-          user {
-            name
-            ip
-            id
-            pw
-          }
-          userId
-          data {
-            hk
-            rk
-            category
-            title
-            content
-            children
-            likes
-            views
-            createdAt
-            user {
-              name
-              id
-              ip
-              pw
-            }
-            status
-            byUser
-          }
-
-        }
-        firstResult
-        cursor
-      }
-    }
-  `)
+  const [query, {data, refetch}] = useLazyQuery<Q, A>(gql`${myPostReports}`)
   const {user} = useContext(StorageContext)
   const {items = [], cursor} = data?.myPostReports ?? {}
   const buttonText = useMemo(() => cursor ? '더 보기' : '처음으로', [cursor])

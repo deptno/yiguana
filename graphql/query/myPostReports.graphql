@@ -1,0 +1,41 @@
+query ($cursor: String) {
+  myPostReports(cursor: $cursor) {
+    items {
+      hk
+      rk
+      answer
+      content
+      byUser
+      status
+      user {
+        name
+        ip
+        id
+        pw
+      }
+      userId
+      data {
+        hk
+        rk
+        category
+        title
+        content
+        children
+        likes
+        views
+        createdAt
+        user {
+          name
+          id
+          ip
+          pw
+        }
+        status
+        byUser
+      }
+
+    }
+    firstResult
+    cursor
+  }
+}

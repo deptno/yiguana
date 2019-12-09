@@ -6,145 +6,22 @@ import {BoardItem} from '../../components/board/BoardItem'
 import {Comment} from '../../components/post/Comment'
 import Link from 'next/link'
 import {Reply} from '../../components/post/Reply'
+import queryAggReportsOfAll from '../../../../../../graphql/query/aggReportsOfAll.graphql'
+import fragmentAggReportPostAll from '../../../../../../graphql/fragment/AggReportPostAll.graphql'
+import fragmentAggReportCommentAll from '../../../../../../graphql/fragment/AggReportCommentAll.graphql'
+import fragmentPostAll from '../../../../../../graphql/fragment/PostAll.graphql'
+import fragmentCommentAll from '../../../../../../graphql/fragment/CommentAll.graphql'
+import fragmentUserAll from '../../../../../../graphql/fragment/UserAll.graphql'
 
 const AdminPage: NextPage<Props> = props => {
-  // FIXME: Do not share $cursor
   const [query, {data, error}] = useLazyQuery(gql`
-    query ($cursor: String) {
-      posts: aggReportsOfPost(cursor: $cursor) {
-        items {
-          hk
-          rk
-          agg
-          reports
-          reported
-          data {
-            hk
-            rk
-            title
-            likes
-            views
-            children
-            category
-            createdAt
-            userId
-            cover
-            user {
-              id
-              ip
-              name
-              pw
-            }
-            status
-          }
-          status
-          answer
-          processed
-        }
-        cursor
-        firstResult
-      }
-      comments: aggReportsOfComment(cursor: $cursor) {
-        items {
-          hk
-          rk
-          agg
-          reports
-          reported
-          data {
-            hk
-            rk
-            content
-            postId
-            userId
-            createdAt
-            updatedAt
-            children
-            likes
-            user {
-              id
-              ip
-              name
-              pw
-            }
-            commentId
-            status
-          }
-          status
-          answer
-          processed
-        }
-        cursor
-        firstResult
-      }
-      postsEnd: aggReportsOfPost(cursor: $cursor, end: true) {
-        items {
-          hk
-          rk
-          agg
-          reports
-          reported
-          data {
-            hk
-            rk
-            title
-            likes
-            views
-            children
-            category
-            createdAt
-            userId
-            cover
-            user {
-              id
-              ip
-              name
-              pw
-            }
-            status
-          }
-          status
-          answer
-          processed
-        }
-        cursor
-        firstResult
-      }
-      commentsEnd: aggReportsOfComment(cursor: $cursor, end: true) {
-        items {
-          hk
-          rk
-          agg
-          reports
-          reported
-          data {
-            hk
-            rk
-            content
-            postId
-            userId
-            createdAt
-            updatedAt
-            children
-            likes
-            user {
-              id
-              ip
-              name
-              pw
-            }
-            commentId
-            status
-          }
-          status
-          answer
-          processed
-        }
-        cursor
-        firstResult
-      }
-    }
-  `)
+${fragmentAggReportPostAll}
+${fragmentAggReportCommentAll}
+${fragmentPostAll}
+${fragmentCommentAll}
+${fragmentUserAll}
+${queryAggReportsOfAll}
+`)
 
   useEffect(() => query(), [])
   useEffect(() => {

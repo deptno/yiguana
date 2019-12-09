@@ -1,0 +1,3 @@
+query ($key: String!) {
+  uploadUrl(key: $key)
+}

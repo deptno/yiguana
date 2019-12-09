@@ -1,0 +1,21 @@
+mutation ($hk: String!) {
+  likeComment(hk: $hk) {
+    children
+    commentId
+    content
+    createdAt
+    hk
+    likes
+    postId
+    rk
+    updatedAt
+    user {
+      id
+      ip
+      name
+      pw
+    }
+    userId
+    status
+  }
+}

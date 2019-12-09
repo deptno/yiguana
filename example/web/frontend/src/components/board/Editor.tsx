@@ -7,33 +7,17 @@ import {StorageContext} from '../../context/StorageContext'
 import {useLazyQuery, useMutation} from '@apollo/react-hooks'
 import gql from 'graphql-tag'
 import Router from 'next/router'
+import mutationPost from '../../../../../../graphql/mutation/post.graphql'
+import queryUploadUrl from '../../../../../../graphql/query/uploadUrl.graphql'
 
 export const Editor: FunctionComponent<Props> = props => {
   const ref = useRef()
   const [editor, setEditor] = useState<Q.Quill>()
   const [file, setFile] = useState<File>()
   const {user} = useContext(StorageContext)
-  const [postMutation] = useMutation(gql`
-    mutation ($data: PostMutationInput!, $user: NotMemberInput) {
-      post(data: $data, user: $user) {
-        hk
-        rk
-        title
-        likes
-        views
-        children
-        category
-        createdAt
-        content
-        status
-      }
-    }
-  `)
-  const [getUploadUrlQuery, {data: preSigned}] = useLazyQuery(gql`
-    query ($key: String!) {
-      uploadUrl(key: $key)
-    }
-  `)
+  const [postMutation] = useMutation(gql`${mutationPost}`)
+  const [getUploadUrlQuery, {data: preSigned}] = useLazyQuery(gql`${queryUploadUrl}`)
+
   useEffect(() => {
     if (preSigned) {
       const {fields, url} = JSON.parse(preSigned.uploadUrl)
