@@ -1,0 +1,10 @@
+fragment AggReportCommentAll on AggReportComment {
+  hk
+  rk
+  agg
+  reports
+  reported
+  status
+  answer
+  processed
+}
