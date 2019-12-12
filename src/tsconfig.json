@@ -2,6 +2,7 @@
   "compilerOptions": {
     "target": "esnext",
     "moduleResolution": "node",
+    "module": "commonjs",
     "inlineSourceMap": true,
     "esModuleInterop": true,
     "strictNullChecks": true,
