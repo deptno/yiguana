@@ -4,37 +4,13 @@ import {useLazyQuery} from '@apollo/react-hooks'
 import gql from 'graphql-tag'
 import {LineButton} from './LineButton'
 import Link from 'next/link'
+import postAll from '../../../../../../graphql/fragment/PostAll.graphql'
+import userAll from '../../../../../../graphql/fragment/UserAll.graphql'
+import queryPosts from '../../../../../../graphql/query/posts.graphql'
 
 export const Boards: FunctionComponent<Props> = props => {
   const [category, setCategory] = useState<string>('')
-  const [query, {data, refetch, fetchMore}] = useLazyQuery<Q, A>(gql`
-    query posts($category: Category, $cursor: String) {
-      posts(category: $category, cursor: $cursor) {
-        items {
-          hk
-          rk
-          category
-          title
-          content
-          children
-          likes
-          views
-          createdAt
-          cover
-          userId
-          user {
-            name
-            id
-            pw
-            ip
-          }
-          status
-        }
-        cursor
-        firstResult
-      }
-    }
-  `)
+  const [query, {data, refetch, fetchMore}] = useLazyQuery<Q, A>(gql`${postAll}${userAll}${queryPosts}`)
   const {items = [], cursor} = data?.posts ?? {}
   const handleCategoryChange = (e) => setCategory(e.target.value)
   const fetch = () => {
@@ -46,7 +22,7 @@ export const Boards: FunctionComponent<Props> = props => {
   const [buttonText, more] = cursor
     ? ['더 보기', () => fetchMore({
       variables: {
-        cursor
+        cursor,
       },
       updateQuery: (prev, {fetchMoreResult}) => {
         if (!fetchMoreResult) {
@@ -59,12 +35,12 @@ export const Boards: FunctionComponent<Props> = props => {
             items: [
               ...prev.posts.items,
               ...fetchMoreResult.posts.items,
-            ]
-          }
+            ],
+          },
         }
 
         return current
-      }
+      },
     })]
     : ['새 글 확인', () => refetch()]
 

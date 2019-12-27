@@ -1,0 +1,22 @@
+query ($cursor: String) {
+  myPosts(cursor: $cursor, like: true) {
+    items {
+      hk
+      rk
+      category
+      title
+      content
+      children
+      likes
+      views
+      createdAt
+      user {
+        name
+        id
+        ip
+        pw
+      }
+      status
+    }
+  }
+}

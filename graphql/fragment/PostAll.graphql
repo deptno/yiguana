@@ -1,0 +1,16 @@
+fragment PostAll on Post {
+  hk
+  rk
+  title
+  likes
+  views
+  children
+  category
+  createdAt
+  content
+  userId
+  cover
+  status
+  byUser
+}
+

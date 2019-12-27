@@ -1,0 +1,55 @@
+# FIXME: Do not share $cursor
+query ($cursor: String) {
+  posts: aggReportsOfPost(cursor: $cursor) {
+    items {
+      ...AggReportPostAll
+      data {
+        ...PostAll
+        user {
+          ...UserAll
+        }
+      }
+    }
+    cursor
+    firstResult
+  }
+  comments: aggReportsOfComment(cursor: $cursor) {
+    items {
+      ...AggReportCommentAll
+      data {
+        ...CommentAll
+        user {
+          ...UserAll
+        }
+      }
+    }
+    cursor
+    firstResult
+  }
+  postsEnd: aggReportsOfPost(cursor: $cursor, end: true) {
+    items {
+      ...AggReportPostAll
+      data {
+        ...PostAll
+        user {
+          ...UserAll
+        }
+      }
+    }
+    cursor
+    firstResult
+  }
+  commentsEnd: aggReportsOfComment(cursor: $cursor, end: true) {
+    items {
+      ...AggReportCommentAll
+      data {
+        ...CommentAll
+        user {
+          ...UserAll
+        }
+      }
+    }
+    cursor
+    firstResult
+  }
+}

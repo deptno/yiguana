@@ -7,35 +7,16 @@ import {LineLink} from '../../components/board/LineLink'
 import {Post} from '../../components/post/Post'
 import {useLazyQuery} from '@apollo/react-hooks'
 import gql from 'graphql-tag'
+import queryPost from '../../../../../../graphql/query/post.graphql'
 
 const PostPage: NextPage<Props> = props => {
   const {query} = useRouter()
   const postId = query.hk as string
   const [post, setPost] = useState<TPost>()
-  const [getPostQuery, {data, loading}] = useLazyQuery(gql`
-    query ($postId: String!) {
-      post(hk: $postId) {
-        hk
-        rk
-        title
-        likes
-        views
-        children
-        category
-        createdAt
-        content
-        userId
-        user {
-          id
-          name
-        }
-
-        status
-      }
-    }`)
+  const [getPostQuery, {data, loading}] = useLazyQuery(gql`${queryPost}`)
   const getPost = useCallback(() => {
     if (postId) {
-      getPostQuery({variables: {postId}})
+      getPostQuery({variables: {hk: postId}})
     }
   }, [postId])
 

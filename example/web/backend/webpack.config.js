@@ -1,5 +1,4 @@
 const path = require('path')
-const webpack = require('webpack')
 const slsw = require('serverless-webpack')
 
 module.exports = {
@@ -29,6 +28,11 @@ module.exports = {
         type: 'javascript/auto',
         test: /\.mjs$/,
         use : []
+      },
+      {
+        exclude: /node_modules/,
+        test   : /\.graphql|gql$/,
+        use    : [{loader: 'graphql-tag/loader'}]
       }
     ],
   },

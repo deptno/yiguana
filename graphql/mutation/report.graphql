@@ -1,0 +1,5 @@
+mutation ($data: DocumentInput!, $content: String!) {
+  report(data: $data, content: $content) {
+    hk
+  }
+}

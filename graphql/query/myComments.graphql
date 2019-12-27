@@ -1,0 +1,22 @@
+query ($cursor: String) {
+  myComments(cursor: $cursor) {
+    items {
+      hk
+      rk
+      content
+      children
+      likes
+      createdAt
+      updatedAt
+      postId
+      user {
+        id
+        name
+        ip
+        pw
+      }
+      userId
+      status
+    }
+  }
+}

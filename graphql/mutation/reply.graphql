@@ -1,0 +1,5 @@
+mutation ($data: ReplyMutationInput!, $user: NotMemberInput) {
+  reply(data: $data, user: $user) {
+    hk
+  }
+}

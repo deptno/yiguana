@@ -4,32 +4,10 @@ import {Board} from './Board'
 import {useLazyQuery} from '@apollo/react-hooks'
 import gql from 'graphql-tag'
 import {StorageContext} from '../../context/StorageContext'
+import queryMyPosts from '../../../../../../graphql/query/myPosts.graphql'
 
 export const UserPosts: FunctionComponent<Props> = props => {
-  const [query, {data, refetch}] = useLazyQuery<Q, A>(gql`
-    query posts($cursor: String) {
-      myPosts(cursor: $cursor) {
-        items {
-          hk
-          rk
-          category
-          title
-          content
-          children
-          likes
-          views
-          createdAt
-          user {
-            name
-            id
-            ip
-            pw
-          }
-          status
-        }
-      }
-    }
-  `)
+  const [query, {data, refetch}] = useLazyQuery<Q, A>(gql`${queryMyPosts}`)
   const {user} = useContext(StorageContext)
   const {items = [], cursor} = data?.myPosts ?? {}
   const buttonText = useMemo(() => cursor ? '더 보기' : '처음으로', [cursor])

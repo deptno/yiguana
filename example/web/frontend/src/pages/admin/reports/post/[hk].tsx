@@ -8,51 +8,11 @@ import {BoardItem} from '../../../../components/board/BoardItem'
 import {Post} from '../../../../components/post/Post'
 import {AnswerBlockRequest} from '../../../../components/AnswerBlockRequest'
 import {EEntity} from '../../../../../../../../lib/type'
+import queryReportsOfPost from '../../../../../../../../graphql/query/reportsOfPost.graphql'
 
 const ReportsPostPage: NextPage<Props> = props => {
   const {query: {hk}} = useRouter()
-  const [fetch, {data, error}] = useLazyQuery(gql`
-    query ($hk: String!, $rk: String!) {
-      post(hk: $hk) {
-        hk
-        rk
-        title
-        likes
-        views
-        children
-        category
-        createdAt
-        userId
-        cover
-        user {
-          id
-          ip
-          name
-          pw
-        }
-        content
-
-        status
-      }
-      reports(hk: $hk, rk: $rk) {
-        items {
-          hk
-          userId
-          content
-          user {
-            id
-            ip
-            name
-            pw
-          }
-          status
-          answer
-        }
-        firstResult
-        cursor
-      }
-    }
-  `)
+  const [fetch, {data, error}] = useLazyQuery(gql`${queryReportsOfPost}`)
 
   useEffect(() => {
     if (hk) {

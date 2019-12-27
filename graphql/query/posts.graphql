@@ -1,0 +1,12 @@
+query posts($category: Category, $cursor: String) {
+  posts(category: $category, cursor: $cursor) {
+    items {
+      ...PostAll
+      user {
+        ...UserAll
+      }
+    }
+    cursor
+    firstResult
+  }
+}

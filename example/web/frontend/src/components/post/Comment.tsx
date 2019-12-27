@@ -9,6 +9,7 @@ import cx from 'classnames'
 import gql from 'graphql-tag'
 import {BlockRequest} from '../BlockRequest'
 import * as R from 'ramda'
+import mutationDeleteComment from '../../../../../../graphql/mutation/deleteComment.graphql'
 
 export const Comment: FunctionComponent<Props> = props => {
   const {data, onLike, onCreate} = props
@@ -26,13 +27,7 @@ export const Comment: FunctionComponent<Props> = props => {
     }
     return true
   }, [context.user])
-  const [deleteComment] = useMutation(gql`
-    mutation ($commentId: String!) {
-      deleteComment(commentId: $commentId) {
-        hk
-      }
-    }
-  `)
+  const [deleteComment] = useMutation(gql`${mutationDeleteComment}`)
   const del = useCallback((e) => {
     e.stopPropagation()
     if (confirm('Do you want to delete this comment?')) {

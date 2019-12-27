@@ -1,0 +1,40 @@
+query ($hk: String!, $rk: String!) {
+  post(hk: $hk) {
+    hk
+    rk
+    title
+    likes
+    views
+    children
+    category
+    createdAt
+    userId
+    cover
+    user {
+      id
+      ip
+      name
+      pw
+    }
+    content
+
+    status
+  }
+  reports(hk: $hk, rk: $rk) {
+    items {
+      hk
+      userId
+      content
+      user {
+        id
+        ip
+        name
+        pw
+      }
+      status
+      answer
+    }
+    firstResult
+    cursor
+  }
+}

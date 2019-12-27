@@ -10,91 +10,12 @@ import {Reply} from '../../../../components/post/Reply'
 import {Post} from '../../../../components/post/Post'
 import {AnswerBlockRequest} from '../../../../components/AnswerBlockRequest'
 import {EEntity} from '../../../../../../../../lib/type'
+import queryReportsOfComment from '../../../../../../../../graphql/query/reportsOfComment.graphql'
 
 const ReportsCommentPage: NextPage<Props> = props => {
   const {query: {hk}} = useRouter()
   // FIXME: comment 를 개별로 가져올 수 없음
-  const [fetch, {data, error}] = useLazyQuery(gql`
-    query ($hk: String!, $rk: String!) {
-      comment(hk: $hk) {
-        hk
-        rk
-        content
-        postId
-        userId
-        createdAt
-        updatedAt
-        children
-        likes
-        user {
-          id
-          ip
-          name
-          pw
-        }
-        commentId
-        status
-        comment {
-          hk
-          rk
-          content
-          postId
-          userId
-          createdAt
-          updatedAt
-          children
-          likes
-          user {
-            id
-            ip
-            name
-            pw
-          }
-          commentId
-          status
-        }
-        post {
-          hk
-          rk
-          title
-          likes
-          views
-          children
-          category
-          createdAt
-          userId
-          cover
-          user {
-            id
-            ip
-            name
-            pw
-          }
-          content
-          status
-        }
-        status
-      }
-      reports(hk: $hk, rk: $rk) {
-        items {
-          hk
-          userId
-          content
-          byUser
-          hk
-          rk
-          user {
-            name
-          }
-          userId
-          status
-          answer
-        }
-        firstResult
-        cursor
-      }
-    }
-  `)
+  const [fetch, {data, error}] = useLazyQuery(gql`${queryReportsOfComment}`)
 
   useEffect(() => {
     if (hk) {

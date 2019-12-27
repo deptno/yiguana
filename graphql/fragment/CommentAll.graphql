@@ -1,0 +1,15 @@
+fragment CommentAll on Comment {
+  hk
+  rk
+  content
+  postId
+  userId
+  createdAt
+  updatedAt
+  children
+  likes
+  commentId
+  comments
+  status
+  refUserName
+}
