@@ -1,4 +1,4 @@
-export type User = Member|NonMember
+export type User = Member | NonMember
 export type UserMeta = {
   ip: string
 }
@@ -12,8 +12,11 @@ export type NonMember = UserMeta & {
   pw: string
   name: string
 }
-export type MemberAdmin = Member & {role: ERole.admin}
+export type MemberAdmin = Member & { role: ERole.admin }
 
 export enum ERole {
-  admin = 'admin'
+  admin = 'admin',
+  npc = 'npc',
+  member = 'member',
+  nonmember = 'nonmember'
 }
