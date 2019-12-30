@@ -54,7 +54,7 @@ describe('unit', function () {
               data: {
                 postId: commentedPost.hk,
                 content: 'comment',
-                createdAt: new Date().toISOString()
+                createdAt: new Date().toISOString(),
               },
               user: member_e,
             })
@@ -81,9 +81,9 @@ describe('unit', function () {
               data: {
                 postId: commentedPost.hk,
                 content: 'comment',
-                createdAt: new Date().toISOString()
+                createdAt: new Date().toISOString(),
               },
-              user: member_e
+              user: member_e,
             })
             const commented = await put<Comment>(opDdb, comment)
             console.table([comment, commented])
@@ -123,15 +123,15 @@ describe('unit', function () {
             })
           })
 
-          describe('likeComment', function() {
+          describe('likeComment', function () {
             it('likeComment', async () => {
               const {items: before} = await getComments(opDdb, {postId: commentedPost.hk})
               const like = createLike({
                 data: {
                   data: before[0],
-                  createdAt: new Date().toISOString()
+                  createdAt: new Date().toISOString(),
                 },
-                user: member_e
+                user: member_e,
               })
               const saved = await addLike(opDdb, like)
               console.log({saved})
@@ -148,7 +148,7 @@ describe('unit', function () {
             })
           })
 
-          describe('unlikeComment', function() {
+          describe('unlikeComment', function () {
             it('unlikeComment', async () => {
               const {items: before} = await getComments(opDdb, {postId: commentedPost.hk})
               await removeLike(opDdb, {data: before[0], userId: member_e.id})
@@ -187,7 +187,7 @@ describe('unit', function () {
               data: {
                 postId: commentedPost.hk,
                 content: 'comment',
-                createdAt: new Date().toISOString()
+                createdAt: new Date().toISOString(),
               },
               user: member_e,
             })
@@ -228,18 +228,32 @@ describe('unit', function () {
             postList = data.filter(d => d.rk === EEntity.Post) as Post[]
             commentedPost = postList[4]
           }))
-
+          it('포스트 삭제 -> 코멘트 삭제 실패(다른 유저 정보 불일치)', async () => {
+            console.log('포스트 삭제 불가')
+            const {items: before} = await getPosts(opDdb, {})
+            await removePost(opDdb, {
+              hk: commentedPost.hk,
+              user: {
+                id: 'idForFail',
+              },
+            })
+            const {items: after} = await getPosts(opDdb, {})
+            expect(before.filter(t => t.status).length).toEqual(after.filter(t => t.status).length)
+          })
           it('포스트 삭제 -> 코멘트 삭제', async () => {
             console.log('포스트 삭제')
             const {items: beforePost} = await getPosts(opDdb, {})
-            const removedPost = await removePost(opDdb, {hk: commentedPost.hk})
+            const removedPost = await removePost(opDdb, {
+              hk: commentedPost.hk,
+              user: commentedPost.user,
+            })
             expect(removedPost).toBeDefined()
             expect(removedPost.hk).toEqual(commentedPost.hk)
 
             const {items: afterPost} = await getPosts(opDdb, {})
             expect(afterPost.length).toEqual(beforePost.length)
             expect(
-              afterPost.filter(p => p.status === EEntityStatus.deletedByUser).length
+              afterPost.filter(p => p.status === EEntityStatus.deletedByUser).length,
             ).toEqual(1)
             console.table(afterPost)
 

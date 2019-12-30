@@ -71,7 +71,7 @@ describe('unit', function () {
             xit('포스트 삭제, 삭제 플래그만 표기 후 GSI 키를 제거한다.', async () => {
               // 실제로는 삭제 플래그만 가동
               const {items: before} = await getPosts(opDdb, {})
-              const removedPost = await removePost(opDdb, {hk: before[0].hk})
+              const removedPost = await removePost(opDdb, {hk: before[0].hk, user: before[0].user})
 
               expect(removedPost).toBeDefined()
               expect(removedPost.hk).toEqual(before[0].hk)
@@ -247,7 +247,7 @@ describe('unit', function () {
                 },
               ))
               console.log('포스트 삭제')
-              const removedPost = await removePost(opDdb, {hk: before[0].hk})
+              const removedPost = await removePost(opDdb, {hk: before[0].hk, user: before[0].user})
               expect(removedPost).toBeDefined()
               expect(removedPost.hk).toEqual(before[0].hk)
 
