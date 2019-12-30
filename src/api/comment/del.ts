@@ -9,7 +9,10 @@ export async function del(store: MetadataStore, ep: EntityFactory, input: DelApi
 
   assertsMemberOrNot(input.user)
 
-  return store.removeComment(input.data)
+  return store.removeComment({
+    hk: input.data.hk,
+    user: input.user
+  })
 }
 
 export type DelApiInput = ApiInputWithUser<YiguanaDocumentHash>

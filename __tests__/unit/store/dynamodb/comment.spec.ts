@@ -108,7 +108,10 @@ describe('unit', function () {
             it('removeComment', async () => {
               const {items: before} = await getComments(opDdb, {postId: commentedPost.hk})
               const [comment] = before
-              const deletedComment = await removeComment(opDdb, {hk: comment.hk})
+              const deletedComment = await removeComment(opDdb, {
+                hk: comment.hk,
+                user: comment.user,
+              })
               expect(deletedComment).toMatchObject(comment)
 
               const {items: after} = await getComments(opDdb, {postId: commentedPost.hk})
@@ -260,7 +263,10 @@ describe('unit', function () {
             console.log('코멘트 삭제')
             const {items: beforeComments} = await getComments(opDdb, {postId: commentedPost.hk})
             const [comment] = beforeComments
-            const deletedComment = await removeComment(opDdb, {hk: comment.hk})
+            const deletedComment = await removeComment(opDdb, {
+              hk: comment.hk,
+              user: comment.user,
+            })
             expect(deletedComment).toMatchObject(comment)
 
             const {items: afterComments} = await getComments(opDdb, {postId: commentedPost.hk})
