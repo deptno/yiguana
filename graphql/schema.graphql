@@ -152,8 +152,8 @@ type Mutation {
   likePost(hk: String!): Post
   likeComment(hk: String!): Comment
 
-  deletePost(postId: String!): Post
-  deleteComment(commentId: String!): Comment
+  deletePost(postId: String!, user: NotMemberInput): Post
+  deleteComment(commentId: String!, user: NotMemberInput): Comment
 
   replyReport(hk: String!, entity: EEntityType!, answer: String!, status: EEntityStatus): Boolean
 }
