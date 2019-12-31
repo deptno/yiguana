@@ -1,3 +1,9 @@
+0.2.9 조건에 의한 실패시 throw 에러
+- deletePost
+- deleteComment
+0.2.8 user 객체 전달(비회원시)
+- deletePost
+- deleteComment
 0.2.7 removePost: 권한 인증
 - removePost
 - removeComment

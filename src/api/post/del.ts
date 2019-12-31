@@ -9,10 +9,16 @@ export async function del(store: MetadataStore, ep: EntityFactory, input: DelApi
 
   assertsMemberOrNot(input.user)
 
-  return store.removePost({
+  const comment = await store.removePost({
     hk: input.data.hk,
     user: input.user
   })
+
+  if (!comment) {
+    throw new Error('fail')
+  }
+
+  return comment
 }
 
 export type DelApiInput = ApiInputWithUser<YiguanaDocumentHash>

@@ -1,5 +1,5 @@
-mutation ($postId: String!) {
-  deletePost(postId: $postId) {
+mutation ($postId: String!, $user: NotMemberInput) {
+  deletePost(postId: $postId, user: $user) {
     hk
   }
 }
