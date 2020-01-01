@@ -23,7 +23,7 @@ describe('unit', () => {
           data: {
             postId: post.hk,
             content: 'init data',
-            createdAt: new Date().toISOString()
+            createdAt: new Date().toISOString(),
           },
           user: member_f,
         })
@@ -33,7 +33,7 @@ describe('unit', () => {
         const {items} = await yiguana.comment.list({
           data: {
             postId: post.hk,
-          }
+          },
         })
         expect(items.length).toEqual(1)
       })
@@ -45,7 +45,7 @@ describe('unit', () => {
               data: {
                 postId: post.hk,
                 content: 'test data',
-                createdAt: new Date().toISOString()
+                createdAt: new Date().toISOString(),
               },
               user: member_a,
             })
@@ -55,7 +55,7 @@ describe('unit', () => {
           const {items} = await yiguana.comment.list({
             data: {
               postId: post.hk,
-            }
+            },
           })
           expect(items.length).toEqual(2)
         })
@@ -63,7 +63,7 @@ describe('unit', () => {
           const {items: before} = await yiguana.comment.list({
             data: {
               postId: post.hk,
-            }
+            },
           })
           console.table(before)
 
@@ -81,7 +81,7 @@ describe('unit', () => {
           const {items: after} = await yiguana.comment.list({
             data: {
               postId: post.hk,
-            }
+            },
           })
           console.table(after)
 
@@ -89,11 +89,11 @@ describe('unit', () => {
           const [afterItem] = after.filter(i => i.hk === comment.hk)
           expect(afterItem.content).not.toEqual(beforeItem.content)
         })
-        it('delete comment', async() => {
+        it('delete comment', async () => {
           const {items: before} = await yiguana.comment.list({
             data: {
               postId: post.hk,
-            }
+            },
           })
           console.table(before)
 
@@ -106,10 +106,16 @@ describe('unit', () => {
           const {items: after} = await yiguana.comment.list({
             data: {
               postId: post.hk,
-            }
+            },
           })
           console.table(after)
         })
+        it.todo(`
+  update 나 delete 시에 admin 계정의 경우 다른 루트를 태워서 수정해야한다.
+  removeComment 의 경우에는 유저 체크 로직이 존재하며')
+  updateComment 의 경우에는 유저 체 크로직이 존재하지 않는다.')
+  체크 하는 것이 정상적이라 판단되며 admin 계정의 경우 토큰에서 role 을 체크하여 체크를 하지 않도록 하는 로직이 필요하다.`,
+        )
       })
     })
   })
