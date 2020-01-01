@@ -20,7 +20,6 @@ export const getUploadUrl = (op: S3Input, option: ContentStoreOption, input: Get
       key: `${datetime}-media-${uuid()}${ext}`
     },
     Conditions: [
-      ['eq', '$acl', 'public-read'],
       ['starts-with', '$content-type', mime],
       ['content-length-range', min, max],
     ],
