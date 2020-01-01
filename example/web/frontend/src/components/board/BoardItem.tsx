@@ -18,7 +18,7 @@ export const BoardItem: FunctionComponent<Props> = props => {
     }
   `)
   const del = useCallback((e) => {
-    e.stopPropagation()
+    e.preventDefalut()
     deletePost({variables: {postId: item.hk}})
       .then(() => Router.push('/'))
       .catch(alert)

@@ -134,7 +134,6 @@ type User {
   ip: String!
   name: String!
   id: String
-  pw: String
 }
 
 enum Category {

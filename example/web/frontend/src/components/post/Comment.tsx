@@ -29,7 +29,7 @@ export const Comment: FunctionComponent<Props> = props => {
   }, [context.user])
   const [deleteComment] = useMutation(gql`${mutationDeleteComment}`)
   const del = useCallback((e) => {
-    e.stopPropagation()
+    e.preventDefalut()
     if (confirm('Do you want to delete this comment?')) {
       deleteComment({variables: {commentId: hk}}).then(onCreate)
     }
