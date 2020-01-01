@@ -1,3 +1,5 @@
+0.2.10 Comment.refUserName 반환
+- fragment 를 통하도록 수정
 0.2.9 조건에 의한 실패시 throw 에러
 - deletePost
 - deleteComment
