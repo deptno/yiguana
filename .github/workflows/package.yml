@@ -16,6 +16,9 @@ jobs:
             ~/.npm
             **/node_modules
           key: ${{ runner.os }}-be-build-${{ hashFiles('**/package-lock.json') }}
+      - name: install
+        if: steps.restore-cache.outputs.cache-hit != 'true'
+        run: npm ci
       - name: test
         run: npm test
       - name: publish
