@@ -1,3 +1,3 @@
-import {generate} from 'short-uuid'
+import {nanoid} from 'nanoid'
 
-export const uuid = generate
+export const uuid = nanoid
