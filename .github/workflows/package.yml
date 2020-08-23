@@ -26,12 +26,14 @@ jobs:
           NODE_AUTH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 #      - name: test
 #        run: npm test
-      - run: gpr publish
+      - name: publish to gpr
+        run: npm publish
         env:
           NODE_AUTH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       - uses: actions/setup-node@v1
         with:
           registry-url: 'https://registry.npmjs.org'
-      - run: npm publish
+      - name: publish to npm
+        run: npm publish
         env:
           NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
