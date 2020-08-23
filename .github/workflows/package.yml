@@ -1,8 +1,10 @@
 name: master
 on:
   push:
-    tags:
-      - 'release-*'
+    branches:
+      - master
+#    tags:
+#      - 'release-*'
 jobs:
   release:
     runs-on: ubuntu-latest
@@ -11,14 +13,7 @@ jobs:
       - uses: actions/setup-node@v1
         with:
           node-version: '12'
-      - name: restore cache
-        id: restore-cache
-        uses: actions/cache@v2
-        with:
-          path: |
-            ~/.npm
-            **/node_modules
-          key: ${{ runner.os }}-be-build-${{ hashFiles('**/package-lock.json') }}
+          registry-url: 'https://registry.npmjs.org'
       - name: install
         if: steps.restore-cache.outputs.cache-hit != 'true'
         run: npm ci
