@@ -22,8 +22,6 @@ jobs:
       - name: install
         if: steps.restore-cache.outputs.cache-hit != 'true'
         run: npm ci
-        env:
-          NODE_AUTH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 #      - name: test
 #        run: npm test
       - name: publish to npm
