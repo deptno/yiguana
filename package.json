@@ -51,10 +51,10 @@
     "@types/mime-types": "^2.1.0",
     "@types/node": "^10.14.21",
     "aws-sdk": "^2.585.0",
+    "babel-jest": "^26.3.0",
     "jest": "^26.4.2",
     "merge": "^1.2.1",
     "rimraf": "^3.0.2",
-    "ts-jest": "^26.2.0",
     "typescript": "^4.0.2"
   }
 }

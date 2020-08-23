@@ -1,6 +1,6 @@
 module.exports = {
   bail           : true,
-  preset         : './jest.preset.js',
+  preset         : '@shelf/jest-dynamodb',
   testEnvironment: 'node',
   testMatch      : [
     '**/?(*.)(spec|test).ts?(x)',
