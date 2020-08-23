@@ -80,7 +80,7 @@ describe('unit', function () {
 
               expect(after.length).toEqual(before.length)
 
-              const items = await opDdb.dynamodb.scan<any>({
+              const {items} = await opDdb.dynamodb.scan<any>({
                 TableName: opDdb.tableName,
               })
 

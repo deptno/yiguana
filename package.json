@@ -29,7 +29,7 @@
     "test.unit.store._verbose": "jest --verbose --silent -i --testPathPattern=/unit/store"
   },
   "dependencies": {
-    "@deptno/dynamodb": "0.0.21",
+    "@deptno/dynamodb": "^0.1.1",
     "@deptno/s3": "0.0.5",
     "debug": "^4.1.1",
     "mime-types": "^2.1.27",

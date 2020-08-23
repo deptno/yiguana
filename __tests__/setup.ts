@@ -92,13 +92,13 @@ export const getInitialData = async () => {
   console.debug('--- test data set')
   console.table(initialData)
 
-  return initialData
+  return initialData.items
 }
 
 
 export const clearData = async () => {
   const {dynamodb, tableName} = opDdb
-  const items = await dynamodb.scan({TableName: tableName})
+  const {items} = await dynamodb.scan({TableName: tableName})
 
   return dynamodb.batchWrite({
     tableName,
