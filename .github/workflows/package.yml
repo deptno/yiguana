@@ -1,0 +1,24 @@
+name: master
+on:
+  push:
+    tags:
+      - 'release-*'
+jobs:
+  release:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - name: restore cache
+        id: restore-cache
+        uses: actions/cache@v2
+        with:
+          path: |
+            ~/.npm
+            **/node_modules
+          key: ${{ runner.os }}-be-build-${{ hashFiles('**/package-lock.json') }}
+      - name: test
+        run: npm test
+      - name: publish
+        run: npm run deploy
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
