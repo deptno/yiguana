@@ -1,7 +1,7 @@
 {
   "name": "@deptno/yiguana",
   "description": "yiguana sdk",
-  "version": "0.3.3",
+  "version": "0.3.4",
   "main": "lib/index.js",
   "types": "lib/index.d.ts",
   "repository": {
@@ -14,13 +14,8 @@
   "homepage": "https://github.com/deptno/yiguana#readme",
   "author": "Bonggyun Lee<deptno@gmail.com>",
   "license": "ISC",
-  "publishConfig": {
-    "registry": "https://npm.pkg.github.com"
-  },
   "scripts": {
     "prepare": "rimraf lib && tsc -p src",
-    "postpublish": "npm publish --ignore-scripts --@deptno:registry='https://registry.npmjs.org' --access public",
-    "deploy": "npm publish",
     "deploy.gihtub": "git add example/web/client/out && git commit -m gh-pages && git subtree push --prefix client/out origin gh-pages",
     "test": "jest --collect-coverage  --silent --verbose -i --ci",
     "test.tsc": "tsc",
