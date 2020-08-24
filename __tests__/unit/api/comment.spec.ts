@@ -99,19 +99,11 @@ describe('unit', () => {
           console.log(before, 'before')
           console.log(comment, 'comment')
 
-          try {
-            const targetComment = await yiguana.comment.del({
-              user: admin,
-              data: comment,
-            })
-            console.table(targetComment)
-          } catch(e) {
-//             간만에 와서 기억이 없는데 에러나서 보니
-//             자기 코멘트 아닌걸 테스트하는 것 같아서
-//             에러처리가 맞는것 같다 판단됨
-            expect(e.message).toBe('fail')
-            console.log('todo: check 20200823')
-          }
+          const targetComment = await yiguana.comment.del({
+            user: admin,
+            data: comment,
+          })
+          console.table(targetComment)
 
           const {items: after} = await yiguana.comment.list({
             data: {
