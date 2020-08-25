@@ -1,2 +1,2 @@
-plantuml -o doc -tsvg README.md
+plantuml -tsvg asset/puml/*.puml -o ../svg
 git add doc
