@@ -6,19 +6,49 @@ abstract class Document {
     +hk: string
     -rk: string
 }
-class YiguanaDocument extends Document {
+abstract class YiguanaDocument extends Document {
     +hk: string
     -rk: string
     -- attributes --
+    userId?: string
+    byUser?: string
     postId?: string
-    userId: string
-    category: string
-    byUser: string
-    comments: string
-    posts: string
-    agg: string
-    reports: string
-    reportsEnd: string
+    category?: string
+    comments?: string
+    posts?: string
+    agg?: string
+    reports?: string
+    reportsEnd?: string
+    === gsi ==
+    = byUser
+    userId
+    byUser
+
+    = posts
+    rk
+    posts
+    ..
+    #EEntity.Like#Omit<EEntity, EEntity.Like>#[userId]
+
+    = postsByCategory
+    rk
+    category
+    ..
+    #EEntity.Report#Omit<EEntity, EEntity.Like|Entity.Report>#[userId]
+    #EEntity.Agg#EEntity.Report#Omit<EEntity, EEntity.Like|EEntity.Report>
+
+    = comments
+    postId
+    comments
+
+    = reports
+    agg
+    reports
+
+    = reportsEnd
+    agg
+    reportsEnd
+
     -- common --
     createdAt: string
     updatedAt?: string
@@ -142,6 +172,13 @@ enum EIndexName {
   reports
   reportsEnd
 }
+enum EEntity {
+  Post
+  Comment
+  Like
+  Report
+  Agg
+}
 enum ERole {
   admin
   npc
@@ -159,5 +196,20 @@ enum EYiguanaError {
   not_string
   admin_access_only
   post_comment_reply_are_supported
+}
+
+
+namespace GSI {
+class like << (G,orchid), GSI >> {
+    +rk: string
+    -category: string
+    === 쿼리 ==
+    #EEntity.Report#Omit<EEntity, EEntity.Like|Entity.Report>#[userId]
+    #EEntity.Agg#EEntity.Report#Omit<EEntity, EEntity.Like|EEntity.Report>
+}
+
+
+
+
 }
 @enduml

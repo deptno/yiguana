@@ -1,2 +1,2 @@
 plantuml -tsvg asset/puml/*.puml -o ../svg
-git add doc
+git add asset
