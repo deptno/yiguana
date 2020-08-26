@@ -16,16 +16,8 @@ state 사용중지 {
     reply: 덧글
 }
 user: 유저
-state Administrator {
-    administrator: 관리자
-}
-state S3_Access {
-    common: 댓글: 공개된 API
-    post: 글작성: 공개된 API
-}
-replyReport: 신고 처리
-
-createUploadUrl: (input: CreateUploadUrlApiInput)
+common: 댓글: 공개된 API
+post: 글작성: 공개된 API
 
 list: 리스트를 가져온다
 create: 생성
@@ -37,16 +29,15 @@ get: 가져온다.
 MetadataStore -down-> 유저
 EntityFactory -down-> 유저
 S3 -down-> 유저
-S3_Access ---up-> S3
 유저 --> yiguana
 yiguana --> common
 yiguana --> post
 yiguana --> comment
 yiguana --> reply
 yiguana --> user
-yiguana -----> administrator
 
-common --> createUploadUrl
+common --down-> createUploadUrl
+createUploadUrl --up-> S3
 
 post ---> list
 post ---> create
@@ -57,16 +48,38 @@ comment ---> create
 comment ---> read
 comment ---> del
 
-user --> get
-administrator --> replyReport
-administrator --> aggReport
-administrator --> report
+user ---> get
 
-aggReport --> list
-report --> all
-report ---> list
+state ADMINISTRATOR {
+    aggReport: 신고된 글 집계
+    report: ?
 
-state authorized {
+    yiguana -----> administrator
+    replyReport: 신고 처리
+    admin_all: 모든 리스트?
+    admin_list: 리스트
+    replyReport --> [*]
+    administrator: 관리자
+    administrator --> replyReport
+    administrator --> aggReport
+    administrator --> report
+
+    aggReport --> admin_list
+    report --> admin_all
+    report --> admin_list
+
+    admin_list --> [*]
+    admin_all --> [*]
+}
+
+state AUTHORIZED {
+    user_post: 글
+    user_comment: 댓글
+    user_report: 신고
+    user_like: 좋아요
+    user_list: 목록
+    user_create: 생성
+
     user ----> user_post
     user ----> user_comment
     user ----> user_report
@@ -75,8 +88,12 @@ state authorized {
     user_post --> user_like
     user_comment --> user_list
     user_comment --> user_like
-    user_report --> user_create
     user_report --> user_list
+    user_report --> user_create
+
+    user_create --> [*]
+    user_list --> [*]
+    user_like --> [*]
 }
 
 @enduml
