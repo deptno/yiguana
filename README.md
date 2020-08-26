@@ -8,6 +8,8 @@ yiguana-sdk,
 ## uml
 
 ![](asset/svg/class-diagram.svg)
+![](asset/svg/sequence-diagram.svg)
+![](asset/svg/sdk.svg)
 
 ## log
 ```shell script

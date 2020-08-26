@@ -21,33 +21,36 @@ abstract class YiguanaDocument extends Document {
     reportsEnd?: string
     === gsi ==
     = byUser
-    userId
-    byUser
+    +userId
+    -byUser
 
     = posts
-    rk
-    posts
+    +rk
+    -posts
     ..
     #EEntity.Like#Omit<EEntity, EEntity.Like>#[userId]
 
     = postsByCategory
-    rk
-    category
-    ..
-    #EEntity.Report#Omit<EEntity, EEntity.Like|Entity.Report>#[userId]
-    #EEntity.Agg#EEntity.Report#Omit<EEntity, EEntity.Like|EEntity.Report>
+    +rk
+    -category
+    .. range ..
+    #=**EEntity#EEntity#[userId]**
+    ~EEntity.Report#Omit<EEntity, EEntity.Like|Entity.Report>#[userId]()
+    ~EEntity.Agg#EEntity.Report#Omit<EEntity, EEntity.Like|EEntity.Report>()
+    ~EEntity.Agg, type: EEntity.Report, target: Omit<EEntity, EEntity.Like|EEntity.Report>
+
 
     = comments
-    postId
-    comments
+    +postId
+    -comments
 
     = reports
-    agg
-    reports
+    +agg
+    -reports
 
     = reportsEnd
-    agg
-    reportsEnd
+    +agg
+    -reportsEnd
 
     -- common --
     createdAt: string
@@ -200,16 +203,12 @@ enum EYiguanaError {
 
 
 namespace GSI {
-class like << (G,orchid), GSI >> {
-    +rk: string
-    -category: string
-    === 쿼리 ==
-    #EEntity.Report#Omit<EEntity, EEntity.Like|Entity.Report>#[userId]
-    #EEntity.Agg#EEntity.Report#Omit<EEntity, EEntity.Like|EEntity.Report>
-}
-
-
-
-
+    class like << (G,orchid), GSI >> {
+        +rk: string
+        -category: string
+        === 쿼리 ==
+        #EEntity.Report#Omit<EEntity, EEntity.Like|Entity.Report>#[userId]
+        #EEntity.Agg#EEntity.Report#Omit<EEntity, EEntity.Like|EEntity.Report>
+    }
 }
 @enduml

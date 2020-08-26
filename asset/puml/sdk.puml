@@ -1,0 +1,52 @@
+@startuml class-diagram
+title SDK
+
+top to bottom direction
+
+yiguana: createYiguana()
+common: yiguana.common
+post: yiguana.post
+comment: yiguana.comment
+reply: yiguana.reply
+user: yiguana.user
+state Authorized {
+    administrator: yiguana.administrator
+}
+
+createUploadUrl: (input: CreateUploadUrlApiInput)
+
+list:
+create:
+read:
+del:
+view:
+get:
+
+[*] --> yiguana
+yiguana --> common
+yiguana --> post
+yiguana --> comment
+yiguana --> reply
+yiguana --> user
+yiguana --> administrator
+
+common --> createUploadUrl
+
+post ----> list
+post ----> create
+post ----> del
+post ----> view
+comment ----> list
+comment ----> create
+comment ----> read
+comment ----> del
+
+user --> get
+administrator --> replyReport
+
+
+
+
+
+
+@enduml
