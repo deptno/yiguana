@@ -13,7 +13,6 @@ mutation ($hk: String!) {
       id
       ip
       name
-      pw
     }
     userId
     status

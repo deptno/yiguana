@@ -3,6 +3,7 @@ import debug from 'debug'
 const logApi = debug('yiguana:api')
 const logStore = debug('yiguana:store')
 
+export const logMain = debug('yiguana:main')
 export const logAsserts = debug('yiguana:assert')
 
 export const logStoreS3 = logStore.extend('s3')

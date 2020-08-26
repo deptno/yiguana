@@ -11,6 +11,7 @@ import {UserApi} from './user'
 import {MetadataStore} from '../store/dynamodb'
 import {AdministratorApi} from './administrator'
 import {CommonApi} from './common'
+import {logMain} from '../lib/log'
 
 export function createApi(params: CreateInput) {
   const {ddbClient, ddbTableName, s3Client, s3BucketName, s3MaxContentLength, s3MinContentLength} = params
@@ -31,6 +32,8 @@ export function createApi(params: CreateInput) {
     },
   )
   const ef = new EntityFactory()
+
+  logMain('createApi params: %j %j %j %j', ddbTableName, s3BucketName, s3MaxContentLength, s3MinContentLength)
 
   return {
     common: new CommonApi(ms, cs, ef),

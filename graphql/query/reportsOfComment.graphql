@@ -13,7 +13,6 @@ query ($hk: String!, $rk: String!) {
       id
       ip
       name
-      pw
     }
     commentId
     status
@@ -31,7 +30,6 @@ query ($hk: String!, $rk: String!) {
         id
         ip
         name
-        pw
       }
       commentId
       status
@@ -51,7 +49,6 @@ query ($hk: String!, $rk: String!) {
         id
         ip
         name
-        pw
       }
       content
       status

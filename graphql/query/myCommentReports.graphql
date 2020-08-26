@@ -11,7 +11,6 @@ query ($cursor: String) {
         name
         ip
         id
-        pw
       }
       userId
       data {
@@ -25,7 +24,6 @@ query ($cursor: String) {
           name
           id
           ip
-          pw
         }
         status
       }

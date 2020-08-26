@@ -7,12 +7,18 @@ import {useLazyQuery, useMutation} from '@apollo/react-hooks'
 import gql from 'graphql-tag'
 import {LineButton} from '../board/LineButton'
 import queryComments from '../../../../../../graphql/query/comments.graphql'
+import CommentAll from '../../../../../../graphql/fragment/CommentAll.graphql'
+import UserAll from '../../../../../../graphql/fragment/UserAll.graphql'
 import mutationLikeComment from '../../../../../../graphql/mutation/likeComment.graphql'
 
 export const Comments: FunctionComponent<Props> = props => {
   const {postId, count} = props
   const [{items, cursor}, setResponse] = useState({items: [] as (TComment | TReply)[], cursor: undefined})
-  const [getCommentsQuery, {data, refetch, fetchMore}] = useLazyQuery(gql`${queryComments}`)
+  const [getCommentsQuery, {data, refetch, fetchMore}] = useLazyQuery(gql`
+  ${queryComments}
+  ${CommentAll}
+  ${UserAll}
+`)
   const [likeMutation, {data: liked}] = useMutation(gql`${mutationLikeComment}`)
   const getComments = () => {
     if (postId) {

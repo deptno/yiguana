@@ -14,7 +14,6 @@ query ($hk: String!, $rk: String!) {
       id
       ip
       name
-      pw
     }
     content
 
@@ -29,7 +28,6 @@ query ($hk: String!, $rk: String!) {
         id
         ip
         name
-        pw
       }
       status
       answer

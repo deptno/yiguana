@@ -14,7 +14,6 @@ query ($cursor: String) {
         name
         id
         ip
-        pw
       }
       status
     }
