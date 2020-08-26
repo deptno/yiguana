@@ -10,34 +10,22 @@ yiguana-sdk,
   - Comment.read
   - User.get
   - Post.view
+  
 ## uml
+### 유스케이스
+#### 보기
+![](asset/svg/usecase-get.svg)
+#### 생성,수정,삭제</summary>
+![](asset/svg/usecase-put.svg)
+### 클래스 다이어그램
+![](asset/svg/class-diagram.svg)
+### 시퀀스 다이어그램
+![](asset/svg/sequence-diagram.svg)
 
-<details>
-    <summary>유스케이스 - 보기</summary>
-    ![](asset/svg/usecase-get.svg)
-</details>
-<details>
-    <summary>유스케이스 - 생성,수정,삭제</summary>
-    ![](asset/svg/usecase-put.svg)
-</details>
-<details>
-    <summary>클래스 다이어그램</summary>
-    ![](asset/svg/class-diagram.svg)
-</details>
-<details>
-    <summary>시퀀스 다이어그램</summary>
-    ![](asset/svg/sequence-diagram.svg)
-</details>
-<details>
-    <summary>시퀀스 다이어그램</summary>
-    ![](asset/svg/sequence-diagram.svg)
-</details>
-<details>
-    <summary>API 접근 다이어그램</summary>
-    ![](asset/svg/sdk-v0.svg)
-</details>
+---
 
-![](asset/svg/sdk.svg)
+### Yiguana SDK V0 흐름도
+![](asset/svg/sdk-v0.svg)
 
 ## log
 ```shell script
