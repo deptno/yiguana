@@ -1,10 +1,12 @@
 @startuml
 title API 흐름
 
-client -> api : {data, user}
+client -> client: 이구아나 생성
+note left client: const yiguana = createYiguana();
+client -> api: {data, user}
 note over client, api : data? 처리를 위해 사용된다.\nuser? 퍼미션 처리에 사용된다.
-client <-- api : throw if permission error
-api -> store : {...data, ...user?}
-client <-- api : throw if error
-client <- api : result
+client <-- api: throw if permission error
+api -> store: {...data, ...user?}
+client <-- api: throw if error
+client <- api: result
 @enduml

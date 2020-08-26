@@ -5,10 +5,17 @@
 
 yiguana-sdk,
 
+## v2
+- [ ] read, view, get 이 비슷한 의미를 가진다 통일 가능한지
+  - Comment.read
+  - User.get
+  - Post.view
 ## uml
 
 ![](asset/svg/class-diagram.svg)
+
 ![](asset/svg/sequence-diagram.svg)
+
 ![](asset/svg/sdk.svg)
 
 ## log

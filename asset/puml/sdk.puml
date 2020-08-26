@@ -1,52 +1,82 @@
-@startuml class-diagram
+@startuml
 title SDK
 
 top to bottom direction
 
-yiguana: createYiguana()
-common: yiguana.common
-post: yiguana.post
-comment: yiguana.comment
-reply: yiguana.reply
-user: yiguana.user
-state Authorized {
-    administrator: yiguana.administrator
+EntityFactory: entity
+
+state AWS {
+    S3: 이미지, etc
+    MetadataStore: dynamodb
 }
+
+yiguana: createYiguana()
+comment: 댓글
+state 사용중지 {
+    reply: 덧글
+}
+user: 유저
+state Administrator {
+    administrator: 관리자
+}
+state S3_Access {
+    common: 댓글: 공개된 API
+    post: 글작성: 공개된 API
+}
+replyReport: 신고 처리
 
 createUploadUrl: (input: CreateUploadUrlApiInput)
 
-list:
-create:
-read:
-del:
-view:
-get:
+list: 리스트를 가져온다
+create: 생성
+read: 읽기
+del: 삭제
+view: 읽기
+get: 가져온다.
 
-[*] --> yiguana
+MetadataStore -down-> 유저
+EntityFactory -down-> 유저
+S3 -down-> 유저
+S3_Access ---up-> S3
+유저 --> yiguana
 yiguana --> common
 yiguana --> post
 yiguana --> comment
 yiguana --> reply
 yiguana --> user
-yiguana --> administrator
+yiguana -----> administrator
 
 common --> createUploadUrl
 
-post ----> list
-post ----> create
-post ----> del
-post ----> view
-comment ----> list
-comment ----> create
-comment ----> read
-comment ----> del
+post ---> list
+post ---> create
+post ---> del
+post ---> view
+comment ---> list
+comment ---> create
+comment ---> read
+comment ---> del
 
 user --> get
 administrator --> replyReport
+administrator --> aggReport
+administrator --> report
 
+aggReport --> list
+report --> all
+report ---> list
 
+state authorized {
+    user ----> user_post
+    user ----> user_comment
+    user ----> user_report
 
-
-
+    user_post --> user_list
+    user_post --> user_like
+    user_comment --> user_list
+    user_comment --> user_like
+    user_report --> user_create
+    user_report --> user_list
+}
 
 @enduml
