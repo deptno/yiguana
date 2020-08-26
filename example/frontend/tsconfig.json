@@ -25,5 +25,27 @@
     "next-env.d.ts",
     "**/*.ts",
     "**/*.tsx"
-  ]
+  ],
+  "baseUrl": "src",
+  "paths": {
+    "@component": [
+      "component/atom/*",
+      "component/organism/*",
+      "component/template/*"
+    ],
+    "@constant": [
+      "constant",
+      "enum",
+      "data/*"
+    ],
+    "@lib/*": [
+      "lib/*"
+    ],
+    "@context/*": [
+      "context/*"
+    ],
+    "@hook": [
+      "hook/*"
+    ]
+  }
 }

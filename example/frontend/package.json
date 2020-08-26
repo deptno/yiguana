@@ -1,6 +1,6 @@
 {
   "name": "yiguana-example-frontend",
-  "version": "1.0.0",
+  "version": "0.0.0",
   "description": "yiguana e2e test",
   "main": "index.js",
   "scripts": {
@@ -12,8 +12,11 @@
   },
   "author": "Bonggyun Lee<deptno@gmail.com>",
   "private": true,
-  "devDependencies": {},
+  "devDependencies": {
+    "@types/react": "^16.9.47"
+  },
   "dependencies": {
+    "@deptno/color": "^0.1.0",
     "next": "^9.5.2",
     "react": "^16.13.1",
     "react-dom": "^16.13.1"
