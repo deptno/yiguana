@@ -1,5 +1,0 @@
-mutation ($commentId: String!, $user: NotMemberInput) {
-  deleteComment(commentId: $commentId, user: $user) {
-    hk
-  }
-}

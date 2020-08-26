@@ -1,9 +1,0 @@
-fragment ReportCommentAll on ReportComment {
-  hk
-  rk
-  userId
-  byUser
-  content
-  status
-  answer
-}

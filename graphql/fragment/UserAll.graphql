@@ -1,5 +1,0 @@
-fragment UserAll on User {
-  ip
-  name
-  id
-}

@@ -1,9 +1,0 @@
-fragment ReportPostAll on ReportPost {
-  hk
-  rk
-  userId
-  byUser
-  content
-  status
-  answer
-}

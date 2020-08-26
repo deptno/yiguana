@@ -1,3 +1,0 @@
-mutation ($hk: String!, $entity: EEntityType!, $answer: String!, $status: EEntityStatus) {
-  replyReport(hk: $hk, entity: $entity, answer: $answer, status: $status)
-}

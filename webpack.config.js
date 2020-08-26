@@ -9,14 +9,6 @@ module.exports = {
   externals: ['aws-sdk'],
   resolve  : {
     extensions: ['.js', '.jsx', '.json', '.ts', '.tsx'],
-    alias: {
-      deepmerge$: 'deepmerge/dist/umd.js',
-    }
-  },
-  output   : {
-    libraryTarget: 'commonjs',
-    path         : path.join(__dirname, '.webpack'),
-    filename     : '[name].js',
   },
   target   : 'node',
   module   : {
@@ -33,7 +25,4 @@ module.exports = {
       },
     ],
   },
-  optimization: {
-    minimize: false
-  }
 }
