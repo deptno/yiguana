@@ -1,0 +1,35 @@
+@startuml
+title 보기
+left to right direction
+
+actor 로그인유저 as member
+actor 익명 as notMember
+actor 관리자 as admin
+
+notMember --> (글목록): 보기
+note right
+: 시간 순 *
+: 카테고리별 시간 순
+: 좋아요 순?
+end note
+notMember --> (글): 보기
+
+(글) -> (글): viewCount + 1
+
+member --> (내 글 목록): 보기
+note right
+: 시간 순 *
+: 카테고리별 시간 순 ?
+: 좋아요 받은 순 ?
+end note
+member --> (내 댓글 목록): 보기
+member --> (내가 좋아요한 글목록): 보기
+member --> (내가 좋아요한 댓글목록): 보기
+member --> (내 신고글 목록): 보기
+member --> (내 신고댓글 목록): 보기
+member -> notMember
+
+admin --> (신고받은 글,댓글 목록): 보기
+admin --> (처리한 글,댓글 목록): 보기
+
+@enduml

@@ -1,0 +1,26 @@
+@startuml
+title 생성, 수정, 삭제
+
+actor 로그인유저 as member
+actor 익명 as notMember
+actor 관리자 as admin
+
+member -> notMember
+notMember ---> (글): 작성하기
+notMember ---> (댓글): 작성하기
+member --> (글): 좋아요, 신고하기
+member --> (댓글): 좋아요, 신고하기
+
+admin -> (글): 블락,삭제,무고 처리하기
+admin -> (댓글): 블락,삭제,무고 처리하기
+
+(글) <|-- (댓글)
+(댓글) <|-- (답글)
+note right
+**댓글**: 댓글과 같으나 참조하는 댓글의 참조가 들어간다.
+end note
+(답글) <|-- (덧글)
+note right
+**인용**: 답글과 같으나 덧글 쓴 유저의 참조가 들어간다. 비회원인 경우는?
+end note
+@enduml
