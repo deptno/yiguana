@@ -1,4 +1,4 @@
-declare namespace YiguanaDocument {
+declare namespace Yiguana {
   /**
    * union
    */
@@ -22,6 +22,38 @@ declare namespace YiguanaDocument {
     // 일정 수 이상 데이터가 쌓이면 AggReport 객체는 이상태가 된다. 현재는 1부터 시작이라 여기서 부터 바로 시작
     inAudit = 'inAudit',
   }
+  enum EntityType {
+    Post = 'post',
+    Comment = 'comment',
+    Like = 'like',
+    Report = 'report',
+    Agg = 'agg',
+  }
+  enum IndexType {
+    posts = 'posts',
+    postsByCategory = 'postsByCategory',
+    comments = 'comments',
+    byUser = 'byUser',
+    reports = 'reports',
+    reportsEnd = 'reportsEnd',
+  }
+  type ContentStoreOption = {
+    contentLengthRange: {
+      min: number
+      max: number
+    }
+  }
+  /**
+   * api interface
+   */
+  type ApiInput<T> = {
+    data: T
+  }
+  type ApiInputWithUser<T> = {
+    data: T
+    user: User
+  }
+
   /**
    * model
    */
@@ -37,11 +69,7 @@ declare namespace YiguanaDocument {
     pw: string
     name: string
   }
-  type Document = {
-    hk: string
-    rk: string
-  }
-  type Post = {
+  type PostDocument = {
     rk: 'post'
     views: number
     likes: number
@@ -50,12 +78,12 @@ declare namespace YiguanaDocument {
     contentUrl: string
     cover: string
     user: User
-    createdAt,
-    posts,
-    category,
-    byUser,
-  } & Document
-  type Comment = {
+    createdAt: string
+    posts: PostDocument[]
+    category: string
+    byUser: string
+  } & DynamoDB.Document
+  type CommentDocument = {
     rk: 'comment'
     content: string
     postId: string
@@ -65,20 +93,20 @@ declare namespace YiguanaDocument {
     userId?: string // gsi.user.hk
     byUser?: string //gsi.user.rk
     commentId?: string // reply 에서만 정의된다.
-  } & Document
-  type Reply = {
+  } & DynamoDB.Document
+  type ReplyDocument = {
     commentId: string
     refUserName?: string
-  } & Comment
-  type Report = {
+  } & CommentDocument
+  type ReportDocument = {
     userId: string
     byUser: string
     content: string
     user: User
-    data: Post | Comment | Reply
+    data: PostDocument | CommentDocument | ReplyDocument
     status: EEntityStatus
-  } & Document
-  type ReportAgg = {
+  } & DynamoDB.Document
+  type ReportAggDocument = {
     hk: string
     rk: string
     agg: string
@@ -86,5 +114,5 @@ declare namespace YiguanaDocument {
     reported: number
     status: EEntityStatus
     processed?: number
-  } & Document
+  } & DynamoDB.Document
 }

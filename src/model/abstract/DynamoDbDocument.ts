@@ -1,6 +1,7 @@
 export abstract class DynamoDbDocument {
   protected _data: string[]
-  protected constructor(document: YiguanaDocument.Document) {
-    this._data = document.rk.split('#')
+  protected constructor(public readonly _document: DynamoDB.Document) {
+    this._document = Object.freeze(_document)
+    this._data = _document.rk.split('#')
   }
 }
