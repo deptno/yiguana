@@ -1,10 +1,9 @@
-import {DynamoDBInput} from '../../entity/input/dynamodb'
-import {Member, NonMember, Post, User} from '../../entity'
+import {{dynamodb, tableName}} from '..//input/dynamodb'
+import {Member, NonMember, Post, User} from '../'
 import * as R from 'ramda'
-import {EEntityStatus, YiguanaDocumentHash} from '../../type'
 import {logStoreDdb} from '../../lib/log'
 
-export function removePost(operator: DynamoDBInput, input: RemovePostInput) {
+export function removePost(operator: {dynamodb, tableName}, input: RemovePostInput) {
   logStoreDdb('removePost input %j', input)
 
   const {dynamodb, tableName} = operator
@@ -28,16 +27,16 @@ export function removePost(operator: DynamoDBInput, input: RemovePostInput) {
         '#c': name,
       },
       ExpressionAttributeValues: {
-        ':s': EEntityStatus.deletedByUser,
+        ':s': Yiguana.EntityStatusType.deletedByUser,
         ':c': value
       },
       ReturnConsumedCapacity: 'TOTAL',
       ReturnValues: 'ALL_NEW',
       ConditionExpression: `#u.#c = :c`
     })
-    .then<Post>(R.prop('Attributes'))
+    .then<Post>(response => response.Attributes)
 }
 
-export type RemovePostInput = YiguanaDocumentHash & {
+export type RemovePostInput = Yiguana.Document & {
   user: Pick<Member, 'id'> | Pick<NonMember, 'pw'>
 }

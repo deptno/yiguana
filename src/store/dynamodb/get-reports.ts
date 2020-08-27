@@ -1,11 +1,10 @@
-import {DynamoDBInput} from '../../entity/input/dynamodb'
+import {{dynamodb, tableName}} from '..//input/dynamodb'
 import {keys} from '../../dynamodb/keys'
-import {Comment, Post} from '../../entity'
-import {Report} from '../../entity/report'
-import {EEntity} from '../../type'
+import {Comment, Post} from '../'
+import {Report} from '..//report'
 import {logStoreDdb} from '../../lib/log'
 
-export function getReports(operator: DynamoDBInput, input: ReportsInput) {
+export function getReports(operator: {dynamodb, tableName}, input: ReportsInput) {
   logStoreDdb('getReports input %j', input)
 
   const {tableName, dynamodb} = operator
@@ -21,7 +20,7 @@ export function getReports(operator: DynamoDBInput, input: ReportsInput) {
     ExpressionAttributeValues: {
       ':h': data.hk,
       ':r': keys.rk.report.stringify({
-        entity: EEntity.Report,
+        entity: Yiguana.EntityType.Report,
         target: data.rk
       }),
     },
@@ -33,7 +32,7 @@ export function getReports(operator: DynamoDBInput, input: ReportsInput) {
 }
 
 export type ReportsInput = {
-  data: Pick<Post|Comment, 'hk'|'rk'>
+  data: Yiguana.Document
   limit?: number
   exclusiveStartKey?: Exclude<any, string | number>
 }

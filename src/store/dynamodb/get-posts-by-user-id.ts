@@ -1,12 +1,9 @@
 import {Key} from 'readline'
-import {DynamoDBInput} from '../../entity/input/dynamodb'
-import {Post} from '../../entity/post'
 import {keys} from '../../dynamodb/keys'
 import {DocumentClient} from 'aws-sdk/clients/dynamodb'
-import {EEntity, EIndexName} from '../../type'
 import {logStoreDdb} from '../../lib/log'
 
-export function getPostsByUserId<T = Post>(operator: DynamoDBInput, input: PostsByUserIdInput) {
+export function getPostsByUserId<T = Post>(operator: {dynamodb, tableName}, input: PostsByUserIdInput) {
   logStoreDdb('getPostsByUserId input %j', input)
 
   const {tableName, dynamodb} = operator
@@ -14,7 +11,7 @@ export function getPostsByUserId<T = Post>(operator: DynamoDBInput, input: Posts
 
   const queryParams: DocumentClient.QueryInput = {
     TableName: tableName,
-    IndexName: EIndexName.byUser,
+    IndexName: Yiguana.IndexType.byUser,
     KeyConditionExpression: '#p = :p AND begins_with(#r, :r)',
     ExpressionAttributeNames: {
       '#p': 'userId',
@@ -22,7 +19,7 @@ export function getPostsByUserId<T = Post>(operator: DynamoDBInput, input: Posts
     },
     ExpressionAttributeValues: {
       ':p': userId,
-      ':r': keys.byUser.post.stringify({entity: EEntity.Post})
+      ':r': keys.byUser.post.stringify({entity: Yiguana.EntityType.Post})
     },
     ScanIndexForward: false,
     ReturnConsumedCapacity: 'TOTAL',

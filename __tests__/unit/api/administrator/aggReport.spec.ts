@@ -1,7 +1,6 @@
 import {Post} from '../../../../src/entity/post'
 import {Comment} from '../../../../src/entity/comment'
 import {admin, member_a, member_e} from '../../../__data__/user'
-import {EEntity} from '../../../../src/type'
 import {EYiguanaError} from '../../../../src/lib/assert'
 import {yiguana} from '../../../env'
 
@@ -35,7 +34,7 @@ describe('unit', () => {
           try {
             await yiguana.administrator.aggReport.list({
               data: {
-                entity: EEntity.Post,
+                entity: Yiguana.EntityType.Post,
               },
               user: member_a,
             })
@@ -47,7 +46,7 @@ describe('unit', () => {
         it('aggReports() === 0', async () => {
           const {items} = await yiguana.administrator.aggReport.list({
             data: {
-              entity: EEntity.Post,
+              entity: Yiguana.EntityType.Post,
             },
             user: admin,
           })
@@ -64,7 +63,7 @@ describe('unit', () => {
           })
           const {items} = await yiguana.administrator.aggReport.list({
             data: {
-              entity: EEntity.Post,
+              entity: Yiguana.EntityType.Post,
             },
             user: admin,
           })
@@ -81,7 +80,7 @@ describe('unit', () => {
           })
           const {items} = await yiguana.administrator.aggReport.list({
             data: {
-              entity: EEntity.Comment,
+              entity: Yiguana.EntityType.Comment,
             },
             user: admin,
           })

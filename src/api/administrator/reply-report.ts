@@ -1,11 +1,9 @@
 import {MetadataStore} from '../../store/dynamodb'
-import {EntityFactory} from '../../entity'
-import {ApiInputWithUser} from '../../type'
 import {logApiAdmin as log} from '../../lib/log'
 import {assertNotEmptyString, assertsAdmin} from '../../lib/assert'
 import {ReplyAggReportInput} from '../../store/dynamodb/reply-agg-report'
 
-export async function replyReport(store: MetadataStore, ef: EntityFactory, input: ReplyReportApiInput) {
+export async function replyReport(store: MetadataStore, input: ReplyReportApiInput) {
   log('reportReply %j', input)
 
   assertsAdmin(input.user)
@@ -39,4 +37,4 @@ export async function replyReport(store: MetadataStore, ef: EntityFactory, input
     .then(results => results.every(Boolean))
 }
 
-export type ReplyReportApiInput = ApiInputWithUser<ReplyAggReportInput>
+export type ReplyReportApiInput = Yiguana.ApiInputWithUser<ReplyAggReportInput>

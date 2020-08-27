@@ -8,7 +8,6 @@ import {member_a, member_b, member_c, member_d, member_e} from '../../../__data_
 import {createPostContentUnSafe} from '../../../../src/store/s3/create-post-content'
 import {createLike} from '../../../../src/entity/like'
 import {addLike} from '../../../../src/store/dynamodb/add-like'
-import {EEntity, EEntityStatus} from '../../../../src/type'
 import {put} from '../../../../src/store/dynamodb/raw/put'
 import {update} from '../../../../src/store/dynamodb/raw/update'
 import {incViews} from '../../../../src/store/dynamodb/inc-views'
@@ -23,7 +22,7 @@ describe('unit', function () {
         let postList: Post[]
 
         beforeEach(async () =>
-          getInitialData().then(data => postList = data.filter(d => d.rk === EEntity.Post) as Post[]),
+          getInitialData().then(data => postList = data.filter(d => d.rk === Yiguana.EntityType.Post) as Post[]),
         )
 
         describe('posts', function () {
@@ -84,8 +83,8 @@ describe('unit', function () {
                 TableName: opDdb.tableName,
               })
 
-              expect(items.filter(t => t.rk === EEntity.Post).length).toEqual(before.length)
-              expect(items.filter(t => t.rk === EEntity.Post).length).toEqual(after.length + 1)
+              expect(items.filter(t => t.rk === Yiguana.EntityType.Post).length).toEqual(before.length)
+              expect(items.filter(t => t.rk === Yiguana.EntityType.Post).length).toEqual(after.length + 1)
 
             })
           })
@@ -255,13 +254,13 @@ describe('unit', function () {
               console.table(after)
               expect(
                 after
-                  .filter(t => t.rk === EEntity.Post)
-                  .filter(t => t.status !== EEntityStatus.deletedByUser)
+                  .filter(t => t.rk === Yiguana.EntityType.Post)
+                  .filter(t => t.status !== Yiguana.EntityStatusType.deletedByUser)
                   .length,
               ).toEqual(before.length)
               expect(
                 after
-                  .filter(t => t.status === EEntityStatus.deletedByUser).length,
+                  .filter(t => t.status === Yiguana.EntityStatusType.deletedByUser).length,
               ).toEqual(1)
 
               console.log('다른 유저 리스트 aGun')

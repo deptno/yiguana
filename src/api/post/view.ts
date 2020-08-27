@@ -1,12 +1,10 @@
-import {EntityFactory} from '../../entity'
 import {ContentStore} from '../../store/s3'
 import {MetadataStore} from '../../store/dynamodb'
 import * as R from 'ramda'
-import {Post} from '../../entity/post'
-import {ApiInput, YiguanaDocumentHash} from '../../type'
 import {logApiPost as log} from '../../lib/log'
+import {Post} from '../../model'
 
-export async function view(ms: MetadataStore, cs: ContentStore, e: EntityFactory, input: ViewApiInput) {
+export async function view(ms: MetadataStore, cs: ContentStore, input: ViewApiInput) {
   log('view input %j', input)
 
   return Promise
@@ -17,4 +15,4 @@ export async function view(ms: MetadataStore, cs: ContentStore, e: EntityFactory
     .then<Post>(R.apply(Object.assign))
 }
 
-export type ViewApiInput = ApiInput<YiguanaDocumentHash>
+export type ViewApiInput = Yiguana.ApiInput<Yiguana.Document>

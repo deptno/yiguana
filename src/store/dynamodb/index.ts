@@ -1,6 +1,5 @@
 // TODO: 사용하지 않는 함수 정리 필요
 
-import {DynamoDBInput} from '../../entity/input/dynamodb'
 import {getPostsByCategory, PostsByCategoryInput} from './get-posts-by-category'
 import {removePost, RemovePostInput} from './remove-post'
 import {del, RemoveStoreInput} from './raw/del'
@@ -21,21 +20,19 @@ import {decReportAgg, DecReportAggInput} from './dec-report-agg'
 import {AggReportsInput, getAggReports} from './get-agg-reports'
 import {getReports, ReportsInput} from './get-reports'
 import {replyAggReport, ReplyAggReportInput} from './reply-agg-report'
-import {replyReports, ReplyReportInput} from './reply-reports'
-import {getAllReports, GetAllReportsInput} from './get-all-reports'
+import {ReplyReportInput, replyReports} from './reply-reports'
+import {getAllReports} from './get-all-reports'
 import {update, UpdateStoreInput} from './raw/update'
 import {getReportsByUser, ReportByUserInput} from './get-reports-by-user'
 import {put, PutStoreInput} from './raw/put'
-import {EEntity, YiguanaDocument, YiguanaDocumentHash} from '../../type'
 import {incLikes, IncLikesStoreInput} from './inc-likes'
 import {decLikes, DecLikesStoreInput} from './dec-likes'
 import {incViews} from './inc-views'
-import {Comment, Post, Reply} from '../../entity'
 import {incChildren} from './inc-children'
 import * as R from 'ramda'
 
 export class MetadataStore {
-  constructor(private operator: DynamoDBInput) {
+  constructor(private operator: {dynamodb, tableName}) {
 
   }
 
@@ -86,11 +83,11 @@ export class MetadataStore {
 
   /**
    * Post의 views 를 1 증가 시킨다.
-   * @param {YiguanaDocumentHash} input
+   * @param {Yiguana.Document} input
    * @returns {Promise<Post>}
    */
-  viewPost(input: YiguanaDocumentHash) {
-    return incViews(this.operator, {hk: input.hk, rk: EEntity.Post} as Post)
+  viewPost(input: Yiguana.Document) {
+    return incViews(this.operator, {hk: input.hk, rk: Yiguana.EntityType.Post})
   }
 
   /**
@@ -113,7 +110,7 @@ export class MetadataStore {
         put(this.operator, input),
         incChildren(this.operator, {
           hk: input.postId,
-          rk: EEntity.Post,
+          rk: Yiguana.EntityType.Post,
         }),
       ])
       .then<T>(R.head)
@@ -235,7 +232,7 @@ export class MetadataStore {
    * @param {GetAllReportsInput} input
    * @returns {Promise<Report[]>}
    */
-  getReportsAll(input: GetAllReportsInput) {
+  getReportsAll(input: DynamoDB.Document) {
     return getAllReports(this.operator, input)
   }
 
@@ -286,19 +283,19 @@ export class MetadataStore {
   }
 
   // raw 함수들은 래핑을 한번 하는게 좋아보임
-  put<T extends YiguanaDocument>(input: PutStoreInput) {
+  put<T extends Yiguana.Document>(input: PutStoreInput) {
     return put<T>(this.operator, input)
   }
 
-  get<T extends YiguanaDocument>(input: GetStoreInput) {
+  get<T extends Yiguana.Document>(input: GetStoreInput) {
     return get<T>(this.operator, input)
   }
 
-  update<T extends YiguanaDocument>(input: UpdateStoreInput) {
+  update<T extends Yiguana.Document>(input: UpdateStoreInput) {
     return update<T>(this.operator, input)
   }
 
-  del<T extends YiguanaDocument>(input: RemoveStoreInput) {
+  del<T extends Yiguana.Document>(input: RemoveStoreInput) {
     return del<T>(this.operator, input)
   }
 }

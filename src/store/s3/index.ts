@@ -1,12 +1,10 @@
-import {S3Input} from '../../entity/input/s3'
 import {getPostContentUnSafe, GetPostContentUnSafeInput} from './get-post-content'
 import {createPostContentUnSafe, CreatePostContentUnSafeInput} from './create-post-content'
 import {logStoreS3} from '../../lib/log'
 import {getUploadUrl, GetUploadUrlInput} from './get-upload-url'
-import {ContentStoreOption} from '../../type'
 
 export class ContentStore {
-  constructor(private operator: S3Input, private option: ContentStoreOption) {
+  constructor(private operator: {s3, bucketName}, private option: Yiguana.ContentStoreOption) {
 
   }
 

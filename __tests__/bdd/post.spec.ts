@@ -3,7 +3,6 @@ import {opDdb} from '../env'
 import {getInitialData} from '../setup'
 import {Post} from '../../src/entity/post'
 import {uiComment} from '../ui'
-import {EEntity} from '../../src/type'
 
 describe('bdd', function () {
   describe('post', function () {
@@ -11,7 +10,7 @@ describe('bdd', function () {
     let postList: Post[]
 
     beforeEach(() =>
-      getInitialData().then(data => postList = data.filter(d => d.rk === EEntity.Post) as Post[]),
+      getInitialData().then(data => postList = data.filter(d => d.rk === Yiguana.EntityType.Post) as Post[]),
     )
     it.todo('보기')
     it.todo('좋아요 누르기')

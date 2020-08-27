@@ -1,9 +1,4 @@
-import {DynamoDBInput} from '../../entity/input/dynamodb'
-import {Comment} from '../../entity'
-import * as R from 'ramda'
-import {EEntity, YiguanaDocumentHash} from '../../type'
-
-export async function commentPost(operator: DynamoDBInput, params: CommentPostInput) {
+export async function commentPost(operator: {dynamodb, tableName}, params: CommentPostInput) {
   const {dynamodb, tableName} = operator
   const {data} = params
   const {hk} = data
@@ -13,7 +8,7 @@ export async function commentPost(operator: DynamoDBInput, params: CommentPostIn
       TableName: tableName,
       Key: {
         hk,
-        rk: EEntity.Post,
+        rk: Yiguana.EntityType.Post,
       },
       UpdateExpression: 'SET #v = #v + :v',
       ExpressionAttributeNames: {
@@ -25,9 +20,9 @@ export async function commentPost(operator: DynamoDBInput, params: CommentPostIn
       ReturnConsumedCapacity: 'TOTAL',
       ReturnValues: 'ALL_NEW',
     })
-    .then<Comment>(R.prop('Attributes'))
+    .then<Comment>(response => response.Attributes)
 }
 
 export type CommentPostInput = {
-  data: YiguanaDocumentHash
+  data: Yiguana.Document
 }

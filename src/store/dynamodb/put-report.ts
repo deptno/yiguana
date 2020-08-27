@@ -1,9 +1,9 @@
-import {DynamoDBInput} from '../../entity/input/dynamodb'
-import {Report} from '../../entity/report'
+import {{dynamodb, tableName}} from '..//input/dynamodb'
+import {Report} from '..//report'
 import * as R from 'ramda'
 import {logStoreDdb} from '../../lib/log'
 
-export function putReport(operator: DynamoDBInput, input: ReportInput) {
+export function putReport(operator: {dynamodb, tableName}, input: ReportInput) {
   logStoreDdb('report input %j', input)
 
   const {dynamodb, tableName} = operator
@@ -38,7 +38,7 @@ export function putReport(operator: DynamoDBInput, input: ReportInput) {
       ConditionExpression: 'attribute_not_exists(#h)',
       ReturnValues: 'ALL_NEW',
     })
-    .then<Report>(R.prop('Attributes'))
+    .then<Report>(response => response.Attributes)
 }
 
 export type ReportInput = Report

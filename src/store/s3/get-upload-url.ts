@@ -1,10 +1,8 @@
-import {S3Input} from '../../entity/input/s3'
 import {extname} from 'path'
 import {lookup} from 'mime-types'
 import {uuid} from '../../lib/uuid'
-import {ContentStoreOption} from '../../type'
 
-export const getUploadUrl = (op: S3Input, option: ContentStoreOption, input: GetUploadUrlInput) => {
+export const getUploadUrl = (op: {s3, bucketName}, option: Yiguana.ContentStoreOption, input: GetUploadUrlInput) => {
   const datetime = new Date().toISOString().replace('T', '/')
   const ext = extname(input.key)
   const mime = lookup(ext) as string

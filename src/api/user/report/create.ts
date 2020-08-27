@@ -1,10 +1,9 @@
 import {MetadataStore} from '../../../store/dynamodb'
-import {Comment, EntityFactory, Post, Reply} from '../../../entity'
-import {ApiInputWithUser} from '../../../type'
+import {Comment, Post, Reply} from '../../'
 import {logApiUserReport as log} from '../../../lib/log'
 import {assertsMember} from '../../../lib/assert'
 
-export async function create(store: MetadataStore, ef: EntityFactory, input: ReportApiInput) {
+export async function create(store: MetadataStore, input: ReportApiInput) {
   log('create %j', input)
 
   assertsMember(input.user)
@@ -19,7 +18,7 @@ export async function create(store: MetadataStore, ef: EntityFactory, input: Rep
   }
 }
 
-export type ReportApiInput = ApiInputWithUser<{
+export type ReportApiInput = Yiguana.ApiInputWithUser<{
   data: Post | Comment | Reply
   content: string
   createdAt: string

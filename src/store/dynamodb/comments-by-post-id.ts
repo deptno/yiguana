@@ -1,15 +1,11 @@
-import {DynamoDBInput} from '../../entity/input/dynamodb'
-import {Comment} from '../../entity/comment'
-import {EEntity, EIndexName} from '../../type'
-
-export function commentsByPostId<T = Comment>(operator: DynamoDBInput, params: CommentsByPostIdInput) {
+export function commentsByPostId<T = Comment>(operator: {dynamodb, tableName}, params: CommentsByPostIdInput) {
   const {tableName, dynamodb} = operator
   const {postId, nextToken} = params
 
   // todo
   const queryParams = {
     TableName: tableName,
-    IndexName: EIndexName.comments,
+    IndexName: Yiguana.IndexType.comments,
     KeyConditionExpression: '#h = :h',
     ExpressionAttributeNames: {
       '#h': 'postId',

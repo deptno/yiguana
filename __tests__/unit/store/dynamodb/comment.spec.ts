@@ -13,7 +13,6 @@ import {incLikes} from '../../../../src/store/dynamodb/inc-likes'
 import {createLike} from '../../../../src/entity/like'
 import {addLike} from '../../../../src/store/dynamodb/add-like'
 import {member_d, member_e} from '../../../__data__/user'
-import {EEntity, EEntityStatus} from '../../../../src/type'
 import {removeLike} from '../../../../src/store/dynamodb/remove-like'
 import {put} from '../../../../src/store/dynamodb/raw/put'
 import {get} from '../../../../src/store/dynamodb/raw/get'
@@ -29,7 +28,7 @@ describe('unit', function () {
 
         describe('comments', () => {
           beforeAll(() => getInitialData().then(data => {
-            postList = data.filter(d => d.rk === EEntity.Post) as Post[]
+            postList = data.filter(d => d.rk === Yiguana.EntityType.Post) as Post[]
             commentedPost = postList[4]
           }))
 
@@ -167,7 +166,7 @@ describe('unit', function () {
 
         describe('commentsByUserId', () => {
           beforeAll(() => getInitialData().then(data => {
-            postList = data.filter(d => d.rk === EEntity.Post) as Post[]
+            postList = data.filter(d => d.rk === Yiguana.EntityType.Post) as Post[]
             commentedPost = postList[4]
           }))
 
@@ -214,7 +213,7 @@ describe('unit', function () {
 
         describe('commentsByPostId', () => {
           beforeAll(() => getInitialData().then(data => {
-            postList = data.filter(d => d.rk === EEntity.Post) as Post[]
+            postList = data.filter(d => d.rk === Yiguana.EntityType.Post) as Post[]
             commentedPost = postList[4]
           }))
 
@@ -228,7 +227,7 @@ describe('unit', function () {
 
         describe('removePost', () => {
           beforeAll(() => getInitialData().then(data => {
-            postList = data.filter(d => d.rk === EEntity.Post) as Post[]
+            postList = data.filter(d => d.rk === Yiguana.EntityType.Post) as Post[]
             commentedPost = postList[4]
           }))
           it('포스트 삭제 -> 코멘트 삭제 실패(다른 유저 정보 불일치)', async () => {
@@ -256,7 +255,7 @@ describe('unit', function () {
             const {items: afterPost} = await getPosts(opDdb, {})
             expect(afterPost.length).toEqual(beforePost.length)
             expect(
-              afterPost.filter(p => p.status === EEntityStatus.deletedByUser).length,
+              afterPost.filter(p => p.status === Yiguana.EntityStatusType.deletedByUser).length,
             ).toEqual(1)
             console.table(afterPost)
 

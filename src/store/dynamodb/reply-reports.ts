@@ -1,9 +1,7 @@
 import * as R from 'ramda'
-import {DynamoDBInput} from '../../entity/input/dynamodb'
-import {EEntityStatus, YiguanaDocumentHashRange} from '../../type'
 import {logStoreDdb} from '../../lib/log'
 
-export function replyReports(operator: DynamoDBInput, input: ReplyReportInput) {
+export function replyReports(operator: {dynamodb, tableName}, input: ReplyReportInput) {
   logStoreDdb('replyReports input %j', input)
 
   const {data, answer, status} = input
@@ -24,11 +22,11 @@ export function replyReports(operator: DynamoDBInput, input: ReplyReportInput) {
       },
       ReturnValues: 'ALL_NEW',
     })
-    .then(R.prop('Attributes'))
+    .then(response => response.Attributes)
 }
 
 export type ReplyReportInput = {
-  data: YiguanaDocumentHashRange
+  data: Yiguana.Document
   answer: string
-  status: EEntityStatus
+  status: Yiguana.EntityStatusType
 }

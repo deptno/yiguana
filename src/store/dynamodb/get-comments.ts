@@ -1,9 +1,6 @@
-import {DynamoDBInput} from '../../entity/input/dynamodb'
-import {Comment, Reply} from '../../entity/comment'
-import {EIndexName} from '../../type'
 import {logStoreDdb} from '../../lib/log'
 
-export function getComments(operator: DynamoDBInput, input: CommentsInput) {
+export function getComments(operator: {dynamodb, tableName}, input: CommentsInput) {
   logStoreDdb('getComments input %j', input)
 
   const {tableName, dynamodb} = operator
@@ -11,7 +8,7 @@ export function getComments(operator: DynamoDBInput, input: CommentsInput) {
 
   return dynamodb.query<Comment|Reply>({
     TableName: tableName,
-    IndexName: EIndexName.comments,
+    IndexName: Yiguana.IndexType.comments,
     KeyConditionExpression: '#p = :p',
     ExpressionAttributeNames: {
       '#p': 'postId',

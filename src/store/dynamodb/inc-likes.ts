@@ -1,11 +1,8 @@
-import {DynamoDBInput} from '../../entity/input/dynamodb'
-import {YiguanaDocumentHashRange} from '../../type'
 import {inc} from './raw/inc'
 import {logStoreDdb} from '../../lib/log'
 import {assertPostOrComment} from '../../lib/assert'
-import {Post, Comment} from '../../entity'
 
-export async function incLikes<T extends Post|Comment>(operator: DynamoDBInput, input: IncLikesStoreInput) {
+export async function incLikes<T extends Yiguana.PostDocument|Yiguana.CommentDocument>(operator: {dynamodb, tableName}, input: IncLikesStoreInput) {
   logStoreDdb('incLikes input %j', input)
 
   assertPostOrComment(input)
@@ -19,5 +16,5 @@ export async function incLikes<T extends Post|Comment>(operator: DynamoDBInput, 
   })
 }
 
-export type IncLikesStoreInput = YiguanaDocumentHashRange
+export type IncLikesStoreInput = Yiguana.Document
 

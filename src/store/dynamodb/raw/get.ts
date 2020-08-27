@@ -1,9 +1,8 @@
-import {DynamoDBInput} from '../../../entity/input/dynamodb'
-import {YiguanaDocument, YiguanaDocumentHashRange} from '../../../type'
+import {{dynamodb, tableName}} from '../..//input/dynamodb'
 import * as R from 'ramda'
 import {logStoreDdb} from '../../../lib/log'
 
-export async function get<T extends YiguanaDocument>(operator: DynamoDBInput, input: GetStoreInput) {
+export async function get<T extends Yiguana.Document>(operator: {dynamodb, tableName}, input: GetStoreInput) {
   logStoreDdb('get input %j', input)
 
   const {dynamodb, tableName} = operator
@@ -14,4 +13,4 @@ export async function get<T extends YiguanaDocument>(operator: DynamoDBInput, in
   })
 }
 
-export type GetStoreInput = YiguanaDocumentHashRange
+export type GetStoreInput = Yiguana.Document

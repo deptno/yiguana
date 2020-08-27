@@ -1,21 +1,19 @@
 import {MetadataStore} from '../../store/dynamodb'
-import {EntityFactory} from '../../entity'
 import {UserPostApi} from './post'
 import {UserCommentApi} from './comment'
 import {UserReportApi} from './report'
-import {YiguanaDocument} from '../../type'
 import {get, GetApiInput} from './get'
 
 export class UserApi {
-  post = new UserPostApi(this.ms, this.ef)
-  comment = new UserCommentApi(this.ms, this.ef)
-  report = new UserReportApi(this.ms, this.ef)
+  post = new UserPostApi(this.ms)
+  comment = new UserCommentApi(this.ms)
+  report = new UserReportApi(this.ms)
 
-  constructor(private ms: MetadataStore, private ef: EntityFactory) {
+  constructor(private ms: MetadataStore) {
   }
 
-  get<T extends YiguanaDocument>(input: GetApiInput) {
-    return get<T>(this.ms, this.ef, input)
+  get<T extends Yiguana.Document>(input: GetApiInput) {
+    return get<T>(this.ms, input)
   }
 }
 

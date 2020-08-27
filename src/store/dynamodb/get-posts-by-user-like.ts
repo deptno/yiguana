@@ -1,13 +1,11 @@
-import {DynamoDBInput} from '../../entity/input/dynamodb'
-import {Post} from '../../entity/post'
+import {Post} from '..//post'
 import {_likesByUser, QueryByUserLike} from './_likes-by-user'
-import {EEntity} from '../../type'
 import {logStoreDdb} from '../../lib/log'
 
-export function getPostsByUserLike(operator: DynamoDBInput, input: PostsByUserLikeInput) {
+export function getPostsByUserLike(operator: {dynamodb, tableName}, input: PostsByUserLikeInput) {
   logStoreDdb('getPostsByUserLike input %j', input)
 
-  return _likesByUser<Post>(operator, {...input, entity: EEntity.Post})
+  return _likesByUser<Post>(operator, {...input, entity: Yiguana.EntityType.Post})
     .then(response => {
       return {
         ...response,
@@ -15,4 +13,4 @@ export function getPostsByUserLike(operator: DynamoDBInput, input: PostsByUserLi
       }
     })
 }
-export type PostsByUserLikeInput = Omit<QueryByUserLike<EEntity.Post>, 'entity'> & {limit?: number}
+export type PostsByUserLikeInput = Omit<QueryByUserLike<Yiguana.EntityType.Post>, 'entity'> & {limit?: number}

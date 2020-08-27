@@ -7,7 +7,7 @@ declare namespace Yiguana {
   /**
    * enum
    */
-  enum EEntityStatus {
+  enum EntityStatusType {
     requestedBlock = 'requestedBlock',
     // 현재는 쓰이지 않으나 자동으로 충족된 조건에 의해서 블락되는 경우
     blockedBySystem = 'blockedBySystem',
@@ -57,6 +57,11 @@ declare namespace Yiguana {
   /**
    * model
    */
+  type Document = {
+    createdAt: string
+    updatedAt?: string
+    status?: EntityStatusType
+  } & DynamoDB.Document
   type Member = {
     id: string
     name: string
@@ -82,7 +87,7 @@ declare namespace Yiguana {
     posts: PostDocument[]
     category: string
     byUser: string
-  } & DynamoDB.Document
+  } & Document
   type CommentDocument = {
     rk: 'comment'
     content: string
@@ -93,7 +98,7 @@ declare namespace Yiguana {
     userId?: string // gsi.user.hk
     byUser?: string //gsi.user.rk
     commentId?: string // reply 에서만 정의된다.
-  } & DynamoDB.Document
+  } & Document
   type ReplyDocument = {
     commentId: string
     refUserName?: string
@@ -104,15 +109,21 @@ declare namespace Yiguana {
     content: string
     user: User
     data: PostDocument | CommentDocument | ReplyDocument
-    status: EEntityStatus
-  } & DynamoDB.Document
+    status: EntityStatusType
+  } & Document
   type ReportAggDocument = {
     hk: string
     rk: string
     agg: string
     reports: string
     reported: number
-    status: EEntityStatus
+    status: EntityStatusType
     processed?: number
-  } & DynamoDB.Document
+  } & Document
+  type LikeDocument = {
+    userId: string
+    byUser: string
+    user: User
+    data: PostDocument | CommentDocument | ReplyDocument
+  } & Document
 }

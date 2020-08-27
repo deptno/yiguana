@@ -1,11 +1,10 @@
 import {util} from '@deptno/dynamodb'
-import {EEntity} from '../type'
 
 const {createKey} = util
 
 export const keys = {
   rk: {
-    like: createKey<{entity: EEntity.Like, target: Omit<EEntity, EEntity.Like>, userId: string}>(
+    like: createKey<{entity: Yiguana.EntityType.Like, target: Omit<Yiguana.EntityType, Yiguana.EntityType.Like>, userId: string}>(
       ['entity', 'target', 'userId'],
       {
         entity: v => v,
@@ -13,7 +12,7 @@ export const keys = {
         userId: v => v
       }
     ),
-    report: createKey<{entity: EEntity.Report, target: Omit<EEntity, EEntity.Like|EEntity.Report>, userId: string}>(
+    report: createKey<{entity: Yiguana.EntityType.Report, target: Omit<Yiguana.EntityType, Yiguana.EntityType.Like|Yiguana.EntityType.Report>, userId: string}>(
       ['entity', 'target', 'userId'],
       {
         entity: v => v,
@@ -21,7 +20,7 @@ export const keys = {
         userId: v => v
       }
     ),
-    agg: createKey<{agg: EEntity.Agg, type: EEntity.Report, target: Omit<EEntity, EEntity.Like|EEntity.Report>}>(
+    agg: createKey<{agg: Yiguana.EntityType.Agg, type: Yiguana.EntityType.Report, target: Omit<Yiguana.EntityType, Yiguana.EntityType.Like|Yiguana.EntityType.Report>}>(
       ['agg', 'type', 'target'],
       {
         agg: v => v,
@@ -40,7 +39,7 @@ export const keys = {
     ), // like get 을 위한 키
   },
   like: {
-    like: createKey<{ userId: string, entity: EEntity, targetId: string, createdAt: string }>(
+    like: createKey<{ userId: string, entity: Yiguana.EntityType, targetId: string, createdAt: string }>(
       ['userId', 'entity', 'targetId', 'createdAt'],
       {
         targetId: v => v,
@@ -58,10 +57,10 @@ export const keys = {
     },
   ),
   order: {
-    post: createKey<{ entity: EEntity, category: string, createdAt: string }>(
+    post: createKey<{ entity: Yiguana.EntityType, category: string, createdAt: string }>(
       ['entity', 'category', 'createdAt'],
       {
-        entity: v => v as EEntity.Post,
+        entity: v => v as Yiguana.EntityType.Post,
         category: v => v,
         createdAt: v => v,
       },
@@ -82,49 +81,49 @@ export const keys = {
   ),
   byUser: {
 
-    post: createKey<{ entity: EEntity, createdAt: string }>(
+    post: createKey<{ entity: Yiguana.EntityType, createdAt: string }>(
       ['entity', 'createdAt'],
       {
-        entity: v => v as EEntity,
+        entity: v => v as Yiguana.EntityType,
         createdAt: v => v,
       },
     ),
-    comment: createKey<{ entity: EEntity, createdAt: string }>(
+    comment: createKey<{ entity: Yiguana.EntityType, createdAt: string }>(
       ['entity', 'createdAt'],
       {
-        entity: v => v as EEntity,
+        entity: v => v as Yiguana.EntityType,
         createdAt: v => v,
       },
     ),
 
-    reply: createKey<{ entity: EEntity, createdAt: string }>(
+    reply: createKey<{ entity: Yiguana.EntityType, createdAt: string }>(
       ['entity', 'createdAt'],
       {
-        entity: v => v as EEntity,
+        entity: v => v as Yiguana.EntityType,
         createdAt: v => v,
       },
     ),
-    like: createKey<{ entity: EEntity, createdAt: string }>(
+    like: createKey<{ entity: Yiguana.EntityType, createdAt: string }>(
       ['entity', 'createdAt'],
       {
-        entity: v => v as EEntity,
+        entity: v => v as Yiguana.EntityType,
         createdAt: v => v,
       },
     ),
-    report: createKey<{ entity: EEntity, target?: EEntity.Post|EEntity.Comment, createdAt: string }>(
+    report: createKey<{ entity: Yiguana.EntityType, target?: Yiguana.EntityType.Post|Yiguana.EntityType.Comment, createdAt: string }>(
       ['entity', 'target', 'createdAt'],
       {
-        entity: v => v as EEntity,
+        entity: v => v as Yiguana.EntityType,
         target: v => v || '',
         createdAt: v => v,
       },
     ),
   },
-  agg: createKey<{ type: EEntity.Report, entity: EEntity.Post|EEntity.Comment}>(
+  agg: createKey<{ type: Yiguana.EntityType.Report, entity: Yiguana.EntityType.Post|Yiguana.EntityType.Comment}>(
     ['type', 'entity'],
     {
-      type: v => EEntity.Report,
-      entity: v => v as EEntity.Post|EEntity.Comment,
+      type: v => Yiguana.EntityType.Report,
+      entity: v => v as Yiguana.EntityType.Post|Yiguana.EntityType.Comment,
     },
   ),
 }

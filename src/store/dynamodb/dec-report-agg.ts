@@ -1,13 +1,7 @@
-import {DynamoDBInput} from '../../entity/input/dynamodb'
-import {EEntity} from '../../type'
-import * as R from 'ramda'
 import {keys} from '../../dynamodb/keys'
-import {ReportAgg} from '../../entity/report/report-agg'
 import {logStoreDdb} from '../../lib/log'
-import {Post} from '../../entity/post'
-import {Comment, Reply} from '../../entity/comment'
 
-export function decReportAgg(operator: DynamoDBInput, input: DecReportAggInput) {
+export function decReportAgg(operator: {dynamodb, tableName}, input: DecReportAggInput) {
   logStoreDdb('decReportCount input %j', input)
 
   const {dynamodb, tableName} = operator
@@ -19,9 +13,9 @@ export function decReportAgg(operator: DynamoDBInput, input: DecReportAggInput) 
       Key: {
         hk,
         rk: keys.rk.agg.stringify({
-          agg: EEntity.Agg,
-          type: EEntity.Report,
-          target: rk // EEntity.Post|EEntity.Comment 인 것이 보장되어야 한다.
+          agg: Yiguana.EntityType.Agg,
+          type: Yiguana.EntityType.Report,
+          target: rk // Yiguana.EntityType.Post|Yiguana.EntityType.Comment 인 것이 보장되어야 한다.
         }),
       },
       UpdateExpression: 'SET #v = #v + :v',
@@ -33,6 +27,6 @@ export function decReportAgg(operator: DynamoDBInput, input: DecReportAggInput) 
       },
       ReturnValues: 'ALL_NEW',
     })
-    .then<ReportAgg>(R.prop('Attributes'))
+    .then<ReportAgg>(response => response.Attributes)
 }
 export type DecReportAggInput = Post | Comment | Reply

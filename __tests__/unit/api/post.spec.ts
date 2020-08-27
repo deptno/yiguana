@@ -1,7 +1,6 @@
 import {yiguana} from '../../env'
 import {clearData} from '../../setup'
 import {non_member_a, non_member_without_pw} from '../../__data__/user'
-import {EEntityStatus} from '../../../src/type'
 
 describe('unit', () => {
   describe('api', () => {
@@ -78,9 +77,9 @@ describe('unit', () => {
           expect(post.status).toBeUndefined()
           const nextPost1 = await yiguana.post.del({data: post, user: non_member_a})
           const nextPost = await yiguana.post.read({data: post})
-          expect(nextPost1.status).toEqual(EEntityStatus.deletedByUser)
+          expect(nextPost1.status).toEqual(Yiguana.EntityStatusType.deletedByUser)
           console.log(nextPost)
-          expect(nextPost.status).toEqual(EEntityStatus.deletedByUser)
+          expect(nextPost.status).toEqual(Yiguana.EntityStatusType.deletedByUser)
         })
         it.todo(`request to block post
 블락 신고의 경우에는 이를 검색할 수 있는 GSI가 필요

@@ -1,10 +1,7 @@
-import {DynamoDBInput} from '../../entity/input/dynamodb'
+import {{dynamodb, tableName}} from '..//input/dynamodb'
 import {keys} from '../../dynamodb/keys'
-import {Post} from '../../entity/post'
-import {Comment} from '../../entity/comment'
-import {EEntity} from '../../type'
 
-export function removeReport(operator: DynamoDBInput, params: RemoveReportInput) {
+export function removeReport(operator: {dynamodb, tableName}, params: RemoveReportInput) {
   const {dynamodb, tableName} = operator
   const {data, userId} = params
 
@@ -14,7 +11,7 @@ export function removeReport(operator: DynamoDBInput, params: RemoveReportInput)
       Key: {
         hk: data.hk,
         rk: keys.rk.report.stringify({
-          entity: EEntity.Report,
+          entity: Yiguana.EntityType.Report,
           target: data.rk,
           userId: userId
         }),
@@ -25,6 +22,6 @@ export function removeReport(operator: DynamoDBInput, params: RemoveReportInput)
 }
 
 export type RemoveReportInput = {
-  data: Pick<Post|Comment, 'hk'|'rk'>
+  data: Yiguana.Document
   userId: string
 }

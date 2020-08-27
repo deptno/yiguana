@@ -3,7 +3,6 @@ import {Comment, EntityFactory, Post} from '../src/entity'
 import * as R from 'ramda'
 import {createComment} from '../src/entity/comment'
 import {commentPost} from '../src/store/dynamodb/comment-post'
-import {YiguanaDocument} from '../src/type'
 import {ContentStore} from '../src/store/s3'
 import {member_a, member_b, member_c, member_d, member_f, non_member_a} from './__data__/user'
 import {getPosts} from '../src/store/dynamodb/get-posts'
@@ -87,7 +86,7 @@ export const getInitialData = async () => {
   await commentPost(opDdb, {
     data: postList[1],
   })
-  const initialData = await opDdb.dynamodb.scan<YiguanaDocument>({TableName: opDdb.tableName})
+  const initialData = await opDdb.dynamodb.scan<Yiguana.Document>({TableName: opDdb.tableName})
 
   console.debug('--- test data set')
   console.table(initialData)

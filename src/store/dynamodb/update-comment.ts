@@ -1,11 +1,10 @@
-import {DynamoDBInput} from '../../entity/input/dynamodb'
-import {Comment, CommentUpdateUserInput} from '../../entity/comment'
+import {{dynamodb, tableName}} from '..//input/dynamodb'
+import {Comment, CommentUpdateUserInput} from '..//comment'
 import * as R from 'ramda'
-import {EEntity} from '../../type'
 import {logStoreDdb} from '../../lib/log'
-import {assertMaxLength, assertsMemberOrNot} from '../../lib/assert'
+import {assertMaxLength} from '../../lib/assert'
 
-export async function updateComment(operator: DynamoDBInput, input: UpdateCommentInput) {
+export async function updateComment(operator: {dynamodb, tableName}, input: UpdateCommentInput) {
   logStoreDdb('updateComment input %j', input)
 
   assertMaxLength(input.content, 300)
@@ -17,7 +16,7 @@ export async function updateComment(operator: DynamoDBInput, input: UpdateCommen
       TableName: tableName,
       Key: {
         hk: input.hk,
-        rk: EEntity.Comment,
+        rk: Yiguana.EntityType.Comment,
       },
       UpdateExpression: 'SET #c = :c, #u = :u',
       ExpressionAttributeNames: {
@@ -30,6 +29,6 @@ export async function updateComment(operator: DynamoDBInput, input: UpdateCommen
       },
       ReturnValues: 'ALL_NEW',
     })
-    .then<Comment>(R.prop('Attributes'))
+    .then<Comment>(response => response.Attributes)
 }
 export type UpdateCommentInput = CommentUpdateUserInput

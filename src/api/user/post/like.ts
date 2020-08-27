@@ -1,11 +1,9 @@
 import {MetadataStore} from '../../../store/dynamodb'
-import {EntityFactory, Post} from '../../../entity'
 import * as R from 'ramda'
-import {ApiInputWithUser} from '../../../type'
 import {logApiUserPost as log} from '../../../lib/log'
 import {assertsMember} from '../../../lib/assert'
 
-export async function like(store: MetadataStore, ep: EntityFactory, input: LikeApiInput) {
+export async function like(store: MetadataStore, input: LikeApiInput) {
   log('like %j', input)
 
   assertsMember(input.user)
@@ -31,7 +29,7 @@ export async function like(store: MetadataStore, ep: EntityFactory, input: LikeA
     .then<Post>(R.view(R.lensIndex(1)))
 }
 
-export type LikeApiInput = ApiInputWithUser<{
+export type LikeApiInput = Yiguana.ApiInputWithUser<{
   data: Post
   createdAt: string
 }>

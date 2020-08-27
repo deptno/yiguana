@@ -1,12 +1,10 @@
 import {MetadataStore} from '../../store/dynamodb'
-import {Post, PostUserInput} from '../../entity/post'
-import {EntityFactory} from '../../entity'
 import {ContentStore} from '../../store/s3'
-import {ApiInputWithUser} from '../../type'
 import {assertNotEmptyString, assertsMemberOrNot} from '../../lib/assert'
 import {logApiPost as log} from '../../lib/log'
+import {Post} from '../../model'
 
-export async function create(ms: MetadataStore, cs: ContentStore, e: EntityFactory, input: CreateApiInput) {
+export async function create(ms: MetadataStore, cs: ContentStore, input: CreateApiInput) {
   log('create %j', input)
 
   assertsMemberOrNot(input.user)
@@ -19,7 +17,7 @@ export async function create(ms: MetadataStore, cs: ContentStore, e: EntityFacto
     title: data.title.trim(),
     content: data.content.trim(),
   })
-  const post = e.createPost({
+  const post = Post.of({
     user,
     data: content,
   })
@@ -27,5 +25,5 @@ export async function create(ms: MetadataStore, cs: ContentStore, e: EntityFacto
   return ms.put<Post>(post)
 }
 
-export type CreateApiInput = ApiInputWithUser<PostUserInput>
+export type CreateApiInput = Yiguana.ApiInputWithUser<PostUserInput>
 

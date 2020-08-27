@@ -1,10 +1,8 @@
-import {DynamoDBInput} from '../../entity/input/dynamodb'
 import {logStoreDdb} from '../../lib/log'
 import {assertPostOrComment} from '../../lib/assert'
 import {dec} from './raw/dec'
-import {Comment, Post, Reply} from '../../entity'
 
-export async function decLikes(operator: DynamoDBInput, input: DecLikesStoreInput) {
+export async function decLikes(operator: {dynamodb, tableName}, input: DecLikesStoreInput) {
   logStoreDdb('decLikes input %j', input)
 
   assertPostOrComment(input)

@@ -1,15 +1,14 @@
-import {DynamoDBInput} from '../../entity/input/dynamodb'
-import {EEntity, EEntityStatus, YiguanaDocumentHash} from '../../type'
-import {Comment, Member, NonMember} from '../../entity'
+import {{dynamodb, tableName}} from '..//input/dynamodb'
+import {Comment, Member, NonMember} from '../'
 import * as R from 'ramda'
 import {logStoreDdb} from '../../lib/log'
 
-export async function removeComment(operator: DynamoDBInput, input: RemoveCommentInput) {
+export async function removeComment(operator: {dynamodb, tableName}, input: RemoveCommentInput) {
   logStoreDdb('removeComment input %j', input)
 
   const {dynamodb, tableName} = operator
   const {hk, user} = input
-  const rk = EEntity.Comment
+  const rk = Yiguana.EntityType.Comment
   const [name, value] = 'id' in user
     ? ['id', user.id]
     : ['pw', user.pw]
@@ -28,15 +27,15 @@ export async function removeComment(operator: DynamoDBInput, input: RemoveCommen
         '#c': name,
       },
       ExpressionAttributeValues: {
-        ':s': EEntityStatus.deletedByUser,
+        ':s': Yiguana.EntityStatusType.deletedByUser,
         ':c': value
       },
       ReturnConsumedCapacity: 'TOTAL',
       ReturnValues: 'ALL_NEW',
       ConditionExpression: `#u.#c = :c`
     })
-    .then<Comment>(R.prop('Attributes'))
+    .then<Comment>(response => response.Attributes)
 }
-export type RemoveCommentInput = YiguanaDocumentHash & {
+export type RemoveCommentInput = Yiguana.Document & {
   user: Pick<Member, 'id'> | Pick<NonMember, 'pw'>
 }

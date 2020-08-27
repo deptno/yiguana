@@ -1,8 +1,7 @@
-import {DynamoDBInput} from '../../../entity/input/dynamodb'
+import {{dynamodb, tableName}} from '../..//input/dynamodb'
 import * as R from 'ramda'
-import {YiguanaDocumentHashRange} from '../../../type'
 
-export async function dec<T extends YiguanaDocumentHashRange>(operator: DynamoDBInput, params: DecStoreInput<T>) {
+export async function dec<T extends Yiguana.Document>(operator: {dynamodb, tableName}, params: DecStoreInput<T>) {
   const {dynamodb, tableName} = operator
   const {data, dec: {key, value}} = params
 
@@ -20,11 +19,11 @@ export async function dec<T extends YiguanaDocumentHashRange>(operator: DynamoDB
       ReturnConsumedCapacity: 'TOTAL',
       ReturnValues: 'ALL_NEW',
     })
-    .then<T>(R.prop('Attributes'))
+    .then<T>(response => response.Attributes)
 }
 
-export type DecStoreInput<T extends YiguanaDocumentHashRange> = {
-  data: YiguanaDocumentHashRange
+export type DecStoreInput<T extends Yiguana.Document> = {
+  data: Yiguana.Document
   dec: {
     key: keyof T
     value: number

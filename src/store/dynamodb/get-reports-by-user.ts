@@ -1,10 +1,9 @@
-import {DynamoDBInput} from '../../entity/input/dynamodb'
+import {{dynamodb, tableName}} from '..//input/dynamodb'
 import {keys} from '../../dynamodb/keys'
-import {Report} from '../../entity'
-import {EEntity, EIndexName} from '../../type'
+import {Report} from '../'
 import {logStoreDdb} from '../../lib/log'
 
-export function getReportsByUser(operator: DynamoDBInput, input: ReportByUserInput) {
+export function getReportsByUser(operator: {dynamodb, tableName}, input: ReportByUserInput) {
   logStoreDdb('getReportsByUser input %j', input)
 
   const {tableName, dynamodb} = operator
@@ -12,7 +11,7 @@ export function getReportsByUser(operator: DynamoDBInput, input: ReportByUserInp
 
   return dynamodb.query<Report>({
     TableName: tableName,
-    IndexName: EIndexName.byUser,
+    IndexName: Yiguana.IndexType.byUser,
     KeyConditionExpression: '#p = :p and begins_with(#r, :r)',
     ExpressionAttributeNames: {
       '#p': 'userId',
@@ -21,7 +20,7 @@ export function getReportsByUser(operator: DynamoDBInput, input: ReportByUserInp
     ExpressionAttributeValues: {
       ':p': userId,
       ':r': keys.byUser.report.stringify({
-        entity: EEntity.Report,
+        entity: Yiguana.EntityType.Report,
         target: entity
       }),
     },
@@ -34,7 +33,7 @@ export function getReportsByUser(operator: DynamoDBInput, input: ReportByUserInp
 
 export type ReportByUserInput = {
   userId: string
-  entity?: EEntity.Post | EEntity.Comment
+  entity?: Yiguana.EntityType.Post | Yiguana.EntityType.Comment
   limit?: number
   exclusiveStartKey?: Exclude<any, string | number>
 }

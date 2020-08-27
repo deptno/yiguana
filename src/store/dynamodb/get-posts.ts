@@ -1,22 +1,20 @@
-import {Post} from '../../entity/post'
-import {DynamoDBInput} from '../../entity/input/dynamodb'
-import {EEntity, EIndexName} from '../../type'
+import {Post} from '..//post'
 import {logStoreDdb as log} from '../../lib/log'
 
-export function getPosts(operator: DynamoDBInput, input: PostsInput) {
+export function getPosts(operator: {dynamodb, tableName}, input: PostsInput) {
   log('getPosts input %j', input)
 
   const {tableName, dynamodb} = operator
   const {exclusiveStartKey, limit = 10} = input
   const queryParams = {
     TableName: tableName,
-    IndexName: EIndexName.posts,
+    IndexName: Yiguana.IndexType.posts,
     KeyConditionExpression: '#h = :h',
     ExpressionAttributeNames: {
       '#h': 'rk',
     },
     ExpressionAttributeValues: {
-      ':h': EEntity.Post,
+      ':h': Yiguana.EntityType.Post,
     },
     ScanIndexForward: false,
     ReturnConsumedCapacity: 'TOTAL',

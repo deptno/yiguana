@@ -1,23 +1,21 @@
-import {Post} from '../../entity/post'
-import {DynamoDBInput} from '../../entity/input/dynamodb'
-import {EEntity, EIndexName} from '../../type'
+import {Post} from '..//post'
 import {logStoreDdb} from '../../lib/log'
 
-export function getPostsByCategory(operator: DynamoDBInput, input: PostsByCategoryInput) {
+export function getPostsByCategory(operator: {dynamodb, tableName}, input: PostsByCategoryInput) {
   logStoreDdb('getPostsByCategory input %j', input)
 
   const {tableName, dynamodb} = operator
   const {exclusiveStartKey, category = '', limit = 10} = input
   const queryParams = {
     TableName: tableName,
-    IndexName: EIndexName.postsByCategory,
+    IndexName: Yiguana.IndexType.postsByCategory,
     KeyConditionExpression: '#h = :h and begins_with(#r, :r)',
     ExpressionAttributeNames: {
       '#h': 'rk',
       '#r': 'category',
     },
     ExpressionAttributeValues: {
-      ':h': EEntity.Post,
+      ':h': Yiguana.EntityType.Post,
       ':r': category,
     },
     ScanIndexForward: false,

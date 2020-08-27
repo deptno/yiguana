@@ -2,7 +2,6 @@ import {yiguana} from '../../../env'
 import {member_a, member_d} from '../../../__data__/user'
 import {Post} from '../../../../src/entity/post'
 import {Comment} from '../../../../src/entity/comment'
-import {EEntity} from '../../../../src/type'
 
 describe('unit', () => {
   describe('api', () => {
@@ -33,7 +32,7 @@ describe('unit', () => {
         it('user a, report post list === 0', async () => {
           const {items} = await yiguana.user.report.list({
             data: {
-              entity: EEntity.Post,
+              entity: Yiguana.EntityType.Post,
             },
             user: member_a,
           })
@@ -42,7 +41,7 @@ describe('unit', () => {
         it('user a, report comment list === 0', async () => {
           const {items} = await yiguana.user.report.list({
             data: {
-              entity: EEntity.Comment,
+              entity: Yiguana.EntityType.Comment,
             },
             user: member_a,
           })
@@ -59,7 +58,7 @@ describe('unit', () => {
           })
           const {items} = await yiguana.user.report.list({
             data: {
-              entity: EEntity.Post,
+              entity: Yiguana.EntityType.Post,
             },
             user: member_d,
           })
@@ -77,7 +76,7 @@ describe('unit', () => {
           })
           const {items} = await yiguana.user.report.list({
             data: {
-              entity: EEntity.Comment,
+              entity: Yiguana.EntityType.Comment,
             },
             user: member_d,
           })

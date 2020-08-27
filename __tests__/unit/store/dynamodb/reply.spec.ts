@@ -5,7 +5,6 @@ import {getComments} from '../../../../src/store/dynamodb/get-comments'
 import {member_a, member_f, non_member_a} from '../../../__data__/user'
 import {createLike} from '../../../../src/entity/like'
 import {addLike} from '../../../../src/store/dynamodb/add-like'
-import {EEntity} from '../../../../src/type'
 import {put} from '../../../../src/store/dynamodb/raw/put'
 import {incLikes} from '../../../../src/store/dynamodb/inc-likes'
 import {getCommentsByUserId} from '../../../../src/store/dynamodb/get-comments-by-user-id'
@@ -22,9 +21,9 @@ describe('unit', function () {
         let commentId: string
 
         beforeAll(() => getInitialData().then(data => {
-          postList = data.filter(d => d.rk === EEntity.Post) as Post[]
+          postList = data.filter(d => d.rk === Yiguana.EntityType.Post) as Post[]
           commentedPost = postList[4]
-          commentList = data.filter(d => d.rk === EEntity.Comment) as Comment[]
+          commentList = data.filter(d => d.rk === Yiguana.EntityType.Comment) as Comment[]
 
           comment = commentList.find(c => c.postId === commentedPost.hk)!
           expect(comment).toBeDefined()

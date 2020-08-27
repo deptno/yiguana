@@ -8,7 +8,6 @@ import {addLike} from '../../../../src/store/dynamodb/add-like'
 import {getPostsByUserLike} from '../../../../src/store/dynamodb/get-posts-by-user-like'
 import {getCommentsByUserLike} from '../../../../src/store/dynamodb/get-comments-by-user-like'
 import {removeLike} from '../../../../src/store/dynamodb/remove-like'
-import {EEntity} from '../../../../src/type'
 
 describe('unit', function () {
   describe('store', function () {
@@ -26,8 +25,8 @@ describe('unit', function () {
           let comment: Comment
 
           beforeAll(() => getInitialData().then(initialData => {
-            [comment] = initialData.filter(d => d.rk === EEntity.Comment) as Comment[]
-            postList = initialData.filter(d => d.rk === EEntity.Post) as Post[]
+            [comment] = initialData.filter(d => d.rk === Yiguana.EntityType.Comment) as Comment[]
+            postList = initialData.filter(d => d.rk === Yiguana.EntityType.Post) as Post[]
             [data] = postList
             targetId = data.hk
           }))
@@ -117,8 +116,8 @@ describe('unit', function () {
           let comment: Comment
 
           beforeAll(() => getInitialData().then(initialData => {
-            commentList = initialData.filter(d => d.rk === EEntity.Comment) as Comment[]
-            postList = initialData.filter(d => d.rk === EEntity.Post) as Post[]
+            commentList = initialData.filter(d => d.rk === Yiguana.EntityType.Comment) as Comment[]
+            postList = initialData.filter(d => d.rk === Yiguana.EntityType.Post) as Post[]
             [comment] = commentList
             targetId = comment.hk
           }))

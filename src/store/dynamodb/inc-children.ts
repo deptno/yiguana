@@ -1,11 +1,10 @@
-import {DynamoDBInput} from '../../entity/input/dynamodb'
-import {YiguanaDocumentHashRange} from '../../type'
+import {{dynamodb, tableName}} from '..//input/dynamodb'
 import {inc} from './raw/inc'
 import {logStoreDdb} from '../../lib/log'
 import {assertPostOrComment} from '../../lib/assert'
-import {Post, Comment} from '../../entity'
+import {Post, Comment} from '../'
 
-export async function incChildren<T extends Post>(operator: DynamoDBInput, input: IncChildrenStoreInput) {
+export async function incChildren<T extends Post>(operator: {dynamodb, tableName}, input: IncChildrenStoreInput) {
   logStoreDdb('incChildren input %j', input)
 
   assertPostOrComment(input)
@@ -19,5 +18,5 @@ export async function incChildren<T extends Post>(operator: DynamoDBInput, input
   })
 }
 
-export type IncChildrenStoreInput = YiguanaDocumentHashRange
+export type IncChildrenStoreInput = Yiguana.Document
 

@@ -1,10 +1,9 @@
-import {DynamoDBInput} from '../../entity/input/dynamodb'
-import {YiguanaDocumentHash} from '../../type'
+import {{dynamodb, tableName}} from '..//input/dynamodb'
 
-export async function reply(operator: DynamoDBInput, params: ReplyInput) {
+export async function reply(operator: {dynamodb, tableName}, params: ReplyInput) {
   // TODO:
 }
 
 export type ReplyInput = {
-  data: YiguanaDocumentHash
+  data: Yiguana.Document
 }

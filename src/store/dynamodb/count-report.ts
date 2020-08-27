@@ -1,9 +1,4 @@
-import {DynamoDBInput} from '../../entity/input/dynamodb'
-import {Post} from '../../entity/post'
-import * as R from 'ramda'
-import {EEntity, YiguanaDocumentHash} from '../../type'
-
-export function likePost(operator: DynamoDBInput, params: LikePostInput) {
+export function likePost(operator: {dynamodb, tableName}, params: LikePostInput) {
   const {dynamodb, tableName} = operator
   const {data} = params
   const {hk} = data
@@ -13,7 +8,7 @@ export function likePost(operator: DynamoDBInput, params: LikePostInput) {
       TableName: tableName,
       Key: {
         hk,
-        rk: EEntity.Post,
+        rk: Yiguana.EntityType.Post,
       },
       UpdateExpression: 'SET #v = #v + :v',
       ExpressionAttributeNames: {
@@ -24,8 +19,8 @@ export function likePost(operator: DynamoDBInput, params: LikePostInput) {
       },
       ReturnValues: 'ALL_NEW',
     })
-    .then<Post>(R.prop('Attributes'))
+    .then<Post>(response => response.Attributes)
 }
 export type LikePostInput = {
-  data: YiguanaDocumentHash
+  data: Yiguana.Document
 }

@@ -55,7 +55,7 @@ export class S3 {
 export const DynamoDB = {
   DocumentClient: class {
     constructor() {
-      if (!(this instanceof DynamoDB.DocumentClient)) {
+      if (!(this instanceof Yiguana.DocumentClient)) {
         throw new Error('new')
       }
 

@@ -1,8 +1,7 @@
-import {DynamoDBInput} from '../../../entity/input/dynamodb'
-import {YiguanaDocument, YiguanaDocumentHashRange} from '../../../type'
+import {{dynamodb, tableName}} from '../..//input/dynamodb'
 import {logStoreDdb} from '../../../lib/log'
 
-export async function put<T extends YiguanaDocument>(operator: DynamoDBInput, input: PutStoreInput): Promise<T> {
+export async function put<T extends Yiguana.Document>(operator: {dynamodb, tableName}, input: PutStoreInput): Promise<T> {
   logStoreDdb('put input %j', input)
 
   const {dynamodb, tableName} = operator
@@ -14,4 +13,4 @@ export async function put<T extends YiguanaDocument>(operator: DynamoDBInput, in
   })
 }
 
-export type PutStoreInput = YiguanaDocumentHashRange
+export type PutStoreInput = Yiguana.Document

@@ -8,7 +8,6 @@ import {addReport} from '../../../../src/store/dynamodb/add-report'
 import {removeReport} from '../../../../src/store/dynamodb/remove-report'
 import {incReportAgg} from '../../../../src/store/dynamodb/inc-report-agg'
 import {getAggReports} from '../../../../src/store/dynamodb/get-agg-reports'
-import {EEntity, EEntityStatus} from '../../../../src/type'
 import {getReportsByUser} from '../../../../src/store/dynamodb/get-reports-by-user'
 import {getPosts} from '../../../../src/store/dynamodb/get-posts'
 import {replyAggReport} from '../../../../src/store/dynamodb/reply-agg-report'
@@ -31,8 +30,8 @@ describe('unit', function () {
           let comment: Comment
 
           beforeAll(() => getInitialData().then(initialData => {
-            [comment] = initialData.filter(d => d.rk === EEntity.Comment) as Comment[]
-            postList = initialData.filter(d => d.rk === EEntity.Post) as Post[]
+            [comment] = initialData.filter(d => d.rk === Yiguana.EntityType.Comment) as Comment[]
+            postList = initialData.filter(d => d.rk === Yiguana.EntityType.Post) as Post[]
             [data] = postList
             targetId = data.hk
           }))
@@ -58,7 +57,7 @@ describe('unit', function () {
             }
           })
           it('031. aggReports() === 1', async () => {
-            const {items} = await getAggReports(opDdb, {entity: EEntity.Post})
+            const {items} = await getAggReports(opDdb, {entity: Yiguana.EntityType.Post})
             expect(items.length).toEqual(1)
           })
           it('03. reportsByUser(User(a)) === 1', async () => {
@@ -84,7 +83,7 @@ describe('unit', function () {
             }
           })
           it('051. aggReports() === 1: 입력 실패로 수 동일', async () => {
-            const {items} = await getAggReports(opDdb, {entity: EEntity.Post})
+            const {items} = await getAggReports(opDdb, {entity: Yiguana.EntityType.Post})
             expect(items.length).toEqual(1)
           })
           it('05. reportsByUser(User(a)) === 1: 입력 실패로 수 동일', async () => {
@@ -128,7 +127,7 @@ describe('unit', function () {
             expect(items.length).toEqual(1)
           })
           it('091. aggReports() === 2', async () => {
-            const {items} = await getAggReports(opDdb, {entity: EEntity.Post})
+            const {items} = await getAggReports(opDdb, {entity: Yiguana.EntityType.Post})
             expect(items.length).toEqual(2)
             const [report, report2] = items
             console.log({report})
@@ -143,14 +142,14 @@ describe('unit', function () {
           it('10. reportsByUser(User(a)) === Comment(0): 엔티티 필터', async () => {
             const {items} = await getReportsByUser(opDdb, {
               userId,
-              entity: EEntity.Comment
+              entity: Yiguana.EntityType.Comment
             })
             expect(items.length).toEqual(0)
           })
           it('11. reportsByUser(User(a)) === Post(2): 엔티티 필터', async () => {
             const {items} = await getReportsByUser(opDdb, {
               userId,
-              entity: EEntity.Post
+              entity: Yiguana.EntityType.Post
             })
             console.table(items)
             expect(items.length).toEqual(2)
@@ -162,7 +161,7 @@ describe('unit', function () {
           it('13. reportsByUser(User(a)) === Post(1): 엔티티 필터', async () => {
             const {items} = await getReportsByUser(opDdb, {
               userId,
-              entity: EEntity.Post
+              entity: Yiguana.EntityType.Post
             })
             expect(items.length).toEqual(1)
           })
@@ -179,8 +178,8 @@ describe('unit', function () {
           let comment: Comment
 
           beforeAll(() => getInitialData().then(initialData => {
-            commentList = initialData.filter(d => d.rk === EEntity.Comment) as Comment[]
-            postList = initialData.filter(d => d.rk === EEntity.Post) as Post[]
+            commentList = initialData.filter(d => d.rk === Yiguana.EntityType.Comment) as Comment[]
+            postList = initialData.filter(d => d.rk === Yiguana.EntityType.Post) as Post[]
             [comment] = commentList
             targetId = comment.hk
           }))
@@ -272,14 +271,14 @@ describe('unit', function () {
           it('10. reportsByUser(User(a)) === Post(0): 엔티티 필터', async () => {
             const {items} = await getReportsByUser(opDdb, {
               userId,
-              entity: EEntity.Post
+              entity: Yiguana.EntityType.Post
             })
             expect(items.length).toEqual(0)
           })
           it('11. reportsByUser(User(a)) === Comment(2): 엔티티 필터', async () => {
             const {items} = await getReportsByUser(opDdb, {
               userId,
-              entity: EEntity.Comment
+              entity: Yiguana.EntityType.Comment
             })
             expect(items.length).toEqual(2)
           })
@@ -296,8 +295,8 @@ describe('unit', function () {
           let comment: Comment
 
           beforeAll(() => getInitialData().then(initialData => {
-            [comment] = initialData.filter(d => d.rk === EEntity.Comment) as Comment[]
-            postList = initialData.filter(d => d.rk === EEntity.Post) as Post[]
+            [comment] = initialData.filter(d => d.rk === Yiguana.EntityType.Comment) as Comment[]
+            postList = initialData.filter(d => d.rk === Yiguana.EntityType.Post) as Post[]
             [data] = postList
             targetId = data.hk
           }))
@@ -323,7 +322,7 @@ describe('unit', function () {
             }
           })
           it('031. aggReports() === 1', async () => {
-            const {items} = await getAggReports(opDdb, {entity: EEntity.Post})
+            const {items} = await getAggReports(opDdb, {entity: Yiguana.EntityType.Post})
             console.table(items)
             expect(items.length).toEqual(1)
             expect(items[0].processed).toBeUndefined()
@@ -337,28 +336,28 @@ describe('unit', function () {
               data: {
                 hk: targetId
               },
-              entity: EEntity.Post,
+              entity: Yiguana.EntityType.Post,
               answer: 'test answer',
-              status: EEntityStatus.innocent,
+              status: Yiguana.EntityStatusType.innocent,
             })
             await replyReports(opDdb, {
               data: {
                 hk: targetId,
-                rk: EEntity.Post,
+                rk: Yiguana.EntityType.Post,
               },
               answer: 'test answer',
-              status: EEntityStatus.innocent,
+              status: Yiguana.EntityStatusType.innocent,
             })
 
             const {items} = await getPosts(opDdb, {})
             expect(
-              items.filter(i => i.status === EEntityStatus.innocent).length,
+              items.filter(i => i.status === Yiguana.EntityStatusType.innocent).length,
             ).toEqual(1)
-            const item = await get<Report>(opDdb, {hk: targetId, rk: EEntity.Post})
-            expect(item.status === EEntityStatus.innocent)
+            const item = await get<Report>(opDdb, {hk: targetId, rk: Yiguana.EntityType.Post})
+            expect(item.status === Yiguana.EntityStatusType.innocent)
           })
           it('05. aggReports() === 1', async () => {
-            const {items} = await getAggReports(opDdb, {entity: EEntity.Post, end: true})
+            const {items} = await getAggReports(opDdb, {entity: Yiguana.EntityType.Post, end: true})
             console.table(items)
             expect(items.length).toEqual(1)
             expect(items[0].processed).toEqual(items[0].reported)

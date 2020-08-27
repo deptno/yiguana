@@ -1,8 +1,6 @@
 import * as R from 'ramda'
-import {DynamoDBInput} from '../../entity/input/dynamodb'
-import {Report} from '../../entity/report'
 
-export function addReport(operator: DynamoDBInput, params: AddReportInput) {
+export function addReport(operator: {dynamodb, tableName}, params: AddReportInput) {
   const {dynamodb, tableName} = operator
   const {data} = params
 
@@ -34,7 +32,7 @@ export function addReport(operator: DynamoDBInput, params: AddReportInput) {
       ConditionExpression: 'attribute_not_exists(#h)',
       ReturnValues: 'ALL_NEW',
     })
-    .then<Report>(R.prop('Attributes'))
+    .then<Report>(response => response.Attributes)
 }
 
 export type AddReportInput = {

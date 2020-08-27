@@ -1,9 +1,7 @@
-import {DynamoDBInput} from '../../entity/input/dynamodb'
-import {Like} from '../../entity/like'
 import * as R from 'ramda'
 import {logStoreDdb} from '../../lib/log'
 
-export function addLike(operator: DynamoDBInput, input: AddLikeInput) {
+export function addLike(operator: {dynamodb, tableName}, input: AddLikeInput) {
   logStoreDdb('addLike input %j', input)
 
   const {dynamodb, tableName} = operator
@@ -34,7 +32,7 @@ export function addLike(operator: DynamoDBInput, input: AddLikeInput) {
       ConditionExpression: 'attribute_not_exists(#h)',
       ReturnValues: 'ALL_NEW',
     })
-    .then<Like>(R.prop('Attributes'))
+    .then<Like>(response => response.Attributes)
 }
 
 export type AddLikeInput = Like

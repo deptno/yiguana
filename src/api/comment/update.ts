@@ -1,11 +1,8 @@
 import {MetadataStore} from '../../store/dynamodb'
-import {EntityFactory} from '../../entity'
-import {CommentUpdateUserInput} from '../../entity/comment'
-import {ApiInputWithUser} from '../../type'
 import {logApiComment as log} from '../../lib/log'
 import {assertsMemberOrNot} from '../../lib/assert'
 
-export async function update(store: MetadataStore, ep: EntityFactory, input: UpdateApiInput) {
+export async function update(store: MetadataStore, input: UpdateApiInput) {
   log('update %j', input)
 
   assertsMemberOrNot(input.user)
@@ -13,4 +10,4 @@ export async function update(store: MetadataStore, ep: EntityFactory, input: Upd
   return store.updateComment(input.data)
 }
 
-export type UpdateApiInput = ApiInputWithUser<CommentUpdateUserInput>
+export type UpdateApiInput = Yiguana.ApiInputWithUser<CommentUpdateUserInput>

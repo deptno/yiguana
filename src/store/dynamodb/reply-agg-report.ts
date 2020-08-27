@@ -1,10 +1,9 @@
 import * as R from 'ramda'
-import {DynamoDBInput} from '../../entity/input/dynamodb'
-import {EEntity, EEntityStatus, YiguanaDocumentHash} from '../../type'
+import {{dynamodb, tableName}} from '..//input/dynamodb'
 import {keys} from '../../dynamodb/keys'
 import {logStoreDdb} from '../../lib/log'
 
-export function replyAggReport(operator: DynamoDBInput, input: ReplyAggReportInput) {
+export function replyAggReport(operator: {dynamodb, tableName}, input: ReplyAggReportInput) {
   logStoreDdb('getRggReportReply input %j', input)
 
   const {data: {hk}, entity, answer, status} = input
@@ -15,8 +14,8 @@ export function replyAggReport(operator: DynamoDBInput, input: ReplyAggReportInp
       Key: {
         hk,
         rk: keys.rk.agg.stringify({
-          agg: EEntity.Agg,
-          type: EEntity.Report,
+          agg: Yiguana.EntityType.Agg,
+          type: Yiguana.EntityType.Report,
           target: entity,
         })
       },
@@ -36,12 +35,12 @@ export function replyAggReport(operator: DynamoDBInput, input: ReplyAggReportInp
       },
       ReturnValues: 'ALL_NEW',
     })
-    .then(R.prop('Attributes'))
+    .then(response => response.Attributes)
 }
 
 export type ReplyAggReportInput = {
-  data: YiguanaDocumentHash
-  entity: Extract<EEntity, EEntity.Post | EEntity.Comment>
+  data: Yiguana.Document
+  entity: Extract<Yiguana.EntityType, Yiguana.EntityType.Post | Yiguana.EntityType.Comment>
   answer: string
-  status: EEntityStatus
+  status: Yiguana.EntityStatusType
 }

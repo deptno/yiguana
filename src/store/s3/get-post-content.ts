@@ -1,8 +1,4 @@
-import {S3Input} from '../../entity/input/s3'
-import {ES3ErrorMessage, S3Error} from '../../entity/error'
-import {YiguanaDocumentHash} from '../../type'
-
-export async function getPostContentUnSafe(op: S3Input, input: GetPostContentUnSafeInput): Promise<string> {
+export async function getPostContentUnSafe(op: {s3, bucketName}, input: GetPostContentUnSafeInput): Promise<string> {
   try {
     const content = await op.s3.getObject({
       Bucket: op.bucketName,
@@ -12,10 +8,10 @@ export async function getPostContentUnSafe(op: S3Input, input: GetPostContentUnS
     return content.toString()
   } catch (e) {
     console.error(e)
-    throw new S3Error(ES3ErrorMessage.FailToGet)
+    throw e
   }
 }
 
 export type GetPostContentUnSafeInput = {
-  data: YiguanaDocumentHash
+  data: Yiguana.Document
 }

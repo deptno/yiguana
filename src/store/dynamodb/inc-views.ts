@@ -1,10 +1,10 @@
-import {DynamoDBInput} from '../../entity/input/dynamodb'
+import {{dynamodb, tableName}} from '..//input/dynamodb'
 import {inc} from './raw/inc'
 import {logStoreDdb} from '../../lib/log'
 import {assertPostOrComment} from '../../lib/assert'
-import {Post} from '../../entity'
+import {Post} from '../'
 
-export async function incViews(operator: DynamoDBInput, input: IncViewsStoreInput) {
+export async function incViews(operator: {dynamodb, tableName}, input: IncViewsStoreInput) {
   logStoreDdb('incViews input %j', input)
 
   assertPostOrComment(input)

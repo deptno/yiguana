@@ -1,16 +1,13 @@
-import {DynamoDBInput} from '../../entity/input/dynamodb'
 import {keys} from '../../dynamodb/keys'
-import {Report} from '../../entity/report'
-import {EEntity, YiguanaDocumentHashRange} from '../../type'
 import {logStoreDdb} from '../../lib/log'
 
-export function getAllReports(operator: DynamoDBInput, input: GetAllReportsInput) {
+export function getAllReports(operator: {dynamodb, tableName}, input: DynamoDB.Document) {
   logStoreDdb('getAllReports input %j', input)
 
   const {tableName, dynamodb} = operator
   const {hk, rk} = input
 
-  return dynamodb.queryAll<Report>({
+  return dynamodb.queryAll<Yiguana.ReportDocument>({
     TableName: tableName,
     KeyConditionExpression: '#h = :h AND begins_with(#r, :r)',
     ExpressionAttributeNames: {
@@ -20,7 +17,7 @@ export function getAllReports(operator: DynamoDBInput, input: GetAllReportsInput
     ExpressionAttributeValues: {
       ':h': hk,
       ':r': keys.rk.report.stringify({
-        entity: EEntity.Report,
+        entity: Yiguana.EntityType.Report,
         target: rk,
       }),
     },
@@ -28,5 +25,3 @@ export function getAllReports(operator: DynamoDBInput, input: GetAllReportsInput
     ReturnConsumedCapacity: 'TOTAL',
   })
 }
-
-export type GetAllReportsInput = YiguanaDocumentHashRange

@@ -1,11 +1,8 @@
-import {DynamoDBInput} from '../../entity/input/dynamodb'
+import {{dynamodb, tableName}} from '..//input/dynamodb'
 import {keys} from '../../dynamodb/keys'
-import {Post} from '../../entity/post'
-import {Comment} from '../../entity/comment'
-import {EEntity} from '../../type'
 import {logStoreDdb} from '../../lib/log'
 
-export function removeLike(operator: DynamoDBInput, input: RemoveLikeInput) {
+export function removeLike(operator: {dynamodb, tableName}, input: RemoveLikeInput) {
   logStoreDdb('removeLike input %j', input)
 
   const {dynamodb, tableName} = operator
@@ -17,7 +14,7 @@ export function removeLike(operator: DynamoDBInput, input: RemoveLikeInput) {
       Key: {
         hk: data.hk,
         rk: keys.rk.like.stringify({
-          entity: EEntity.Like,
+          entity: Yiguana.EntityType.Like,
           target: data.rk,
           userId: userId
         }),
@@ -28,6 +25,6 @@ export function removeLike(operator: DynamoDBInput, input: RemoveLikeInput) {
 }
 
 export type RemoveLikeInput = {
-  data: Pick<Post|Comment, 'hk'|'rk'>
+  data: Yiguana.Document
   userId: string
 }

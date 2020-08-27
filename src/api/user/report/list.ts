@@ -1,10 +1,8 @@
 import {MetadataStore} from '../../../store/dynamodb'
-import {EntityFactory} from '../../../entity'
-import {EEntity, ApiInputWithUser} from '../../../type'
 import {logApiUserReport as log} from '../../../lib/log'
 import {assertsMember} from '../../../lib/assert'
 
-export async function list(store: MetadataStore, ef: EntityFactory, input: ReportsInput) {
+export async function list(store: MetadataStore, input: ReportsInput) {
   log('list %j', input)
 
   assertsMember(input.user)
@@ -17,7 +15,7 @@ export async function list(store: MetadataStore, ef: EntityFactory, input: Repor
   })
 }
 
-export type ReportsInput = ApiInputWithUser<{
-  entity: EEntity.Post | EEntity.Comment
+export type ReportsInput = Yiguana.ApiInputWithUser<{
+  entity: Yiguana.EntityType.Post | Yiguana.EntityType.Comment
   exclusiveStartKey?: any
 }>
