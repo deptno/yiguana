@@ -1,9 +1,10 @@
 /// <reference types="next" />
 /// <reference types="next/types/global" />
 
-declare var Quill
-declare module '*.graphql' {
-  const resource: any
-  export = resource
+declare module 'yiguana-fe' {
+  export type Link = {
+    name: string
+    href: string
+    as?: string
+  }
 }
-

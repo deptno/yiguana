@@ -1,4 +1,5 @@
-import {ERole} from '../../../../lib/entity/user'
+import {ERole} from '../../../lib/entity/user'
+import {Link} from 'yiguana-fe'
 
 const admin = {
   id: 'admin',
@@ -62,4 +63,18 @@ export const users = [
   member_f,
   non_member_a,
   non_member_without_pw,
+]
+export const links: Link[] = [
+  {
+    name: 'home',
+    href: '/',
+  },
+  {
+    name: 'my page',
+    href: '/mypage',
+  },
+  {
+    name: 'administrator',
+    href: '/admin',
+  },
 ]

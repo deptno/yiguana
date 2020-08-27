@@ -4,7 +4,7 @@ import {NextPage} from 'next'
 const Page: NextPage<Props> = props => {
   return (
     <div className="pa3 schema-border">
-      home
+      admin
     </div>
   )
 }
