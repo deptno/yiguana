@@ -1,11 +1,11 @@
 import React, {FunctionComponent, useState} from 'react'
-import {links, data} from '../../data/users'
+import {links, users} from '@constant'
 import {ALinkNav, AUserNav} from '@component'
 import {useRouter} from 'next/router'
 
 
 export const TLayout: FunctionComponent<Props> = props => {
-  const [user, setUser] = useState(data[0])
+  const [user, setUser] = useState(users[0])
   const {asPath, push} = useRouter()
   const link = links.find(l => l.href === asPath)
   const move = l => push(l.href, l.as)
@@ -16,7 +16,7 @@ export const TLayout: FunctionComponent<Props> = props => {
         <div className="w4">
           I'm
         </div>
-        <AUserNav items={data} currentItem={user} onChange={setUser}/>
+        <AUserNav items={users} currentItem={user} onChange={setUser}/>
       </div>
       <div className="pa3 d-schema-navy flex items-center">
         <div className="w4">
