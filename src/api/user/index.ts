@@ -1,4 +1,4 @@
-import {MetadataStore} from '../../store/dynamodb'
+import {MetadataStore} from '../../store/dynamodb/params/create'
 import {UserPostApi} from './post'
 import {UserCommentApi} from './comment'
 import {UserReportApi} from './report'

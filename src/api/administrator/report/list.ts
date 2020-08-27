@@ -1,7 +1,7 @@
-import {MetadataStore} from '../../../store/dynamodb'
+import {MetadataStore} from '../../../store/dynamodb/params/create'
 import {logApiAdminReport as log} from '../../../lib/log'
 import {assertsAdmin} from '../../../lib/assert'
-import {ReportsInput} from '../../../store/dynamodb/get-reports'
+import {ReportsInput} from '../../../store/dynamodb/params/read/get-reports'
 
 export async function list(store: MetadataStore, input: ReportListApiInput) {
   log('list %j', input)

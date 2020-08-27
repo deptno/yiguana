@@ -1,7 +1,7 @@
-import {MetadataStore} from '../../store/dynamodb'
+import {MetadataStore} from '../../store/dynamodb/params/create'
 import {logApiAdmin as log} from '../../lib/log'
 import {assertNotEmptyString, assertsAdmin} from '../../lib/assert'
-import {ReplyAggReportInput} from '../../store/dynamodb/reply-agg-report'
+import {ReplyAggReportInput} from '../../store/dynamodb/params/create/reply-agg-report'
 
 export async function replyReport(store: MetadataStore, input: ReplyReportApiInput) {
   log('reportReply %j', input)

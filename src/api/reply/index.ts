@@ -1,4 +1,4 @@
-import {MetadataStore} from '../../store/dynamodb'
+import {MetadataStore} from '../../store/dynamodb/params/create'
 import {create, CreateApiInput} from './create'
 import {deprecate} from 'util'
 

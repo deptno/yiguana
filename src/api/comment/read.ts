@@ -1,4 +1,4 @@
-import {MetadataStore} from '../../store/dynamodb'
+import {MetadataStore} from '../../store/dynamodb/params/create'
 import {logApiComment as log} from '../../lib/log'
 
 export async function read(store: MetadataStore, input: ReadApiInput) {

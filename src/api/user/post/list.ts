@@ -1,5 +1,5 @@
-import {MetadataStore} from '../../../store/dynamodb'
-import {PostsInput} from '../../../store/dynamodb/get-posts'
+import {MetadataStore} from '../../../store/dynamodb/params/create'
+import {PostsInput} from '../../../store/dynamodb/params/read/get-posts'
 import {logApiUserPost as log} from '../../../lib/log'
 import {assertsMember} from '../../../lib/assert'
 

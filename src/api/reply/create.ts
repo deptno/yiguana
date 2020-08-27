@@ -1,4 +1,4 @@
-import {MetadataStore} from '../../store/dynamodb'
+import {MetadataStore} from '../../store/dynamodb/params/create'
 import {logApiReply as log} from '../../lib/log'
 import {assertNotEmptyString, assertsMemberOrNot} from '../../lib/assert'
 import {Reply} from '../../model'

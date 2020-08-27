@@ -1,4 +1,4 @@
-import {MetadataStore} from '../../../store/dynamodb'
+import {MetadataStore} from '../../../store/dynamodb/params/create'
 import {list, ReportsInput} from './list'
 import {create, ReportApiInput} from './create'
 

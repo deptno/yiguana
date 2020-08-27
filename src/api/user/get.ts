@@ -1,4 +1,4 @@
-import {MetadataStore} from '../../store/dynamodb'
+import {MetadataStore} from '../../store/dynamodb/params/create'
 import {logApiUser as log} from '../../lib/log'
 import {assertsMemberOrNot} from '../../lib/assert'
 

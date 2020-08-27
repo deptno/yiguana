@@ -1,4 +1,4 @@
-import {MetadataStore} from '../../store/dynamodb'
+import {MetadataStore} from '../../store/dynamodb/params/create'
 import {AggReportApi} from './agg-report'
 import {ReportApi} from './report'
 import {replyReport, ReplyReportApiInput} from './reply-report'

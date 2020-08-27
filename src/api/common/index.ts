@@ -1,4 +1,4 @@
-import {MetadataStore} from '../../store/dynamodb'
+import {MetadataStore} from '../../store/dynamodb/params/create'
 import {ContentStore} from '../../store/s3'
 import {createUploadUrl, CreateUploadUrlApiInput} from './create-upload-url'
 

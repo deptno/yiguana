@@ -1,5 +1,5 @@
-import {MetadataStore} from '../../store/dynamodb'
-import {CommentsInput} from '../../store/dynamodb/get-comments'
+import {MetadataStore} from '../../store/dynamodb/params/create'
+import {CommentsInput} from '../../store/dynamodb/params/read/get-comments'
 import {logApiComment as log} from '../../lib/log'
 
 export async function list(store: MetadataStore, input: ListApiInput) {

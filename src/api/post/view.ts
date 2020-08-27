@@ -1,5 +1,5 @@
 import {ContentStore} from '../../store/s3'
-import {MetadataStore} from '../../store/dynamodb'
+import {MetadataStore} from '../../store/dynamodb/params/create'
 import * as R from 'ramda'
 import {logApiPost as log} from '../../lib/log'
 import {Post} from '../../model'
