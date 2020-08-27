@@ -9,5 +9,13 @@
     "declaration": true,
     "outDir": "../lib",
     "rootDir": "."
-  }
+  },
+  "exclude": [
+    "node_modules"
+  ],
+  "include": [
+    "document.d.ts",
+    "**/*.ts",
+    "**/*.tsx"
+  ]
 }
