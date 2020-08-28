@@ -1,16 +1,12 @@
-import {{dynamodb, tableName}} from '..//input/dynamodb'
 import {keys} from '../../../../dynamodb/keys'
-import {Comment, Post} from '../..'
-import {Report} from '..//report'
 import {logStoreDdb} from '../../../../lib/log'
 
-export function getReports(operator: {dynamodb, tableName}, input: ReportsInput) {
+export function getReports(tableName: string, input: ReportsInput) {
   logStoreDdb('getReports input %j', input)
 
-  const {tableName, dynamodb} = operator
   const {data, exclusiveStartKey, limit = 10} = input
 
-  return dynamodb.query<Report>({
+  return {
     TableName: tableName,
     KeyConditionExpression: '#h = :h AND begins_with(#r, :r)',
     ExpressionAttributeNames: {
@@ -28,7 +24,7 @@ export function getReports(operator: {dynamodb, tableName}, input: ReportsInput)
     Limit: limit,
     ReturnConsumedCapacity: 'TOTAL',
     ExclusiveStartKey: exclusiveStartKey,
-  })
+  }
 }
 
 export type ReportsInput = {

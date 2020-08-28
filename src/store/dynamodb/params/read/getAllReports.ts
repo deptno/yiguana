@@ -1,13 +1,12 @@
 import {keys} from '../../../../dynamodb/keys'
 import {logStoreDdb} from '../../../../lib/log'
 
-export function getAllReports(operator: {dynamodb, tableName}, input: DynamoDB.Document) {
+export function getAllReports(tableName: string, input: DynamoDB.Document) {
   logStoreDdb('getAllReports input %j', input)
 
-  const {tableName, dynamodb} = operator
   const {hk, rk} = input
 
-  return dynamodb.queryAll<Yiguana.ReportDocument>({
+  return {
     TableName: tableName,
     KeyConditionExpression: '#h = :h AND begins_with(#r, :r)',
     ExpressionAttributeNames: {
@@ -23,5 +22,5 @@ export function getAllReports(operator: {dynamodb, tableName}, input: DynamoDB.D
     },
     ScanIndexForward: false,
     ReturnConsumedCapacity: 'TOTAL',
-  })
+  }
 }

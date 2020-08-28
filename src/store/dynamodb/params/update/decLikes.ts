@@ -7,7 +7,7 @@ export async function decLikes(tableName: string, input: Input) {
 
   assertPostOrComment(input)
 
-  return dec<Post | Comment | Reply>(operator, {
+  return dec<Input>(tableName, {
     data: input,
     dec: {
       key: 'likes',

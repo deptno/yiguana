@@ -1,15 +1,14 @@
-import {{dynamodb, tableName}} from '..//input/dynamodb'
 import {inc} from '../raw/inc'
 import {logStoreDdb} from '../../../../lib/log'
 import {assertPostOrComment} from '../../../../lib/assert'
-import {Post} from '../..'
 
-export async function incViews(operator: {dynamodb, tableName}, input: IncViewsStoreInput) {
+export async function incViews(tableName: string, input: Yiguana.PostDocument) {
   logStoreDdb('incViews input %j', input)
 
   assertPostOrComment(input)
 
-  return inc<Post>(operator, {
+  return inc({
+    tableName,
     data: input,
     inc: {
       key: 'views',
@@ -17,6 +16,3 @@ export async function incViews(operator: {dynamodb, tableName}, input: IncViewsS
     },
   })
 }
-
-export type IncViewsStoreInput = Post
-

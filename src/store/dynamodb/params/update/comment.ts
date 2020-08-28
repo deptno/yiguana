@@ -24,4 +24,5 @@ export async function comment(tableName: string, input: Input) {
     ReturnValues: 'ALL_NEW',
   }
 }
-export type Input = Pick<Yiguana.CommentDocument, 'hk'|'content'|'updatedAt'>
+
+type Input = Pick<Yiguana.CommentDocument, 'hk'|'content'|'updatedAt'>

@@ -1,13 +1,12 @@
 import {keys} from '../../../../dynamodb/keys'
 import {logStoreDdb} from '../../../../lib/log'
 
-export function getCommentsByUserId<T = Comment>(operator: {dynamodb, tableName}, input: CommentsByUserIdInput) {
+export function getCommentsByUserId<T = Comment>(tableName: string, input: CommentsByUserIdInput) {
   logStoreDdb('getCommentsByUserId input %j', input)
 
-  const {tableName, dynamodb} = operator
   const {userId, exclusiveStartKey} = input
 
-  return dynamodb.query<T>({
+  return {
     TableName: tableName,
     IndexName: Yiguana.IndexType.byUser,
     KeyConditionExpression: '#h = :h AND begins_with(#r, :r)',
@@ -24,7 +23,7 @@ export function getCommentsByUserId<T = Comment>(operator: {dynamodb, tableName}
     ScanIndexForward: false,
     ReturnConsumedCapacity: 'TOTAL',
     ExclusiveStartKey: exclusiveStartKey,
-  })
+  }
 }
 
 export type CommentsByUserIdInput = {

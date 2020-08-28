@@ -24,20 +24,27 @@ export function _likesByUser(tableName: string, input: QueryByUserLike) {
     ExclusiveStartKey: exclusiveStartKey,
     Limit: limit,
   }
-  if (entity) {
-    input.ExpressionAttributeNames!['#e'] = 'rk'
-    input.ExpressionAttributeValues![':e'] = keys.rk.like.stringify({
-      entity: Yiguana.EntityType.Like,
-      target: entity,
-    })
-    input.FilterExpression = 'begins_with(#e, :e)'
-  }
 
+  if (entity) {
+    return {
+      ...params,
+      ExpressionAttributeNames: {
+        '#e': 'rk',
+      },
+      ExpressionAttributeValues: {
+        ':e': keys.rk.like.stringify({
+          entity: Yiguana.EntityType.Like,
+          target: entity
+        }),
+      },
+      FilterExpression: 'begins_with(#e, :e)',
+    }
+  }
   return params
 }
-type QueryByUserLike<T extends Yiguana.EntityType.Post | Yiguana.EntityType.Comment> = {
+type QueryByUserLike = {
   userId: string
-  entity?: T
+  entity?: Omit<Yiguana.EntityType, Yiguana.EntityType.Like>
   limit?: number
   exclusiveStartKey?: Key
 }

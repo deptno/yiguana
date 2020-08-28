@@ -2,19 +2,19 @@ import {inc} from '../raw/inc'
 import {logStoreDdb} from '../../../../lib/log'
 import {assertPostOrComment} from '../../../../lib/assert'
 
-export async function incLikes<T extends Yiguana.PostDocument|Yiguana.CommentDocument>(operator: {dynamodb, tableName}, input: IncLikesStoreInput) {
+export async function incLikes(tableName: string, input: Input) {
   logStoreDdb('incLikes input %j', input)
 
   assertPostOrComment(input)
 
-  return inc<T>(operator, {
+  return inc({
+    tableName,
     data: input,
     inc: {
       key: 'likes',
-      value: 1
+      value: 1,
     },
   })
 }
 
-export type IncLikesStoreInput = Yiguana.Document
-
+type Input = Yiguana.PostDocument | Yiguana.CommentDocument

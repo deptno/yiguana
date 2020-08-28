@@ -1,5 +1,5 @@
-export async function inc<T extends Yiguana.Document>(tableName: string, input: IncStoreInput<T>) {
-  const {data, inc: {key, value}} = input
+export async function inc<T extends Yiguana.Document>(input: IncStoreInput<T>) {
+  const {tableName, data, inc: {key, value}} = input
 
   return {
     TableName: tableName,
@@ -20,7 +20,8 @@ export async function inc<T extends Yiguana.Document>(tableName: string, input: 
 }
 
 export type IncStoreInput<T extends Yiguana.Document> = {
-  data: Yiguana.Document
+  tableName: string
+  data: T
   inc: {
     key: keyof T
     value: number

@@ -108,7 +108,7 @@ declare namespace Yiguana {
     byUser: string
     content: string
     user: User
-    input: PostDocument | CommentDocument | ReplyDocument
+    data: PostDocument | CommentDocument | ReplyDocument
     status: EntityStatusType
   } & Document
   type ReportAggDocument = {

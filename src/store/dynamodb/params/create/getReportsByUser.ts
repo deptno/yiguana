@@ -1,15 +1,12 @@
-import {{dynamodb, tableName}} from '..//input/dynamodb'
 import {keys} from '../../../../dynamodb/keys'
-import {Report} from '../../.'
 import {logStoreDdb} from '../../../../lib/log'
 
-export function getReportsByUser(operator: {dynamodb, tableName}, input: ReportByUserInput) {
+export function getReportsByUser(tableName: string, input: ReportByUserInput) {
   logStoreDdb('getReportsByUser input %j', input)
 
-  const {tableName, dynamodb} = operator
   const {entity, exclusiveStartKey, userId, limit = 10} = input
 
-  return dynamodb.query<Report>({
+  return {
     TableName: tableName,
     IndexName: Yiguana.IndexType.byUser,
     KeyConditionExpression: '#p = :p and begins_with(#r, :r)',
@@ -28,7 +25,7 @@ export function getReportsByUser(operator: {dynamodb, tableName}, input: ReportB
     ReturnConsumedCapacity: 'TOTAL',
     ExclusiveStartKey: exclusiveStartKey,
     Limit: limit,
-  })
+  }
 }
 
 export type ReportByUserInput = {

@@ -1,15 +1,14 @@
-import {{dynamodb, tableName}} from '..//input/dynamodb'
 import {inc} from '../raw/inc'
 import {logStoreDdb} from '../../../../lib/log'
 import {assertPostOrComment} from '../../../../lib/assert'
-import {Post, Comment} from '../..'
 
-export async function incChildren<T extends Post>(operator: {dynamodb, tableName}, input: IncChildrenStoreInput) {
+export async function incChildren(tableName: string, input: Yiguana.PostDocument) {
   logStoreDdb('incChildren input %j', input)
 
   assertPostOrComment(input)
 
-  return inc<T>(operator, {
+  return inc({
+    tableName,
     data: input,
     inc: {
       key: 'children',
@@ -17,6 +16,3 @@ export async function incChildren<T extends Post>(operator: {dynamodb, tableName
     },
   })
 }
-
-export type IncChildrenStoreInput = Yiguana.Document
-

@@ -1,15 +1,15 @@
 import {keys} from '../../../../dynamodb/keys'
 import {logStoreDdb} from '../../../../lib/log'
 
-export function getAggReports(operator: {dynamodb, tableName}, input: AggReportsInput) {
+export function getAggReports(tableName: string, input: AggReportsInput) {
   logStoreDdb('getAggReports input %j', input)
 
-  const {tableName, dynamodb} = operator
   const {entity, exclusiveStartKey, limit = 10, end} = input
   const indexName = end
     ? Yiguana.IndexType.reportsEnd
     : Yiguana.IndexType.reports
-  const queryParams = {
+
+  return {
     TableName: tableName,
     IndexName: indexName,
     KeyConditionExpression: '#h = :h',
@@ -27,8 +27,6 @@ export function getAggReports(operator: {dynamodb, tableName}, input: AggReports
     ExclusiveStartKey: exclusiveStartKey,
     Limit: limit
   }
-
-  return dynamodb.query<ReportAgg>(queryParams)
 }
 
 export type AggReportsInput = {

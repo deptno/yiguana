@@ -1,9 +1,7 @@
-export function commentsByPostId<T = Comment>(operator: {dynamodb, tableName}, params: CommentsByPostIdInput) {
-  const {tableName, dynamodb} = operator
+export function commentsByPostId<T = Comment>(tableName: string, params: CommentsByPostIdInput) {
   const {postId, nextToken} = params
 
-  // todo
-  const queryParams = {
+  return {
     TableName: tableName,
     IndexName: Yiguana.IndexType.comments,
     KeyConditionExpression: '#h = :h',
@@ -16,10 +14,10 @@ export function commentsByPostId<T = Comment>(operator: {dynamodb, tableName}, p
     ScanIndexForward: false,
     ReturnConsumedCapacity: 'TOTAL',
   }
-  return dynamodb.query<T>(queryParams)
 }
 
 export type CommentsByPostIdInput = {
   postId: string
+  // todo: 얘 써야할 듯
   nextToken?: string
 }

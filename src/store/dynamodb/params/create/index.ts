@@ -15,7 +15,7 @@ import {removeLike, RemoveLikeInput} from '../delete/remove-like'
 import {CommentsByUserLikeInput, getCommentsByUserLike} from '../read/get-comments-by-user-like'
 import {getPosts, PostsInput} from '../read/get-posts'
 import {putReport, ReportInput} from './put-report'
-import {incReportAgg, IncReportAggInput} from '../update/inc-report-agg'
+import {incReportAgg, Input} from '../update/inc-report-agg'
 import {decReportAgg, DecReportAggInput} from '../update/dec-report-agg'
 import {AggReportsInput, getAggReports} from '../read/get-agg-reports'
 import {getReports, ReportsInput} from '../read/get-reports'
@@ -25,7 +25,7 @@ import {getAllReports} from '../read/get-all-reports'
 import {update, UpdateStoreInput} from '../raw/update'
 import {getReportsByUser, ReportByUserInput} from './get-reports-by-user'
 import {put} from '../raw/put'
-import {incLikes, IncLikesStoreInput} from '../update/inc-likes'
+import {incLikes, Input} from '../update/inc-likes'
 import {decLikes, Input} from '../update/dec-likes'
 import {incViews} from '../update/inc-views'
 import {incChildren} from '../update/inc-children'
@@ -68,7 +68,7 @@ export class MetadataStore {
    * @param {PostsByUserLikeInput} input
    * @returns {Promise<{lastEvaluatedKey?: DynamoDB.Key; firstResult?: boolean; items: Post[]}>}
    */
-  getPostsByUserLike(input: PostsByUserLikeInput) {
+  getPostsByUserLike(input: any) {
     return getPostsByUserLike(this.operator, input)
   }
 
@@ -92,10 +92,10 @@ export class MetadataStore {
 
   /**
    * Post의 likes 를 1 증가 시킨다.
-   * @param {IncLikesStoreInput} input
+   * @param {Input} input
    * @returns {Promise<Post>}
    */
-  likePost(input: IncLikesStoreInput) {
+  likePost(input: Input) {
     return incLikes<Post>(this.operator, input)
   }
 
@@ -184,10 +184,10 @@ export class MetadataStore {
   /**
    * likes 를 1 증가 시킨다.
    * todo: raw 레벨로 빼야할지 밖으로 그대로 노출 시킬지 판단이 필요하다.
-   * @param {IncLikesStoreInput} input
+   * @param {Input} input
    * @returns {Promise<Post | Comment | Reply>}
    */
-  incLikes(input: IncLikesStoreInput) {
+  incLikes(input: Input) {
     return incLikes(this.operator, input)
   }
 
@@ -265,10 +265,10 @@ export class MetadataStore {
 
   /**
    * AggReport 누적 객체에 reports 를 1 증가 시킨다.
-   * @param {IncReportAggInput} input
+   * @param {Input} input
    * @returns {Promise<ReportAgg>}
    */
-  incReportCount(input: IncReportAggInput) {
+  incReportCount(input: Input) {
     return incReportAgg(this.operator, input)
   }
 

@@ -1,4 +1,4 @@
-export async function dec<T extends Yiguana.Document>(tableName: string, input: DecStoreInput<T>) {
+export async function dec<T extends Yiguana.Document>(tableName: string, input: Input<T>) {
   const {data, dec: {key, value}} = input
 
   return {
@@ -19,7 +19,7 @@ export async function dec<T extends Yiguana.Document>(tableName: string, input: 
   }
 }
 
-export type DecStoreInput<T extends Yiguana.Document> = {
+type Input<T extends Yiguana.Document> = {
   data: Yiguana.Document
   dec: {
     key: keyof T

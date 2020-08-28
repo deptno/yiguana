@@ -1,12 +1,11 @@
-import {Post} from '..//post'
 import {logStoreDdb} from '../../../../lib/log'
 
-export function getPostsByCategory(operator: {dynamodb, tableName}, input: PostsByCategoryInput) {
+export function getPostsByCategory(tableName: string, input: PostsByCategoryInput) {
   logStoreDdb('getPostsByCategory input %j', input)
 
-  const {tableName, dynamodb} = operator
   const {exclusiveStartKey, category = '', limit = 10} = input
-  const queryParams = {
+
+  return {
     TableName: tableName,
     IndexName: Yiguana.IndexType.postsByCategory,
     KeyConditionExpression: '#h = :h and begins_with(#r, :r)',
@@ -23,8 +22,6 @@ export function getPostsByCategory(operator: {dynamodb, tableName}, input: Posts
     ExclusiveStartKey: exclusiveStartKey,
     Limit: limit
   }
-
-  return dynamodb.query<Post>(queryParams)
 }
 
 export type PostsByCategoryInput = {

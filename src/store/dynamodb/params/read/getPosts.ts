@@ -1,4 +1,3 @@
-import {Post} from '..//post'
 import {logStoreDdb as log} from '../../../../lib/log'
 
 export function getPosts(operator: {dynamodb, tableName}, input: PostsInput) {
@@ -6,7 +5,8 @@ export function getPosts(operator: {dynamodb, tableName}, input: PostsInput) {
 
   const {tableName, dynamodb} = operator
   const {exclusiveStartKey, limit = 10} = input
-  const queryParams = {
+
+  return {
     TableName: tableName,
     IndexName: Yiguana.IndexType.posts,
     KeyConditionExpression: '#h = :h',
@@ -21,8 +21,6 @@ export function getPosts(operator: {dynamodb, tableName}, input: PostsInput) {
     ExclusiveStartKey: exclusiveStartKey,
     Limit: limit
   }
-
-  return dynamodb.query<Post>(queryParams)
 }
 
 export type PostsInput = {
