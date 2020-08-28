@@ -31,6 +31,6 @@ export function removePost(tableName: string, input: Input) {
   }
 }
 
-export type Input = Yiguana.Document & {
+type Input = Yiguana.Document & {
   user: Pick<Yiguana.Member, 'id'> | Pick<Yiguana.NonMember, 'pw'>
 }

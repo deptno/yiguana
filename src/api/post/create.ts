@@ -1,10 +1,9 @@
-import {MetadataStore} from '../../store/dynamodb/params/create'
-import {ContentStore} from '../../store/s3'
 import {assertNotEmptyString, assertsMemberOrNot} from '../../lib/assert'
 import {logApiPost as log} from '../../lib/log'
 import {Post} from '../../model'
+import {createPostDocument} from '../../store/dynamodb/model/create'
 
-export async function create(ms: MetadataStore, cs: ContentStore, input: CreateApiInput) {
+export async function create(input: Input) {
   log('create %j', input)
 
   assertsMemberOrNot(input.user)
@@ -17,7 +16,7 @@ export async function create(ms: MetadataStore, cs: ContentStore, input: CreateA
     title: data.title.trim(),
     content: data.content.trim(),
   })
-  const post = Post.of({
+  const post = createPostDocument({
     user,
     data: content,
   })
@@ -25,5 +24,5 @@ export async function create(ms: MetadataStore, cs: ContentStore, input: CreateA
   return ms.put<Post>(post)
 }
 
-export type CreateApiInput = Yiguana.ApiInputWithUser<PostUserInput>
+export type Input = Yiguana.ApiInputWithUser<PostUserInput>
 

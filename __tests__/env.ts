@@ -3,7 +3,7 @@ import {createDynamoDB} from '@deptno/dynamodb'
 import {createS3} from '@deptno/s3'
 import {createApi} from '../src/api'
 
-export const ddbClient = new Yiguana.DocumentClient()
+export const ddbClient = new DynamoDB.DocumentClient()
 export const tableName = 'test-yiguana'
 export const s3Client = new S3()
 export const bucketName = 'test-yiguana'
@@ -16,7 +16,7 @@ export const opS3 = {s3, bucketName}
 export const yiguana = createApi({
   s3BucketName: 'test-yiguana',
   ddbTableName: 'test-yiguana',
-  ddbClient: new Yiguana.DocumentClient({region: 'ap-northeast-2'}),
+  ddbClient: new DynamoDB.DocumentClient({region: 'ap-northeast-2'}),
   s3Client: new S3({region: 'ap-northeast-2'}),
   s3MinContentLength: 128,
   s3MaxContentLength: 1048579,

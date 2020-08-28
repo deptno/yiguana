@@ -3,7 +3,7 @@ import {keys} from '../../../../dynamodb/keys'
 import {DocumentClient} from 'aws-sdk/clients/dynamodb'
 import {logStoreDdb} from '../../../../lib/log'
 
-export function getPostsByUserId(tableName: string, input: PostsByUserIdInput) {
+export function getPostsByUserId(tableName: string, input: Input) {
   logStoreDdb('getPostsByUserId input %j', input)
 
   const {category, exclusiveStartKey, userId} = input
@@ -38,7 +38,7 @@ export function getPostsByUserId(tableName: string, input: PostsByUserIdInput) {
   }
   return params
 }
-export type PostsByUserIdInput = {
+type Input = {
   userId: string
   category?: string
   exclusiveStartKey?: Key

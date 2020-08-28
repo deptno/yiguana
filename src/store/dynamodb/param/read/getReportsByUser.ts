@@ -1,7 +1,7 @@
 import {keys} from '../../../../dynamodb/keys'
 import {logStoreDdb} from '../../../../lib/log'
 
-export function getReportsByUser(tableName: string, input: ReportByUserInput) {
+export function getReportsByUser(tableName: string, input: Input) {
   logStoreDdb('getReportsByUser input %j', input)
 
   const {entity, exclusiveStartKey, userId, limit = 10} = input
@@ -28,7 +28,7 @@ export function getReportsByUser(tableName: string, input: ReportByUserInput) {
   }
 }
 
-export type ReportByUserInput = {
+type Input = {
   userId: string
   entity?: Yiguana.EntityType.Post | Yiguana.EntityType.Comment
   limit?: number

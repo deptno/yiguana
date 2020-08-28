@@ -1,7 +1,7 @@
 import {keys} from '../../../../dynamodb/keys'
 import {logStoreDdb} from '../../../../lib/log'
 
-export function getCommentsByUserId<T = Comment>(tableName: string, input: CommentsByUserIdInput) {
+export function getCommentsByUserId<T = Comment>(tableName: string, input: Input) {
   logStoreDdb('getCommentsByUserId input %j', input)
 
   const {userId, exclusiveStartKey} = input
@@ -26,7 +26,7 @@ export function getCommentsByUserId<T = Comment>(tableName: string, input: Comme
   }
 }
 
-export type CommentsByUserIdInput = {
+type Input = {
   userId: string
   postId?: string
   exclusiveStartKey?: Exclude<any, string | number>

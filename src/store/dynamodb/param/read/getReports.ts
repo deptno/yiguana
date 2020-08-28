@@ -1,7 +1,7 @@
 import {keys} from '../../../../dynamodb/keys'
 import {logStoreDdb} from '../../../../lib/log'
 
-export function getReports(tableName: string, input: ReportsInput) {
+export function getReports(tableName: string, input: Input) {
   logStoreDdb('getReports input %j', input)
 
   const {data, exclusiveStartKey, limit = 10} = input
@@ -27,7 +27,7 @@ export function getReports(tableName: string, input: ReportsInput) {
   }
 }
 
-export type ReportsInput = {
+type Input = {
   data: Yiguana.Document
   limit?: number
   exclusiveStartKey?: Exclude<any, string | number>

@@ -1,7 +1,7 @@
 import {keys} from '../../../../dynamodb/keys'
 import {logStoreDdb} from '../../../../lib/log'
 
-export function getAggReports(tableName: string, input: AggReportsInput) {
+export function getAggReports(tableName: string, input: Input) {
   logStoreDdb('getAggReports input %j', input)
 
   const {entity, exclusiveStartKey, limit = 10, end} = input
@@ -29,7 +29,7 @@ export function getAggReports(tableName: string, input: AggReportsInput) {
   }
 }
 
-export type AggReportsInput = {
+type Input = {
   limit?: number
   exclusiveStartKey?: Exclude<any, string | number>
   end?: boolean

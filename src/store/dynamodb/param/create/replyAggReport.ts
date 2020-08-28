@@ -1,7 +1,7 @@
 import {keys} from '../../../../dynamodb/keys'
 import {logStoreDdb} from '../../../../lib/log'
 
-export function replyAggReport(tableName: string, input: ReplyAggReportInput) {
+export function replyAggReport(tableName: string, input: Input) {
   logStoreDdb('getRggReportReply input %j', input)
 
   const {data: {hk}, entity, answer, status} = input
@@ -34,7 +34,7 @@ export function replyAggReport(tableName: string, input: ReplyAggReportInput) {
   }
 }
 
-export type ReplyAggReportInput = {
+type Input = {
   data: Yiguana.Document
   entity: Extract<Yiguana.EntityType, Yiguana.EntityType.Post | Yiguana.EntityType.Comment>
   answer: string

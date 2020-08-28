@@ -1,6 +1,6 @@
 import {logStoreDdb} from '../../../../lib/log'
 
-export function getPostsByCategory(tableName: string, input: PostsByCategoryInput) {
+export function getPostsByCategory(tableName: string, input: Input) {
   logStoreDdb('getPostsByCategory input %j', input)
 
   const {exclusiveStartKey, category = '', limit = 10} = input
@@ -24,7 +24,7 @@ export function getPostsByCategory(tableName: string, input: PostsByCategoryInpu
   }
 }
 
-export type PostsByCategoryInput = {
+type Input = {
   category: string
   limit?: number
   exclusiveStartKey?: Exclude<any, string | number>

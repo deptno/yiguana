@@ -1,6 +1,6 @@
 import {logStoreDdb} from '../../../../lib/log'
 
-export function update<T extends Yiguana.Document>(tableName: string, input: UpdateStoreInput) {
+export function update<T extends Yiguana.Document>(tableName: string, input: Input) {
   logStoreDdb('update input %j', input)
 
   const {hk, rk, ...props} = input
@@ -35,4 +35,6 @@ export function update<T extends Yiguana.Document>(tableName: string, input: Upd
   }
 }
 
-export type UpdateStoreInput = Omit<Yiguana.Document, 'createdAt'> & Required<Pick<Yiguana.Document, 'updatedAt'>>
+type Input =
+  Omit<Yiguana.Document, 'createdAt'>
+  & Required<Pick<Yiguana.Document, 'updatedAt'>>

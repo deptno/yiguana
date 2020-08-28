@@ -1,53 +1,60 @@
+import * as authorize from './authorize'
+import * as post from './post'
+import {logMain} from '../lib/log'
+import {compose} from '../lib/compose'
 import {createDynamoDB} from '@deptno/dynamodb'
 import {createS3} from '@deptno/s3'
-import {DocumentClient} from 'aws-sdk/clients/dynamodb'
-import {S3} from 'aws-sdk'
-import {ContentStore} from '../store/s3'
-import {PostApi} from './post'
-import {CommentApi} from './comment'
-import {ReplyApi} from './reply'
-import {UserApi} from './user'
-import {MetadataStore} from '../store/dynamodb/params/create'
-import {AdministratorApi} from './administrator'
-import {CommonApi} from './common'
-import {logMain} from '../lib/log'
+import {assertNotEmptyString, assertsMemberOrNot} from '../lib/assert'
+import {tap} from '../lib/tap'
+import {Post} from '../model'
+import {createPostDocument} from '../store/dynamodb/model/create'
+import {createPostContentRequestParam} from '../store/s3/model/create'
+import {tapAwait} from '../lib/tapAwait'
+import {then} from '../lib/then'
+import {merge} from '../lib/merge'
+import {of} from '../lib/of'
 
-export function createApi(params: CreateInput) {
-  const {ddbClient, ddbTableName, s3Client, s3BucketName, s3MaxContentLength, s3MinContentLength} = params
-  const ms = new MetadataStore({
-    dynamodb: createDynamoDB(ddbClient),
-    tableName: ddbTableName,
-  })
-  const cs = new ContentStore(
-    {
-      s3: createS3(s3Client),
-      bucketName: s3BucketName,
-    },
-    {
-      contentLengthRange: {
-        min: s3MinContentLength,
-        max: s3MaxContentLength,
-      }
-    },
-  )
+export function createApi(input: Input) {
+  const {dynamodb, s3} = input
 
-  logMain('createApi params: %j %j %j %j', ddbTableName, s3BucketName, s3MaxContentLength, s3MinContentLength)
+  logMain('createApi params: %j', input)
 
   return {
-    common: new CommonApi(ms, cs),
-    post: new PostApi(ms, cs),
-    comment: new CommentApi(ms),
-    reply: new ReplyApi(ms),
-    user: new UserApi(ms),
-    administrator: new AdministratorApi(ms),
+    authorize,
+    content: {
+      create: compose<{ bucketName: string, content: string }, Promise<{ Key }>>(
+        tapAwait(s3.putObject),
+        createPostContentRequestParam,
+        tap(compose(assertNotEmptyString, t => t?.content)),
+      ),
+    },
+    post: {
+      create: compose<{ data: Yiguana.PostContent, user: Yiguana.User }, Promise<Post | undefined>>(
+        then(Post.of),
+        dynamodb.put,
+        merge({TableName: 'test-yiguana'}),
+        of('Item'),
+        dynamodb.util.js2DdbDoc,
+        createPostDocument,
+      ),
+      list: compose(
+        dynamodb.put,
+        post.list,
+      ),
+      view: compose(
+        dynamodb.put,
+        post.view,
+      ),
+      del: compose(
+        dynamodb.put,
+        post.del,
+      ),
+    },
   }
 }
 
-type CreateInput = {
-  s3BucketName: string
-  s3Client: S3
-  s3MinContentLength: number
-  s3MaxContentLength: number
-  ddbClient: DocumentClient
-  ddbTableName: string
+type Input = {
+  dynamodb: ReturnType<typeof createDynamoDB>
+  s3: ReturnType<typeof createS3>
 }
+

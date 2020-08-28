@@ -31,4 +31,4 @@ export function addLike(tableName: string, input: Input) {
   }
 }
 
-export type Input = Yiguana.LikeDocument
+type Input = Yiguana.LikeDocument

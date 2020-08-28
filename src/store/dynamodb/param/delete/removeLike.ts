@@ -20,7 +20,7 @@ export function removeLike(tableName: string, input: Input) {
   }
 }
 
-export type Input = {
+type Input = {
   data: Yiguana.Document
   userId: string
 }

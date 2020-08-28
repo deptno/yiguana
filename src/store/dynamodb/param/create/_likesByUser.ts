@@ -42,6 +42,7 @@ export function _likesByUser(tableName: string, input: QueryByUserLike) {
   }
   return params
 }
+
 type QueryByUserLike = {
   userId: string
   entity?: Omit<Yiguana.EntityType, Yiguana.EntityType.Like>

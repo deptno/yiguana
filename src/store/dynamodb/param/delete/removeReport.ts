@@ -1,6 +1,6 @@
 import {keys} from '../../../../dynamodb/keys'
 
-export function removeReport(tableName: string, params: RemoveReportInput) {
+export function removeReport(tableName: string, params: Input) {
   const {data, userId} = params
 
   return {
@@ -17,7 +17,7 @@ export function removeReport(tableName: string, params: RemoveReportInput) {
   }
 }
 
-export type RemoveReportInput = {
+type Input = {
   data: Yiguana.Document
   userId: string
 }

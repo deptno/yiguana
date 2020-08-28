@@ -2,11 +2,16 @@ declare namespace Yiguana {
   /**
    * union
    */
-  type RoleType = 'admin' | 'npc' | 'member' | 'nonmember'
   type User = Member | NonMember
   /**
    * enum
    */
+  enum RoleType {
+    admin = 'admin',
+    npc = 'npc',
+    member = 'member',
+    nonmember = 'nonmember'
+  }
   enum EntityStatusType {
     requestedBlock = 'requestedBlock',
     // 현재는 쓰이지 않으나 자동으로 충족된 조건에 의해서 블락되는 경우
@@ -69,34 +74,38 @@ declare namespace Yiguana {
     photo?: string
     role?: RoleType
   }
+  type AdminMember = Member & {
+    role: RoleType.admin
+  }
   type NonMember = {
     ip: string
     pw: string
     name: string
   }
   type PostDocument = {
-    rk: 'post'
+    rk: EntityType.Post
     views: number
     likes: number
     children: number
     title: string
     contentUrl: string
-    cover: string
     user: User
     createdAt: string
-    posts: PostDocument[]
+    posts: string // IndexType.posts
     category: string
     byUser: string
+    cover?: string
+    userId?: string // IndexType.byUser
   } & Document
   type CommentDocument = {
-    rk: 'comment'
+    rk: EntityType.Comment
     content: string
     postId: string
     user: User
     likes: number
-    comments: string // gsi.rk
-    userId?: string // gsi.user.hk
-    byUser?: string //gsi.user.rk
+    comments: string // IndexType.comments
+    userId?: string // IndexType.byUser
+    byUser?: string // IndexType.byUser
     commentId?: string // reply 에서만 정의된다.
   } & Document
   type ReplyDocument = {
@@ -108,7 +117,10 @@ declare namespace Yiguana {
     byUser: string
     content: string
     user: User
-    data: PostDocument | CommentDocument | ReplyDocument
+    data:
+      | PostDocument
+      | CommentDocument
+      | ReplyDocument
     status: EntityStatusType
   } & Document
   type ReportAggDocument = {
@@ -124,6 +136,47 @@ declare namespace Yiguana {
     userId: string
     byUser: string
     user: User
-    data: PostDocument | CommentDocument | ReplyDocument
+    data:
+      | PostDocument
+      | CommentDocument
+      | ReplyDocument
   } & Document
+
+  /**
+   * misc
+   */
+  type LikeableEntity =
+    | PostDocument
+    | CommentDocument
+    | ReplyDocument
+  type ReportableEntity =
+    | PostDocument
+    | CommentDocument
+    | ReplyDocument
+  type LikeInput = {
+    entity: EntityType.Post | EntityType.Comment
+    targetId: string
+    createdAt: string
+  }
+
+  type PostContent = {
+    id: string
+    title: string
+    category: string
+    contentUrl: string
+    cover?: string
+  }
+
+  export type CommentUserInput = {
+    postId: string
+    content: string
+    createdAt: string
+  }
+
+  export type ReplyUserInput = {
+    comment: CommentDocument | ReplyDocument
+    content: string
+    createdAt: string
+    refUserName?: string
+  }
 }

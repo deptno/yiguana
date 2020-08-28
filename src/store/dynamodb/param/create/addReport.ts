@@ -27,4 +27,3 @@ export function addReport(tableName: string, input: Yiguana.ReportDocument) {
     ReturnValues: 'ALL_NEW',
   }
 }
-

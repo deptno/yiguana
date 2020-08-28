@@ -1,6 +1,6 @@
 import {logStoreDdb} from '../../../../lib/log'
 
-export function replyReports(tableName: string, input: ReplyReportInput) {
+export function replyReports(tableName: string, input: Input) {
   logStoreDdb('replyReports input %j', input)
 
   const {data, answer, status} = input
@@ -22,7 +22,7 @@ export function replyReports(tableName: string, input: ReplyReportInput) {
   }
 }
 
-export type ReplyReportInput = {
+type Input = {
   data: Yiguana.Document
   answer: string
   status: Yiguana.EntityStatusType

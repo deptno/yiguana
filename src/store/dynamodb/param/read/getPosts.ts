@@ -1,9 +1,8 @@
 import {logStoreDdb as log} from '../../../../lib/log'
 
-export function getPosts(operator: {dynamodb, tableName}, input: PostsInput) {
+export function getPosts(tableName: string, input: Input) {
   log('getPosts input %j', input)
 
-  const {tableName, dynamodb} = operator
   const {exclusiveStartKey, limit = 10} = input
 
   return {
@@ -23,7 +22,7 @@ export function getPosts(operator: {dynamodb, tableName}, input: PostsInput) {
   }
 }
 
-export type PostsInput = {
+type Input = {
   limit?: number
   exclusiveStartKey?: Exclude<any, string | number>
 }

@@ -1,5 +1,5 @@
 import {getPostContentUnSafe, GetPostContentUnSafeInput} from './get-post-content'
-import {createPostContentUnSafe, CreatePostContentUnSafeInput} from './create-post-content'
+import {createPostContentUnSafe} from './model/create/create-post-content'
 import {logStoreS3} from '../../lib/log'
 import {getUploadUrl, GetUploadUrlInput} from './get-upload-url'
 
@@ -8,7 +8,7 @@ export class ContentStore {
 
   }
 
-  create(input: CreatePostContentUnSafeInput) {
+  create(input: Yiguana.PostUserInput) {
     logStoreS3('create', input)
     return createPostContentUnSafe(this.operator, input)
   }

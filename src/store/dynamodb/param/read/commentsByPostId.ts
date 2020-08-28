@@ -1,4 +1,4 @@
-export function commentsByPostId<T = Comment>(tableName: string, params: CommentsByPostIdInput) {
+export function commentsByPostId<T = Comment>(tableName: string, params: Input) {
   const {postId, nextToken} = params
 
   return {
@@ -16,7 +16,7 @@ export function commentsByPostId<T = Comment>(tableName: string, params: Comment
   }
 }
 
-export type CommentsByPostIdInput = {
+type Input = {
   postId: string
   // todo: 얘 써야할 듯
   nextToken?: string

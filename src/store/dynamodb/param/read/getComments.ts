@@ -1,6 +1,6 @@
 import {logStoreDdb} from '../../../../lib/log'
 
-export function getComments(tableName: string, input: CommentsInput) {
+export function getComments(tableName: string, input: Input) {
   logStoreDdb('getComments input %j', input)
 
   const {postId, exclusiveStartKey, limit = 10} = input
@@ -21,7 +21,7 @@ export function getComments(tableName: string, input: CommentsInput) {
   }
 }
 
-export type CommentsInput = {
+type Input = {
   postId: string
   limit?: number
   exclusiveStartKey?: Exclude<any, string | number>

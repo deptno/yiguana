@@ -30,6 +30,7 @@ export async function removeComment(tableName: string, input: Input) {
     ConditionExpression: `#u.#c = :c`,
   }
 }
-export type Input = Yiguana.Document & {
+
+type Input = Yiguana.Document & {
   user: Pick<Yiguana.Member, 'id'> | Pick<Yiguana.NonMember, 'pw'>
 }

@@ -2,16 +2,15 @@ import {PutRecordInput} from 'aws-sdk/clients/firehose'
 import {GetObjectRequest, PutObjectRequest} from 'aws-sdk/clients/s3'
 
 const debug = function (...args: any[]) {
-  console.log(...args)
+  console.debug('mock:aws-sdk', ...args)
 }
 
 export class Firehose {
   putRecord(params: PutRecordInput) {
     return {
       async promise() {
-        debug('> mock, put record')
+        debug(':firehose:putRecord')
         debug(params.Record.Data.toString())
-        debug('< mock')
       },
     }
   }
@@ -22,7 +21,7 @@ export class S3 {
   putObject(params: PutObjectRequest) {
     return {
       async promise() {
-        debug('> mock, put object')
+        debug(':s3:putObject')
         debug(params)
 
         if (!s3Store[params.Bucket]) {
@@ -40,10 +39,7 @@ export class S3 {
   getObject(params: GetObjectRequest) {
     return {
       async promise() {
-        debug('> mock, get object')
-        debug(params)
-
-        console.log({s3Store})
+        debug(':s3:getObject', params)
         return {
           Body: s3Store[params.Bucket][params.Key]
         }
@@ -55,7 +51,8 @@ export class S3 {
 export const DynamoDB = {
   DocumentClient: class {
     constructor() {
-      if (!(this instanceof Yiguana.DocumentClient)) {
+      debug(':dynamodb:constructor')
+      if (!(this instanceof DynamoDB.DocumentClient)) {
         throw new Error('new')
       }
 
