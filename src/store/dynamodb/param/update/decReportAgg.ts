@@ -28,4 +28,7 @@ export function decReportAgg(tableName: string, input: Input) {
   }
 }
 
-type Input = Yiguana.PostDocument | Yiguana.CommentDocument | Yiguana.ReplyDocument
+type Input =
+  | Yiguana.PostDocument
+  | Yiguana.CommentDocument
+  | Yiguana.ReplyDocument
