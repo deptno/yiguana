@@ -1,4 +1,5 @@
 import {logStoreDdb} from '../../../../lib/log'
+import {EntityStatusType} from '../../../../enum'
 
 export function removePost(input: Input) {
   logStoreDdb('removePost input %j', input)
@@ -20,7 +21,7 @@ export function removePost(input: Input) {
       '#c': name,
     },
     ExpressionAttributeValues: {
-      ':s': Yiguana.EntityStatusType.deletedByUser,
+      ':s': EntityStatusType.deletedByUser,
       ':c': value,
     },
     ReturnConsumedCapacity: 'TOTAL',

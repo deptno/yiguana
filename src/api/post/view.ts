@@ -2,7 +2,7 @@ import * as R from 'ramda'
 import {logApiPost as log} from '../../lib/log'
 import {Post} from '../../model'
 import {incView} from '../../store/dynamodb/param/update'
-import {getPostContentUnSafe} from '../../store/s3/getPostContent'
+import {getPostContentUnSafe} from '../../store/s3/param/read/getPostContent'
 
 export async function view(input: ViewApiInput) {
   log('view input %j', input)

@@ -11,7 +11,8 @@ export function compose<I, O>(out: (one) => O, ...fns) {
         result = list.pop()(result)
       }
 
+      return out(result)
     }
-    return out(result)
+    return out(args)
   }
 }

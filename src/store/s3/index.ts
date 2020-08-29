@@ -1,7 +1,7 @@
 import {getPostContentUnSafe, GetPostContentUnSafeInput} from './get-post-content'
-import {createPostContentUnSafe} from './model/create/create-post-content'
+import {createPostContentUnSafe} from './param/create/create-post-content'
 import {logStoreS3} from '../../lib/log'
-import {getUploadUrl, GetUploadUrlInput} from './get-upload-url'
+import {getUploadUrl, GetUploadUrlInput} from './param/read/get-upload-url'
 
 export class ContentStore {
   constructor(private operator: {s3, bucketName}, private option: Yiguana.ContentStoreOption) {

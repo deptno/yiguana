@@ -2,7 +2,7 @@ import {yiguana} from '../../../env'
 import {Post} from '../../../../src/entity/post'
 import {Comment} from '../../../../src/entity/comment'
 import {admin, member_a, member_c, member_e} from '../../../__data__/user'
-import {EYiguanaError} from '../../../../src/lib/assert'
+import {ErrorType} from '../../../../src/enum'
 
 describe('unit', () => {
   describe('api', () => {
@@ -40,7 +40,7 @@ describe('unit', () => {
             })
             expect(false).toEqual(true)
           } catch (e) {
-            expect(e.message).toEqual(EYiguanaError.admin_access_only)
+            expect(e.message).toEqual(ErrorType.admin_access_only)
           }
         })
         it('aggReports() === 0', async () => {
@@ -97,7 +97,7 @@ describe('unit', () => {
             })
             expect(false).toEqual(true)
           } catch (e) {
-            expect(e.message).toEqual(EYiguanaError.admin_access_only)
+            expect(e.message).toEqual(ErrorType.admin_access_only)
           }
         })
 
@@ -146,7 +146,7 @@ describe('unit', () => {
             })
             expect(false).toEqual(true)
           } catch (e) {
-            expect(e.message).toEqual(EYiguanaError.admin_access_only)
+            expect(e.message).toEqual(ErrorType.admin_access_only)
           }
         })
       })

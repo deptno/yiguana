@@ -1,21 +1,19 @@
 import * as authorize from './authorize'
 import * as post from './post'
-import {logApiPost as log, logMain} from '../lib/log'
+import {logMain} from '../lib/log'
 import {compose} from '../lib/compose'
 import {createDynamoDB} from '@deptno/dynamodb'
 import {createS3} from '@deptno/s3'
-import {assertNotEmptyString} from '../lib/assert'
+import {assertNotEmptyString, assertsMemberOrNot} from '../lib/assert'
 import {tap} from '../lib/tap'
 import {Post} from '../model'
 import {createPostDocument} from '../store/dynamodb/model/create'
-import {createPostContentRequestParam} from '../store/s3/model/create'
+import {createPostContentRequestParam} from '../store/s3/param/create'
 import {tapAwait} from '../lib/tapAwait'
 import {then} from '../lib/then'
 import {merge} from '../lib/merge'
 import {objOf} from '../lib/objOf'
 import {getPosts, getPostsByCategory} from '../store/dynamodb/param/read'
-import {ContentStore} from '../store/s3'
-import {ViewApiInput} from './post'
 import {incView} from '../store/dynamodb/param/update'
 
 export function createApi(input: Input) {
@@ -41,19 +39,13 @@ export function createApi(input: Input) {
         dynamodb.util.js2DdbDoc,
         createPostDocument,
       ),
-      list: compose<Yiguana.ApiInput<DynamoDB.Pagination & { category: string }>, Promise<any>>(
-        then(
-          compose(
-            t => {
-              return {
-                ...t,
-                items: Post.ofList(t.items),
-              }
-            },
-            tap(console.log),
-          )
-
-        ),
+      list: compose<Yiguana.ApiInput<DynamoDB.Pagination & { category?: string }>, Promise<any>>(
+        then(t => {
+          return {
+            ...t,
+            items: Post.ofList(t.items),
+          }
+        }),
         dynamodb.query,
         dynamodb.util.js2DdbDoc,
         merge({TableName: 'test-yiguana'}),
@@ -65,21 +57,16 @@ export function createApi(input: Input) {
         },
       ),
       view: compose(
-        input => {
-          return Promise.all([
-            s3.getObject({
-              Bucket: 'test-yiguana',
-              Key: input.data.hk,
-            }),
-            incView(input.data),
-          ])
-            .then(response => {
-              console.log('view', response)
-            })
-        },
+        then(compose(Post.of, t => t.Attributes)),
+        dynamodb.update,
+        merge({TableName: 'test-yiguana'}),
+        incView,
+        t => t.data,
       ),
       del: compose(
+        then(compose(Post.of, t => t.Attributes)),
         dynamodb.update,
+        merge({TableName: 'test-yiguana'}),
         post.del,
       ),
     },

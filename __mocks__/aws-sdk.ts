@@ -2,7 +2,7 @@ import {PutRecordInput} from 'aws-sdk/clients/firehose'
 import {GetObjectRequest, PutObjectRequest} from 'aws-sdk/clients/s3'
 
 const debug = function (...args: any[]) {
-//  console.debug('mock:aws-sdk', ...args)
+  console.debug('mock:aws-sdk', ...args)
 }
 
 export class Firehose {
@@ -40,6 +40,7 @@ export class S3 {
     return {
       async promise() {
         debug(':s3:getObject', params)
+        debug(':s3:getObject', JSON.stringify(s3Store, null, 2))
         return {
           Body: s3Store[params.Bucket][params.Key]
         }

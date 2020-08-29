@@ -34,3 +34,15 @@ export enum IndexType {
   reports = 'reports',
   reportsEnd = 'reportsEnd',
 }
+export enum ErrorType {
+  assert_max_length = 'assert max length 300',
+  login_is_required = 'login is required',
+  not_member_must_have_pw = 'not member must have pw',
+  pw_must_not_empty = 'pw must not empty',
+  user_must_have_ip = 'user must have ip',
+  user_must_have_name = 'user must have name',
+  empty_string = 'empty string',
+  not_string = 'not string',
+  admin_access_only = 'admin access only',
+  post_comment_reply_are_supported = `{post|comment|reply} are supported`,
+}

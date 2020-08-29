@@ -1,4 +1,4 @@
-export async function inc<T extends Yiguana.Document>(input: Input<T>) {
+export function inc<T extends Yiguana.Document>(input: Input<T>) {
   const {data, inc: {key, value}} = input
 
   return {

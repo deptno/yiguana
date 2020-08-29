@@ -1,6 +1,6 @@
 import {extname} from 'path'
 import {lookup} from 'mime-types'
-import {uuid} from '../../lib/uuid'
+import {uuid} from '../../../../lib/uuid'
 
 export const getUploadUrl = (op: {s3, bucketName}, option: Yiguana.ContentStoreOption, input: GetUploadUrlInput) => {
   const datetime = new Date().toISOString().replace('T', '/')

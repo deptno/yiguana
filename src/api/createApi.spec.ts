@@ -1,6 +1,6 @@
-import {createYiguana} from '../../../src'
+import {createYiguana} from '../index'
 import {DynamoDB, S3} from 'aws-sdk'
-import {Post} from '../../../src/model'
+import {Post} from '../model'
 
 describe('v2', function () {
   let yiguana: ReturnType<typeof createYiguana>
@@ -21,25 +21,27 @@ describe('v2', function () {
     test.todo('notMember')
   })
   describe('api', () => {
-    test('content.create', () => {
-      return yiguana.content.create({
-        bucketName: 's3-bucket',
+    test('{content, post}.create', async () => {
+      const content = await yiguana.content.create({
+        bucketName: 'test-yiguana',
         content: 'this is content',
-      }).then(response => expect(response.Key).toBeDefined())
-    })
-    test('post.create', () => {
-      return yiguana.post.create({
+      })
+      console.log('content', content)
+      expect(content.Key).toBeDefined()
+      const post = await yiguana.post.create({
         user: {
           id: 'userId',
-        },
+        } as Yiguana.Member,
         data: {
           title: 'title',
           cover: 'https://',
-          id: 'userId',
+          id: content.Key,
           category: 'news',
           contentUrl: 's3://',
         },
-      }).then(response => expect(response instanceof Post).toBeTruthy())
+      })
+      console.log('post', post)
+      expect(post instanceof Post).toBeTruthy()
     })
     test('post.list category: hello', async () => {
       const {items, firstResult, lastEvaluatedKey} = await yiguana.post.list({
@@ -47,6 +49,7 @@ describe('v2', function () {
           category: 'hello',
         },
       })
+      console.log(items, 'list: category: hello')
       expect(firstResult).toBe(true)
       expect(items.length).toBe(0)
       expect(lastEvaluatedKey).toBe(undefined)
@@ -65,9 +68,40 @@ describe('v2', function () {
       const {items, firstResult, lastEvaluatedKey} = await yiguana.post.list({
         data: {},
       })
+      console.log(items, 'list all')
       expect(firstResult).toBe(true)
       expect(items.length).toBe(1)
       expect(lastEvaluatedKey).toBe(undefined)
+    })
+    test('post.view', async () => {
+      const {items, firstResult, lastEvaluatedKey} = await yiguana.post.list({
+        data: {},
+      })
+      const [item] = items
+      expect(item.views).toBe(0)
+      console.log(item, 'view')
+      const viewed = await yiguana.post.view({
+        data: item._document
+      })
+      expect(viewed!.views).toBe(1)
+      expect(item.hk! === viewed!.hk).toBe(true)
+    })
+    test('post.del', async () => {
+      const {items, firstResult, lastEvaluatedKey} = await yiguana.post.list({
+        data: {},
+      })
+      const [item] = items
+      console.log(item, 'del')
+      const deleted = await yiguana.post.del({
+        user: {
+          id: 'userId',
+        },
+        data: {
+          hk: item.hk,
+        }
+      })
+      console.log(deleted)
+      expect(item.hk! === deleted!.hk).toBe(true)
     })
   })
 })
