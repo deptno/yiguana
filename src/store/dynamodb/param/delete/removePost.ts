@@ -1,16 +1,14 @@
 import {logStoreDdb} from '../../../../lib/log'
 
-export function removePost(tableName: string, input: Input) {
+export function removePost(input: Input) {
   logStoreDdb('removePost input %j', input)
 
-  const {hk, user} = input
-  const rk = 'post'
+  const {hk, rk, user} = input
   const [name, value] = 'id' in user
     ? ['id', user.id]
     : ['pw', user.pw]
 
   return {
-    TableName: tableName,
     Key: {
       hk,
       rk,
@@ -31,6 +29,6 @@ export function removePost(tableName: string, input: Input) {
   }
 }
 
-type Input = Yiguana.Document & {
+type Input = DynamoDB.Document & {
   user: Pick<Yiguana.Member, 'id'> | Pick<Yiguana.NonMember, 'pw'>
 }

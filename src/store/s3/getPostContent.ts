@@ -1,4 +1,4 @@
-export async function getPostContentUnSafe(op: {s3, bucketName}, input: GetPostContentUnSafeInput): Promise<string> {
+export async function getPostContentUnSafe(op: {s3, bucketName}, input: Input): Promise<string> {
   try {
     const content = await op.s3.getObject({
       Bucket: op.bucketName,
@@ -12,6 +12,6 @@ export async function getPostContentUnSafe(op: {s3, bucketName}, input: GetPostC
   }
 }
 
-export type GetPostContentUnSafeInput = {
+export type Input = {
   data: Yiguana.Document
 }

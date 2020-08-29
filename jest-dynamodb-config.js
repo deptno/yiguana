@@ -1,28 +1,25 @@
-const createGsi = (name, hash, range) => ({
-  'IndexName'            : name,
-  'KeySchema'            : [
-    {
-      'AttributeName': hash,
-      'KeyType'      : 'HASH'
-    },
-    {
-      'AttributeName': range,
-      'KeyType'      : 'RANGE'
-    }
-  ],
-  'Projection'           : {
-    'ProjectionType': 'ALL'
-  },
-  'ProvisionedThroughput': {
-    'ReadCapacityUnits' : 1,
-    'WriteCapacityUnits': 1
-  },
-})
-
-
 module.exports = {
-  tables: [
+  tables : [
     {
+      'TableName'             : 'test-yiguana',
+      'KeySchema'             : [
+        {
+          'AttributeName': 'hk',
+          'KeyType'      : 'HASH'
+        },
+        {
+          'AttributeName': 'rk',
+          'KeyType'      : 'RANGE'
+        }
+      ],
+      'GlobalSecondaryIndexes': [
+        createGsi('byUser', 'userId', 'byUser'),
+        createGsi('posts', 'rk', 'posts'),
+        createGsi('postsByCategory', 'rk', 'category'),
+        createGsi('comments', 'postId', 'comments'),
+        createGsi('reports', 'agg', 'reports'),
+        createGsi('reportsEnd', 'agg', 'reportsEnd'),
+      ],
       'AttributeDefinitions'  : [
         {
           'AttributeName': 'posts',
@@ -69,29 +66,10 @@ module.exports = {
           'AttributeType': 'S'
         }
       ],
-      'TableName'             : 'test-yiguana',
-      'KeySchema'             : [
-        {
-          'AttributeName': 'hk',
-          'KeyType'      : 'HASH'
-        },
-        {
-          'AttributeName': 'rk',
-          'KeyType'      : 'RANGE'
-        }
-      ],
       'ProvisionedThroughput' : {
         'ReadCapacityUnits' : 1,
         'WriteCapacityUnits': 1
       },
-      'GlobalSecondaryIndexes': [
-        createGsi('byUser', 'userId', 'byUser'),
-        createGsi('posts', 'rk', 'posts'),
-        createGsi('postsByCategory', 'rk', 'category'),
-        createGsi('comments', 'postId', 'comments'),
-        createGsi('reports', 'agg', 'reports'),
-        createGsi('reportsEnd', 'agg', 'reportsEnd'),
-      ],
       'StreamSpecification'   : {
         'StreamEnabled' : true,
         'StreamViewType': 'NEW_IMAGE'
@@ -99,5 +77,28 @@ module.exports = {
     }
     // etc
   ],
-  port  : 8000
+  port   : 8000
+}
+
+function createGsi(name, hash, range) {
+  return {
+    'IndexName'            : name,
+    'KeySchema'            : [
+      {
+        'AttributeName': hash,
+        'KeyType'      : 'HASH'
+      },
+      {
+        'AttributeName': range,
+        'KeyType'      : 'RANGE'
+      }
+    ],
+    'Projection'           : {
+      'ProjectionType': 'ALL'
+    },
+    'ProvisionedThroughput': {
+      'ReadCapacityUnits' : 1,
+      'WriteCapacityUnits': 1
+    },
+  }
 }

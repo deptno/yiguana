@@ -2,7 +2,7 @@ import {PutRecordInput} from 'aws-sdk/clients/firehose'
 import {GetObjectRequest, PutObjectRequest} from 'aws-sdk/clients/s3'
 
 const debug = function (...args: any[]) {
-  console.debug('mock:aws-sdk', ...args)
+//  console.debug('mock:aws-sdk', ...args)
 }
 
 export class Firehose {
@@ -60,8 +60,13 @@ export const DynamoDB = {
       const isTest = process.env.JEST_WORKER_ID
       const config = {
         convertEmptyValues: true,
-        ...(isTest && {endpoint: 'localhost:8000', sslEnabled: false, region: 'local-env'}),
+        ...(isTest && {
+          endpoint: 'http://localhost:8000',
+          sslEnabled: false,
+          region: 'ap-northeast-2'
+        }),
       }
+      console.log(config)
 
       return new DocumentClient(config)
     }

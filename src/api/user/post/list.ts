@@ -1,5 +1,3 @@
-import {MetadataStore} from '../../../store/dynamodb/params/create'
-import {PostsInput} from '../../../store/dynamodb/params/read/get-posts'
 import {logApiUserPost as log} from '../../../lib/log'
 import {assertsMember} from '../../../lib/assert'
 
@@ -24,6 +22,6 @@ export async function list(store: MetadataStore, input: ListApiInput) {
   })
 }
 
-export type ListApiInput = Yiguana.ApiInputWithUser<PostsInput & {
+export type ListApiInput = Yiguana.ApiInputWithUser<DynamoDB.Pagination & {
   like?: boolean
 }>

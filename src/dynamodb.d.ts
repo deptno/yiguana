@@ -7,4 +7,9 @@ declare namespace DynamoDB {
   type RangeKey = string
   type GSIHash = string
   type GSIRange = string
+
+  type Pagination = {
+    limit?: number
+    exclusiveStartKey?: Exclude<any, string | number>
+  }
 }

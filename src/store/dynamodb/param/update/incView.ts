@@ -1,14 +1,13 @@
-import {inc} from '../raw/inc'
+import {inc} from '../raw'
 import {logStoreDdb} from '../../../../lib/log'
 import {assertPostOrComment} from '../../../../lib/assert'
 
-export async function incViews(tableName: string, input: Yiguana.PostDocument) {
-  logStoreDdb('incViews input %j', input)
+export async function incView(input: Yiguana.PostDocument) {
+  logStoreDdb('incView input %j', input)
 
   assertPostOrComment(input)
 
   return inc({
-    tableName,
     data: input,
     inc: {
       key: 'views',

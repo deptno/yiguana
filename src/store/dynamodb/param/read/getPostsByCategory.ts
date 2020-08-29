@@ -1,20 +1,20 @@
 import {logStoreDdb} from '../../../../lib/log'
+import {EntityType, IndexType} from '../../../../enum'
 
-export function getPostsByCategory(tableName: string, input: Input) {
+export function getPostsByCategory(input: Input) {
   logStoreDdb('getPostsByCategory input %j', input)
 
   const {exclusiveStartKey, category = '', limit = 10} = input
 
   return {
-    TableName: tableName,
-    IndexName: Yiguana.IndexType.postsByCategory,
+    IndexName: IndexType.postsByCategory,
     KeyConditionExpression: '#h = :h and begins_with(#r, :r)',
     ExpressionAttributeNames: {
       '#h': 'rk',
       '#r': 'category',
     },
     ExpressionAttributeValues: {
-      ':h': Yiguana.EntityType.Post,
+      ':h': EntityType.Post,
       ':r': category,
     },
     ScanIndexForward: false,

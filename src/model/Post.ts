@@ -7,6 +7,8 @@ export class Post extends DynamoDbDocument {
     }
   }
   static ofList(ds: Yiguana.PostDocument[]) {
-    return ds.map(Post.of)
+    return (ds ??= [])
+      .filter(Boolean)
+      .map(Post.of) as Post[]
   }
 }
