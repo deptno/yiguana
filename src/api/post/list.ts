@@ -9,11 +9,18 @@ export async function list(store: MetadataStore, ef: EntityFactory, input: ListA
 
   const {data} = input
 
-  if ('category' in data) { // 보드
+  if ('childrenUpdatedAt' in data) {
+    return store.getPostsByChildrenUpdatedAt(data)
+  }
+  if ('category' in data) {
     return store.getPostsByCategory(data)
   }
 
   return store.getPosts(data)
 }
 
-export type ListApiInput = ApiInput<PostsInput | (PostsInput & { category: string })>
+export type ListApiInput = ApiInput<
+  | PostsInput
+  | (PostsInput & { category: string })
+  | (PostsInput & { childrenUpdateAt: true })
+>

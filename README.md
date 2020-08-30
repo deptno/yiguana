@@ -18,7 +18,7 @@ yiguana-sdk,
 - comments: 특정 포스트에 대한 댓글 목록을 가져온다.
 - reports: 신고된 리스트를 가져온다.(? 기억이 가)
 - reports: 신고 종료된 리스트를 가져온다.(? 기억이 가물)물
-- postsByComment: `rk` + `childrenUpdatedAt` 최근 댓글이 달린 순으로 포스트 목록을 가져온다.
+- postsByChildrenUpdatedAt: `rk` + `childrenUpdatedAt` 최근 댓글이 달린 순으로 포스트 목록을 가져온다.
   
 ## uml
 ### 유스케이스
@@ -54,3 +54,8 @@ DEBUG=yiguana:api:user:report
 DEBUG=yiguana:store:s3
 DEBUG=yiguana:store:ddb
 ```
+
+## changelog
+- 0.4.0 postsByChildrenUpdatedAt: `rk` + `childrenUpdatedAt` 최근 댓글이 달린 순으로 포스트 목록을 가져온다.
+- 0.4.0 포스트가 없는 댓글을 달때 집계 객체를 생성할 수 있는 API 생성(comment.createAndCreatePostIfNotExits)
+- 0.4.1 post.list({childrenUpdatedAt: true})

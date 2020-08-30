@@ -41,6 +41,7 @@ export interface YiguanaDocument extends YiguanaDocumentHashRange {
 export enum EIndexName {
   posts = 'posts',
   postsByCategory = 'postsByCategory',
+  postsByChildrenUpdatedAt = 'postsByChildrenUpdatedAt',
   comments = 'comments',
   byUser = 'byUser',
   reports = 'reports',

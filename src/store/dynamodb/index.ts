@@ -34,6 +34,7 @@ import {Comment, Post, Reply} from '../../entity'
 import {incChildren} from './inc-children'
 import * as R from 'ramda'
 import {incChildrenAndCreatePostIfNotExists} from './inc-children-and-create-post-if-not-exists'
+import {getPostsByChildrenUpdatedAt} from './get-posts-by-children-updated-at'
 
 export class MetadataStore {
   constructor(private operator: DynamoDBInput) {
@@ -56,6 +57,15 @@ export class MetadataStore {
    */
   getPostsByCategory(input: PostsByCategoryInput) {
     return getPostsByCategory(this.operator, input)
+  }
+
+  /**
+   * 최근 댓글이 달린 순으로 Post 목록을 가져온다.
+   * @param input
+   * @returns {Promise<import("./type").PaginationResult<Post>>}
+   */
+  getPostsByChildrenUpdatedAt(input) {
+    return getPostsByChildrenUpdatedAt(this.operator, input)
   }
 
   /**
