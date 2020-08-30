@@ -22,5 +22,5 @@ export async function list(store: MetadataStore, ef: EntityFactory, input: ListA
 export type ListApiInput = ApiInput<
   | PostsInput
   | (PostsInput & { category: string })
-  | (PostsInput & { childrenUpdateAt: true })
+  | (PostsInput & { childrenUpdatedAt: true })
 >

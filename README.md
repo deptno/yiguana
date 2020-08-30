@@ -59,3 +59,4 @@ DEBUG=yiguana:store:ddb
 - 0.4.0 postsByChildrenUpdatedAt: `rk` + `childrenUpdatedAt` 최근 댓글이 달린 순으로 포스트 목록을 가져온다.
 - 0.4.0 포스트가 없는 댓글을 달때 집계 객체를 생성할 수 있는 API 생성(comment.createAndCreatePostIfNotExits)
 - 0.4.1 post.list({childrenUpdatedAt: true})
+- 0.4.2 api 인자 오타 수정
