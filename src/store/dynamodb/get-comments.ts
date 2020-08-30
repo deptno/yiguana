@@ -7,7 +7,7 @@ export function getComments(operator: DynamoDBInput, input: CommentsInput) {
   logStoreDdb('getComments input %j', input)
 
   const {tableName, dynamodb} = operator
-  const {postId, exclusiveStartKey, limit = 10} = input
+  const {postId, exclusiveStartKey, limit = 10, desc} = input
 
   return dynamodb.query<Comment|Reply>({
     TableName: tableName,
@@ -20,6 +20,7 @@ export function getComments(operator: DynamoDBInput, input: CommentsInput) {
       ':p': postId,
     },
     Limit: limit,
+    ScanIndexForward: !desc,
     ReturnConsumedCapacity: 'TOTAL',
     ExclusiveStartKey: exclusiveStartKey,
   })
@@ -27,6 +28,7 @@ export function getComments(operator: DynamoDBInput, input: CommentsInput) {
 
 export type CommentsInput = {
   postId: string
+  desc?: boolean
   limit?: number
   exclusiveStartKey?: Exclude<any, string | number>
 }

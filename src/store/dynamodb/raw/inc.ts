@@ -21,6 +21,9 @@ export async function inc<T extends YiguanaDocumentHashRange>(operator: DynamoDB
       ReturnValues: 'ALL_NEW',
     })
     .then<T>(R.prop('Attributes'))
+    .catch(e => {
+
+    })
 }
 
 export type IncStoreInput<T extends YiguanaDocumentHashRange> = {
