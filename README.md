@@ -11,6 +11,15 @@ yiguana-sdk,
   - User.get
   - Post.view
   
+## gsi
+- byUser: 유저별로 데이터를 가져온다.
+- posts: 포스트 목록을 시간순으로 가져온다.
+- postsByCategory: 포스트 목록을 카테고리별로 가져온다.
+- comments: 특정 포스트에 대한 댓글 목록을 가져온다.
+- reports: 신고된 리스트를 가져온다.(? 기억이 가)
+- reports: 신고 종료된 리스트를 가져온다.(? 기억이 가물)물
+- postsByComment: `rk` + `childrenUpdatedAt` 최근 댓글이 달린 순으로 포스트 목록을 가져온다.
+  
 ## uml
 ### 유스케이스
 #### 보기

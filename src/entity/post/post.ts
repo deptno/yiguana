@@ -55,4 +55,5 @@ export interface Post extends YiguanaDocument {
   byUser?: string // gsi.rk
   category: string // gsi.rk
   posts: string // gsi.rk
+  childrenUpdatedAt?: string // gsi.rk createAndCreatePostIfNotExists 로 생성시
 }

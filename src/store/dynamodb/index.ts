@@ -33,6 +33,7 @@ import {incViews} from './inc-views'
 import {Comment, Post, Reply} from '../../entity'
 import {incChildren} from './inc-children'
 import * as R from 'ramda'
+import {incChildrenAndCreatePostIfNotExists} from './inc-children-and-create-post-if-not-exists'
 
 export class MetadataStore {
   constructor(private operator: DynamoDBInput) {
@@ -112,6 +113,18 @@ export class MetadataStore {
       .all([
         put(this.operator, input),
         incChildren(this.operator, {
+          hk: input.postId,
+          rk: EEntity.Post,
+        }),
+      ])
+      .then<T>(R.head)
+  }
+
+  addCommentAndCreatePostIfNotExists<T extends Comment | Reply>(input: T) {
+    return Promise
+      .all([
+        put(this.operator, input),
+        incChildrenAndCreatePostIfNotExists(this.operator, {
           hk: input.postId,
           rk: EEntity.Post,
         }),

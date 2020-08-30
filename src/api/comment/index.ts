@@ -6,6 +6,7 @@ import {update, UpdateApiInput} from './update'
 import {del, DelApiInput} from './del'
 import {read, ReadApiInput} from './read'
 import {deprecate} from 'util'
+import {createAndCreatePostIfNotExists} from './createAndCreatePostIfNotExists'
 
 export class CommentApi {
   constructor(private store: MetadataStore, private ef: EntityFactory) {
@@ -17,6 +18,10 @@ export class CommentApi {
 
   create(input: CreateApiInput) {
     return create(this.store, this.ef, input)
+  }
+
+  createAndCreatePostIfNotExists(input: CreateApiInput) {
+    return createAndCreatePostIfNotExists(this.store, this.ef, input)
   }
 
   read(input: ReadApiInput) {
