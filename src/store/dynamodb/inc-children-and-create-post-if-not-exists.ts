@@ -5,7 +5,10 @@ import {assertPostOrComment} from '../../lib/assert'
 import {Post} from '../../entity'
 import {incAndCreateIfNotExists} from './raw/incAndCreateIfNotExists'
 
-export async function incChildrenAndCreatePostIfNotExists<T extends Post>(operator: DynamoDBInput, input: IncChildrenStoreInput) {
+export async function incChildrenAndCreatePostIfNotExists<T extends Post, U extends YiguanaDocumentHashRange>(
+  operator: DynamoDBInput,
+  input: U
+) {
   logStoreDdb('incChildren input %j', input)
 
   assertPostOrComment(input)
@@ -18,6 +21,3 @@ export async function incChildrenAndCreatePostIfNotExists<T extends Post>(operat
     },
   })
 }
-
-export type IncChildrenStoreInput = YiguanaDocumentHashRange
-

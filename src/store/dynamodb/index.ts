@@ -137,6 +137,7 @@ export class MetadataStore {
         incChildrenAndCreatePostIfNotExists(this.operator, {
           hk: input.postId,
           rk: EEntity.Post,
+          latestComment: input.content,
         }),
       ])
       .then<T>(R.head)

@@ -60,3 +60,4 @@ DEBUG=yiguana:store:ddb
 - 0.4.0 포스트가 없는 댓글을 달때 집계 객체를 생성할 수 있는 API 생성(comment.createAndCreatePostIfNotExits)
 - 0.4.1 post.list({childrenUpdatedAt: true})
 - 0.4.2 api 인자 오타 수정
+- 0.4.2 comment.createAnd... 호출시 latestComment 를 Post 에 남기도록 함
