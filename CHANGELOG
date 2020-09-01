@@ -1,5 +1,16 @@
-0.2.12 pw 는 노출하지않음
-- user.pw 는 쿼리에서 제거된다
+0.5.0
+ - `__unsafe` 노출, EntityFactory, ContentStore, Metadata 직접 접근가능
+0.4.0
+ - postsByChildrenUpdatedAt: `rk` + `childrenUpdatedAt` 최근 댓글이 달린 순으로 포스트 목록을 가져온다.
+ - 포스트가 없는 댓글을 달때 집계 객체를 생성할 수 있는 API 생성(comment.createAndCreatePostIfNotExits)
+0.4.1
+ - post.list({childrenUpdatedAt: true})
+0.4.2
+ - api 인자 오타 수정
+ - comment.createAnd... 호출시 latestComment 를 Post 에 남기도록 함
+0.2.12
+ - pw 는 노출하지않음
+ - user.pw 는 쿼리에서 제거된다
 0.2.11 uploadUrl
 - user 인증 제거
 - acl public-read 제거

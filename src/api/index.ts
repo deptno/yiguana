@@ -42,6 +42,11 @@ export function createApi(params: CreateInput) {
     reply: new ReplyApi(ms, ef),
     user: new UserApi(ms, ef),
     administrator: new AdministratorApi(ms, ef),
+    __unsafe: {
+      metadata: ms,
+      content: cs,
+      entity: ef,
+    }
   }
 }
 

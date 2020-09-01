@@ -5,12 +5,6 @@
 
 yiguana-sdk,
 
-## v2
-- [ ] read, view, get 이 비슷한 의미를 가진다 통일 가능한지
-  - Comment.read
-  - User.get
-  - Post.view
-  
 ## gsi
 - byUser: 유저별로 데이터를 가져온다.
 - posts: 포스트 목록을 시간순으로 가져온다.
@@ -55,9 +49,5 @@ DEBUG=yiguana:store:s3
 DEBUG=yiguana:store:ddb
 ```
 
-## changelog
-- 0.4.0 postsByChildrenUpdatedAt: `rk` + `childrenUpdatedAt` 최근 댓글이 달린 순으로 포스트 목록을 가져온다.
-- 0.4.0 포스트가 없는 댓글을 달때 집계 객체를 생성할 수 있는 API 생성(comment.createAndCreatePostIfNotExits)
-- 0.4.1 post.list({childrenUpdatedAt: true})
-- 0.4.2 api 인자 오타 수정
-- 0.4.2 comment.createAnd... 호출시 latestComment 를 Post 에 남기도록 함
+## CHANGELOG
+[CHANGELOG](CHANGELOG)
